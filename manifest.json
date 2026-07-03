@@ -1,0 +1,15 @@
+{
+  "name": "SenExport Boutique — Le monde dans votre panier",
+  "short_name": "SenExport",
+  "description": "Les meilleurs produits sélectionnés pour vous. Paiement à la récupération.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#08090E",
+  "theme_color": "#D4AF37",
+  "lang": "fr",
+  "icons": [
+    { "src": "logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

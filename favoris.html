@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mes favoris — SenExport</title>
+<meta name="theme-color" content="#C4531A">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+.empty{padding:60px 20px;text-align:center;background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r16);margin:40px auto;max-width:560px}
+.empty .emo{font-size:4rem;margin-bottom:14px;opacity:.6}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links">
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="maison.html">Maison</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="collections.html">Collections</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+    <a href="compte.html" class="nav-icon" aria-label="Mon compte">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+</nav>
+<aside class="mobile-menu" id="mobile-menu">
+  <button class="close-btn">×</button>
+  <a href="catalogue.html">📦 Catalogue</a>
+  <a href="panier.html">🛒 Panier</a>
+  <a href="favoris.html">♡ Favoris</a>
+  <a href="compte.html">◎ Compte</a>
+</aside>
+<div class="page-head">
+  <div class="w">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="sep">›</span><span>Favoris</span></div>
+    <h1>Mes <em>favoris</em></h1>
+    <p class="sub" id="sub">Les articles que vous avez mis de côté.</p>
+  </div>
+</div>
+<main style="padding-top:56px">
+<div class="w" style="padding:20px 0 60px">
+<div id="empty-state" style="display:none">
+  <div class="empty">
+    <div class="emo">♡</div>
+    <h3 style="font-family:var(--ff-d);font-weight:500;font-size:1.5rem;margin-bottom:10px">Aucun favori pour le moment</h3>
+    <p style="color:var(--stone);margin-bottom:20px">Cliquez sur le cœur d'un article pour le retrouver ici.</p>
+    <a href="catalogue.html" class="btn btn-fire">Parcourir le catalogue</a>
+  </div>
+</div>
+<div class="p-grid" id="grid"></div>
+</div>
+</main>
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
+      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:240px;margin-bottom:1.25rem">Produits français importés. Dépôt à Thiès, Sénégal.</p>
+      <div class="pay-tags"><span class="pay-tag">Wave</span><span class="pay-tag">Orange Money</span><span class="pay-tag">Espèces</span></div>
+    </div>
+    <nav class="footer-col"><h4>Univers</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="collections.html">Collections</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li><li><a href="favoris.html">Favoris</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li><li><a href="cgv.html">CGV</a></li></ul></nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SenExport Boutique · Fait à Thiès</p>
+    <a href="cgv.html">Conditions générales</a>
+  </div>
+</footer>
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  await new Promise(r => setTimeout(r, 50));
+  const refs = SE.Wishlist.all();
+  
+  if (refs.length === 0){
+    document.getElementById('empty-state').style.display = 'block';
+    document.getElementById('sub').textContent = 'Vos favoris apparaîtront ici.';
+    return;
+  }
+  
+  const articles = await SE.Articles.load();
+  const favArts = refs.map(r => articles.find(a => a.reference === r)).filter(Boolean);
+  
+  if (favArts.length === 0){
+    document.getElementById('empty-state').style.display = 'block';
+    document.getElementById('sub').textContent = 'Les articles favoris ne sont plus disponibles.';
+    return;
+  }
+  
+  document.getElementById('sub').textContent = `${favArts.length} article${favArts.length>1?'s':''} en favoris.`;
+  document.getElementById('grid').innerHTML = favArts.map(SE.productCard).join('');
+})();
+</script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connexion — SenExport</title>
+<meta name="theme-color" content="#C4531A">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+.auth-layout{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 140px);max-width:1100px;margin:0 auto;padding:40px 24px;gap:56px;align-items:center}
+@media(max-width:920px){.auth-layout{grid-template-columns:1fr;padding:20px;gap:28px}.auth-visual{order:2}}
+.auth-visual h2{font-family:var(--ff-d);font-weight:500;font-size:clamp(1.7rem, 3.2vw, 2.4rem);line-height:1.05;letter-spacing:-.025em;margin-bottom:14px}
+.auth-visual h2 em{font-style:italic;color:var(--or)}
+.auth-visual p{color:var(--stone);font-size:.98rem;line-height:1.55;margin-bottom:24px;max-width:420px}
+.perks-list{display:flex;flex-direction:column;gap:12px}
+.perks-item{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r12)}
+.perks-icon{width:38px;height:38px;border-radius:var(--r8);background:rgba(255,255,255,.04);display:grid;place-items:center;font-size:1.1rem;flex-shrink:0}
+.perks-item strong{display:block;font-size:.9rem;color:var(--ink);font-weight:600;margin-bottom:2px}
+.perks-item span{font-size:.8rem;color:var(--stone);line-height:1.4}
+.auth-box{background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r20);padding:32px;box-shadow:var(--sh-md);max-width:420px;width:100%}
+@media(max-width:920px){.auth-box{margin:0 auto}}
+.auth-tabs{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:9999px;padding:4px;margin-bottom:20px}
+.auth-tab{flex:1;padding:9px 14px;border-radius:9999px;font-size:.86rem;font-weight:600;text-align:center;color:var(--stone);cursor:pointer;transition:.18s}
+.auth-tab.active{background:var(--card);color:var(--ink);box-shadow:var(--sh-sm)}
+.auth-form h3{font-family:var(--ff-d);font-weight:500;font-size:1.25rem;margin-bottom:6px;letter-spacing:-.015em}
+.auth-form p.lead{font-size:.86rem;color:var(--stone);margin-bottom:20px}
+.btn-google{width:100%;padding:11px;background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:9999px;font-size:.88rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:10px;color:var(--stone);transition:.15s;cursor:pointer;margin-bottom:14px}
+.btn-google:hover{border-color:var(--ink);background:rgba(255,255,255,.04)}
+.btn-google svg{width:18px;height:18px}
+.divider-or{display:flex;align-items:center;gap:12px;color:var(--mist);font-size:.76rem;margin:14px 0;text-transform:uppercase;letter-spacing:.1em;font-family:var(--ff-m)}
+.divider-or::before,.divider-or::after{content:'';flex:1;height:1px;background:rgba(212,175,55,.1)}
+.method-switch{display:flex;gap:4px;background:rgba(255,255,255,.04);border-radius:var(--r8);padding:3px;margin-bottom:14px}
+.method-btn{flex:1;padding:7px 10px;border-radius:var(--r8);font-size:.78rem;font-weight:500;text-align:center;color:var(--stone);cursor:pointer;transition:.15s}
+.method-btn.active{background:var(--card);color:var(--ink);box-shadow:var(--sh-sm)}
+.auth-submit{width:100%;margin-top:4px;padding:12px;font-size:.92rem}
+.auth-foot{text-align:center;font-size:.82rem;color:var(--stone);margin-top:18px;line-height:1.5}
+.auth-foot a{color:var(--or);font-weight:500;cursor:pointer}
+.already-logged{padding:20px;background:rgba(255,255,255,.04);border-radius:var(--r12);text-align:center}
+.already-logged h3{font-family:var(--ff-d);margin-bottom:8px}
+</style>
+</head>
+<body>
+<header id="header">
+  <div class="w nav">
+    <a href="index.html" class="logo">Sen<span class="dot">·</span>Export<em>France → Sénégal</em></a>
+    <div class="search"><input type="text" placeholder="Rechercher..."></div>
+    <nav class="nav-links"><a href="catalogue.html" class="nav-link">Catalogue</a></nav>
+    <div class="nav-actions">
+      <a href="favoris.html" class="icon-btn">♡<span class="count" data-wish-count></span></a>
+      <a href="panier.html" class="icon-btn">🛒<span class="count" data-cart-count></span></a>
+      <a href="compte.html" class="icon-btn">◎</a>
+      <button class="burger">≡</button>
+    </div>
+  </div>
+</header>
+<aside class="mobile-backdrop" id="mobile-backdrop"></aside>
+<aside class="mobile-menu" id="mobile-menu">
+  <button class="close-btn">×</button>
+  <a href="catalogue.html">📦 Catalogue</a>
+  <a href="panier.html">🛒 Panier</a>
+  <a href="compte.html">◎ Compte</a>
+</aside>
+
+<main>
+<div class="auth-layout">
+  <div class="auth-visual">
+    <div class="tag fire" style="margin-bottom:16px">★ Programme fidélité</div>
+    <h2>Rejoignez SenExport, <em>gagnez à chaque achat</em>.</h2>
+    <p>Créez votre compte et commencez à cumuler des points fidélité. 1000 FCFA dépensés = 1 point. 1 point = 10 FCFA de réduction. Bonus +5 pts à chaque palier.</p>
+    <div class="perks-list">
+      <div class="perks-item"><div class="perks-icon">🎁</div><div><strong>Carte fidélité numérique</strong><span>Numéro de carte attribué automatiquement</span></div></div>
+      <div class="perks-item"><div class="perks-icon">🏅</div><div><strong>5 niveaux de statut</strong><span>Bronze → Argent → Or → Platine → VIP (jusqu'à −20% permanent)</span></div></div>
+      <div class="perks-item"><div class="perks-icon">📜</div><div><strong>Historique complet</strong><span>Toutes vos commandes et points au même endroit</span></div></div>
+      <div class="perks-item"><div class="perks-icon">⚡</div><div><strong>Checkout express</strong><span>Coordonnées pré-remplies à chaque achat</span></div></div>
+    </div>
+  </div>
+
+  <div class="auth-box">
+    <div id="already-logged" style="display:none">
+      <div class="already-logged">
+        <h3>✓ Vous êtes déjà connecté</h3>
+        <p style="color:var(--stone);margin-bottom:16px">Bonjour <strong id="logged-name">—</strong></p>
+        <a href="compte.html" class="btn btn-fire btn-block">Mon compte</a>
+        <a href="#" id="btn-logout" style="display:inline-block;margin-top:10px;font-size:.82rem;color:var(--red)">Se déconnecter</a>
+      </div>
+    </div>
+
+    <div id="auth-forms">
+      <div class="auth-tabs">
+        <div class="auth-tab active" data-auth="login">Connexion</div>
+        <div class="auth-tab" data-auth="signup">Inscription</div>
+      </div>
+
+      <!-- LOGIN -->
+      <div class="auth-form" id="login-form">
+        <h3>Bon retour parmi nous</h3>
+        <p class="lead">Connectez-vous pour accéder à votre compte.</p>
+
+        <button class="btn-google" id="btn-google-login">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          Continuer avec Google
+        </button>
+
+        <div class="divider-or">ou</div>
+
+        <div class="method-switch" style="display:none">
+          <div class="method-btn active" data-method="email" onclick="switchMethod('login','email')">📧 Email</div>
+          <div class="method-btn" data-method="phone" onclick="switchMethod('login','phone')">📱 Téléphone</div>
+        </div>
+
+        <div id="login-email-form">
+          <div class="field">
+            <label>Email</label>
+            <input class="input" type="email" placeholder="exemple@gmail.com" id="login-email">
+          </div>
+          <div class="field">
+            <label>Mot de passe</label>
+            <input class="input" type="password" placeholder="••••••••" id="login-email-pwd">
+          </div>
+          <button class="btn btn-fire auth-submit" id="btn-login-email">Se connecter</button>
+        </div>
+
+        <div id="login-phone-form" style="display:none">
+          <div class="field">
+            <label>Numéro WhatsApp</label>
+            <input class="input" type="tel" placeholder="+221 77 000 00 00" id="login-phone">
+            <span class="hint">Avec indicatif pays (+221 pour le Sénégal)</span>
+          </div>
+          <div class="field">
+            <label>Mot de passe</label>
+            <input class="input" type="password" placeholder="••••••••" id="login-phone-pwd">
+          </div>
+          <button class="btn btn-fire auth-submit" id="btn-login-phone">Se connecter</button>
+        </div>
+
+        <div class="auth-foot">Pas de compte ? <a onclick="switchAuth('signup')">Créez-en un</a></div>
+      </div>
+
+      <!-- SIGNUP -->
+      <div class="auth-form" id="signup-form" style="display:none">
+        <h3>Créer un <em style="color:var(--or);font-style:italic;font-family:var(--ff-d)">compte</em></h3>
+        <p class="lead">30 secondes, et vous êtes prêt.</p>
+
+        <button class="btn-google" id="btn-google-signup">
+          <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          S'inscrire avec Google
+        </button>
+
+        <div class="divider-or">ou</div>
+
+        <div class="method-switch" style="display:none">
+          <div class="method-btn active" data-method="email" onclick="switchMethod('signup','email')">📧 Email</div>
+          <div class="method-btn" data-method="phone" onclick="switchMethod('signup','phone')">📱 Téléphone</div>
+        </div>
+
+        <div class="field">
+          <label>Prénom et nom <span class="req">*</span></label>
+          <input class="input" type="text" placeholder="Amadou Diop" id="sign-nom">
+        </div>
+
+        <div id="signup-email-fields">
+          <div class="field">
+            <label>Email <span class="req">*</span></label>
+            <input class="input" type="email" placeholder="exemple@gmail.com" id="sign-email">
+          </div>
+          <div class="field">
+            <label>📱 Numéro WhatsApp (recommandé)</label>
+            <input class="input" type="tel" placeholder="+221 77 000 00 00" id="sign-tel-opt">
+            <span class="hint">Pour vous contacter rapidement à propos de vos commandes</span>
+          </div>
+        </div>
+
+        <div id="signup-phone-fields" style="display:none">
+          <div class="field">
+            <label>Numéro WhatsApp <span class="req">*</span></label>
+            <input class="input" type="tel" placeholder="+221 77 000 00 00" id="sign-phone">
+            <span class="hint">Avec indicatif pays</span>
+          </div>
+          <div class="field">
+            <label>Email (optionnel)</label>
+            <input class="input" type="email" placeholder="exemple@gmail.com" id="sign-email-opt">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Mot de passe <span class="req">*</span></label>
+          <input class="input" type="password" placeholder="Au moins 6 caractères" id="sign-pwd">
+        </div>
+
+        <label class="filter-option" style="margin-bottom:12px">
+          <input type="checkbox" id="sign-cgu" checked>
+          <span style="font-size:.8rem">J'accepte les <a href="#" style="color:var(--or)">conditions</a></span>
+        </label>
+
+        <button class="btn btn-fire auth-submit" id="btn-signup">Créer mon compte</button>
+
+        <div class="auth-foot">Déjà inscrit ? <a onclick="switchAuth('login')">Connectez-vous</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer>
+  <div class="w foot-grid">
+    <div class="foot-brand">
+      <a href="index.html" class="logo">Sen<span class="dot">·</span>Export<em>France → Sénégal</em></a>
+      <p>Boutique en ligne France → Sénégal.</p>
+    </div>
+    <div class="foot-col"><h4>Acheter</h4><ul><li><a href="catalogue.html">Catalogue</a></li></ul></div>
+    <div class="foot-col"><h4>Compte</h4><ul><li><a href="compte.html">Dashboard</a></li></ul></div>
+    <div class="foot-col foot-contact"><h4>Contact</h4><div class="contact-item"><div class="contact-icon">💬</div><div class="contact-info"><strong>WhatsApp</strong><span><a href="https://wa.me/221778038874">+221 77 803 88 74</a></span></div></div></div>
+  </div>
+  <div class="w foot-bottom"><div>© 2026 SenExport</div><div class="pay"><span>Wave</span><span>Orange Money</span><span>Espèces</span></div></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="app.js"></script>
+<script src="animations.js" defer></script>
+<script>
+(async () => {
+  await new Promise(r => setTimeout(r, 100));
+  /* Si déjà connecté, affiche un état "déjà logué" */
+  if (SE.Auth.isLogged()){
+    document.getElementById('auth-forms').style.display = 'none';
+    document.getElementById('already-logged').style.display = 'block';
+    const name = SE.Auth.currentClient?.nom_complet || SE.Auth.currentUser.email || SE.Auth.currentUser.phone || 'Utilisateur';
+    document.getElementById('logged-name').textContent = name;
+  }
+})();
+
+function switchAuth(which){
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.toggle('active', t.dataset.auth === which));
+  document.getElementById('login-form').style.display = which === 'login' ? 'block' : 'none';
+  document.getElementById('signup-form').style.display = which === 'signup' ? 'block' : 'none';
+}
+document.querySelectorAll('.auth-tab').forEach(t => t.addEventListener('click', () => switchAuth(t.dataset.auth)));
+
+function switchMethod(form, method){
+  document.querySelectorAll(`#${form}-form .method-btn`).forEach(b => b.classList.toggle('active', b.dataset.method === method));
+  if (form === 'login'){
+    document.getElementById('login-email-form').style.display = method === 'email' ? 'block' : 'none';
+    document.getElementById('login-phone-form').style.display = method === 'phone' ? 'block' : 'none';
+  } else {
+    document.getElementById('signup-email-fields').style.display = method === 'email' ? 'block' : 'none';
+    document.getElementById('signup-phone-fields').style.display = method === 'phone' ? 'block' : 'none';
+  }
+}
+
+/* Google OAuth (login ET signup font la même chose) */
+async function doGoogleAuth(){
+  try {
+    await SE.Auth.signInWithGoogle();
+    /* redirect automatique */
+  } catch (err){
+    console.error(err);
+    SE.toast('Erreur Google : ' + err.message, false);
+  }
+}
+document.getElementById('btn-google-login').addEventListener('click', doGoogleAuth);
+document.getElementById('btn-google-signup').addEventListener('click', doGoogleAuth);
+
+/* LOGIN avec email */
+document.getElementById('btn-login-email').addEventListener('click', async e => {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value.trim();
+  const pwd = document.getElementById('login-email-pwd').value;
+  if (!email || !pwd){ SE.toast('Remplissez tous les champs', false); return; }
+  const btn = e.currentTarget;
+  btn.disabled = true; btn.textContent = 'Connexion...';
+  try {
+    await SE.Auth.signInEmail({ email, password:pwd });
+    SE.toast('Connecté !');
+    setTimeout(() => location.href = 'compte.html', 500);
+  } catch (err){
+    SE.toast(err.message || 'Erreur de connexion', false);
+    btn.disabled = false; btn.textContent = 'Se connecter';
+  }
+});
+
+/* LOGIN avec téléphone */
+document.getElementById('btn-login-phone').addEventListener('click', async e => {
+  e.preventDefault();
+  const phone = document.getElementById('login-phone').value.trim();
+  const pwd = document.getElementById('login-phone-pwd').value;
+  if (!phone || !pwd){ SE.toast('Remplissez tous les champs', false); return; }
+  const btn = e.currentTarget;
+  btn.disabled = true; btn.textContent = 'Connexion...';
+  try {
+    await SE.Auth.signInPhone({ phone, password:pwd });
+    SE.toast('Connecté !');
+    setTimeout(() => location.href = 'compte.html', 500);
+  } catch (err){
+    SE.toast(err.message || 'Erreur', false);
+    btn.disabled = false; btn.textContent = 'Se connecter';
+  }
+});
+
+/* SIGNUP */
+document.getElementById('btn-signup').addEventListener('click', async e => {
+  e.preventDefault();
+  const nom = document.getElementById('sign-nom').value.trim();
+  const pwd = document.getElementById('sign-pwd').value;
+  const cgu = document.getElementById('sign-cgu').checked;
+  
+  const methodActive = document.querySelector('#signup-form .method-btn.active').dataset.method;
+  
+  if (!nom){ SE.toast('Indiquez votre nom', false); return; }
+  if (!pwd || pwd.length < 6){ SE.toast('Mot de passe : au moins 6 caractères', false); return; }
+  if (!cgu){ SE.toast('Acceptez les conditions', false); return; }
+
+  const btn = e.currentTarget;
+  btn.disabled = true; btn.textContent = 'Création...';
+
+  try {
+    if (methodActive === 'email'){
+      const email = document.getElementById('sign-email').value.trim();
+      const telOpt = document.getElementById('sign-tel-opt').value.trim();
+      if (!email){ SE.toast('Indiquez votre email', false); btn.disabled=false; btn.textContent='Créer mon compte'; return; }
+      await SE.Auth.signUpEmail({ email, password:pwd, nom_complet:nom, telephone:telOpt });
+    } else {
+      const phone = document.getElementById('sign-phone').value.trim();
+      const emailOpt = document.getElementById('sign-email-opt').value.trim();
+      if (!phone){ SE.toast('Indiquez votre numéro', false); btn.disabled=false; btn.textContent='Créer mon compte'; return; }
+      await SE.Auth.signUpPhone({ phone, password:pwd, nom_complet:nom, email:emailOpt });
+    }
+    SE.toast('Compte créé ! Bienvenue');
+    setTimeout(() => location.href = 'compte.html', 700);
+  } catch (err){
+    console.error(err);
+    SE.toast(err.message || 'Erreur à la création', false);
+    btn.disabled = false;
+    btn.textContent = 'Créer mon compte';
+  }
+});
+
+/* LOGOUT */
+document.getElementById('btn-logout')?.addEventListener('click', async e => {
+  e.preventDefault();
+  await SE.Auth.signOut();
+  SE.toast('Déconnecté');
+  setTimeout(() => location.reload(), 500);
+});
+</script>
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/service-worker.js").catch(()=>{}));</script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>À propos — SenExport</title>
+<meta name="description" content="SenExport, entreprise d'import-export basée à Thiès, Sénégal.">
+<meta name="theme-color" content="#C4531A">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+.about-hero{background:linear-gradient(135deg, var(--card) 0%, var(--bg2) 100%);padding:72px 0 56px;border-bottom:1px solid rgba(212,175,55,.1)}
+.about-hero h1{font-family:var(--ff-d);font-weight:500;font-size:clamp(2.2rem, 5.5vw, 3rem);line-height:1.1;letter-spacing:-.025em;margin-bottom:20px}
+.about-hero h1 em{font-style:italic;color:var(--or);font-weight:400}
+.about-hero .lead{font-size:1.15rem;color:var(--stone);max-width:600px;line-height:1.6}
+.simple-wrap{max-width:640px;margin:0 auto;padding:64px 0}
+.simple-section{margin-bottom:40px}
+.simple-section h2{font-family:var(--ff-d);font-weight:500;font-size:1.4rem;letter-spacing:-.02em;margin-bottom:14px}
+.simple-section h2 em{font-style:italic;color:var(--or);font-weight:400}
+.simple-section p{color:var(--stone);line-height:1.8;font-size:1rem}
+.simple-section strong{color:var(--ink);font-weight:600}
+.contact-cta{background:#fff;border:1px solid rgba(212,175,55,.1);border-radius:var(--r16);padding:30px 26px;text-align:center;margin-top:48px}
+.contact-cta h2{font-family:var(--ff-d);font-weight:500;font-size:1.4rem;margin-bottom:10px;color:var(--ink)}
+.contact-cta h2 em{font-style:italic;font-weight:400;color:var(--or)}
+.contact-cta p{color:var(--stone);margin-bottom:22px;line-height:1.6;font-size:.96rem}
+.contact-cta .btn{padding:14px 28px}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links">
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="maison.html">Maison</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="collections.html">Collections</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+    <a href="compte.html" class="nav-icon" aria-label="Mon compte">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+</nav>
+<aside class="mobile-menu" id="mobile-menu">
+  <button class="close-btn">×</button>
+  <a href="catalogue.html">📦 Catalogue</a>
+  <a href="demande-speciale.html">🎯 Demande spéciale</a>
+  <a href="a-propos.html">ℹ️ À propos</a>
+  <a href="panier.html">🛒 Panier</a>
+  <a href="favoris.html">♡ Favoris</a>
+  <a href="compte.html">◎ Compte</a>
+</aside>
+
+<section class="about-hero">
+  <div class="w">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="sep">›</span><span>À propos</span></div>
+    <h1>Import-Export <em>France · Sénégal</em>.</h1>
+    <p class="lead">SenExport est une entreprise d'import-export basée à Thiès. On apporte des produits depuis la France, vous les achetez à notre dépôt.</p>
+  </div>
+</section>
+
+<main style="padding-top:56px">
+<div class="w">
+<div class="simple-wrap">
+
+<div class="simple-section">
+  <h2>Notre <em>activité</em></h2>
+  <p>On importe une sélection de produits français — électronique, vêtements, maison, sport, divers — et on les met à votre disposition dans notre dépôt à Thiès.</p>
+</div>
+
+<div class="simple-section">
+  <h2>Comment <em>commander</em></h2>
+  <p>Vous parcourez le catalogue en ligne, vous ajoutez ce qui vous intéresse au panier, on prend contact avec vous par WhatsApp, et vous venez retirer au dépôt. <strong>Vous payez au retrait</strong> — en espèces, Wave ou Orange Money.</p>
+</div>
+
+<div class="simple-section">
+  <h2>Les <em>demandes spéciales</em></h2>
+  <p>Vous cherchez quelque chose de précis qui n'est pas au catalogue ? Dites-le nous. On regarde, on vous fait un devis sous 48h, et si ça vous convient, on commande.</p>
+</div>
+
+<div class="contact-cta">
+  <h2>Une <em>question</em> ?</h2>
+  <p>Le plus simple, c'est WhatsApp. On répond dans la journée.</p>
+  <a href="https://wa.me/221778038874" class="btn btn-fire">💬 Discuter sur WhatsApp</a>
+</div>
+
+</div>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
+      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:240px;margin-bottom:1.25rem">Produits français importés. Dépôt à Thiès, Sénégal.</p>
+      <div class="pay-tags"><span class="pay-tag">Wave</span><span class="pay-tag">Orange Money</span><span class="pay-tag">Espèces</span></div>
+    </div>
+    <nav class="footer-col"><h4>Univers</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="collections.html">Collections</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li><li><a href="favoris.html">Favoris</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li><li><a href="cgv.html">CGV</a></li></ul></nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SenExport Boutique · Fait à Thiès</p>
+    <a href="cgv.html">Conditions générales</a>
+  </div>
+</footer>
+
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

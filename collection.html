@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Collection — SenExport Boutique</title>
+<meta name="theme-color" content="#D4AF37">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+/* ── Nav spécifique avec lien retour ── */
+.nav-back{display:flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--stone);transition:color .2s}
+.nav-back:hover{color:var(--or)}
+.nav-back svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.nav-back:hover svg{transform:translateX(-3px)}
+
+/* ── Filtres ── */
+.filters{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding:1.5rem var(--pad);border-bottom:1px solid var(--border);margin-top:1.5rem}
+.filters-count{margin-left:auto;font-family:var(--ff-m);font-size:.68rem;color:var(--muted);letter-spacing:.08em}
+
+/* ── Teaser prochain drop ── */
+.next-drop{
+  margin:2.5rem var(--pad) 0;padding:1.75rem clamp(1.25rem,4vw,2rem);
+  background:var(--card);border:1px solid var(--or-line);border-radius:8px;
+  display:flex;flex-wrap:wrap;gap:1.25rem;align-items:center;justify-content:space-between;
+}
+.next-drop-label{font-family:var(--ff-m);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;color:var(--or);margin-bottom:.5rem}
+.next-drop-title{font-family:var(--ff-d);font-size:1.4rem;font-weight:300;color:var(--ink)}
+
+/* ── toast (réutilise structure base mais besoin items texte) ── */
+.toast-item{
+  padding:.65rem 1.1rem;background:var(--card2);border:1px solid var(--or-line);
+  border-radius:4px;font-size:.82rem;color:var(--ink);
+  transform:translateX(110%);transition:transform .35s var(--ease);pointer-events:auto;
+  max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.toast-item.show{transform:none}
+.toast-item.err{border-color:rgba(231,76,60,.3)}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="mode.html" class="nav-back">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    Mode
+  </a>
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO ÉDITORIAL — rempli dynamiquement, entrée 3D -->
+<div id="col-hero-wrap" class="ed-hero-wrap">
+  <div class="ed-hero">
+    <div class="ed-hero-copy">
+      <div class="skel" style="width:140px;height:28px;margin-bottom:1.25rem;border-radius:3px"></div>
+      <div class="skel" style="width:min(400px,90%);height:clamp(2.2rem,6vw,4.2rem);margin-bottom:.75rem;border-radius:4px"></div>
+      <div class="skel" style="width:min(360px,80%);height:1rem;margin-bottom:.5rem;border-radius:3px"></div>
+      <div class="skel" style="width:min(280px,60%);height:1rem;border-radius:3px"></div>
+    </div>
+    <div class="ed-hero-visual"></div>
+  </div>
+</div>
+
+<main style="max-width:1280px;margin:0 auto;padding-bottom:5rem">
+  <!-- Filtres taille/état -->
+  <div class="filters" id="filters-wrap">
+    <button class="chip active" data-filter="all">Tout</button>
+    <button class="chip" data-filter="neuf">Neuf</button>
+    <button class="chip" data-filter="bon_etat">Bon état</button>
+    <span class="filters-count" id="filters-count"></span>
+  </div>
+
+  <!-- Grille articles — système prod-grid partagé -->
+  <div style="padding:1.5rem var(--pad) 0">
+    <div class="prod-grid" id="articles-grid">
+      <div class="skel" style="aspect-ratio:4/5"></div>
+      <div class="skel" style="aspect-ratio:4/5"></div>
+      <div class="skel" style="aspect-ratio:4/5"></div>
+      <div class="skel" style="aspect-ratio:4/5"></div>
+    </div>
+  </div>
+
+  <!-- Teaser prochain drop -->
+  <div class="next-drop" id="next-drop" style="display:none">
+    <div>
+      <div class="next-drop-label">Prochain arrivage</div>
+      <div class="next-drop-title" id="next-drop-title">Collection suivante</div>
+    </div>
+    <a href="#" class="btn btn-wa" id="next-drop-wa">💬 Être notifié en premier</a>
+  </div>
+</main>
+
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="images.js"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  /* ── UTILS ── */
+  const SB_URL  = 'https://axgpohmhzmdgozndlntj.supabase.co';
+  const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4Z3BvaG1oem1kZ296bmRsbnRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MTIzOTMsImV4cCI6MjA5MTQ4ODM5M30.gukLxSpuLUPWOivsC-LgbNYIsnTWOuo0_G2ubYur3os';
+
+  async function sbGet(table, params='') {
+    const r = await fetch(`${SB_URL}/rest/v1/${table}?${params}`, {
+      headers:{'apikey':SB_ANON,'Authorization':`Bearer ${SB_ANON}`,'Accept':'application/json'}
+    });
+    if (!r.ok) { console.warn('[SB]', table, r.status); return []; }
+    return r.json();
+  }
+
+  function fprix(n) { return Math.round(n||0).toLocaleString('fr-FR') + ' FCFA'; }
+  function imgUrl(u) {
+    if (!u) return '';
+    if (u.startsWith('http')) return u;
+    return `${SB_URL}/storage/v1/object/public/photos/${u}`;
+  }
+  function toast(msg, ok=true) {
+    const wrap = document.getElementById('toasts');
+    const el = document.createElement('div');
+    el.className = 'toast-item' + (ok ? '' : ' err');
+    el.textContent = msg;
+    wrap.appendChild(el);
+    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+    setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 400); }, 3000);
+  }
+  function syncBadge() {
+    try {
+      const n = SE?.Cart?.count?.() ?? 0;
+      const b = document.getElementById('cart-badge');
+      if (b) { b.textContent = n||''; b.classList.toggle('show', n > 0); }
+    } catch(e) {}
+  }
+
+  /* ── RÉCUPÉRER L'ID COLLECTION DEPUIS L'URL ── */
+  const params = new URLSearchParams(location.search);
+  const colId = params.get('id');
+  if (!colId) { location.href = 'collections.html'; return; }
+
+  /* ── CHARGER LA COLLECTION ── */
+  const [cols, liens] = await Promise.all([
+    sbGet('collections', `id=eq.${colId}&limit=1`),
+    sbGet('collection_articles', `collection_id=eq.${colId}`)
+  ]);
+
+  const col = cols[0];
+  if (!col) { location.href = 'collections.html'; return; }
+
+  document.title = `${col.nom} — SenExport Boutique`;
+
+  /* ── CHARGER LES ARTICLES ── */
+  let articles = [];
+  if (liens.length) {
+    const refs = liens.map(l => `"${l.article_ref}"`).join(',');
+    articles = await sbGet('articles', `reference=in.(${refs})&select=reference,nom,description,prix_vente_fcfa,photo_url,quantite,etat`);
+  }
+
+  /* ── RENDRE LE HERO ÉDITORIAL (entrée 3D) ── */
+  const heroWrap = document.getElementById('col-hero-wrap');
+  const badgeClass = col.statut === 'en_cours' ? 'ed-badge-live' : col.statut === 'a_venir' ? 'ed-badge-soon' : 'ed-badge-past';
+  const badgeLabel = col.statut === 'en_cours' ? '● Disponible maintenant' : col.statut === 'a_venir' ? '✦ Prochainement' : 'Collection précédente';
+
+  const featured = articles[0];
+  const featuredImg = featured ? imgUrl(featured.photo_url) : '';
+  const nbPieces = articles.length;
+  const nbStock = articles.reduce((s, a) => s + (a.quantite || 0), 0);
+  const minPrix = articles.length ? Math.min(...articles.map(a => a.prix_vente_fcfa || 0)) : 0;
+  const stockLabel = nbStock > 0 ? `${nbStock} en stock` : 'Rupture de stock';
+
+  const brandSvg = `<svg viewBox="0 0 600 480" preserveAspectRatio="xMidYMid slice"
+    xmlns="http://www.w3.org/2000/svg"
+    style="position:absolute;inset:0;width:100%;height:100%;opacity:.5" aria-hidden="true">
+    <defs>
+      <linearGradient id="cg1" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#D4AF37" stop-opacity="0"/>
+        <stop offset="40%" stop-color="#D4AF37" stop-opacity=".55"/>
+        <stop offset="100%" stop-color="#D4AF37" stop-opacity=".05"/>
+      </linearGradient>
+      <radialGradient id="cglow" cx="65%" cy="45%" r="45%">
+        <stop offset="0%" stop-color="#D4AF37" stop-opacity=".12"/>
+        <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <rect width="600" height="480" fill="url(#cglow)"/>
+    <path d="M 40 360 C 180 290, 340 210, 540 150" stroke="url(#cg1)" stroke-width="1" fill="none"/>
+    <path d="M 30 400 C 200 330, 370 240, 560 170" stroke="url(#cg1)" stroke-width=".6" fill="none" opacity=".4"/>
+    <circle cx="50" cy="360" r="4" fill="#D4AF37" opacity=".6"/>
+    <circle cx="540" cy="150" r="5" fill="#D4AF37" opacity=".85"/>
+    <circle cx="540" cy="150" r="14" fill="none" stroke="#D4AF37" stroke-width=".5" opacity=".3"/>
+    <text x="30" y="387" font-family="Georgia,serif" font-size="12" fill="#D4AF37" opacity=".4" font-style="italic">France</text>
+    <text x="552" y="154" font-family="Georgia,serif" font-size="12" fill="#D4AF37" opacity=".4" font-style="italic">Thiès</text>
+    <circle cx="200" cy="60" r="1.5" fill="#D4AF37" opacity=".3"/>
+    <circle cx="380" cy="90" r="1" fill="#D4AF37" opacity=".25"/>
+  </svg>`;
+
+  const visualHtml = featuredImg ? `
+    <div class="ed-ambient" style="background-image:url('${featuredImg}')"></div>
+    <div class="ed-stage-wrap">
+      <div class="ed-stage" style="background-image:url('${featuredImg}')"></div>
+      <div class="ed-lid"></div>
+    </div>
+    ${minPrix && nbStock > 0 ? `<div class="ed-piece ed-piece-price">Dès ${fprix(minPrix)}</div>` : ''}
+  ` : brandSvg;
+
+  heroWrap.innerHTML = `
+    <div class="ed-hero">
+      <div class="ed-hero-copy">
+        <span class="ed-hero-badge ${badgeClass}">${badgeLabel}</span>
+        <h1 class="ed-hero-title">${col.nom}</h1>
+        ${col.description ? `<p class="ed-hero-desc">${col.description}</p>` : ''}
+        <div class="ed-hero-meta">
+          <span class="ed-meta-item">${nbPieces} pièce${nbPieces > 1 ? 's' : ''}</span>
+          ${nbStock === 0 ? '<span class="ed-meta-item ed-meta-rupture">• Rupture de stock</span>' : `<span class="ed-meta-item">${nbStock} disponible${nbStock>1?'s':''}</span>`}
+          <span class="ed-meta-item">Paiement à la récupération</span>
+          <span class="ed-meta-item">Thiès, Sénégal</span>
+        </div>
+      </div>
+      <div class="ed-hero-visual">${visualHtml}</div>
+    </div>`;
+
+  /* Son coffre — joue au premier geste après chargement */
+  (function(){
+    var done=false;
+    function playCoffre(){ if(done)return; done=true; setTimeout(function(){ if(window.SE_Sound)SE_Sound.play('coffre'); },150); }
+    document.addEventListener('click',playCoffre,{once:true});
+    document.addEventListener('touchstart',playCoffre,{once:true});
+    setTimeout(function(){ if(!done&&window.SE_Sound){SE_Sound.play('coffre');} },500);
+  })();
+
+  /* Tilt léger sur la photo vedette (desktop, souris) — vient compléter l'entrée 3D */
+  if (window.matchMedia('(hover: hover)').matches) {
+    const stageMain = heroWrap.querySelector('.ed-stage');
+    const stage = heroWrap.querySelector('.ed-hero-visual');
+    if (stageMain && stage) {
+      stage.addEventListener('mousemove', (e) => {
+        const r = stage.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - .5;
+        const y = (e.clientY - r.top) / r.height - .5;
+        stageMain.style.transform = `rotateY(${(x*10).toFixed(1)}deg) rotateX(${(-y*8).toFixed(1)}deg) scale(1.02)`;
+        stageMain.style.transition = 'transform .1s ease';
+      });
+      stage.addEventListener('mouseleave', () => {
+        stageMain.style.transform = '';
+        stageMain.style.transition = 'transform .6s var(--ease)';
+      });
+    }
+  }
+
+  /* ── ÉTAT FILTRES ── */
+  let activeFilter = 'all';
+  let allArticles = [...articles];
+
+  function applyFilter() {
+    let filtered = [...allArticles];
+    if (activeFilter === 'neuf') filtered = filtered.filter(a => (a.etat||'').toLowerCase().includes('neuf'));
+    if (activeFilter === 'bon_etat') filtered = filtered.filter(a => (a.etat||'').toLowerCase().includes('bon'));
+    renderGrid(filtered);
+  }
+
+  document.querySelectorAll('.chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      applyFilter();
+      if (window.SE_Sound) SE_Sound.play('click');
+    });
+  });
+
+  /* ── RENDRE LA GRILLE — système prod-* partagé ── */
+  function renderGrid(arts) {
+    const grid = document.getElementById('articles-grid');
+    const countEl = document.getElementById('filters-count');
+    if (countEl) countEl.textContent = `${arts.length} article${arts.length > 1 ? 's' : ''}`;
+
+    if (!arts.length) {
+      grid.innerHTML = `<div class="empty" style="grid-column:1/-1"><div class="empty-icon">📦</div><div class="empty-title">Aucun article disponible</div></div>`;
+      return;
+    }
+
+    grid.innerHTML = arts.map(a => {
+      const photo = imgUrl(a.photo_url);
+      const etat = (a.etat || '').toLowerCase();
+      const badgeEtat = etat.includes('neuf') ? '<span class="prod-badge neuf">Neuf</span>' :
+                        etat.includes('bon') ? '<span class="prod-badge">Bon état</span>' : '';
+      const qte = a.quantite || 0;
+      const lowStock = qte > 0 && qte <= 3;
+
+      return `
+        <article class="prod-card" data-ref="${a.reference}">
+          <a href="produit.html?ref=${a.reference}" class="prod-img" aria-label="${a.nom}">
+            ${photo ? `<img src="${photo}" alt="${a.nom}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/500x625/12131c/D4AF37?text=Sen%C2%B7Export'">` : ''}
+            <div class="prod-badges">${badgeEtat}${lowStock ? `<span class="prod-badge stock">${qte} restant${qte>1?'s':''}</span>` : ''}</div>
+            <button class="prod-quick" data-ref="${a.reference}">+ Ajouter au panier</button>
+          </a>
+          <button class="prod-wish" data-ref="${a.reference}" aria-label="Favoris">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="prod-body">
+            <a href="produit.html?ref=${a.reference}" style="color:inherit"><h3 class="prod-name">${a.nom}</h3></a>
+            ${a.description ? `<p class="prod-desc">${a.description}</p>` : ''}
+            <span class="prod-price">${fprix(a.prix_vente_fcfa)}</span>
+          </div>
+        </article>`;
+    }).join('');
+
+    grid.querySelectorAll('.prod-quick').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        const ref = btn.dataset.ref;
+        try { SE.Cart.add(ref); syncBadge(); toast('Ajouté au panier ✓'); if(window.SE_Sound) SE_Sound.play('atc'); }
+        catch(e) { toast('Ajouté au panier ✓'); }
+        btn.textContent = '✓ Ajouté';
+        setTimeout(() => { btn.textContent = '+ Ajouter au panier'; }, 1400);
+      });
+    });
+
+    grid.querySelectorAll('.prod-wish').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        const ref = btn.dataset.ref;
+        try {
+          SE.Wishlist.toggle(ref);
+          const w = SE.Wishlist.has(ref);
+          btn.classList.toggle('active', w);
+          toast(w ? '♡ Ajouté aux favoris' : 'Retiré des favoris');
+          if (window.SE_Sound) SE_Sound.play(w ? 'click' : 'hover');
+        } catch(e) { btn.classList.toggle('active'); }
+      });
+    });
+
+    /* Tilt 3D léger sur chaque carte — desktop uniquement */
+    if (window.matchMedia('(hover: hover)').matches) {
+      grid.querySelectorAll('.prod-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          const dx = (e.clientX - r.left - r.width/2) / (r.width/2);
+          const dy = (e.clientY - r.top - r.height/2) / (r.height/2);
+          card.style.transform = `perspective(800px) rotateX(${(-dy*4).toFixed(1)}deg) rotateY(${(dx*4).toFixed(1)}deg) translateY(-3px)`;
+          card.style.transition = 'transform .08s ease';
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+          card.style.transition = 'transform .5s var(--ease)';
+        });
+      });
+    }
+  }
+
+  applyFilter();
+  syncBadge();
+
+  /* ── TEASER PROCHAIN DROP ── */
+  const prochaines = await sbGet('collections', "statut=eq.a_venir&order=date_lancement.asc&limit=1");
+  if (prochaines[0]) {
+    const p = prochaines[0];
+    document.getElementById('next-drop').style.display = 'flex';
+    document.getElementById('next-drop-title').textContent = p.nom;
+    document.getElementById('next-drop-wa').href = `https://wa.me/221778038874?text=${encodeURIComponent(`Bonjour, je veux être notifié pour la collection "${p.nom}" de SenExport.`)}`;
+  }
+
+  /* ── NAV SCROLL ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+})();
+</script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

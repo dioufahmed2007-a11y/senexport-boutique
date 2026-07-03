@@ -1,0 +1,65 @@
+/* ═══════════════════════════════════════════════════════════════
+   SENEXPORT — DESIGN TOKENS v1
+   LA SEULE SOURCE DE VÉRITÉ pour toutes les couleurs et valeurs
+   Toutes les pages importent ce fichier.
+   Jamais de couleurs hardcodées dans le HTML.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Fond ── */
+  --bg:        #08090E;
+  --bg2:       #0D0E15;
+  --card:      #12131C;
+  --card2:     #181924;
+  --border:    rgba(212,175,55,.15);
+
+  /* ── Texte ── */
+  --ink:       #FAFAF7;
+  --slate:     #C8C4BE;
+  --stone:     #8A8790;
+  --muted:     #5A5870;
+
+  /* ── Or (accent principal) ── */
+  --or:        #D4AF37;
+  --or2:       #E0C04A;
+  --or-dim:    rgba(212,175,55,.1);
+  --or-line:   rgba(212,175,55,.18);
+
+  /* ── Statuts ── */
+  --green:     #3FB950;
+  --red:       #E74C3C;
+  --blue:      #3A6FA8;
+  --orange:    #E8904A;
+
+  /* ── Typographie ── */
+  --ff-d: 'Cormorant Garamond', Georgia, serif;
+  --ff-b: 'DM Sans', system-ui, sans-serif;
+  --ff-m: 'JetBrains Mono', monospace;
+
+  /* ── Espacements ── */
+  --pad:    clamp(1rem, 5vw, 2.5rem);
+  --max:    1280px;
+  --r4:     4px;
+  --r8:     8px;
+  --r16:    16px;
+
+  /* ── Transitions ── */
+  --ease:   cubic-bezier(.16, 1, .3, 1);
+  --fast:   .18s;
+  --mid:    .3s;
+  /* ── Hauteur hero unifiée ── */
+  --hero-h: clamp(420px, 70svh, 620px);
+  --hero-h-mobile: clamp(280px, 55svh, 420px);
+
+  /* ── Alias de compatibilité — anciens tokens migrés vers le nouveau design system ── */
+  --fire:      var(--or);
+  --gold:      var(--or2);
+  --warm:      var(--or);
+  --warm2:     rgba(212,175,55,.12);
+  --f-display: var(--ff-d);
+  --f-body:    var(--ff-b);
+  --f-mono:    var(--ff-m);
+  --r99:       9999px;
+  --ivoire:    var(--ink);
+  --mauv:      #C8B5FF;
+}

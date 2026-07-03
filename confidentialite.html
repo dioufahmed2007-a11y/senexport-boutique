@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Politique de confidentialité — SenExport</title>
+<meta name="description" content="Comment SenExport collecte, utilise et protège vos données personnelles.">
+<meta name="theme-color" content="#C4531A">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+.legal-wrap{max-width:820px;margin:0 auto;padding:32px 0 56px}
+.legal-wrap h2{font-family:var(--ff-d);font-weight:500;font-size:1.4rem;letter-spacing:-.02em;margin:36px 0 14px;color:var(--ink);padding-bottom:8px;border-bottom:1px solid rgba(212,175,55,.1)}
+.legal-wrap h2:first-of-type{margin-top:0}
+.legal-wrap h3{font-family:var(--ff-d);font-weight:500;font-size:1.08rem;margin:22px 0 8px;color:var(--ink)}
+.legal-wrap p{line-height:1.7;color:var(--stone);margin-bottom:12px;font-size:.95rem}
+.legal-wrap strong{color:var(--ink);font-weight:600}
+.legal-wrap ul{margin:10px 0 16px 22px}
+.legal-wrap li{line-height:1.7;color:var(--stone);margin-bottom:6px;font-size:.95rem}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:14px;margin:18px 0}
+.data-card{background:var(--card);border-radius:var(--r12);padding:16px 18px;border:1px solid rgba(212,175,55,.1)}
+.data-card strong{display:block;margin-bottom:6px;color:var(--ink);font-size:.95rem}
+.data-card span{font-size:.84rem;color:var(--stone);line-height:1.5}
+.legal-meta{font-size:.82rem;color:var(--stone);font-style:italic;border-top:1px solid rgba(212,175,55,.1);padding-top:16px;margin-top:32px}
+.your-rights{background:linear-gradient(135deg, var(--card) 0%, #fff 100%);border-radius:var(--r12);padding:24px;margin:20px 0;border:1px solid rgba(212,175,55,.1)}
+.your-rights h3{margin-top:0}
+.right-item{display:flex;gap:14px;padding:10px 0;border-bottom:1px dashed rgba(212,175,55,.1)}
+.right-item:last-child{border-bottom:none}
+.right-item .rico{font-size:1.2rem;flex-shrink:0;width:30px}
+.right-item .rinfo strong{display:block;font-size:.92rem;margin-bottom:2px;color:var(--ink)}
+.right-item .rinfo span{font-size:.85rem;color:var(--stone);line-height:1.5}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links">
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="maison.html">Maison</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="collections.html">Collections</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+    <a href="compte.html" class="nav-icon" aria-label="Mon compte">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+</nav>
+<aside class="mobile-menu" id="mobile-menu">
+  <button class="close-btn">×</button>
+  <a href="catalogue.html">📦 Catalogue</a>
+  <a href="a-propos.html">ℹ️ À propos</a>
+  <a href="panier.html">🛒 Panier</a>
+  <a href="compte.html">◎ Compte</a>
+</aside>
+
+<div class="page-head">
+  <div class="w">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="sep">›</span><span>Confidentialité</span></div>
+    <h1>Politique de <em>confidentialité</em></h1>
+    <p class="sub">Conforme à la loi sénégalaise n°2008-12 sur la protection des données personnelles.</p>
+  </div>
+</div>
+
+<main>
+<div class="w">
+<div class="legal-wrap">
+
+<h2>1. Notre engagement</h2>
+<p>Chez SenExport, nous prenons votre vie privée au sérieux. Cette politique explique <strong>quelles données nous collectons, pourquoi, et ce que vous pouvez faire pour les contrôler</strong>.</p>
+<p>Nous appliquons la <strong>loi sénégalaise n°2008-12 du 25 janvier 2008</strong> portant sur la protection des données à caractère personnel, ainsi que les bonnes pratiques internationales.</p>
+
+<h2>2. Données que nous collectons</h2>
+
+<h3>2.1 Quand vous créez un compte</h3>
+<div class="data-grid">
+  <div class="data-card">
+    <strong>👤 Identité</strong>
+    <span>Nom, prénom (ou pseudo)</span>
+  </div>
+  <div class="data-card">
+    <strong>📧 Contact</strong>
+    <span>Email, numéro de téléphone WhatsApp</span>
+  </div>
+  <div class="data-card">
+    <strong>🔐 Authentification</strong>
+    <span>Mot de passe (chiffré) ou identifiant Google</span>
+  </div>
+  <div class="data-card">
+    <strong>📍 Adresse (optionnel)</strong>
+    <span>Si vous souhaitez une livraison à domicile</span>
+  </div>
+</div>
+
+<h3>2.2 Quand vous passez commande</h3>
+<div class="data-grid">
+  <div class="data-card">
+    <strong>🛒 Détails commande</strong>
+    <span>Articles achetés, prix, dates, statuts</span>
+  </div>
+  <div class="data-card">
+    <strong>💳 Mode de paiement</strong>
+    <span>Wave / OM / Espèces (pas de numéro de carte)</span>
+  </div>
+</div>
+
+<h3>2.3 Données techniques</h3>
+<div class="data-grid">
+  <div class="data-card">
+    <strong>🍪 Cookies de session</strong>
+    <span>Pour maintenir votre connexion</span>
+  </div>
+  <div class="data-card">
+    <strong>📊 Stockage local</strong>
+    <span>Panier, favoris (sur votre appareil)</span>
+  </div>
+</div>
+
+<h3>2.4 Ce que nous ne collectons PAS</h3>
+<ul>
+  <li>❌ Aucun numéro de carte bancaire</li>
+  <li>❌ Aucune donnée de géolocalisation précise</li>
+  <li>❌ Aucune donnée de tracking publicitaire</li>
+  <li>❌ Aucun cookie tiers de profilage</li>
+  <li>❌ Aucune empreinte numérique (fingerprinting)</li>
+</ul>
+
+<h2>3. Pourquoi nous collectons ces données</h2>
+<p>Vos données ne servent qu'à <strong>4 finalités précises</strong> :</p>
+<ol>
+  <li><strong>Traiter vos commandes</strong> — vous identifier, vous contacter, préparer votre retrait</li>
+  <li><strong>Gérer votre programme fidélité</strong> — cumuler vos points, débloquer vos avantages</li>
+  <li><strong>Améliorer le service</strong> — vous proposer des produits qui correspondent à vos besoins</li>
+  <li><strong>Respecter nos obligations légales</strong> — comptabilité, factures, garanties</li>
+</ol>
+
+<h2>4. Avec qui nous partageons vos données</h2>
+<p><strong>Aucune donnée n'est vendue, louée, ou échangée à des tiers commerciaux.</strong> Vos données ne sortent jamais de notre cercle de confiance.</p>
+<p>Nous utilisons les prestataires techniques suivants :</p>
+<div class="data-grid">
+  <div class="data-card">
+    <strong>🗄️ Supabase</strong>
+    <span>Hébergement de la base de données et authentification. Données chiffrées au repos.</span>
+  </div>
+  <div class="data-card">
+    <strong>🌐 Netlify</strong>
+    <span>Hébergement du site web (HTML/CSS/JS). Aucune donnée client traitée.</span>
+  </div>
+  <div class="data-card">
+    <strong>📱 Google OAuth (optionnel)</strong>
+    <span>Si vous choisissez de vous connecter via Google. Uniquement votre email et nom.</span>
+  </div>
+  <div class="data-card">
+    <strong>💬 WhatsApp</strong>
+    <span>Communication avec vous. Nous ne stockons que votre numéro.</span>
+  </div>
+</div>
+
+<h2>5. Durée de conservation</h2>
+<ul>
+  <li><strong>Compte client actif</strong> : tant que vous l'utilisez</li>
+  <li><strong>Compte inactif</strong> : 3 ans après dernière activité, puis archivage</li>
+  <li><strong>Compte archivé</strong> : 5 ans pour obligations comptables</li>
+  <li><strong>Commandes</strong> : 10 ans (obligation comptable sénégalaise)</li>
+  <li><strong>Cookies de session</strong> : effacés à la déconnexion</li>
+</ul>
+
+<h2>6. Vos droits</h2>
+
+<div class="your-rights">
+  <h3>🛡️ Conformément à la loi 2008-12, vous avez les droits suivants :</h3>
+  <div class="right-item">
+    <div class="rico">👁️</div>
+    <div class="rinfo">
+      <strong>Droit d'accès</strong>
+      <span>Demandez-nous quelles données nous avons sur vous</span>
+    </div>
+  </div>
+  <div class="right-item">
+    <div class="rico">✏️</div>
+    <div class="rinfo">
+      <strong>Droit de rectification</strong>
+      <span>Corrigez vos informations à tout moment depuis votre compte</span>
+    </div>
+  </div>
+  <div class="right-item">
+    <div class="rico">🗑️</div>
+    <div class="rinfo">
+      <strong>Droit à l'effacement</strong>
+      <span>Demandez la suppression de votre compte (sauf obligations légales)</span>
+    </div>
+  </div>
+  <div class="right-item">
+    <div class="rico">🚫</div>
+    <div class="rinfo">
+      <strong>Droit d'opposition</strong>
+      <span>Refusez certains traitements (ex: messages promotionnels)</span>
+    </div>
+  </div>
+  <div class="right-item">
+    <div class="rico">📤</div>
+    <div class="rinfo">
+      <strong>Droit à la portabilité</strong>
+      <span>Récupérez vos données dans un format lisible</span>
+    </div>
+  </div>
+  <div class="right-item">
+    <div class="rico">⏸️</div>
+    <div class="rinfo">
+      <strong>Droit de limitation</strong>
+      <span>Demandez la suspension temporaire du traitement</span>
+    </div>
+  </div>
+</div>
+
+<p><strong>Pour exercer ces droits :</strong> contactez-nous par WhatsApp au +221 77 803 88 74. Réponse sous 30 jours maximum, comme prévu par la loi.</p>
+
+<h2>7. Sécurité des données</h2>
+<p>Nous mettons en œuvre les mesures techniques et organisationnelles raisonnables pour protéger vos données :</p>
+<ul>
+  <li>🔒 <strong>Chiffrement TLS/HTTPS</strong> sur tout le site</li>
+  <li>🔐 <strong>Mots de passe hashés</strong> (algorithme bcrypt, jamais en clair)</li>
+  <li>🛡️ <strong>Accès restreint</strong> aux données client (seul Ahmed, le gérant, y accède)</li>
+  <li>🏦 <strong>Hébergement professionnel</strong> Supabase avec sauvegardes quotidiennes</li>
+  <li>🚨 <strong>Notification en cas de fuite</strong> dans les 72h, comme prévu par la loi</li>
+</ul>
+
+<h2>8. Cookies</h2>
+<p>Nous utilisons uniquement des cookies <strong>strictement nécessaires</strong> au fonctionnement du site. Aucun cookie publicitaire, de profilage, ou de tracking tiers.</p>
+
+<h3>Liste des cookies utilisés :</h3>
+<ul>
+  <li><code>sb-session</code> : authentification Supabase (jusqu'à déconnexion)</li>
+  <li><code>se_cart</code> : panier d'achats (localStorage, non-cookie)</li>
+  <li><code>se_wishlist</code> : favoris (localStorage)</li>
+  <li><code>se_seen_orders</code> : commandes vues (localStorage)</li>
+</ul>
+
+<p>Vous pouvez les supprimer à tout moment via les paramètres de votre navigateur. Cela vous déconnectera et videra votre panier.</p>
+
+<h2>9. Mineurs</h2>
+<p>SenExport est <strong>déconseillé aux moins de 16 ans</strong> sans autorisation parentale. Nous ne collectons pas sciemment de données auprès d'enfants.</p>
+
+<h2>10. Modifications de la politique</h2>
+<p>Cette politique peut évoluer. Toute modification importante sera annoncée sur le site et par notification aux comptes existants.</p>
+
+<h2>11. Nous contacter</h2>
+<p>Pour toute question relative à vos données ou cette politique :</p>
+<ul>
+  <li>💬 <strong>WhatsApp</strong> : <a href="https://wa.me/221778038874">+221 77 803 88 74</a></li>
+  <li>📧 <strong>Email</strong> : [À compléter]</li>
+  <li>📍 <strong>Adresse</strong> : Thiès, Sénégal (adresse exacte sur demande)</li>
+</ul>
+
+<h2>12. Autorité de contrôle</h2>
+<p>Si vous estimez que vos droits ne sont pas respectés, vous pouvez saisir la <strong>Commission de Protection des Données Personnelles du Sénégal (CDP)</strong> :</p>
+<ul>
+  <li>Site : <a href="https://www.cdp.sn" target="_blank">www.cdp.sn</a></li>
+</ul>
+
+<div class="legal-meta">
+  Dernière mise à jour : Mai 2026<br>
+  Version 1.0
+</div>
+
+</div>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
+      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:240px;margin-bottom:1.25rem">Produits français importés. Dépôt à Thiès, Sénégal.</p>
+      <div class="pay-tags"><span class="pay-tag">Wave</span><span class="pay-tag">Orange Money</span><span class="pay-tag">Espèces</span></div>
+    </div>
+    <nav class="footer-col"><h4>Univers</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="collections.html">Collections</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li><li><a href="favoris.html">Favoris</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li><li><a href="cgv.html">CGV</a></li></ul></nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SenExport Boutique · Fait à Thiès</p>
+    <a href="cgv.html">Conditions générales</a>
+  </div>
+</footer>
+
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

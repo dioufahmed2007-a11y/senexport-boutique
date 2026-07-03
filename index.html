@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SenExport Boutique — Le monde dans votre panier</title>
+<meta name="description" content="Produits français importés à Thiès. Paiement à la récupération.">
+<meta name="theme-color" content="#D4AF37">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+
+/* ── HERO — éditorial, deux colonnes ── */
+.hero{
+  display:grid;grid-template-columns:1fr 1fr;min-height:var(--hero-h);
+}
+@media(max-width:860px){
+  .hero{grid-template-columns:1fr;min-height:auto}
+}
+.hero-copy{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(2.5rem,6vw,5rem) clamp(1.5rem,5vw,4rem);
+  order:1;
+}
+@media(max-width:860px){.hero-copy{order:2;padding:2.5rem var(--pad) 3rem}}
+.hero-eyebrow{
+  font-family:var(--ff-m);font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--or);margin-bottom:1.25rem;
+  display:flex;align-items:center;gap:.65rem;
+  opacity:0;animation:fadeUp .7s var(--ease) .05s forwards;
+}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--or)}
+.hero-title{
+  font-family:var(--ff-d);font-size:clamp(3.6rem,10vw,7.5rem);
+  font-weight:700;line-height:.92;letter-spacing:-.04em;color:var(--ink);
+  margin-bottom:1.25rem;max-width:640px;
+  opacity:0;animation:fadeUp .7s var(--ease) .15s forwards;
+}
+.hero-title em{font-style:italic;color:var(--or);font-weight:300}
+.hero-sub{
+  font-size:.9rem;color:var(--stone);max-width:360px;line-height:1.7;margin-bottom:2rem;
+  opacity:0;animation:fadeUp .7s var(--ease) .25s forwards;
+}
+.hero-ctas{
+  display:flex;gap:.85rem;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .7s var(--ease) .35s forwards;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+
+.hero-visual{
+  position:relative;order:2;
+  aspect-ratio:auto;min-height:var(--hero-h);
+  background:var(--bg2);overflow:hidden;
+}
+@media(max-width:860px){.hero-visual{order:1;aspect-ratio:16/9;min-height:180px}}
+.hero-visual img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  opacity:0;transition:opacity .6s ease;
+  position:absolute;inset:0;z-index:1;
+}
+.hero-visual img.loaded{opacity:1}
+.hero-visual-fallback{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 80% at 70% 40%, rgba(212,175,55,.12) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 20% 80%, rgba(212,175,55,.06) 0%, transparent 50%),
+    linear-gradient(150deg,#0D0E18 0%,#0A0B15 60%,#0D0E18 100%);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+}
+/* Grille décorative — identité visuelle de la marque */
+.hero-visual-fallback::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(212,175,55,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(212,175,55,.06) 1px,transparent 1px);
+  background-size:60px 60px;
+  mask-image:radial-gradient(ellipse 80% 80% at 70% 40%,black 30%,transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 80% 80% at 70% 40%,black 30%,transparent 80%);
+}
+.hero-visual-fallback::after{
+  content:'';position:absolute;
+  width:280px;height:280px;border-radius:50%;
+  border:1px solid rgba(212,175,55,.1);
+  top:50%;left:60%;transform:translate(-50%,-50%);
+  box-shadow:0 0 0 60px rgba(212,175,55,.04),0 0 0 120px rgba(212,175,55,.025);
+}
+.hero-visual-mark{
+  position:relative;z-index:2;
+  font-family:var(--ff-d);font-size:clamp(4rem,10vw,9rem);font-style:italic;font-weight:700;
+  color:rgba(212,175,55,.15);letter-spacing:-.04em;text-align:center;padding:2rem;
+  line-height:.85;
+  text-shadow:0 0 80px rgba(212,175,55,.08);
+}
+.hero-visual-tag{
+  position:absolute;bottom:1.5rem;left:1.5rem;z-index:2;
+  font-family:var(--ff-m);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:#fff;background:rgba(8,9,14,.55);backdrop-filter:blur(6px);
+  padding:.4rem .85rem;border-radius:3px;border:1px solid rgba(255,255,255,.12);
+}
+
+/* ── UNIVERS — tuiles strictes, sans emoji ── */
+.tiles-wrap{padding:0 var(--pad)}
+.tiles{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--border);border-radius:6px;overflow:hidden;
+}
+@media(max-width:760px){.tiles{grid-template-columns:1fr}}
+.tile{
+  position:relative;aspect-ratio:3/4;overflow:hidden;color:inherit;
+  border-right:1px solid var(--border);
+}
+.tile:last-child{border-right:none}
+@media(max-width:760px){.tile{border-right:none;border-bottom:1px solid var(--border)}.tile:last-child{border-bottom:none}}
+.tile-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 60% 40%, rgba(212,175,55,.07) 0%, transparent 60%),
+    linear-gradient(160deg,#0D0E18 0%,#0B0C16 100%);
+  background-size:cover;background-position:center;
+  transition:transform .7s var(--ease);
+}
+.tile:hover .tile-bg{transform:scale(1.04)}
+.tile-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(8,9,14,.88) 0%,rgba(8,9,14,.25) 45%,rgba(8,9,14,.05) 100%);
+}
+.tile-num{
+  position:absolute;top:1.5rem;left:1.5rem;
+  font-family:var(--ff-m);font-size:.66rem;color:rgba(255,255,255,.55);letter-spacing:.1em;
+}
+.tile-pattern{
+  position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;
+}
+.tile-content{
+  position:absolute;bottom:0;left:0;right:0;padding:1.75rem;
+}
+.tile-label{
+  font-family:var(--ff-m);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--or);margin-bottom:.5rem;
+}
+.tile-title{
+  font-family:var(--ff-d);font-size:clamp(2rem,4.5vw,3rem);font-weight:700;
+  color:#fff;line-height:.95;margin-bottom:.9rem;letter-spacing:-.03em;
+}
+.tile-cta{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:#fff;border-bottom:1px solid rgba(255,255,255,.35);padding-bottom:.2rem;
+  transition:gap var(--fast),border-color var(--fast);
+}
+.tile:hover .tile-cta{gap:.8rem;border-color:var(--or)}
+
+/* ── Bande de confiance ── */
+.trust-bar{background:var(--bg2);border-bottom:1px solid var(--border);padding:.85rem var(--pad)}
+.trust-bar-inner{max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap}
+.trust-stat{flex:1;min-width:120px;display:flex;flex-direction:column;align-items:center;padding:.45rem 1rem;gap:.2rem}
+.trust-stat-num{font-family:var(--ff-d);font-size:clamp(1.4rem,3vw,2.2rem);font-weight:700;color:#B8882A;line-height:1;letter-spacing:-.02em}
+.trust-stat-lbl{font-family:var(--ff-m);font-size:.57rem;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);text-align:center}
+.trust-bar-sep{width:1px;height:28px;background:var(--border);flex-shrink:0}
+@media(max-width:480px){.trust-bar-sep{display:none}.trust-stat{min-width:50%;padding:.5rem}}
+
+/* ── ARRIVALS — utilise le système .prod-grid partagé (styles-dark.css) ── */
+.arrivals-wrap{padding:0 var(--pad)}
+
+/* ── TÉMOIGNAGES — bande sobre, pas de cartes colorées ── */
+.temo-wrap{padding:0 var(--pad)}
+.temo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+@media(max-width:760px){.temo-strip{grid-template-columns:1fr}}
+.temo-cell{
+  padding:2.25rem 2rem;border-right:1px solid var(--border);
+  display:flex;flex-direction:column;gap:1rem;
+}
+.temo-cell:last-child{border-right:none}
+@media(max-width:760px){.temo-cell{border-right:none;border-bottom:1px solid var(--border)}.temo-cell:last-child{border-bottom:none}}
+.temo-stars{font-size:.78rem;color:var(--or);letter-spacing:.15em}
+.temo-quote{font-family:var(--ff-d);font-size:1.05rem;font-style:italic;color:var(--ink);line-height:1.55;flex:1}
+.temo-foot{display:flex;justify-content:space-between;align-items:baseline;font-size:.74rem}
+.temo-foot .name{font-weight:600;color:var(--ink)}
+.temo-foot .meta{color:var(--muted);font-family:var(--ff-m);font-size:.66rem}
+
+/* ── TRUST / POURQUOI NOUS ── */
+.trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+@media(max-width:860px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
+.trust-cell{background:var(--bg);padding:2rem 1.5rem;display:flex;flex-direction:column;gap:.75rem}
+.trust-num{font-family:var(--ff-m);font-size:.62rem;letter-spacing:.1em;color:var(--or)}
+.trust-title{font-family:var(--ff-d);font-size:1.15rem;font-weight:400;color:var(--ink)}
+.trust-desc{font-size:.82rem;color:var(--stone);line-height:1.6}
+
+/* ── FAQ ── */
+.faq-list{max-width:760px;margin:0 auto}
+.faq-item{border-bottom:1px solid var(--border)}
+.faq-q{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1.4rem 0;background:none;border:none;cursor:pointer;text-align:left;
+  font-family:var(--ff-d);font-size:1.05rem;color:var(--ink);font-weight:400;
+}
+.faq-q .ic{font-size:1.1rem;color:var(--or);transition:transform var(--mid) var(--ease);flex-shrink:0}
+.faq-item.open .faq-q .ic{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+.faq-a p{padding:0 0 1.4rem;font-size:.88rem;color:var(--stone);line-height:1.7;max-width:600px}
+</style>
+</head>
+<body>
+
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="/" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links">
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="maison.html">Maison</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="collections.html">Collections</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+    <a href="compte.html" class="nav-icon" aria-label="Compte">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- HERO ÉDITORIAL -->
+<header class="hero">
+  <div class="hero-copy">
+    <div class="hero-eyebrow">Sen·Export Boutique</div>
+    <h1 class="hero-title">Le monde<br><em>dans votre</em> panier.</h1>
+    <p class="hero-sub">Produits sélectionnés depuis la France, vérifiés avant envoi. Récupération à Thiès, paiement sur place.</p>
+    <div class="hero-ctas">
+      <a href="catalogue.html" class="btn btn-primary btn-lg">Voir le catalogue</a>
+      <a href="mode.html" class="btn btn-ghost btn-lg">Découvrir Mode →</a>
+    </div>
+  </div>
+  <div class="hero-visual" id="hero-visual">
+    <div class="hero-visual-fallback">
+      <!-- Motif identitaire : trajectoire France→Thiès — s'efface si une vraie photo est disponible -->
+      <svg viewBox="0 0 600 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <radialGradient id="hglow" cx="60%" cy="45%" r="50%">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity=".14"/>
+            <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+          </radialGradient>
+          <linearGradient id="hline" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0"/>
+            <stop offset="30%" stop-color="#D4AF37" stop-opacity=".7"/>
+            <stop offset="100%" stop-color="#D4AF37" stop-opacity=".05"/>
+          </linearGradient>
+          <linearGradient id="hline2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0"/>
+            <stop offset="50%" stop-color="#D4AF37" stop-opacity=".35"/>
+            <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <rect width="600" height="500" fill="url(#hglow)"/>
+        <path d="M 60 380 C 180 300, 320 220, 520 160" stroke="url(#hline)" stroke-width="1.2" fill="none"/>
+        <path d="M 40 420 C 200 340, 360 260, 560 185" stroke="url(#hline2)" stroke-width=".8" fill="none"/>
+        <path d="M 80 340 C 220 278, 370 198, 502 145" stroke="url(#hline2)" stroke-width=".5" fill="none"/>
+        <circle cx="70" cy="360" r="5" fill="#D4AF37" opacity=".75"/>
+        <circle cx="70" cy="360" r="14" fill="none" stroke="#D4AF37" stroke-width=".6" opacity=".3"/>
+        <circle cx="518" cy="158" r="6" fill="#D4AF37" opacity=".9"/>
+        <circle cx="518" cy="158" r="16" fill="none" stroke="#D4AF37" stroke-width=".6" opacity=".4"/>
+        <circle cx="518" cy="158" r="28" fill="none" stroke="#D4AF37" stroke-width=".3" opacity=".2"/>
+        <text x="38" y="386" font-family="Georgia,serif" font-size="12" fill="#D4AF37" opacity=".55" font-style="italic">France</text>
+        <text x="530" y="162" font-family="Georgia,serif" font-size="12" fill="#D4AF37" opacity=".55" font-style="italic">Thiès</text>
+        <circle cx="200" cy="75" r="1.5" fill="#D4AF37" opacity=".4"/>
+        <circle cx="320" cy="45" r="1" fill="#D4AF37" opacity=".3"/>
+        <circle cx="430" cy="85" r="1.5" fill="#D4AF37" opacity=".35"/>
+        <circle cx="150" cy="430" r="1" fill="#D4AF37" opacity=".25"/>
+        <circle cx="480" cy="410" r="1.5" fill="#D4AF37" opacity=".3"/>
+      </svg>
+      <span class="hero-visual-mark">Sen·Export</span>
+    </div>
+    <img id="hero-visual-img" alt="">
+    <span class="hero-visual-tag" id="hero-visual-tag" style="display:none">Disponible maintenant</span>
+  </div>
+</header>
+
+<!-- BANDE DE CONFIANCE — chiffres clés -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-stat">
+      <span class="trust-stat-num">100%</span>
+      <span class="trust-stat-lbl">Vérifié avant envoi</span>
+    </div>
+    <div class="trust-bar-sep"></div>
+    <div class="trust-stat">
+      <span class="trust-stat-num">0 F</span>
+      <span class="trust-stat-lbl">Paiement à l'avance</span>
+    </div>
+    <div class="trust-bar-sep"></div>
+    <div class="trust-stat">
+      <span class="trust-stat-num">48h</span>
+      <span class="trust-stat-lbl">Délai de préparation</span>
+    </div>
+    <div class="trust-bar-sep"></div>
+    <div class="trust-stat">
+      <span class="trust-stat-num">Thiès</span>
+      <span class="trust-stat-lbl">Retrait direct au dépôt</span>
+    </div>
+  </div>
+</div>
+
+<!-- UNIVERS — tuiles -->
+<section style="padding:clamp(2rem,5vw,3rem) 0">
+  <div class="tiles-wrap">
+  <div class="tiles">
+    <a href="mode.html" class="tile" id="tile-mode">
+      <div class="tile-bg" id="tile-mode-bg"></div>
+      <svg class="tile-pattern" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="tp1" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#D4AF37" stop-opacity=".08"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/></linearGradient></defs>
+        <rect width="300" height="400" fill="url(#tp1)"/>
+        <line x1="0" y1="400" x2="300" y2="100" stroke="#D4AF37" stroke-width=".5" opacity=".15"/>
+        <line x1="0" y1="300" x2="300" y2="0" stroke="#D4AF37" stroke-width=".4" opacity=".1"/>
+        <circle cx="250" cy="80" r="60" fill="none" stroke="#D4AF37" stroke-width=".5" opacity=".1"/>
+      </svg>
+      <div class="tile-overlay"></div>
+      <span class="tile-num">01</span>
+      <div class="tile-content">
+        <div class="tile-label">Arrivages réguliers</div>
+        <h3 class="tile-title">Style &amp; Vêtements</h3>
+        <span class="tile-cta">Explorer →</span>
+      </div>
+    </a>
+    <a href="maison.html" class="tile" id="tile-maison">
+      <div class="tile-bg" id="tile-maison-bg"></div>
+      <svg class="tile-pattern" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="tp2" x1="50%" y1="0%" x2="50%" y2="100%"><stop offset="0%" stop-color="#D4AF37" stop-opacity=".08"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/></linearGradient></defs>
+        <rect width="300" height="400" fill="url(#tp2)"/>
+        <rect x="50" y="50" width="200" height="200" fill="none" stroke="#D4AF37" stroke-width=".5" opacity=".12"/>
+        <rect x="80" y="80" width="140" height="140" fill="none" stroke="#D4AF37" stroke-width=".4" opacity=".08"/>
+        <circle cx="150" cy="150" r="8" fill="#D4AF37" opacity=".08"/>
+      </svg>
+      <div class="tile-overlay"></div>
+      <span class="tile-num">02</span>
+      <div class="tile-content">
+        <div class="tile-label">Bientôt disponible</div>
+        <h3 class="tile-title">Maison &amp; Électroménager</h3>
+        <span class="tile-cta">Découvrir →</span>
+      </div>
+    </a>
+    <a href="catalogue.html" class="tile" id="tile-catalogue">
+      <div class="tile-bg" id="tile-catalogue-bg"></div>
+      <svg class="tile-pattern" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs><linearGradient id="tp3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#D4AF37" stop-opacity=".1"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/></linearGradient></defs>
+        <rect width="300" height="400" fill="url(#tp3)"/>
+        <path d="M 0 200 Q 150 100 300 200 Q 150 300 0 200" fill="none" stroke="#D4AF37" stroke-width=".5" opacity=".12"/>
+        <path d="M 0 160 Q 150 60 300 160" fill="none" stroke="#D4AF37" stroke-width=".4" opacity=".08"/>
+        <circle cx="150" cy="200" r="40" fill="none" stroke="#D4AF37" stroke-width=".4" opacity=".1"/>
+      </svg>
+      <div class="tile-overlay"></div>
+      <span class="tile-num">03</span>
+      <div class="tile-content">
+        <div class="tile-label">Tout, sans filtre</div>
+        <h3 class="tile-title">Catalogue complet</h3>
+        <span class="tile-cta">Tout voir →</span>
+      </div>
+    </a>
+  </div>
+  </div>
+</section>
+
+<!-- DERNIÈRES ARRIVÉES -->
+<section>
+  <div class="wrap">
+    <div class="sec-label reveal">Disponible maintenant</div>
+    <h2 class="sec-title reveal d1">Dernières <em>arrivées</em></h2>
+  </div>
+  <div class="arrivals-wrap">
+  <div class="arrivals-grid prod-grid" id="arrivals-grid">
+    <div class="skel" style="aspect-ratio:4/5"></div>
+    <div class="skel" style="aspect-ratio:4/5"></div>
+    <div class="skel" style="aspect-ratio:4/5"></div>
+    <div class="skel" style="aspect-ratio:4/5"></div>
+  </div>
+  </div>
+  <div class="wrap" style="text-align:center;padding-top:2.5rem">
+    <a href="catalogue.html" class="btn btn-ghost">Voir tout le catalogue</a>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES — bande sobre -->
+<section style="padding-top:0">
+  <div class="wrap" style="padding-bottom:0">
+    <div class="sec-label reveal">Ce qu'ils en disent</div>
+    <h2 class="sec-title reveal d1" style="margin-bottom:0">Ils ont commandé, <em>ils reviennent.</em></h2>
+  </div>
+  <div style="height:2.5rem"></div>
+  <div class="temo-wrap">
+  <div class="temo-strip" id="temo-strip">
+    <div class="temo-cell"><div class="skel" style="height:120px"></div></div>
+    <div class="temo-cell"><div class="skel" style="height:120px"></div></div>
+    <div class="temo-cell"><div class="skel" style="height:120px"></div></div>
+  </div>
+  </div>
+</section>
+
+<!-- POURQUOI SENEXPORT -->
+<section>
+  <div class="wrap">
+    <div class="sec-label reveal">Pourquoi SenExport</div>
+    <h2 class="sec-title reveal d1">Acheter en confiance, <em>recevoir sans surprise.</em></h2>
+  </div>
+  <div class="tiles-wrap">
+    <div class="trust-grid">
+      <div class="trust-cell reveal">
+        <span class="trust-num">01</span>
+        <h3 class="trust-title">Aucune avance</h3>
+        <p class="trust-desc">Vous payez uniquement à la récupération du colis. Aucun virement à l'avance, aucun risque.</p>
+      </div>
+      <div class="trust-cell reveal d1">
+        <span class="trust-num">02</span>
+        <h3 class="trust-title">Vérifié avant envoi</h3>
+        <p class="trust-desc">Chaque article est contrôlé en France avant son départ pour Thiès. Pas de mauvaise surprise à l'arrivée.</p>
+      </div>
+      <div class="trust-cell reveal d2">
+        <span class="trust-num">03</span>
+        <h3 class="trust-title">Suivi en direct</h3>
+        <p class="trust-desc">Vous recevez l'avancement de votre commande sur WhatsApp, de la réception au retrait.</p>
+      </div>
+      <div class="trust-cell reveal d3">
+        <span class="trust-num">04</span>
+        <h3 class="trust-title">Programme fidélité</h3>
+        <p class="trust-desc">1% de chaque achat est automatiquement mis de côté en FCFA dans votre cagnotte, utilisable sur le site ou au dépôt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- À PROPOS / PERSUASION -->
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="wrap" style="max-width:760px;text-align:center">
+    <div class="sec-label reveal" style="justify-content:center">Notre histoire</div>
+    <h2 class="sec-title reveal d1" style="font-size:clamp(1.6rem,3.5vw,2.3rem)">Pourquoi importer depuis <em>la France ?</em></h2>
+    <p class="reveal d2" style="font-size:.95rem;color:var(--stone);line-height:1.85;margin-bottom:1.25rem">
+      Beaucoup de produits vendus en France sont introuvables ou vendus bien plus cher une fois arrivés au Sénégal,
+      à qualité égale. SenExport fait le pont entre les deux : on sélectionne, on vérifie, on importe, et vous
+      récupérez à Thiès sans intermédiaire qui gonfle le prix.
+    </p>
+    <p class="reveal d3" style="font-size:.95rem;color:var(--stone);line-height:1.85">
+      Pas de promesse marketing exagérée, pas de fausse urgence. Juste des produits réels, à des prix justes,
+      avec un paiement qui n'a lieu qu'une fois le colis entre vos mains.
+    </p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="wrap">
+    <div class="sec-label reveal" style="justify-content:center">Questions fréquentes</div>
+    <h2 class="sec-title reveal d1" style="text-align:center">Avant de <em>commander</em></h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-q"><span>Comment se passe le paiement ?</span><span class="ic">+</span></button>
+        <div class="faq-a"><p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait, en espèces, Wave ou Orange Money.</p></div>
+      </div>
+      <div class="faq-item reveal d1">
+        <button class="faq-q"><span>Combien de temps pour recevoir ma commande ?</span><span class="ic">+</span></button>
+        <div class="faq-a"><p>En général entre 48h et quelques jours selon l'article et le prochain arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p></div>
+      </div>
+      <div class="faq-item reveal d2">
+        <button class="faq-q"><span>Et si l'article ne me convient pas ?</span><span class="ic">+</span></button>
+        <div class="faq-a"><p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p></div>
+      </div>
+      <div class="faq-item reveal d3">
+        <button class="faq-q"><span>Je cherche un produit qui n'est pas au catalogue ?</span><span class="ic">+</span></button>
+        <div class="faq-a"><p>Utilisez la page « Demande spéciale » : décrivez ce que vous cherchez, on vous trouve ça en France et on vous envoie un devis sous 48h.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-q"><span>Comment fonctionne le programme fidélité ?</span><span class="ic">+</span></button>
+        <div class="faq-a"><p>Chaque achat récupéré vous créédite automatiquement <strong>1% du montant</strong> en cagnotte, directement en FCFA — pas de points à convertir. Vous utilisez votre solde sur le site au moment de commander, ou au dépôt en présentant votre QR code. Des bonus supplémentaires (500 à 5 000 FCFA) sont offerts à chaque palier franchi.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
+      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:240px;margin-bottom:1.25rem">Produits français importés. Dépôt à Thiès, Sénégal.</p>
+      <div class="pay-tags"><span class="pay-tag">Wave</span><span class="pay-tag">Orange Money</span><span class="pay-tag">Espèces</span></div>
+    </div>
+    <nav class="footer-col"><h4>Univers</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="collections.html">Collections</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li><li><a href="favoris.html">Favoris</a></li><li><a href="connexion.html">Connexion</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li><li><a href="cgv.html">CGV</a></li></ul></nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SenExport Boutique · Fait à Thiès</p>
+    <a href="cgv.html">Conditions générales</a>
+  </div>
+</footer>
+
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="images.js"></script>
+<script src="app.js"></script>
+<script>
+(async function(){
+  if (typeof SE !== 'undefined' && SE.initSupabase) SE.initSupabase();
+
+  /* Onboarding première connexion (une seule fois, ne réapparaît jamais) */
+  document.addEventListener('se:auth-changed', () => SE.Onboarding && SE.Onboarding.maybeShow());
+  setTimeout(() => SE.Onboarding && SE.Onboarding.maybeShow(), 1500);
+
+  /* ── Nav scroll state ── */
+  window.addEventListener('scroll', () => {
+    document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  /* ── Cart badge ── */
+  function syncBadge(){
+    try{
+      const n = SE?.Cart?.count?.() ?? 0;
+      const b = document.getElementById('cart-badge');
+      if (b){ b.textContent = n||''; b.classList.toggle('show', n>0); }
+    }catch(e){}
+  }
+  syncBadge();
+  document.addEventListener('cart:updated', syncBadge);
+  setInterval(syncBadge, 3000);
+
+  /* ── Charger les articles une fois ── */
+  let articles = [];
+  try{ articles = (typeof SE!=='undefined' && SE.Articles) ? await SE.Articles.load() : []; }
+  catch(e){ articles = []; }
+
+  /* ── Hero visual : images.js en priorité, sinon premier article Supabase ── */
+  (function(){
+    const img = document.getElementById('hero-visual-img');
+    const tag = document.getElementById('hero-visual-tag');
+    const imgs = window.SE_IMAGES || {};
+
+    function loadImg(src, label){
+      if(!src) return;
+      img.src = src;
+      img.alt = label || 'SenExport';
+      img.onload = () => { img.classList.add('loaded'); };
+      img.onerror = () => { img.style.display = 'none'; };
+      if(label){ tag.textContent = label; tag.style.display = ''; }
+    }
+
+    if(imgs.hero){
+      loadImg(imgs.hero, '');
+    } else {
+      const featured = articles[0];
+      if(featured && featured.photo_url){
+        loadImg(SE.imgUrl(featured.photo_url, 1000), featured.nom);
+      }
+    }
+  })();
+
+  /* ── Tuiles univers : images.js en priorité, sinon articles Supabase ── */
+  (function(){
+    const imgs = window.SE_IMAGES || {};
+    const tiles = [
+      ['tile-mode-bg',    imgs.tileMode,    articles[0]],
+      ['tile-maison-bg',  imgs.tileMaison,  null],
+      ['tile-catalogue-bg', imgs.tileCatalogue, articles[1]],
+    ];
+    tiles.forEach(([id, configured, fallbackArt]) => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      const src = configured || (fallbackArt && fallbackArt.photo_url ? SE.imgUrl(fallbackArt.photo_url, 700) : '');
+      if(src) el.style.backgroundImage = `url('${src}')`;
+    });
+  })();
+
+  /* ── Grille arrivées (vraie grille produit 4:5) ── */
+  (function(){
+    const grid = document.getElementById('arrivals-grid');
+    const items = articles.slice(0, 8);
+    if (!items.length){
+      grid.innerHTML = [
+        '<div style="grid-column:1/-1;padding:3rem 1.5rem;text-align:center;border:1px dashed var(--border);border-radius:12px">',
+        '<div style="font-size:2rem;margin-bottom:.75rem;opacity:.5">✦</div>',
+        '<p style="font-family:var(--ff-d);font-size:1.5rem;font-weight:300;color:var(--ink);margin-bottom:.5rem">Arrivage en préparation</p>',
+        '<p style="font-size:.85rem;color:var(--stone);margin-bottom:1.5rem">De nouvelles pièces arrivent bientôt. En attendant, explorez nos univers.</p>',
+        '<a href="mode.html" style="display:inline-flex;align-items:center;gap:.45rem;font-family:var(--ff-m);font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--or);text-decoration:none;padding:.5rem 0;border-bottom:1px solid rgba(212,175,55,.35)">Voir la Mode →</a>',
+        '</div>'
+      ].join('');
+      return;
+    }
+    grid.innerHTML = items.map(a => {
+      const stock = a.quantite || 0;
+      const low = stock > 0 && stock <= 3;
+      return `<article class="prod-card">
+        <a href="produit.html?ref=${a.reference}" class="prod-img" aria-label="${a.nom}">
+          <img src="${SE.imgUrl(a.photo_url,500)}" alt="${a.nom}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/500x625/12131c/D4AF37?text=Sen%C2%B7Export'">
+          ${low ? `<span class="prod-badge stock">${stock} restant${stock>1?'s':''}</span>` : ''}
+          <button class="prod-quick" data-ref="${a.reference}">+ Ajouter au panier</button>
+        </a>
+        <div class="prod-body">
+          <span class="prod-ref">${a.reference}</span>
+          <a href="produit.html?ref=${a.reference}" style="color:inherit"><h3 class="prod-name">${a.nom}</h3></a>
+          <span class="prod-price">${SE.fprix(a.prix_vente_fcfa||0)}</span>
+        </div>
+      </article>`;
+    }).join('');
+
+    grid.querySelectorAll('.prod-quick').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        try{ SE.Cart.add(btn.dataset.ref); syncBadge(); }catch(err){}
+        btn.textContent = '✓ Ajouté';
+        setTimeout(() => { btn.textContent = '+ Ajouter au panier'; }, 1400);
+      });
+    });
+  })();
+
+  /* ── FAQ accordéon ── */
+  (function(){
+    document.querySelectorAll('.faq-item').forEach(item => {
+      const q = item.querySelector('.faq-q');
+      const a = item.querySelector('.faq-a');
+      q.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(other => {
+          if (other !== item){
+            other.classList.remove('open');
+            other.querySelector('.faq-a').style.maxHeight = '0px';
+          }
+        });
+        if (isOpen){
+          item.classList.remove('open');
+          a.style.maxHeight = '0px';
+        } else {
+          item.classList.add('open');
+          a.style.maxHeight = a.scrollHeight + 'px';
+        }
+        if (window.SE_Sound) SE_Sound.play('click');
+      });
+    });
+  })();
+
+  /* ── Témoignages — bande sobre ── */
+  (function(){
+    const FALLBACK = [
+      {nom:'Fatou D.', note:5, texte:"Livraison rapide, colis bien protégé. La veste est exactement comme décrite.", commande:'Mode'},
+      {nom:'Moussa K.', note:5, texte:"Article reçu en parfait état. Le suivi WhatsApp est clair, on sait toujours où on en est.", commande:'Catalogue'},
+      {nom:'Aïssatou B.', note:4, texte:"Qualité supérieure à ce que j'imaginais pour le prix. Je reviendrai.", commande:'Maison'},
+    ];
+    function stars(n){ return '★'.repeat(n) + '☆'.repeat(5-n); }
+    function cell(t){
+      return `<div class="temo-cell reveal">
+        <div class="temo-stars">${stars(t.note||5)}</div>
+        <blockquote class="temo-quote">"${t.texte}"</blockquote>
+        <div class="temo-foot"><span class="name">${t.nom}</span><span class="meta">${t.commande||'Client vérifié'}</span></div>
+      </div>`;
+    }
+    const strip = document.getElementById('temo-strip');
+    (async () => {
+      try{
+        if (SE?.sb){
+          const { data, error } = await SE.sb.from('temoignages').select('nom,note,texte,commande').limit(6);
+          if (!error && data && data.length){ strip.innerHTML = data.map(cell).join(''); return; }
+        }
+      }catch(e){}
+      strip.innerHTML = FALLBACK.map(cell).join('');
+    })();
+  })();
+
+})();
+</script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

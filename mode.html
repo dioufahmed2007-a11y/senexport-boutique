@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mode &amp; Vêtements — SenExport Boutique</title>
+  <meta name="theme-color" content="#D4AF37">
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="styles-dark.css">
+  <style>
+    /* ── Hero Mode — plein écran façon Zara ── */
+    .mode-hero-full{
+      position:relative;
+      height:50svh;min-height:280px;max-height:440px;
+      overflow:hidden;
+      display:flex;align-items:flex-end;
+    }
+    @media(max-width:640px){.mode-hero-full{height:44svh;min-height:240px}}
+    .mode-hero-bg{
+      position:absolute;inset:0;
+      background:center/cover no-repeat;
+      transition:transform 8s ease;
+    }
+    .mode-hero-full:hover .mode-hero-bg{transform:scale(1.03)}
+    .mode-hero-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(
+        to top,
+        rgba(8,8,8,.85) 0%,
+        rgba(8,8,8,.4) 40%,
+        rgba(8,8,8,.1) 70%,
+        transparent 100%
+      );
+    }
+    .mode-hero-content{
+      position:relative;z-index:2;
+      padding:clamp(1.5rem,4vw,2.5rem) clamp(1.25rem,5vw,3rem) clamp(1.75rem,3.5vw,2.5rem);
+      width:100%;max-width:600px;
+    }
+    .mode-hero-eyebrow{
+      display:block;
+      font-family:var(--ff-m);font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;
+      color:var(--or);margin-bottom:1rem;
+      opacity:0;animation:fadeUp .6s var(--ease) .1s forwards;
+    }
+    .mode-hero-title{
+      font-family:var(--ff-d);
+      font-size:clamp(2.8rem,8vw,6rem);
+      font-weight:700;line-height:.92;letter-spacing:-.03em;
+      color:#fff;margin-bottom:.65rem;
+      opacity:0;animation:fadeUp .7s var(--ease) .2s forwards;
+    }
+    .mode-hero-title em{color:var(--or);font-style:italic}
+    .mode-hero-sub{
+      font-size:clamp(.78rem,1.6vw,.87rem);color:rgba(255,255,255,.6);
+      line-height:1.6;margin-bottom:1rem;
+      opacity:0;animation:fadeUp .7s var(--ease) .32s forwards;
+    }
+    .mode-hero-cta{
+      display:inline-flex;align-items:center;gap:.45rem;
+      font-family:var(--ff-m);font-size:.68rem;font-weight:600;letter-spacing:.14em;
+      text-transform:uppercase;color:var(--or);text-decoration:none;
+      padding:.5rem 0;border-bottom:1px solid rgba(212,175,55,.35);
+      transition:gap .2s,border-color .2s;
+      opacity:0;animation:fadeUp .7s var(--ease) .44s forwards;
+    }
+    .mode-hero-cta:hover{gap:.85rem;border-color:var(--or)}
+    body.theme-clair .mode-hero-overlay{
+      background:linear-gradient(to top,rgba(26,18,8,.8) 0%,rgba(26,18,8,.35) 40%,transparent 100%);
+    }
+
+    /* ── Hero Mode — CSS du hero éditorial — remplacé par plein écran ── */
+
+    /* ── Bandeau collections — cartes image, plus des pastilles texte ── */
+    .collections-strip{background:var(--bg);border-bottom:1px solid var(--border);padding:.75rem var(--pad) 0;position:relative;z-index:1}
+    .pills-scroll{display:flex;gap:.75rem;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+    .pills-scroll::-webkit-scrollbar{display:none}
+    .pill{flex-shrink:0;display:flex;align-items:center;gap:.35rem;padding:.25rem .7rem;background:transparent;border:1px solid var(--border);border-radius:99px;font-family:var(--ff-b);font-size:.68rem;font-weight:500;letter-spacing:.02em;color:var(--stone);cursor:pointer;transition:all .15s;white-space:nowrap}
+    .pill:hover{border-color:var(--or);color:var(--ink)}
+    .pill.active{background:var(--or);border-color:var(--or);color:var(--bg);font-weight:700}
+    .pill-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+    .col-card-mini{
+      flex-shrink:0;display:flex;align-items:center;gap:.4rem;
+      padding:.22rem .65rem .22rem .22rem;background:transparent;border:1px solid var(--border);border-radius:99px;
+      cursor:pointer;transition:all .15s;white-space:nowrap;
+    }
+    .col-card-mini:hover{border-color:var(--or-line)}
+    .col-card-mini.active{border-color:var(--or);background:rgba(212,175,55,.08)}
+    .col-card-mini-thumb{width:22px;height:22px;border-radius:50%;background:var(--card2) center/cover no-repeat;flex-shrink:0}
+    .col-card-mini-name{font-family:var(--ff-b);font-size:.7rem;font-weight:500;color:var(--stone)}
+    .col-card-mini.active .col-card-mini-name{color:var(--or)}
+    .col-card-mini-status{width:6px;height:6px;border-radius:50%;background:#3FB950;flex-shrink:0}
+    .col-card-mini.locked{opacity:.55;cursor:default}
+    .col-card-mini.locked .col-card-mini-status{background:var(--or)}
+
+    /* ── Filtres ── */
+    .filters-bar{padding:.45rem var(--pad);background:var(--bg);border-bottom:1px solid var(--border);display:flex;flex-wrap:nowrap;gap:0;align-items:center;overflow-x:auto;scrollbar-width:none}
+    .filter-group{display:flex;gap:.4rem;align-items:center;flex-wrap:wrap}
+    .filter-label{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--stone);margin-right:.25rem}
+    .filter-btn{background:none;border:none;border-radius:99px;padding:.22rem .58rem;font-family:var(--ff-b);font-size:.68rem;font-weight:500;color:var(--stone);cursor:pointer;transition:all .15s;white-space:nowrap}
+    .filter-btn:hover{color:var(--ink);background:rgba(255,255,255,.05)}
+    .filter-btn.active{color:var(--or);font-weight:600;background:rgba(212,175,55,.1)}
+    .filter-sep{width:1px;height:14px;background:var(--border);margin:0 .4rem;flex-shrink:0}
+    .sort-select{background:var(--card);border:1px solid var(--border);border-radius:2px;padding:.38rem .75rem;font-family:var(--ff-b);font-size:.75rem;color:var(--ink);cursor:pointer;outline:none;letter-spacing:.04em;appearance:none;padding-right:2rem}
+    .sort-select:focus{border-color:var(--or)}
+    .sort-select option{background:var(--card);color:var(--ink)}
+    .filters-right{margin-left:auto}
+
+    /* ── Grille ── */
+    .grid-section{padding:clamp(2.5rem,5vw,4rem) var(--pad)}
+    .section-header{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;margin-bottom:2.5rem}
+    .section-title{font-family:var(--ff-d);font-size:clamp(1.8rem,4vw,3rem);font-weight:400;line-height:1.1;color:var(--ink)}
+    .section-title em{font-style:italic;color:var(--or)}
+    .section-count{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);white-space:nowrap}
+    /* Grille et carte produit : voir .prod-grid / .prod-card dans styles-dark.css (système partagé) */
+
+    /* ── Skeleton ── */
+    .skel-card{aspect-ratio:4/5}
+    .empty-state,.no-results{grid-column:1/-1;padding:3rem;text-align:center;color:var(--stone);font-size:.9rem}
+
+    /* ── Toast ── */
+    #toast-container{position:fixed;bottom:5rem;right:1.5rem;z-index:999;display:flex;flex-direction:column;gap:.5rem;pointer-events:none}
+    .toast{padding:.75rem 1.25rem;border-radius:2px;font-size:.8rem;font-weight:500;backdrop-filter:blur(12px);pointer-events:auto;transform:translateX(120%);transition:transform .35s var(--ease);border-left:3px solid;background:var(--card);color:var(--ink)}
+    .toast.ok{border-color:var(--or)}
+    .toast.err{border-color:#e05252}
+    .toast.show{transform:translateX(0)}
+
+    @keyframes fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .fade-up{animation:fade-up .6s var(--ease) both}
+
+    /* ── Collection block — carte éditoriale premium ── */
+    .mode-col-card{
+      position:relative;overflow:hidden;
+      border-radius:12px;margin-bottom:2rem;
+      display:grid;grid-template-columns:1fr 1fr;
+      min-height:320px;
+      background:#111114;
+      border:1px solid rgba(212,175,55,.2);
+      cursor:pointer;
+      transition:border-color .25s,transform .25s,box-shadow .25s;
+      box-shadow:0 8px 32px rgba(0,0,0,.24);
+    }
+    .mode-col-card:hover{border-color:rgba(212,175,55,.55);transform:translateY(-4px);box-shadow:0 20px 48px rgba(0,0,0,.35)}
+    @media(max-width:640px){
+      .mode-col-card{grid-template-columns:1fr;min-height:auto;margin:0 0 1.5rem}
+    }
+
+    /* Partie gauche — texte éditorial */
+    .mode-col-text{
+      padding:clamp(1.75rem,4vw,2.5rem) clamp(1.5rem,4vw,2.5rem);
+      display:flex;flex-direction:column;justify-content:space-between;
+      position:relative;z-index:2;
+    }
+    .mode-col-badge{
+      display:inline-flex;align-items:center;gap:.45rem;
+      font-size:.6rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+      color:#4ADE80;background:rgba(63,185,80,.12);border:1px solid rgba(63,185,80,.25);
+      padding:.28rem .75rem;border-radius:99px;margin-bottom:1rem;width:fit-content;
+    }
+    .mode-col-badge span{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pulse 1.4s ease infinite}
+    .mode-col-title{
+      font-family:var(--ff-d);
+      font-size:clamp(2rem,4vw,3.5rem);
+      font-weight:700;color:#F5F5F5;
+      letter-spacing:-.03em;line-height:.93;
+      margin-bottom:.7rem;
+    }
+    .mode-col-desc{font-size:.82rem;color:rgba(255,255,255,.55);line-height:1.6;max-width:320px}
+    .mode-col-btn{
+      display:inline-flex;align-items:center;gap:.5rem;
+      margin-top:1.5rem;
+      font-family:var(--ff-m);font-size:.68rem;font-weight:600;letter-spacing:.14em;
+      text-transform:uppercase;color:#D4AF37;text-decoration:none;
+      padding:.5rem 0;border-bottom:1px solid rgba(212,175,55,.35);
+      transition:gap .2s,border-color .2s;width:fit-content;
+    }
+    .mode-col-btn:hover{gap:.85rem;border-color:var(--or)}
+
+    /* Partie droite — mosaïque produits */
+    .mode-col-visual{
+      position:relative;overflow:hidden;border-left:1px solid rgba(212,175,55,.12);
+    }
+    @media(max-width:640px){
+      .mode-col-visual{border-left:none;border-top:1px solid rgba(212,175,55,.12);min-height:200px}
+    }
+    .mode-col-mosaic{
+      display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);
+      height:100%;gap:1px;background:rgba(212,175,55,.08);
+    }
+    .mode-col-mosaic-item{
+      background:var(--card2) center/cover no-repeat;
+      transition:transform .4s;
+    }
+    .mode-col-card:hover .mode-col-mosaic-item{transform:scale(1.04)}
+    /* 1 seul produit : affichage plein */
+    .mode-col-mosaic.single .mode-col-mosaic-item{grid-column:1/-1;grid-row:1/-1}
+    /* 2 produits */
+    .mode-col-mosaic.duo .mode-col-mosaic-item:first-child{grid-column:1/-1;grid-row:1}
+    /* Placeholder si pas d'image */
+    .mode-col-mosaic-empty{
+      grid-column:1/-1;grid-row:1/-1;display:flex;align-items:center;justify-content:center;
+      font-family:var(--ff-d);font-size:4rem;opacity:.06;color:var(--or);
+    }
+
+    /* Anciennes classes conservées pour compat */
+    .mode-col-head{display:none}
+    .mode-col-pieces{display:none}
+    .mode-col-art{text-decoration:none;color:inherit}
+    .mode-col-art-img{aspect-ratio:1;background:var(--card2) center/cover no-repeat;border-radius:4px;margin-bottom:.3rem;width:100%;max-height:120px}
+    .mode-col-art-name{font-size:.78rem;font-weight:500;color:var(--ink);line-height:1.3}
+    .mode-col-art-prix{font-family:var(--ff-d);font-size:.88rem;color:var(--or)}
+    .mode-col-footer{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--or-line);margin-top:1rem}
+
+    @media(max-width:640px){
+      .mode-col-head{flex-direction:column}
+      .mode-col-btn{width:fit-content}
+      .filter-sep{margin:0 .2rem}
+      .sort-select{font-size:.65rem}
+      .grid-section{padding:1.5rem var(--pad)}
+      .section-header{margin-bottom:1.25rem}
+    }
+    @media(max-width:480px){
+      .filter-btn{padding:.22rem .5rem;font-size:.66rem}
+      .mode-col-art-img{max-height:100px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- Rideau d'ouverture — joue à chaque entrée sur la page Mode -->
+<div class="curtain" id="curtain" aria-hidden="true">
+  <div class="curtain-panel curtain-left"></div>
+  <div class="curtain-seam"></div>
+  <div class="curtain-panel curtain-right"></div>
+</div>
+<style>
+.curtain{position:fixed;inset:0;z-index:9000;display:flex;pointer-events:none}
+.curtain-panel{flex:1;background:linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+.curtain-left{animation:curtainLeft .8s cubic-bezier(.76,0,.24,1) .3s forwards}
+.curtain-right{animation:curtainRight .8s cubic-bezier(.76,0,.24,1) .3s forwards}
+.curtain-seam{
+  position:absolute;top:0;bottom:0;left:50%;width:1px;
+  background:var(--or);box-shadow:0 0 16px 2px rgba(212,175,55,.5);
+  transform:translateX(-50%);opacity:0;
+  animation:curtainSeam .3s ease .05s forwards, curtainSeamOut .5s ease .3s forwards;
+}
+@keyframes curtainLeft{to{transform:translateX(-101%)}}
+@keyframes curtainRight{to{transform:translateX(101%)}}
+@keyframes curtainSeam{to{opacity:1}}
+@keyframes curtainSeamOut{to{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  .curtain{display:none}
+}
+</style>
+<script>
+(function(){
+  var c=document.getElementById('curtain');
+  if(!c)return;
+  setTimeout(function(){ c.remove(); }, 1300);
+
+  /* Son rideau — joue au premier geste (requis par les navigateurs) */
+  var soundDone = false;
+  function playRideau(){
+    if(soundDone) return;
+    soundDone = true;
+    if(window.SE_Sound) {
+      SE_Sound.play('rideau');
+    }
+  }
+  /* Déclenchement immédiat si déjà prêt, sinon au premier geste */
+  document.addEventListener('click', playRideau, {once:true});
+  document.addEventListener('touchstart', playRideau, {once:true});
+  document.addEventListener('keydown', playRideau, {once:true});
+  /* Fallback : si l'utilisateur ne clique pas, jouer quand animations.js est prêt */
+  setTimeout(function(){
+    if(!soundDone && window.SE_Sound){ SE_Sound.play('rideau'); }
+  }, 400);
+})();
+</script>
+
+  
+<nav class="nav" id="nav">
+    <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="mode.html" class="active">Mode</a></li>
+      <li><a href="catalogue.html">Catalogue</a></li>
+      <li><a href="maison.html">Maison</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="favoris.html" class="nav-icon" aria-label="Favoris"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
+      <a href="panier.html" class="nav-icon" aria-label="Panier"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg><span class="nav-badge" id="cart-count"></span></a>
+      <a href="compte.html" class="nav-icon" aria-label="Compte"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+    </div>
+  </nav>
+
+  <div id="mode-hero-wrap">
+    <div class="mode-hero-full" id="mode-hero-full">
+      <div class="mode-hero-bg" id="mode-hero-bg"></div>
+      <div class="mode-hero-overlay"></div>
+      <div class="mode-hero-content">
+        <span class="mode-hero-eyebrow" id="mode-drop-badge">✦ Arrivages réguliers</span>
+        <h1 class="mode-hero-title">Style &amp;<br><em>Vêtements</em></h1>
+        <p class="mode-hero-sub">Pièces sélectionnées depuis la France.<br>Récupération à Thiès, paiement sur place.</p>
+        <a href="catalogue.html" class="mode-hero-cta">Voir tous les articles <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="collections-strip">
+    <div class="pills-scroll">
+      <button class="pill active" data-col="all"><span class="pill-dot"></span>Tout voir</button>
+    </div>
+  </nav>
+
+  <div class="filters-bar">
+    <button class="filter-btn active" data-genre="all">Tout</button>
+    <button class="filter-btn" data-genre="homme">Homme</button>
+    <button class="filter-btn" data-genre="femme">Femme</button>
+    <button class="filter-btn" data-genre="enfant">Enfant</button>
+    <div class="filter-sep"></div>
+    <button class="filter-btn active" data-etat="all">Tous</button>
+    <button class="filter-btn" data-etat="neuf">Neuf</button>
+    <button class="filter-btn" data-etat="bon_etat">Bon état</button>
+    <div class="filter-sep"></div>
+    <select class="sort-select" id="sort-select" style="margin-left:auto">
+      <option value="default">Nouveautés</option>
+      <option value="prix_asc">Prix ↑</option>
+      <option value="prix_desc">Prix ↓</option>
+    </select>
+  </div>
+
+  <!-- Section collections dynamique -->
+  <div id="mode-collections-wrap" style="padding:0 var(--pad);margin-bottom:2rem"></div>
+
+  <section class="grid-section">
+    <div class="section-header">
+      <h2 class="section-title">Nos <em>pièces</em></h2>
+      <span class="section-count" id="product-count">— articles</span>
+    </div>
+    <div class="prod-grid" id="product-grid">
+      <div class="skel skel-card"></div>
+      <div class="skel skel-card"></div>
+      <div class="skel skel-card"></div>
+      <div class="skel skel-card"></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
+        <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:260px">Les meilleurs produits sélectionnés pour vous. Paiement à la récupération.</p>
+      </div>
+      <nav class="footer-col"><h4>Boutique</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li></ul></nav>
+      <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="commande.html">Mes commandes</a></li><li><a href="connexion.html">Connexion</a></li></ul></nav>
+      <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li></ul></nav>
+    </div>
+    <div class="footer-bottom"><p>© 2026 SenExport Boutique</p><a href="cgv.html">CGV</a></div>
+  </footer>
+
+  <div id="toast-container"></div>
+
+  <a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="images.js"></script>
+<script src="app.js"></script>
+  <script>
+  (() => {
+    'use strict';
+
+    /* COUNTDOWN */
+    const DROP=new Date('2026-06-20T00:00:00');
+    function pad(n){return String(n).padStart(2,'0')}
+    function tick(){
+      const diff=DROP-new Date();
+      if(diff<=0)return;
+      const d=Math.floor(diff/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000);
+      const el=document.querySelector('.hero-badge');
+      if(el)el.innerHTML=`<span class="badge-dot"></span>Prochain drop · ${pad(d)}j ${pad(h)}h ${pad(m)}m`;
+    }
+    tick();setInterval(tick,1000);
+
+    /* COLLECTIONS DEPUIS SUPABASE */
+    const SB_URL='https://axgpohmhzmdgozndlntj.supabase.co';
+    const SB_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4Z3BvaG1oem1kZ296bmRsbnRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MTIzOTMsImV4cCI6MjA5MTQ4ODM5M30.gukLxSpuLUPWOivsC-LgbNYIsnTWOuo0_G2ubYur3os';
+    async function sbGet(table,params=''){
+      try{
+        const r=await fetch(`${SB_URL}/rest/v1/${table}?${params}`,{headers:{'apikey':SB_ANON,'Authorization':`Bearer ${SB_ANON}`,'Accept':'application/json'}});
+        if(!r.ok)return[];return r.json();
+      }catch(e){return[]}
+    }
+    function imgUrl(u){if(!u)return'';if(u.startsWith('http'))return u;return`${SB_URL}/storage/v1/object/public/photos/${u}`}
+
+    async function loadModeCollections(){
+      const wrap=document.getElementById('mode-collections-wrap');
+      const cols=await sbGet('collections','statut=neq.epuisee&order=statut.asc,created_at.desc');
+      if(!cols.length){wrap.style.display='none';return}
+
+      const enriched=await Promise.all(cols.map(async col=>{
+        const liens=await sbGet('collection_articles',`collection_id=eq.${col.id}&limit=3`);
+        if(!liens.length)return{...col,articles:[]};
+        const refs=liens.map(l=>`"${l.article_ref}"`).join(',');
+        const arts=await sbGet('articles',`reference=in.(${refs})&select=reference,nom,prix_vente_fcfa,photo_url,quantite&limit=3`);
+        return{...col,articles:arts||[]};
+      }));
+
+      const pillsScroll=document.querySelector('.pills-scroll');
+      if(pillsScroll){
+        const pillsHtml=`<button class="pill active" data-col="all"><span class="pill-dot"></span>Tout voir</button>`+
+          enriched.map(col=>{
+            const thumb=col.articles && col.articles[0] ? imgUrl(col.articles[0].photo_url) : '';
+            const locked=col.statut==='a_venir';
+            const cls=locked?'col-card-mini locked':'col-card-mini';
+            const href=!locked?`onclick="location.href='collection.html?id=${col.id}'"`: '';
+            const thumbStyle=thumb?`background-image:url('${thumb}')`:'';
+            return`<button class="${cls}" data-col="${col.id}" ${href}>
+              <span class="col-card-mini-thumb" style="${thumbStyle}"></span>
+              <span class="col-card-mini-name">${col.nom}</span>
+              <span class="col-card-mini-status"></span>
+            </button>`;
+          }).join('');
+        pillsScroll.innerHTML=pillsHtml;
+        document.querySelectorAll('.pill,.col-card-mini:not(.locked)').forEach(p=>{
+          p.addEventListener('click',()=>{
+            document.querySelectorAll('.pill,.col-card-mini').forEach(x=>x.classList.remove('active'));
+            p.classList.add('active');
+            const col=p.dataset.col;
+            activeCol=col;applyFilters();
+            if(window.SE_Sound)SE_Sound.play('click');
+          });
+        });
+      }
+
+      const enCours=enriched.filter(c=>c.statut==='en_cours');
+
+      /* Badge hero : prochain drop réel si dispo */
+      const aVenir=enriched.find(c=>c.statut==='a_venir');
+      const dropBadge=document.getElementById('mode-drop-badge');
+      if(dropBadge){
+        if(aVenir) dropBadge.textContent=`✦ Prochain drop · ${aVenir.nom}`;
+        else if(enCours.length) dropBadge.textContent='● Nouveautés disponibles maintenant';
+        else dropBadge.textContent='✦ Arrivages réguliers';
+      }
+
+      if(!enCours.length){wrap.style.display='none';return}
+
+            wrap.innerHTML=enCours.map(col=>{
+        const arts=col.articles||[];
+        const mosaicClass=arts.length<=1?'single':arts.length===2?'duo':'';
+        const mosaicItems=arts.length>0
+          ?arts.slice(0,4).map(a=>`<div class="mode-col-mosaic-item" style="background-image:url('${imgUrl(a.photo_url)}')"></div>`).join('')
+          :`<div class="mode-col-mosaic-empty">✦</div>`;
+        return`<a href="collection.html?id=${col.id}" class="mode-col-card" style="text-decoration:none">
+          <div class="mode-col-text">
+            <div>
+              <div class="mode-col-badge"><span></span>Collection en cours</div>
+              <h2 class="mode-col-title">${col.nom}</h2>
+              ${col.description?`<p class="mode-col-desc">${col.description}</p>`:''}
+            </div>
+            <span class="mode-col-btn">Voir la collection →</span>
+          </div>
+          <div class="mode-col-visual">
+            <div class="mode-col-mosaic ${mosaicClass}">${mosaicItems}</div>
+          </div>
+        </a>`;
+      }).join('');
+    }
+    loadModeCollections();
+
+    /* TOAST */
+    function toast(msg,ok=true){
+      const c=document.getElementById('toast-container'),el=document.createElement('div');
+      el.className='toast '+(ok?'ok':'err');el.textContent=msg;c.appendChild(el);
+      requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
+      setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),400)},3200);
+    }
+
+    /* CART BADGE */
+    function updateBadge(){
+      try{const n=SE?.Cart?.count?.()??0;const b=document.getElementById('cart-count');if(b){b.textContent=n;b.classList.toggle('show',n>0)}}catch(e){}
+    }
+    updateBadge();
+
+    /* STATE */
+    let activeCol='all',activeGenre='all',activeEtat='all',allArticles=[];
+
+    const FALLBACK=[
+      {id:'VET-001',nom:'Blazer Croisé',description:'Coupe slim, tissu premium. Collection Paris.',prix:28500,etat:'neuf',genre:'femme',collection:'all',tailles:'S, M, L'},
+      {id:'VET-002',nom:'Jean Slim Comfort',description:'Denim stretch haute qualité.',prix:18000,etat:'neuf',genre:'homme',collection:'all',tailles:'M, L, XL'},
+      {id:'VET-003',nom:'Robe Midi Ivoire',description:'Voile léger, silhouette élancée. Pièce exclusive.',prix:22000,etat:'neuf',genre:'femme',collection:'all',tailles:'XS, S, M'},
+      {id:'VET-004',nom:'Ensemble Sport Gris',description:'Veste + pantalon, matière respirante.',prix:15500,etat:'bon_etat',genre:'homme',collection:'all',tailles:'M, L'}
+    ];
+
+    /* FILTERS */
+    document.querySelectorAll('[data-genre]').forEach(b=>{
+      b.addEventListener('click',()=>{document.querySelectorAll('[data-genre]').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeGenre=b.dataset.genre;applyFilters();if(window.SE_Sound)SE_Sound.play('click')});
+    });
+    document.querySelectorAll('[data-etat]').forEach(b=>{
+      b.addEventListener('click',()=>{document.querySelectorAll('[data-etat]').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeEtat=b.dataset.etat;applyFilters();if(window.SE_Sound)SE_Sound.play('click')});
+    });
+    document.getElementById('sort-select').addEventListener('change',applyFilters);
+
+    function applyFilters(){
+      let r=[...allArticles];
+      if(activeCol!=='all')r=r.filter(a=>(a.collection||'').toLowerCase().includes(activeCol));
+      if(activeGenre!=='all')r=r.filter(a=>(a.genre||a.sexe||'').toLowerCase().includes(activeGenre));
+      if(activeEtat!=='all')r=r.filter(a=>(a.etat||'').toLowerCase().replace(/\s/g,'_')===activeEtat);
+      const sort=document.getElementById('sort-select').value;
+      if(sort==='prix_asc')r.sort((a,b)=>(a.prix||0)-(b.prix||0));
+      else if(sort==='prix_desc')r.sort((a,b)=>(b.prix||0)-(a.prix||0));
+      renderGrid(r);
+    }
+
+    function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+
+    function buildCard(a,i){
+      const prix=typeof SE!=='undefined'&&SE?.fprix?SE.fprix(a.prix_vente_fcfa||a.prix):(a.prix_vente_fcfa||a.prix||0).toLocaleString('fr-FR')+' FCFA';
+      const imgSrc=a.photo_url?(typeof SE!=='undefined'&&SE?.imgUrl?SE.imgUrl(a.photo_url,400):imgUrl(a.photo_url)):'';
+      const enRupture=(a.quantite||0)<=0;
+      const badgeEtat=a.etat==='neuf'||a.etat==='Neuf'?'<span class="prod-badge neuf">Neuf</span>':a.etat==='bon_etat'||a.etat==='Bon état'||a.etat==='bon état'?'<span class="prod-badge">Bon état</span>':'';
+      const img=imgSrc
+        ?`<img src="${esc(imgSrc)}" alt="${esc(a.nom||'')}" loading="lazy" onerror="this.onerror=null;this.src='https://placehold.co/500x625/12131c/D4AF37?text=SenExport'" />`
+        :`<img src="https://placehold.co/500x625/12131c/D4AF37?text=SenExport" alt="${esc(a.nom||'')}" loading="lazy" />`;
+      const outOverlay=enRupture?`<div class="p-out-overlay"><span class="p-out-label">Rupture de stock</span></div>`:'';
+      const quickBtn=enRupture
+        ?`<span class="prod-quick" style="opacity:1;background:transparent;border:1px solid var(--border);color:var(--stone);cursor:pointer" onclick="location.href='produit.html?ref=${esc(a.ref||a.reference||a.id||'')}'" >Voir l'article</span>`
+        :`<button class="prod-quick" data-ref="${esc(a.ref||a.reference||a.id||'')}">+ Ajouter</button>`;
+      return`<article class="prod-card${enRupture?' p-card--out':''} fade-up" style="animation-delay:${i*.06}s" data-ref="${esc(a.ref||a.reference||a.id||'')}">
+        <a href="produit.html?ref=${esc(a.ref||a.reference||a.id||'')}" class="prod-img" aria-label="${esc(a.nom||'')}">
+          ${img}${outOverlay}
+          <div class="prod-badges">${badgeEtat}</div>
+          ${quickBtn}
+        </a>
+        <button class="prod-wish" data-ref="${esc(a.ref||a.reference||a.id||'')}" aria-label="Favoris"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="prod-body">
+          <a href="produit.html?ref=${esc(a.ref||a.reference||a.id||'')}" style="color:inherit;text-decoration:none"><h3 class="prod-name">${esc(a.nom||'Article')}</h3></a>
+          ${a.description?`<p class="prod-desc">${esc(a.description.slice(0,80))}…</p>`:''}
+          <span class="prod-price${enRupture?' p-price--out':''}">${prix}</span>
+        </div>
+      </article>`;
+    }
+
+    function renderGrid(articles){
+      const grid=document.getElementById('product-grid'),countEl=document.getElementById('product-count');
+      if(countEl)countEl.textContent=articles.length+(articles.length>1?' articles':' article');
+      if(articles.length===0){grid.innerHTML='<div class="no-results">Aucun article ne correspond à votre sélection.</div>';return}
+
+      if(typeof SE!=='undefined'&&typeof SE.productCard==='function'){
+        grid.innerHTML=articles.map(a=>SE.productCard(a)).join('');
+      }else{
+        grid.innerHTML=articles.map((a,i)=>buildCard(a,i)).join('');
+      }
+
+      grid.querySelectorAll('.prod-wish').forEach(btn=>{
+        btn.addEventListener('click',e=>{
+          e.stopPropagation();const ref=btn.dataset.ref;
+          try{SE.Wishlist.toggle(ref);const w=SE.Wishlist.has(ref);btn.classList.toggle('active',w);toast(w?'Ajouté aux favoris':'Retiré des favoris',true)}
+          catch{btn.classList.toggle('active');toast('Liste de souhaits mise à jour',true)}
+        });
+      });
+      grid.querySelectorAll('button.prod-quick[data-ref]').forEach(btn=>{
+        btn.addEventListener('click',e=>{
+          e.stopPropagation();const ref=btn.dataset.ref;
+          try{SE.Cart.add(ref);updateBadge();toast('Ajouté au panier ✓',true)}
+          catch{toast('Ajouté au panier ✓',true)}
+        });
+      });
+    }
+
+    async function loadArticles(){
+      try{
+        const raw=await sbGet('articles','select=reference,nom,description,prix_vente_fcfa,photo_url,quantite,etat,genre,masque&order=updated_at.desc&limit=200');
+        const base=(raw||[]).filter(a=>a.masque!==true && (a.etat||'').toLowerCase()!=='vendu');
+
+        const mapped=base.map(a=>({
+          ref:a.reference, nom:a.nom, description:a.description,
+          prix:a.prix_vente_fcfa, photo_url:a.photo_url, quantite:a.quantite,
+          etat:(a.etat||'').toLowerCase().includes('neuf')?'neuf':'bon_etat',
+          genre:(a.genre||'').toLowerCase(), collection:'all'
+        }));
+
+        if(mapped.length){
+          const filtered=mapped.filter(a=>{
+            const h=`${a.nom||''} ${a.description||''}`.toLowerCase();
+            return h.includes('vetement')||h.includes('vêtement')||h.includes('mode')||h.includes('habit')||h.includes('fashion')||h.includes('textile')||h.includes('robe')||h.includes('veste')||h.includes('pantalon')||h.includes('chemise');
+          });
+          allArticles=filtered.length?filtered:mapped;
+          setHeroVisual(allArticles[0]);
+          applyFilters();
+          return;
+        }
+      }catch(e){console.warn('[SenExport] Fallback articles mode',e)}
+      allArticles=FALLBACK;setHeroVisual(allArticles[0]);applyFilters();
+    }
+
+    function makeBrandSvg(){
+      return `<svg viewBox="0 0 600 480" preserveAspectRatio="xMidYMid slice" 
+        xmlns="http://www.w3.org/2000/svg" 
+        style="position:absolute;inset:0;width:100%;height:100%;opacity:.5" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0"/>
+            <stop offset="40%" stop-color="#D4AF37" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="#D4AF37" stop-opacity=".05"/>
+          </linearGradient>
+          <linearGradient id="sg2" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0"/>
+            <stop offset="55%" stop-color="#D4AF37" stop-opacity=".25"/>
+            <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+          </linearGradient>
+          <radialGradient id="sglow" cx="65%" cy="45%" r="45%">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity=".12"/>
+            <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <rect width="600" height="480" fill="url(#sglow)"/>
+        <path d="M 40 360 C 180 290, 340 210, 540 150" stroke="url(#sg1)" stroke-width="1" fill="none"/>
+        <path d="M 30 400 C 200 330, 370 240, 560 170" stroke="url(#sg2)" stroke-width=".7" fill="none"/>
+        <path d="M 60 320 C 210 265, 360 190, 520 130" stroke="url(#sg2)" stroke-width=".5" fill="none"/>
+        <circle cx="50" cy="360" r="4" fill="#D4AF37" opacity=".6"/>
+        <circle cx="50" cy="360" r="11" fill="none" stroke="#D4AF37" stroke-width=".5" opacity=".25"/>
+        <circle cx="540" cy="150" r="5" fill="#D4AF37" opacity=".85"/>
+        <circle cx="540" cy="150" r="14" fill="none" stroke="#D4AF37" stroke-width=".5" opacity=".35"/>
+        <text x="30" y="387" font-family="Georgia,serif" font-size="12" fill="#D4AF37" opacity=".45" font-style="italic">France</text>
+        <text x="552" y="154" font-family="Georgia,serif" font-size="12" fill="#D4AF37" opacity=".45" font-style="italic">Thiès</text>
+        <circle cx="190" cy="70" r="1.5" fill="#D4AF37" opacity=".35"/>
+        <circle cx="300" cy="40" r="1" fill="#D4AF37" opacity=".25"/>
+        <circle cx="430" cy="80" r="1.5" fill="#D4AF37" opacity=".3"/>
+        <circle cx="530" cy="380" r="1" fill="#D4AF37" opacity=".2"/>
+        <circle cx="110" cy="430" r="1.5" fill="#D4AF37" opacity=".2"/>
+      </svg>`;
+    }
+
+    function setHeroVisual(article){
+      const bg = document.getElementById('mode-hero-bg');
+      if(!bg) return;
+      const imgs = window.SE_IMAGES || {};
+      const articleSrc = article && article.photo_url ?
+        (typeof SE!=='undefined'&&SE?.imgUrl ? SE.imgUrl(article.photo_url,1200) : imgUrl(article.photo_url)) : '';
+      const src = imgs.heroMode || articleSrc;
+      if(src) bg.style.backgroundImage = `url('${src}')`;
+    }
+
+    if(document.readyState==='complete')loadArticles();
+    else window.addEventListener('load',loadArticles);
+  })();
+  </script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

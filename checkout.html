@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Valider ma commande — SenExport</title>
+<meta property="og:image" content="https://senexport.netlify.app/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://senexport.netlify.app/og.jpg">
+  <meta name="theme-color" content="#C4531A">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+.co-layout{display:grid;grid-template-columns:1.3fr .8fr;gap:28px;padding:28px 0 56px}
+@media(max-width:920px){.co-layout{grid-template-columns:1fr;gap:20px}}
+.co-card{background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r16);padding:24px;margin-bottom:14px}
+.co-card h2{font-family:var(--ff-d);font-weight:500;font-size:1.2rem;margin-bottom:6px;letter-spacing:-.015em}
+.co-card .section-desc{font-size:.86rem;color:var(--stone);margin-bottom:18px}
+.step-num{display:inline-flex;width:24px;height:24px;border-radius:9999px;background:var(--or);color:#fff;font-size:.78rem;font-weight:700;align-items:center;justify-content:center;margin-right:8px;font-family:var(--ff-m)}
+.summary{position:sticky;top:85px;background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.15);border-radius:var(--r16);padding:22px;align-self:flex-start}
+@media(max-width:920px){.summary{position:static}}
+.summary h3{font-family:var(--ff-d);font-weight:500;font-size:1.1rem;margin-bottom:14px}
+.summary .item{display:flex;gap:10px;font-size:.82rem;padding:8px 0;border-bottom:1px dashed rgba(212,175,55,.1)}
+.summary .item:last-of-type{border-bottom:none}
+.summary .item .name{flex:1;color:var(--ink)}
+.summary .item .qte{color:var(--stone);font-family:var(--ff-m);min-width:30px}
+.summary .item .prix{font-family:var(--ff-m);font-weight:600;color:var(--ink)}
+.sum-line{display:flex;justify-content:space-between;font-size:.88rem;margin:8px 0}
+.sum-line .lbl{color:var(--stone)}
+.sum-line .val{color:var(--ink);font-weight:500;font-family:var(--ff-m)}
+.sum-line.total{padding-top:12px;margin-top:12px;border-top:1px solid rgba(212,175,55,.1);font-size:1rem}
+.sum-line.total .lbl{color:var(--ink);font-weight:600;font-family:var(--ff-d)}
+.sum-line.total .val{color:var(--or);font-weight:700;font-size:1.35rem;font-family:var(--ff-d);letter-spacing:-.015em}
+.success-card{text-align:center;padding:48px 32px;background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r20);max-width:560px;margin:32px auto}
+.success-icon{width:68px;height:68px;border-radius:9999px;background:var(--green);color:#fff;display:grid;place-items:center;font-size:2rem;margin:0 auto 20px}
+.success-card h1{font-family:var(--ff-d);font-weight:500;font-size:1.7rem;margin-bottom:10px;letter-spacing:-.015em}
+.success-card p{color:var(--stone);line-height:1.55;margin-bottom:6px}
+.success-num{display:inline-block;padding:10px 18px;background:rgba(255,255,255,.04);border:1px dashed var(--sand);border-radius:var(--r8);margin:18px 0;font-family:var(--ff-m);font-size:.95rem;color:var(--ink);font-weight:600;letter-spacing:.05em}
+.success-actions{display:flex;gap:10px;justify-content:center;margin-top:20px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links">
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="maison.html">Maison</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="collections.html">Collections</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+    <a href="compte.html" class="nav-icon" aria-label="Mon compte">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+</nav>
+<aside class="mobile-menu" id="mobile-menu">
+  <button class="close-btn">×</button>
+  <a href="catalogue.html">📦 Catalogue</a>
+  <a href="panier.html">🛒 Panier</a>
+  <a href="compte.html">◎ Compte</a>
+</aside>
+
+<div class="page-head">
+  <div class="w">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="sep">›</span><a href="panier.html">Panier</a><span class="sep">›</span><span>Validation</span></div>
+    <h1>Valider ma <em>commande</em></h1>
+    <p class="sub">Renseignez vos coordonnées, on vous contacte dans l'heure pour confirmer.</p>
+  </div>
+</div>
+
+<main>
+<div id="empty-state" style="display:none" class="w">
+  <div class="empty" style="margin:60px auto;text-align:center;padding:60px 20px">
+    <div style="font-size:3rem;margin-bottom:14px">🛒</div>
+    <h3 style="font-family:var(--ff-d);font-weight:500;font-size:1.4rem;margin-bottom:8px">Votre panier est vide</h3>
+    <p style="color:var(--stone);margin-bottom:18px">Impossible de valider une commande sans articles.</p>
+    <a href="catalogue.html" class="btn btn-fire">Voir le catalogue</a>
+  </div>
+</div>
+
+<div id="success-state" style="display:none" class="w">
+  <div class="success-card">
+    <div class="success-icon">✓</div>
+    <h1>🎉 Commande validée !</h1>
+    <p style="font-size:1.1rem;color:var(--ink);margin-bottom:8px"><strong>Merci pour votre confiance.</strong></p>
+    <p>Numéro de commande :</p>
+    <div class="success-num" id="success-num"></div>
+    
+    <div style="background:rgba(212,175,55,.06);border-radius:14px;padding:18px;margin:20px 0;text-align:left">
+      <h3 style="font-family:var(--ff-d);font-size:1.05rem;font-weight:600;margin:0 0 12px;color:var(--ink)">📋 Voici ce qui se passe maintenant :</h3>
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
+        <div style="background:var(--or);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">1</div>
+        <div><strong>Confirmation par WhatsApp</strong><br><span style="color:var(--stone);font-size:.9rem">Notre équipe vous appelle dans l'heure pour confirmer.</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
+        <div style="background:var(--or);color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">2</div>
+        <div><strong>Préparation</strong><br><span style="color:var(--stone);font-size:.9rem">On prépare votre commande au dépôt.</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
+        <div style="background:#2D6A4F;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">3</div>
+        <div><strong>Notification "Prête"</strong><br><span style="color:var(--stone);font-size:.9rem">Vous recevez un message WhatsApp + une notif dans votre compte.</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px">
+        <div style="background:#1a1a1a;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0">4</div>
+        <div><strong>Retrait au dépôt à Thiès</strong><br><span style="color:var(--stone);font-size:.9rem">Vous payez à la récupération (espèces, Wave ou Orange Money).</span></div>
+      </div>
+    </div>
+    
+    <p style="color:var(--stone);font-size:.92rem;margin-bottom:18px">💬 Vous pouvez suivre l'avancement à tout moment dans votre espace compte.</p>
+    
+    <div class="success-actions">
+      <a href="compte.html#commandes" class="btn btn-fire btn-lg">📦 Voir ma commande</a>
+      <a href="catalogue.html" class="btn btn-ghost">Continuer mes achats</a>
+    </div>
+  </div>
+</div>
+
+<div id="co-wrap" style="display:none">
+<div class="w co-layout">
+  <div class="co-form">
+
+    <div class="co-card">
+      <h2><span class="step-num">1</span>Vos coordonnées</h2>
+      <p class="section-desc">Pour qu'on puisse vous rappeler.</p>
+      <div class="field">
+        <label>Prénom et nom <span class="req">*</span></label>
+        <input class="input" id="f-nom" placeholder="Ex. Amadou Diop" required>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Numéro WhatsApp <span class="req">*</span></label>
+          <input class="input" id="f-tel" placeholder="+221 77 000 00 00" required inputmode="tel">
+          <span class="hint">Pour vous rappeler</span>
+        </div>
+        <div class="field">
+          <label>Email (optionnel)</label>
+          <input class="input" id="f-email" type="email" placeholder="exemple@gmail.com">
+        </div>
+      </div>
+    </div>
+
+    <div class="co-card">
+      <h2><span class="step-num">2</span>Retrait au dépôt</h2>
+      <div class="pickup-info" style="background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.15);border-radius:var(--r12);padding:18px 20px;display:flex;gap:14px;align-items:flex-start">
+        <span style="font-size:1.6rem">🏢</span>
+        <div>
+          <strong style="display:block;font-size:1.05rem;margin-bottom:4px;color:var(--ink)">Retrait à notre dépôt à Thiès</strong>
+          <p style="font-size:.92rem;color:var(--stone);margin-bottom:6px">Du lundi au samedi, de 9h à 18h. Présentez votre numéro de commande à votre arrivée.</p>
+          <p style="font-size:.85rem;color:var(--stone);margin:0">📍 Adresse exacte communiquée par WhatsApp dès confirmation de votre commande.</p>
+        </div>
+      </div>
+      <input type="hidden" id="mode-input" value="retrait" />
+    </div>
+
+    <div class="co-card">
+      <h2><span class="step-num">3</span>Message (optionnel)</h2>
+      <div class="field">
+        <textarea class="textarea" id="f-msg" placeholder="Un créneau préféré, une précision..."></textarea>
+      </div>
+    </div>
+
+    <div class="alert info">
+      <span style="font-size:1.1rem">🔒</span>
+      <div><strong>Aucun paiement en ligne.</strong><br>Vous payez en espèces, Wave ou Orange Money au moment du retrait au dépôt.</div>
+    </div>
+  </div>
+
+  <aside class="summary">
+    <h3>Récapitulatif</h3>
+    <div id="sum-items"></div>
+    <div class="sum-line"><span class="lbl">Sous-total</span><span class="val" id="sum-subtotal">0 FCFA</span></div>
+    
+    <!-- Section cagnotte (visible si client connecté) -->
+    <div id="fidelite-section" style="display:none;background:linear-gradient(135deg, #FFF8E7 0%, #FAEFCE 100%);border:1px solid #F0D87C;border-radius:14px;padding:14px 16px;margin:12px 0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <strong style="font-size:.92rem;color:#8B6F1A">💰 Ma cagnotte</strong>
+        <span style="font-size:.82rem;color:#8B6F1A;font-weight:600" id="fidelite-pts-info">— F</span>
+      </div>
+
+      <label id="cagnotte-toggle-row" style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:10px;cursor:pointer">
+        <span style="font-size:.85rem;color:#5C4A10">Utiliser toute ma cagnotte sur cette commande</span>
+        <input type="checkbox" id="cagnotte-toggle" style="width:22px;height:22px;accent-color:#D4A437;flex-shrink:0">
+      </label>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;font-size:.85rem;margin-top:8px">
+        <span id="points-detail" style="color:#666">Remise appliquée</span>
+        <span id="points-discount" style="color:#2D6A4F;font-weight:700;font-size:1rem">-0 F</span>
+      </div>
+    </div>
+    
+    <div class="sum-line" id="sum-fidelite-row" style="display:none"><span class="lbl">Cagnotte utilisée</span><span class="val" id="sum-fidelite" style="color:#2D6A4F">-0 F</span></div>
+    <div class="sum-line total"><span class="lbl">Total</span><span class="val" id="sum-total">0 FCFA</span></div>
+    <button class="btn btn-fire btn-lg btn-block" id="submit-btn" style="margin-top:14px">Confirmer ma commande</button>
+    <p style="font-size:.76rem;color:var(--stone);margin-top:12px;text-align:center;line-height:1.5"><strong>Aucun paiement maintenant.</strong><br>Nous vous rappelons dans l'heure.</p>
+  </aside>
+</div>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
+      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:240px;margin-bottom:1.25rem">Produits français importés. Dépôt à Thiès, Sénégal.</p>
+      <div class="pay-tags"><span class="pay-tag">Wave</span><span class="pay-tag">Orange Money</span><span class="pay-tag">Espèces</span></div>
+    </div>
+    <nav class="footer-col"><h4>Univers</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="collections.html">Collections</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li><li><a href="favoris.html">Favoris</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li><li><a href="cgv.html">CGV</a></li></ul></nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SenExport Boutique · Fait à Thiès</p>
+    <a href="cgv.html">Conditions générales</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="app.js"></script>
+<script src="animations.js" defer></script>
+<script>
+let CART_ITEMS = [];
+
+(async () => {
+  await new Promise(r => setTimeout(r, 50));
+  await SE.Articles.load();
+  const items = await SE.Cart.items();
+  CART_ITEMS = items;
+  
+  if (items.length === 0){
+    document.getElementById('empty-state').style.display = 'block';
+    return;
+  }
+  
+  document.getElementById('co-wrap').style.display = 'block';
+  
+  // Track : début du checkout
+  if (SE.Track) {
+    const total = await SE.Cart.total();
+    SE.Track.checkoutStart(total);
+  }
+  
+  /* Pre-fill si connecté */
+  if (SE.Auth.currentClient){
+    const c = SE.Auth.currentClient;
+    if (c.nom_complet) document.getElementById('f-nom').value = c.nom_complet;
+    if (c.telephone) document.getElementById('f-tel').value = c.telephone;
+    if (c.email) document.getElementById('f-email').value = c.email;
+  } else if (SE.Auth.currentUser?.email){
+    document.getElementById('f-email').value = SE.Auth.currentUser.email;
+  }
+  
+  /* Récap items */
+  document.getElementById('sum-items').innerHTML = items.map(i => `
+    <div class="item">
+      <span class="name">${i.article.nom}</span>
+      <span class="qte">×${i.qte}</span>
+      <span class="prix">${SE.fprix((i.article.prix_vente_fcfa||0) * i.qte)}</span>
+    </div>
+  `).join('');
+  
+  initFideliteSection();
+  updateTotal();
+})();
+
+function updateTotal(){
+  const subtotal = CART_ITEMS.reduce((s,i) => s + (i.article.prix_vente_fcfa||0) * i.qte, 0);
+  document.getElementById('sum-subtotal').textContent = SE.fprix(subtotal);
+  
+  // Calculer remise cagnotte selon le toggle (tout ou rien)
+  let remiseFid = 0;
+  const toggle = document.getElementById('cagnotte-toggle');
+  if (toggle && toggle.checked && SE.Auth.currentClient){
+    const solde = SE.Auth.currentClient.cagnotte_solde || 0;
+    remiseFid = Math.min(solde, subtotal);
+    document.getElementById('points-discount').textContent = '-' + SE.fnum(remiseFid) + ' F';
+  } else if (toggle) {
+    document.getElementById('points-discount').textContent = '-0 F';
+  }
+  
+  // Affichage ligne cagnotte
+  const fidRow = document.getElementById('sum-fidelite-row');
+  if (remiseFid > 0){
+    fidRow.style.display = 'flex';
+    document.getElementById('sum-fidelite').textContent = '-' + SE.fnum(remiseFid) + ' F';
+  } else {
+    fidRow.style.display = 'none';
+  }
+  
+  const total = subtotal - remiseFid;
+  document.getElementById('sum-total').textContent = SE.fprix(total);
+  
+  // Stocker pour le submit
+  window.REMISE_FIDELITE = remiseFid;
+}
+
+// Activer/désactiver section cagnotte selon connexion
+async function initFideliteSection(){
+  // Retry chargement client (max 2 sec)
+  let retries = 0;
+  while (!SE.Auth.currentClient && retries < 8){
+    await new Promise(r => setTimeout(r, 250));
+    retries++;
+    if (SE.Auth.currentUser && !SE.Auth.currentClient){
+      try { await SE.Auth._loadClient(); } catch {}
+    }
+  }
+  
+  if (!SE.Auth.currentClient) return;  // pas connecté
+  
+  const solde = SE.Auth.currentClient.cagnotte_solde || 0;
+  const fidSection = document.getElementById('fidelite-section');
+  
+  // Toujours afficher la section pour utilisateur connecté
+  fidSection.style.display = 'block';
+  
+  if (solde <= 0){
+    // Pas de cagnotte : message d'info, pas de toggle
+    const subtotal = CART_ITEMS.reduce((s,i)=>s+(i.article.prix_vente_fcfa||0)*i.qte,0);
+    fidSection.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:1.4rem">💰</span>
+        <div>
+          <strong style="font-size:.9rem;color:#8B6F1A;display:block;margin-bottom:2px">Cagnotte SenExport</strong>
+          <span style="font-size:.78rem;color:#8B6F1A">Vous gagnerez <strong>${SE.fnum(Math.round(subtotal * 0.01))} F</strong> de cagnotte avec cette commande !</span>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  
+  document.getElementById('fidelite-pts-info').textContent = `${SE.fnum(solde)} F disponibles`;
+  
+  const toggle = document.getElementById('cagnotte-toggle');
+  toggle.checked = false;
+  toggle.addEventListener('change', updateTotal);
+}
+
+/* Modal de confirmation rupture stock — remplace confirm() natif */
+function seConfirm(msg){ return new Promise(resolve => {
+  const ov = document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;animation:seFadeIn .2s ease';
+  ov.innerHTML=`<div style="background:var(--card);border-radius:20px;padding:28px 24px;max-width:400px;width:100%;box-shadow:0 30px 60px rgba(0,0,0,.2);animation:sePopIn .3s cubic-bezier(0.34,1.56,0.64,1)">
+    <div style="font-size:2.5rem;text-align:center;margin-bottom:12px">⚠️</div>
+    <p style="color:#333;line-height:1.6;font-size:.92rem;margin-bottom:20px;text-align:center">${msg.replace(/\n/g,'<br>')}</p>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button id="sc-cancel" style="background:#f5f0e8;color:#555;padding:12px 22px;border-radius:12px;border:none;font-weight:600;cursor:pointer;font-size:.9rem">Annuler</button>
+      <button id="sc-ok" style="background:#C4531A;color:#fff;padding:12px 22px;border-radius:12px;border:none;font-weight:600;cursor:pointer;font-size:.9rem">Continuer quand même</button>
+    </div>
+  </div>`;
+  if(!document.getElementById('se-notif-anims')){const s=document.createElement('style');s.id='se-notif-anims';s.textContent='@keyframes seFadeIn{from{opacity:0}to{opacity:1}}@keyframes sePopIn{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}';document.head.appendChild(s);}
+  document.body.appendChild(ov);
+  ov.querySelector('#sc-ok').onclick=()=>{ov.remove();resolve(true)};
+  ov.querySelector('#sc-cancel').onclick=()=>{ov.remove();resolve(false)};
+}); }
+
+const submitBtn = document.getElementById('submit-btn');
+if (submitBtn) submitBtn.addEventListener('click', async e => {
+  e.preventDefault();
+  const btn = e.currentTarget;
+  
+  try {
+    const nom = document.getElementById('f-nom').value.trim();
+    const tel = document.getElementById('f-tel').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const msg = document.getElementById('f-msg').value.trim();
+    
+
+    if (!nom){ SE.toast('Veuillez indiquer votre nom', false); document.getElementById('f-nom').focus(); return; }
+    if (!tel){ SE.toast('Veuillez indiquer votre numéro WhatsApp', false); document.getElementById('f-tel').focus(); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Envoi en cours...';
+    
+    /* Vérification stock NON-BLOQUANTE : on prévient mais on laisse passer */
+    if (SE.sb){
+      try {
+        const refs = CART_ITEMS.map(i => i.ref).filter(Boolean);
+        if (refs.length > 0){
+          const { data: stocks } = await SE.sb
+            .from('articles')
+            .select('reference,nom,quantite,etat')
+            .in('reference', refs);
+          
+          const ruptures = [];
+          if (stocks){
+            for (const ci of CART_ITEMS){
+              const art = stocks.find(a => a.reference === ci.ref);
+              if (art && (art.etat === 'Vendu' || (art.quantite || 0) < ci.qte)){
+                ruptures.push(art.nom || ci.article.nom);
+              }
+            }
+          }
+          
+          if (ruptures.length > 0){
+            const ok = await seConfirm("Article(s) en rupture :\n\n" + 
+                  ruptures.map(n => '• ' + n).join('\n') + 
+                  "\n\nNotre équipe vous contactera pour proposer une alternative.");
+            if (!ok){
+              btn.disabled = false;
+              btn.textContent = '✓ Valider ma commande';
+              return;
+            }
+          }
+        }
+      } catch(e){
+        console.warn('[CHECKOUT] Stock check failed, on continue:', e);
+      }
+    }
+
+    const subtotal = CART_ITEMS.reduce((s,i) => s + (i.article.prix_vente_fcfa||0) * i.qte, 0);
+    const remiseFid = window.REMISE_FIDELITE || 0;
+    const total = Math.max(0, subtotal - remiseFid);
+    const mode = 'retrait';
+    
+
+    const articles_json = CART_ITEMS.map(i => ({
+      reference: i.ref,
+      nom: i.article.nom,
+      prix: i.article.prix_vente_fcfa || 0,
+      qte: i.qte,
+      sous_total: (i.article.prix_vente_fcfa || 0) * i.qte,
+    }));
+    
+
+    const result = await SE.Commandes.create({
+      client: { nom, tel, email, adresse: '', ville: '', quartier: '' },
+      mode,
+      items: articles_json,
+      sous_total: subtotal,
+      remise_fidelite: remiseFid,
+      frais_livraison: 0,
+      total_ttc: total,
+      notes: msg,
+    });
+    
+    
+    // Track la commande validée
+    if (SE.Track) SE.Track.orderComplete(result.numero, total);
+    
+    // Si le client a utilisé sa cagnotte, la déduire via fonction RPC sécurisée
+    if (remiseFid > 0 && SE.Auth.currentClient && SE.sb){
+      try {
+        const { data, error } = await SE.sb.rpc('use_cagnotte', {
+          p_montant: remiseFid,
+        });
+        if (error){
+          console.error('[CHECKOUT] Erreur RPC use_cagnotte:', error);
+          console.error('⚠️ IMPORTANT : Lance MIGRATION_V32.sql dans Supabase si ce n\'est pas déjà fait !');
+        } else if (data && data[0]?.new_solde !== undefined && SE.Auth.currentClient){
+          SE.Auth.currentClient.cagnotte_solde = data[0].new_solde;
+        }
+      } catch(ptsErr){
+        console.warn('Erreur déduction cagnotte:', ptsErr);
+      }
+    }
+    
+    SE.Cart.clear();
+    document.getElementById('co-wrap').style.display = 'none';
+    document.getElementById('success-state').style.display = 'block';
+    
+    /* Typewriter sur le numéro de commande */
+    const numEl = document.getElementById('success-num');
+    const numTxt = result.numero;
+    numEl.textContent = '';
+    let i = 0;
+    const tw = setInterval(() => {
+      numEl.textContent += numTxt[i++];
+      if (i >= numTxt.length) clearInterval(tw);
+    }, 60);
+    
+    /* Son de commande validée */
+    if (window.SE_Sound) SE_Sound.play('order');
+
+    /* Confetti doré + son */
+    if (window.SE_Sound) SE_Sound.play('confetti');
+    if (typeof confetti === 'function'){
+      const fire = (particleRatio, opts) => confetti(Object.assign({}, {
+        origin:{y:0.7}, disableForReducedMotion:true
+      }, opts, { particleCount: Math.floor(220 * particleRatio) }));
+      fire(0.25,{spread:26,startVelocity:55,colors:['var(--or)','#F5E09A']});
+      fire(0.2,{spread:60,colors:['var(--or)','var(--ink)','#8B6F1A']});
+      fire(0.35,{spread:100,decay:0.91,scalar:0.8,colors:['var(--or)','var(--or2)']});
+      fire(0.1,{spread:120,startVelocity:25,decay:0.92,scalar:1.2,colors:['#F5E09A']});
+      fire(0.1,{spread:120,startVelocity:45,colors:['var(--or)']});
+    }
+    
+    window.scrollTo({top:0,behavior:'smooth'});
+    
+  } catch(err){
+    console.error('[CHECKOUT] ERREUR:', err);
+    SE.toast('Erreur : ' + (err.message || 'Réessayez'), false);
+    btn.disabled = false;
+    btn.textContent = '✓ Valider ma commande';
+  }
+});
+
+</script>
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

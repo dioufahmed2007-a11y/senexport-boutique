@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Suivi de commande — SenExport</title>
+<link rel="icon" href="logo.png" />
+<link rel="manifest" href="manifest.json" />
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+:root{
+  --green-bright:#2ea566;
+}
+.page-wrap{max-width:840px;margin:0 auto;padding:24px 20px 60px}
+
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--stone);text-decoration:none;font-size:.9rem;
+  margin-bottom:18px;transition:.2s;
+}
+.back-link:hover{color:var(--or)}
+
+/* Hero status */
+.hero-status{
+  background:linear-gradient(135deg,var(--card) 0%,#1A1B26 100%);
+  border:1px solid rgba(212,175,55,.2);
+  border-radius:16px;
+  padding:24px 22px;margin-bottom:16px;
+  position:relative;overflow:hidden;
+}
+.hero-status::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg, var(--or), #F5E09A, var(--or));
+}
+.hero-status .num-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:4px 12px;background:rgba(212,175,55,.12);
+  color:var(--or);border-radius:99px;font-size:.72rem;font-weight:700;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.06em;
+  border:1px solid rgba(212,175,55,.25);margin-bottom:12px;
+}
+.hero-status h1{
+  font-size:clamp(1.4rem,4vw,2rem);font-weight:400;margin:0 0 6px;
+  color:var(--ink);line-height:1.15;letter-spacing:-.02em;
+  font-family:'Cormorant Garamond',Georgia,serif;
+}
+.hero-status .sub{
+  font-size:.9rem;color:var(--stone);margin-bottom:0;
+}
+.hero-status .icon-big{
+  font-size:2.5rem;float:right;margin-left:16px;
+  line-height:1;margin-top:-4px;
+}
+.hero-status.cancelled{
+  background:linear-gradient(135deg,#1A0A0A 0%,#200D0D 100%);
+  border-color:rgba(231,76,60,.25);
+}
+.hero-status.cancelled::before{background:linear-gradient(90deg,#E74C3C,#C0392B)}
+
+/* Big tracker */
+.big-tracker{
+  background:var(--card);border:1px solid rgba(212,175,55,.15);
+  border-radius:var(--r20);padding:36px 28px;
+  margin-bottom:20px;
+}
+.big-tracker h2{
+  font-size:.78rem;font-weight:700;color:var(--stone);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:24px;
+}
+
+.bt-line{
+  position:relative;display:flex;justify-content:space-between;
+  align-items:flex-start;
+}
+.bt-line::before{
+  content:'';position:absolute;
+  top:24px;left:24px;right:24px;
+  height:4px;background:rgba(212,175,55,.1);
+  border-radius:9999px;z-index:1;
+}
+.bt-fill{
+  position:absolute;top:24px;left:24px;
+  height:4px;background:linear-gradient(90deg,var(--green),var(--green-bright));
+  border-radius:9999px;z-index:2;
+  transition:width 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+.bt-step{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  position:relative;z-index:3;
+}
+.bt-dot{
+  width:52px;height:52px;border-radius:50%;
+  background:var(--card);border:4px solid rgba(212,175,55,.1);
+  display:grid;place-items:center;
+  font-size:1.4rem;
+  opacity:.45;
+  transition:.4s;
+}
+.bt-step.active .bt-dot,.bt-step.current .bt-dot{opacity:1}
+.bt-step.active .bt-dot{
+  background:var(--green);border-color:var(--green);
+  color:#fff;
+}
+.bt-step.current .bt-dot{
+  background:var(--or);border-color:var(--or);
+  color:#fff;
+  box-shadow:0 0 0 6px rgba(212,107,69,.18);
+  animation:pulse-big 2s infinite;
+}
+@keyframes pulse-big{
+  0%,100%{box-shadow:0 0 0 6px rgba(212,107,69,.18)}
+  50%{box-shadow:0 0 0 12px rgba(212,107,69,.05)}
+}
+.bt-lbl{
+  font-size:.85rem;color:var(--stone);
+  margin-top:12px;text-align:center;font-weight:500;
+  max-width:120px;
+}
+.bt-step.active .bt-lbl{color:var(--ink);font-weight:600}
+.bt-step.current .bt-lbl{color:var(--or);font-weight:700}
+
+.bt-time{
+  font-size:.72rem;color:var(--stone);margin-top:4px;
+}
+
+/* Estimation */
+.eta-box{
+  background:rgba(212,175,55,.08);border-left:3px solid var(--or);
+  padding:14px 16px;border-radius:8px;
+  margin-bottom:16px;display:flex;align-items:center;gap:12px;
+}
+.eta-box.delivered{background:rgba(63,185,80,.08);border-left-color:#3FB950}
+.eta-box .icon{font-size:1.4rem}
+.eta-box strong{display:block;color:var(--ink);font-size:.92rem;margin-bottom:2px}
+.eta-box span{color:var(--stone);font-size:.82rem}
+
+/* Detail cards */
+.detail-card{
+  background:var(--card);border:1px solid rgba(212,175,55,.15);
+  border-radius:var(--r20);padding:24px 26px;
+  margin-bottom:16px;
+}
+.detail-card h3{
+  font-size:.78rem;font-weight:700;color:var(--stone);
+  letter-spacing:.1em;text-transform:uppercase;
+  margin:0 0 16px;display:flex;align-items:center;gap:8px;
+}
+
+/* Articles list */
+.art-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 0;border-bottom:1px dashed rgba(212,175,55,.1);
+}
+.art-row:last-child{border-bottom:none}
+.art-info{flex:1}
+.art-name{color:var(--ink);font-weight:500;margin-bottom:2px}
+.art-detail{font-size:.82rem;color:var(--stone)}
+.art-price{font-weight:700;color:var(--or);font-family:var(--ff-d);font-size:1.05rem}
+
+/* Total */
+.total-block{
+  margin-top:14px;padding-top:14px;border-top:2px solid var(--card);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.total-block .lbl{font-size:.95rem;color:var(--ink);font-weight:600}
+.total-block .val{font-family:var(--ff-d);font-weight:700;font-size:1.6rem;color:var(--or)}
+
+/* Address */
+.address-line{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:8px 0;
+}
+.address-line .icon{font-size:1.2rem;flex-shrink:0;margin-top:2px}
+.address-line .info{flex:1}
+.address-line .info-label{font-size:.78rem;color:var(--stone);margin-bottom:2px}
+.address-line .info-val{color:var(--ink);font-weight:500}
+
+/* Action buttons */
+.actions{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+  margin-top:20px;
+}
+.btn-action{
+  padding:14px 18px;border-radius:var(--r12);
+  text-align:center;font-weight:600;font-size:.95rem;
+  text-decoration:none;transition:.2s;cursor:pointer;
+  border:none;
+}
+.btn-wa{background:#25D366;color:#fff}
+.btn-wa:hover{background:#1BAD52;transform:translateY(-2px);box-shadow:0 6px 16px rgba(37,211,102,.3)}
+.btn-back{background:rgba(255,255,255,.04);color:var(--ink);border:1px solid rgba(212,175,55,.15)}
+.btn-back:hover{background:rgba(212,175,55,.1)}
+
+/* Loading */
+.loading-page{
+  text-align:center;padding:80px 20px;
+}
+.loading-page .spinner{
+  width:48px;height:48px;border:4px solid rgba(212,175,55,.1);
+  border-top-color:var(--or);border-radius:50%;
+  animation:spin 1s linear infinite;margin:0 auto 16px;
+}
+.loading-page p{color:var(--stone)}
+
+@media (max-width:560px){
+  .page-wrap{padding:16px 14px 40px}
+  .hero-status{padding:22px 18px}
+  .hero-status h1{font-size:1.45rem}
+  .hero-status .icon-big{font-size:2.5rem}
+  .big-tracker{padding:24px 12px}
+  .bt-dot{width:42px;height:42px;font-size:1.1rem}
+  .bt-line::before,.bt-fill{top:20px}
+  .bt-lbl{font-size:.72rem;max-width:80px}
+  .detail-card{padding:18px 18px}
+  .actions{grid-template-columns:1fr}
+}
+
+/* ── Impression — seule la facture sort sur papier ── */
+@media print{
+  body *{visibility:hidden}
+  #invoice-overlay,#invoice-overlay *{visibility:visible}
+  #invoice-overlay{position:absolute;inset:0;background:#fff;padding:0;display:block}
+  #invoice-sheet{box-shadow:none;max-width:100%}
+  .no-print,#invoice-close{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links">
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="maison.html">Maison</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="collections.html">Collections</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+    <a href="compte.html" class="nav-icon" aria-label="Mon compte">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+</nav>
+
+<main style="padding-top:56px" class="page-wrap">
+  <a href="compte.html" class="back-link">← Retour à mon compte</a>
+  
+  <div id="loading" class="loading-page">
+    <div class="spinner"></div>
+    <p>Chargement de votre commande...</p>
+  </div>
+  
+  <div id="content" style="display:none"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="app.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const cmdId = params.get('id');
+
+if (!cmdId){
+  window.location.href = 'compte.html';
+}
+
+(async function loadCommande(){
+  try {
+    // Wait pour que SE.sb soit dispo (DOMContentLoaded) — max 3s
+    let waitSb = 0;
+    while ((!SE || !SE.sb) && waitSb < 30){
+      await new Promise(r => setTimeout(r, 100));
+      waitSb++;
+    }
+    if (!SE || !SE.sb){
+      console.error('[commande] SE.sb jamais initialisé');
+    }
+    
+    // Wait for SE.Auth to be ready (DOMContentLoaded already done init)
+    let attempts = 0;
+    while (!SE.Auth?._inited && attempts < 20){
+      await new Promise(r => setTimeout(r, 100));
+      attempts++;
+    }
+    
+    // Force init si pas déjà fait
+    if (SE.Auth && !SE.Auth._inited){
+      await SE.Auth.init();
+    }
+    
+    // Retry getSession directement (au cas où — OAuth Google peut être lent)
+    attempts = 0;
+    while (!SE.Auth.currentUser && attempts < 20){
+      if (SE.sb){
+        try {
+          const { data: { session } } = await SE.sb.auth.getSession();
+          if (session?.user){
+            SE.Auth.currentUser = session.user;
+            await SE.Auth._loadClient();
+            console.log('[commande] User retrouvé après retry', attempts);
+            break;
+          }
+        } catch(err){ console.error('Auth retry:', err); }
+      }
+      await new Promise(r => setTimeout(r, 300));
+      attempts++;
+    }
+    
+    if (!SE.Auth.currentUser){
+      console.warn('[commande] Pas de session trouvée après retry, redirection');
+      window.location.href = 'connexion.html?redirect=' + encodeURIComponent(window.location.pathname + window.location.search);
+      return;
+    }
+    
+    // Charger la commande
+    const cmds = await SE.Commandes.mine();
+    const cmd = cmds.find(c => String(c.id) === String(cmdId));
+    
+    if (!cmd){
+      document.getElementById('loading').innerHTML = `
+        <div style="font-size:3rem;margin-bottom:14px">🤔</div>
+        <p>Commande introuvable</p>
+        <a href="compte.html" class="btn btn-fire" style="margin-top:14px">Retour</a>`;
+      return;
+    }
+    
+    render(cmd);
+  } catch(err){
+    console.error(err);
+    document.getElementById('loading').innerHTML = `
+      <p style="color:#DC2626">Erreur : ${err.message}</p>
+      <a href="compte.html" class="btn btn-fire" style="margin-top:14px">Retour</a>`;
+  }
+})();
+
+function render(cmd){
+  const items = Array.isArray(cmd.articles_json) ? cmd.articles_json : [];
+  const isLivraison = false;
+  const isAnnulee = cmd.statut === 'annulee';
+  const date = cmd.created_at ? new Date(cmd.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}) : '';
+  
+  // Mapping statut interne → étape client (4 étapes)
+  const stepMap = {
+    'nouvelle':       0,
+    'confirmee':      1,
+    'en_preparation': 1,
+    'prete_retrait':  2,
+    'en_livraison':   2,
+    'livree':         3,
+  };
+  const step = stepMap[cmd.statut] !== undefined ? stepMap[cmd.statut] : 0;
+  
+  // Labels et icônes selon mode
+  const stepData = isLivraison ? [
+    {lbl:'Reçue',     icon:'📥'},
+    {lbl:'Confirmée', icon:'✓'},
+    {lbl:'En route',  icon:'🚚'},
+    {lbl:'Livrée',    icon:'✅'},
+  ] : [
+    {lbl:'Reçue',     icon:'📥'},
+    {lbl:'Confirmée', icon:'✓'},
+    {lbl:'Prête au retrait', icon:'🏢'},
+    {lbl:'Récupérée', icon:'✅'},
+  ];
+  
+  // Hero message selon statut
+  let heroIcon = '📦', heroTitle = '', heroSub = '';
+  if (isAnnulee){
+    heroIcon = '❌';
+    heroTitle = 'Commande annulée';
+    heroSub = "Cette commande n'a pas pu être traitée.";
+  } else {
+    switch(cmd.statut){
+      case 'nouvelle':
+        heroIcon = '🎉';
+        heroTitle = 'Merci pour votre commande !';
+        heroSub = 'Nous l\'avons bien reçue. Nous vous contacterons sous peu pour confirmer.';
+        break;
+      case 'confirmee':
+        heroIcon = '✓';
+        heroTitle = 'Commande confirmée';
+        heroSub = 'Nous préparons votre commande. Elle sera bientôt prête.';
+        break;
+      case 'en_preparation':
+        heroIcon = '✓';
+        heroTitle = 'Commande confirmée';
+        heroSub = 'Nous préparons votre commande. Elle sera bientôt prête.';
+        break;
+      case 'prete_retrait':
+        heroIcon = '🏢';
+        heroTitle = 'Prête au retrait !';
+        heroSub = 'Vous pouvez passer la récupérer au dépôt à Thiès.';
+        break;
+      case 'en_livraison':
+        heroIcon = '🚚';
+        heroTitle = 'En route vers vous !';
+        heroSub = 'Notre livreur est en chemin avec votre commande.';
+        break;
+      case 'livree':
+        heroIcon = '✅';
+        heroTitle = isLivraison ? 'Commande livrée !' : 'Commande récupérée !';
+        heroSub = 'Nous espérons que vous êtes satisfait. Merci de votre confiance.';
+        break;
+    }
+  }
+  
+  // Estimation (boîte jaune ou verte)
+  let etaHTML = '';
+  if (!isAnnulee){
+    if (cmd.statut === 'livree'){
+      etaHTML = `
+        <div class="eta-box delivered">
+          <span class="icon">🎉</span>
+          <div>
+            <strong>Commande terminée</strong>
+            <span>N'hésitez pas à nous laisser un avis sur WhatsApp</span>
+          </div>
+        </div>`;
+    } else if (cmd.statut === 'en_livraison'){
+      etaHTML = `
+        <div class="eta-box">
+          <span class="icon">⏰</span>
+          <div>
+            <strong>Livraison aujourd'hui</strong>
+            <span>Notre livreur va vous contacter</span>
+          </div>
+        </div>`;
+    } else if (cmd.statut === 'prete_retrait'){
+      etaHTML = `
+        <div class="eta-box">
+          <span class="icon">📍</span>
+          <div>
+            <strong>Disponible au dépôt</strong>
+            <span>Apportez votre numéro de commande</span>
+          </div>
+        </div>`;
+    }
+  }
+  
+  // Points de retrait — affichés quand la commande est prête (hors livraison)
+  // ⚠️ COORDONNÉES PLACEHOLDER pour le dépôt — à remplacer par la vraie position à Thiès
+  const DEPOT_LAT = 14.7910, DEPOT_LNG = -16.9359;
+  const DEPOT_ADDR = 'Dépôt SenExport, Thiès, Sénégal';
+  const DEPOT_POINT = { id:'depot', label:'Dépôt SenExport', adresse: DEPOT_ADDR, lat: DEPOT_LAT, lng: DEPOT_LNG };
+
+  // points_retrait : configurés par Ahmed selon la taille du produit (en attendant le
+  // logiciel desktop, fixé à la main dans Supabase). S'il n'y en a qu'un ou aucun, pas
+  // de choix à faire — on prend directement le dépôt par défaut.
+  const pointsRetrait = (Array.isArray(cmd.points_retrait) && cmd.points_retrait.length) ? cmd.points_retrait : [DEPOT_POINT];
+  const pointChoisi = cmd.point_retrait_choisi || (pointsRetrait.length === 1 ? pointsRetrait[0] : null);
+
+  let mapHTML = '';
+  if (!isAnnulee && cmd.statut === 'prete_retrait' && !isLivraison) {
+    if (!pointChoisi && pointsRetrait.length > 1) {
+      // Plusieurs points proposés pour cette commande → le client choisit
+      const choicesHTML = pointsRetrait.map(p => `
+        <button type="button" class="btn-action btn-back pickup-choice" data-point-id="${p.id}"
+          style="width:100%;text-align:left;margin-bottom:.5rem;display:flex;flex-direction:column;align-items:flex-start;gap:2px">
+          <strong>${p.label||''}</strong>
+          <span style="font-size:.78rem;color:var(--stone);font-weight:400">${p.adresse||''}</span>
+        </button>`).join('');
+      mapHTML = `
+        <div class="detail-card" id="depot-map-card">
+          <h3>📍 Choisissez votre point de retrait</h3>
+          <p style="font-size:.85rem;color:var(--stone);margin-bottom:.85rem">Plusieurs points sont disponibles pour cette commande — choisissez celui qui vous arrange.</p>
+          <div id="pickup-choices">${choicesHTML}</div>
+          <p id="pickup-error" style="font-size:.8rem;color:var(--red);display:none;margin-top:.5rem"></p>
+        </div>`;
+    } else {
+      const point = pointChoisi || pointsRetrait[0];
+      const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${point.lat},${point.lng}`;
+      mapHTML = `
+        <div class="detail-card" id="depot-map-card" data-lat="${point.lat}" data-lng="${point.lng}">
+          <h3>📍 Où récupérer votre commande</h3>
+          <div id="leaflet-map" style="height:260px;border-radius:8px;overflow:hidden;border:1px solid rgba(212,175,55,.1);margin-bottom:.85rem;background:#1a1a1a"></div>
+          <p style="font-size:.85rem;color:var(--ink);margin-bottom:.15rem"><strong>${point.label||''}</strong></p>
+          <p style="font-size:.8rem;color:var(--stone);margin-bottom:.5rem">${point.adresse||''}</p>
+          <p id="depot-distance" style="font-size:.78rem;color:var(--muted);margin-bottom:.85rem"></p>
+          <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+            <a href="${dirUrl}" target="_blank" rel="noopener" class="btn-action" style="background:var(--or);color:#fff;flex:1;text-align:center;min-width:160px">🧭 Ouvrir dans Maps</a>
+            <button id="btn-locate-me" class="btn-action btn-back" style="flex:1;min-width:160px">📌 Tracer l'itinéraire</button>
+          </div>
+        </div>`;
+    }
+  }
+
+  // Facture auto-générée — affichée une fois la commande récupérée / livrée
+  let invoiceHTML = '';
+  if (!isAnnulee && cmd.statut === 'livree') {
+    invoiceHTML = `
+      <div class="detail-card">
+        <h3>🧾 Facture</h3>
+        <p style="font-size:.85rem;color:var(--stone);margin-bottom:.85rem">Votre facture est prête. Vous pouvez l'imprimer ou l'enregistrer en PDF.</p>
+        <button id="btn-show-invoice" class="btn-action" style="background:var(--ink);color:#fff;width:100%;text-align:center">📄 Voir la facture</button>
+      </div>`;
+  }
+
+  // Tracker visuel
+  let trackerHTML = '';
+  if (!isAnnulee){
+    const progressPct = (step / (stepData.length - 1)) * 100;
+    const dots = stepData.map((s, i) => {
+      const isActive = i <= step;
+      const isCurrent = i === step;
+      return `
+        <div class="bt-step ${isActive ? 'active' : ''} ${isCurrent ? 'current' : ''}">
+          <div class="bt-dot">${isActive ? (isCurrent ? s.icon : '✓') : s.icon}</div>
+          <div class="bt-lbl">${s.lbl}</div>
+        </div>`;
+    }).join('');
+    
+    trackerHTML = `
+      <div class="big-tracker">
+        <h2>📊 Suivi de votre commande</h2>
+        <div class="bt-line">
+          <div class="bt-fill" style="width:calc(${progressPct}% - ${progressPct < 100 ? '0px' : '0px'})"></div>
+          ${dots}
+        </div>
+      </div>`;
+  }
+  
+  // Articles
+  const itemsHTML = items.map(it => `
+    <div class="art-row">
+      <div class="art-info">
+        <div class="art-name">${it.nom || '—'}</div>
+        <div class="art-detail">Quantité : ${it.qte || 1} × ${SE.fprix(it.prix || 0)}</div>
+      </div>
+      <div class="art-price">${SE.fprix((it.prix||0) * (it.qte||1))}</div>
+    </div>`).join('');
+  
+  const tel = '221778038874';
+  const wamsg = encodeURIComponent(`Bonjour, je vous contacte au sujet de ma commande ${cmd.numero}`);
+  
+  const html = `
+    <div class="hero-status ${isAnnulee ? 'cancelled' : ''}">
+      <span class="icon-big">${heroIcon}</span>
+      <div class="num-pill">${cmd.numero}</div>
+      <h1>${heroTitle}</h1>
+      <p class="sub">${heroSub}</p>
+    </div>
+    
+    ${etaHTML}
+    ${trackerHTML}
+    ${mapHTML}
+    ${invoiceHTML}
+
+    <div class="detail-card">
+      <h3>📦 Vos articles</h3>
+      ${itemsHTML}
+      <div class="total-block">
+        <span class="lbl">Total</span>
+        <span class="val">${SE.fprix(cmd.total_ttc || 0)}</span>
+      </div>
+    </div>
+    
+    <div class="detail-card">
+      <h3>📋 Détails</h3>
+      <div class="address-line">
+        <span class="icon">${isLivraison ? '🚚' : '🏢'}</span>
+        <div class="info">
+          <div class="info-label">Mode</div>
+          <div class="info-val">${isLivraison ? 'Livraison à domicile' : 'Retrait au dépôt à Thiès'}</div>
+        </div>
+      </div>
+      ${isLivraison && cmd.adresse_livraison ? `
+      <div class="address-line">
+        <span class="icon">📍</span>
+        <div class="info">
+          <div class="info-label">Adresse de livraison</div>
+          <div class="info-val">${cmd.adresse_livraison}</div>
+        </div>
+      </div>` : ''}
+      <div class="address-line">
+        <span class="icon">📅</span>
+        <div class="info">
+          <div class="info-label">Commande passée le</div>
+          <div class="info-val">${date}</div>
+        </div>
+      </div>
+      ${cmd.notes ? `
+      <div class="address-line">
+        <span class="icon">💬</span>
+        <div class="info">
+          <div class="info-label">Vos notes</div>
+          <div class="info-val" style="font-style:italic">« ${cmd.notes} »</div>
+        </div>
+      </div>` : ''}
+    </div>
+    
+    <div class="actions">
+      <a href="https://wa.me/${tel}?text=${wamsg}" target="_blank" class="btn-action btn-wa">
+        💬 Contacter SenExport
+      </a>
+      <a href="compte.html" class="btn-action btn-back">
+        ← Retour
+      </a>
+    </div>
+  `;
+  
+  document.getElementById('loading').style.display = 'none';
+  const c = document.getElementById('content');
+  c.innerHTML = html;
+  c.style.display = 'block';
+
+  /* Carte du point de retrait — Leaflet + OpenStreetMap (gratuit, sans clé API) */
+  const mapCard = document.getElementById('depot-map-card');
+  let leafletMap = null;
+  if (mapCard && document.getElementById('leaflet-map')) {
+    const lat = parseFloat(mapCard.dataset.lat);
+    const lng = parseFloat(mapCard.dataset.lng);
+    leafletMap = initLeafletMap(lat, lng);
+  }
+
+  const locateBtn = document.getElementById('btn-locate-me');
+  if (locateBtn && mapCard) {
+    locateBtn.addEventListener('click', () => {
+      const distEl = document.getElementById('depot-distance');
+      if (!navigator.geolocation) { distEl.textContent = "Géolocalisation non disponible sur cet appareil."; return; }
+      const lat = parseFloat(mapCard.dataset.lat);
+      const lng = parseFloat(mapCard.dataset.lng);
+      locateBtn.textContent = '📡 Localisation…';
+      navigator.geolocation.getCurrentPosition(
+        async pos => {
+          const { latitude, longitude } = pos.coords;
+          distEl.textContent = "Calcul de l'itinéraire…";
+          try {
+            await drawRoute(leafletMap, latitude, longitude, lat, lng, distEl);
+          } catch (e) {
+            console.warn('OSRM indisponible, repli sur la distance à vol d\'oiseau:', e);
+            const km = haversineKm(latitude, longitude, lat, lng);
+            distEl.textContent = `Vous êtes à environ ${km.toFixed(1)} km à vol d'oiseau.`;
+          }
+          locateBtn.textContent = "📌 Tracer l'itinéraire";
+        },
+        () => { distEl.textContent = "Position non autorisée. Active la localisation pour voir l'itinéraire."; locateBtn.textContent = "📌 Tracer l'itinéraire"; }
+      );
+    });
+  }
+
+  /* Choix du point de retrait, si plusieurs sont proposés pour cette commande */
+  document.querySelectorAll('.pickup-choice').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const errEl = document.getElementById('pickup-error');
+      btn.disabled = true;
+      btn.style.opacity = '.6';
+      try {
+        const { data, error } = await SE.sb.rpc('choisir_point_retrait', {
+          p_commande_id: cmd.id,
+          p_point_id: btn.dataset.pointId,
+        });
+        if (error) throw error;
+        cmd.point_retrait_choisi = data;
+        render(cmd);
+      } catch (e) {
+        console.error('choisir_point_retrait:', e);
+        if (errEl) { errEl.textContent = "Impossible d'enregistrer votre choix, réessayez."; errEl.style.display = 'block'; }
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      }
+    });
+  });
+
+  /* Facture — vue imprimable */
+  const invoiceBtn = document.getElementById('btn-show-invoice');
+  if (invoiceBtn) {
+    invoiceBtn.addEventListener('click', () => showInvoice(cmd, items));
+  }
+}
+
+function initLeafletMap(lat, lng) {
+  const map = L.map('leaflet-map', { zoomControl: true, attributionControl: false }).setView([lat, lng], 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19 }).addTo(map);
+  L.marker([lat, lng]).addTo(map).bindPopup('Point de retrait').openPopup();
+  return map;
+}
+
+/* Trace l'itinéraire (routier) entre le client et le point de retrait via OSRM — gratuit, sans clé */
+async function drawRoute(map, fromLat, fromLng, toLat, toLng, distEl) {
+  const url = `https://router.project-osrm.org/route/v1/driving/${fromLng},${fromLat};${toLng},${toLat}?overview=full&geometries=geojson`;
+  const res = await fetch(url);
+  const data = await res.json();
+  if (!data.routes || !data.routes.length) throw new Error('Pas d\'itinéraire trouvé');
+  const route = data.routes[0];
+  const coords = route.geometry.coordinates.map(c => [c[1], c[0]]);
+
+  if (map._seRoute) map.removeLayer(map._seRoute);
+  map._seRoute = L.polyline(coords, { color: '#C4531A', weight: 4 }).addTo(map);
+  L.marker([fromLat, fromLng]).addTo(map).bindPopup('Vous êtes ici');
+  map.fitBounds(map._seRoute.getBounds(), { padding: [24, 24] });
+
+  const km = (route.distance / 1000).toFixed(1);
+  const min = Math.round(route.duration / 60);
+  distEl.textContent = `${km} km · environ ${min} min en voiture.`;
+}
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371, toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1), dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function showInvoice(cmd, items) {
+  const date = cmd.created_at ? new Date(cmd.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'}) : '—';
+  const rows = (items||[]).map(it => `
+    <tr>
+      <td style="padding:.6rem 0;border-bottom:1px solid #e5e0d8">${it.nom||'—'}</td>
+      <td style="padding:.6rem 0;border-bottom:1px solid #e5e0d8;text-align:center">${it.qte||1}</td>
+      <td style="padding:.6rem 0;border-bottom:1px solid #e5e0d8;text-align:right">${SE.fprix(it.prix||0)}</td>
+      <td style="padding:.6rem 0;border-bottom:1px solid #e5e0d8;text-align:right">${SE.fprix((it.prix||0)*(it.qte||1))}</td>
+    </tr>`).join('');
+
+  const overlay = document.createElement('div');
+  overlay.id = 'invoice-overlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;display:flex;align-items:flex-start;justify-content:center;padding:2rem 1rem;overflow-y:auto';
+  overlay.innerHTML = `
+    <div id="invoice-sheet" style="background:#fdfbf7;color:#1a1a1a;max-width:680px;width:100%;border-radius:6px;padding:clamp(1.5rem,4vw,3rem);font-family:Georgia,serif;position:relative">
+      <button id="invoice-close" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.4rem;cursor:pointer;color:#888">×</button>
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+        <div>
+          <div style="font-size:1.4rem;font-weight:700">Sen·Export <span style="font-style:italic;color:#B8941E">Boutique</span></div>
+          <div style="font-size:.78rem;color:#666;margin-top:.3rem">Thiès, Sénégal · +221 77 803 88 74</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:1.1rem;font-weight:700;letter-spacing:.05em">FACTURE</div>
+          <div style="font-size:.78rem;color:#666;margin-top:.3rem">${cmd.numero||''}</div>
+          <div style="font-size:.78rem;color:#666">${date}</div>
+        </div>
+      </div>
+      <table style="width:100%;border-collapse:collapse;font-size:.85rem;margin-bottom:1.5rem">
+        <thead><tr style="border-bottom:2px solid #1a1a1a">
+          <th style="text-align:left;padding-bottom:.5rem">Article</th>
+          <th style="text-align:center;padding-bottom:.5rem">Qté</th>
+          <th style="text-align:right;padding-bottom:.5rem">Prix</th>
+          <th style="text-align:right;padding-bottom:.5rem">Total</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:2rem">
+        <div style="width:220px">
+          <div style="display:flex;justify-content:space-between;font-size:1.1rem;font-weight:700;padding-top:.5rem;border-top:2px solid #1a1a1a">
+            <span>Total</span><span>${SE.fprix(cmd.total_ttc||0)}</span>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:.72rem;color:#999;text-align:center;border-top:1px solid #e5e0d8;padding-top:1rem">
+        Paiement effectué à la récupération · Merci de votre confiance — SenExport Boutique
+      </p>
+      <div class="no-print" style="display:flex;gap:.6rem;margin-top:1.5rem;flex-wrap:wrap">
+        <button id="invoice-print" style="flex:1;min-width:160px;padding:.85rem;background:#1a1a1a;color:#fff;border:none;border-radius:4px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">🖨️ Imprimer / PDF</button>
+        <a id="invoice-wa" target="_blank" rel="noopener" style="flex:1;min-width:160px;padding:.85rem;background:#25D366;color:#fff;border:none;border-radius:4px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-align:center;text-decoration:none;display:block">💬 Envoyer par WhatsApp</a>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  // Lien WhatsApp pré-rempli avec le récap de la facture (WhatsApp ne permet pas
+  // de joindre un fichier automatiquement depuis un lien web — seul le texte est pré-rempli)
+  const waLines = (items||[]).map(it => `• ${it.nom||'—'} ×${it.qte||1} — ${SE.fprix((it.prix||0)*(it.qte||1))}`).join('\n');
+  const waText = encodeURIComponent(
+    `Facture SenExport — ${cmd.numero||''}\n${date}\n\n${waLines}\n\nTotal : ${SE.fprix(cmd.total_ttc||0)}\n\nMerci de votre confiance !`
+  );
+  document.getElementById('invoice-wa').href = `https://wa.me/221778038874?text=${waText}`;
+
+  document.getElementById('invoice-close').addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+  document.getElementById('invoice-print').addEventListener('click', () => window.print());
+}
+</script>
+
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

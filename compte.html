@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mon compte — SenExport</title>
+<meta name="theme-color" content="#C4531A">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+.acc-layout{display:grid;grid-template-columns:300px 1fr;gap:32px;padding:28px 0 56px}
+@media(max-width:920px){
+  .acc-layout{grid-template-columns:1fr;gap:20px;padding:16px 0 40px}
+}
+
+/* ─── SIDEBAR ────────────────────────── */
+.acc-side{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r16);
+  padding:24px;align-self:flex-start;position:sticky;top:85px;
+  box-shadow:0 4px 12px rgba(0,0,0,.04);
+}
+@media(max-width:920px){
+  .acc-side{
+    position:static;
+    margin:0 var(--pad);
+  }
+}
+.user-head{text-align:center;padding-bottom:18px;margin-bottom:14px}
+.avatar{
+  width:72px;height:72px;border-radius:9999px;
+  background:linear-gradient(135deg, var(--or), var(--or));
+  color:#fff;display:grid;place-items:center;
+  font-family:var(--ff-d);font-size:1.7rem;font-weight:700;
+  margin:0 auto 12px;box-shadow:0 4px 14px rgba(196,83,26,.3);
+}
+.user-head h3{font-family:var(--ff-d);font-size:1.15rem;font-weight:500;margin-bottom:3px}
+.user-head .email{font-size:.78rem;color:var(--stone);margin-top:2px;word-break:break-all}
+
+.side-nav a{
+  display:flex;align-items:center;gap:12px;padding:11px 14px;
+  border-radius:var(--r8);font-size:.9rem;color:var(--stone);
+  margin-bottom:3px;transition:.15s;cursor:pointer;
+}
+.side-nav a:hover{background:rgba(255,255,255,.04);color:var(--ink)}
+.side-nav a.active{background:linear-gradient(135deg, rgba(196,83,26,.08), rgba(196,83,26,.02));color:var(--or);font-weight:600;border-left:3px solid var(--or);padding-left:11px}
+.side-nav hr{border:none;border-top:1px solid rgba(212,175,55,.1);margin:14px 0}
+
+/* ─── CARTE FIDÉLITÉ — PREMIUM ──────── */
+.loyalty-card-wrap{
+  perspective:1200px;
+  margin-bottom:14px;
+  width:100%;
+}
+
+/* Flipper container */
+.loyalty-card-flipper{
+  position:relative;
+  width:100%;
+  aspect-ratio:1.586/1;
+  transform-style:preserve-3d;
+  transition:transform .65s cubic-bezier(.4,0,.2,1);
+  cursor:pointer;
+  animation:cardEnter .6s cubic-bezier(.34,1.56,.64,1);
+}
+.loyalty-card-flipper.flipped{
+  transform:rotateY(180deg);
+}
+.loyalty-card-flipper:not(.flipped):hover{
+  transform:translateY(-3px) rotateY(2deg);
+}
+
+/* Faces communes */
+.loyalty-card-face-3d{
+  position:absolute;inset:0;
+  border-radius:18px;overflow:hidden;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  display:flex;flex-direction:column;
+  padding:22px 24px;color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 24px 48px -16px rgba(0,0,0,.5),0 8px 16px -8px rgba(0,0,0,.3);
+}
+.loyalty-card-face-3d.back{
+  transform:rotateY(180deg);
+}
+
+/* Tier gradients sur les deux faces */
+#loyalty-card.tier-bronze, #card-back.tier-bronze{background:linear-gradient(135deg,#B07845 0%,#8B5A3C 50%,#4A2B16 100%)}
+#loyalty-card.tier-argent, #card-back.tier-argent{background:linear-gradient(135deg,#C8C8C8 0%,#8E8E8E 50%,#4A4A4A 100%)}
+#loyalty-card.tier-or,     #card-back.tier-or    {background:linear-gradient(135deg,#D4A437 0%,#A8801F 50%,#6B4F0F 100%)}
+
+/* Hint flip */
+.card-flip-hint{
+  position:absolute;bottom:10px;right:14px;
+  font-size:.6rem;font-weight:600;letter-spacing:.06em;
+  opacity:.45;text-transform:uppercase;
+  pointer-events:none;
+}
+
+/* ── RECTO ── */
+.card-brand{font-family:var(--ff-d);font-weight:700;font-size:1.1rem;letter-spacing:-.01em;line-height:1}
+.card-brand small{display:block;font-family:var(--ff-m);font-size:.58rem;font-weight:400;opacity:.7;letter-spacing:.1em;text-transform:uppercase;margin-top:2px}
+.card-tier-badge{font-family:var(--ff-m);font-size:.67rem;font-weight:700;letter-spacing:.12em;padding:4px 10px;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);border-radius:99px;text-transform:uppercase}
+.card-chip{position:relative;z-index:1;width:42px;height:30px;background:linear-gradient(135deg,#DEB856 0%,#A37D2C 60%,#8B6919 100%);border-radius:5px;margin:12px 0 8px;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:1px;padding:3px}
+.card-chip>div{background:linear-gradient(135deg,#C9A648,#8B6919);border-radius:1px}
+.card-number{font-family:var(--ff-m);font-size:.95rem;font-weight:600;letter-spacing:.18em;margin:4px 0 12px}
+.card-bottom{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end}
+.card-info-block{font-family:var(--ff-m);font-size:.6rem;line-height:1.4}
+.card-info-block .lbl{opacity:.6;text-transform:uppercase;letter-spacing:.1em;font-size:.55rem;margin-bottom:2px}
+.card-info-block .val{font-size:.82rem;font-weight:600}
+.card-contactless{position:absolute;bottom:20px;right:22px;z-index:2;opacity:.45;width:20px}
+.card-contactless svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+/* Reflet */
+.card-shine{position:absolute;inset:0;border-radius:18px;pointer-events:none;z-index:10;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.2) 0%,rgba(255,215,0,.1) 30%,transparent 65%);opacity:0;transition:opacity .3s;mix-blend-mode:screen}
+.loyalty-card-flipper:not(.flipped):hover .card-shine{opacity:1}
+/* Décorations de fond */
+.loyalty-card-face-3d::before{content:'';position:absolute;top:-50%;right:-30%;width:80%;height:200%;background:radial-gradient(ellipse,rgba(255,255,255,.07) 0%,transparent 60%);pointer-events:none}
+
+/* ── VERSO ── */
+.card-back-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.card-back-brand-small{font-family:var(--ff-d);font-size:.95rem;font-weight:600;opacity:.9}
+.card-back-brand-small em{font-style:italic;opacity:.75}
+.card-qr-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.card-qr-frame{width:120px;height:120px;background:#fff;border-radius:10px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.4);display:grid;place-items:center;overflow:hidden}
+.card-qr-label{font-size:.62rem;opacity:.6;text-align:center;line-height:1.4;max-width:180px}
+.card-back-num{font-family:var(--ff-m);font-size:.8rem;letter-spacing:.18em;opacity:.6;text-align:center;margin-top:6px}
+
+@keyframes cardEnter{from{opacity:0;transform:scale(.96) translateY(8px)}to{opacity:1;transform:none}}
+
+/* Tier-specific styles */
+.tier-bronze{background:linear-gradient(135deg, #8B5A3C 0%, #6B4226 50%, #4A2B16 100%)}
+.tier-bronze .accent{color:#FFB76B}
+
+.tier-argent{background:linear-gradient(135deg, #B8B8B8 0%, #6E6E6E 50%, #4A4A4A 100%)}
+.tier-argent .accent{color:#E8E8E8}
+
+.tier-or{background:linear-gradient(135deg, #D4A437 0%, #A8801F 50%, #6B4F0F 100%)}
+.tier-or .accent{color:#FFE89A}
+
+.tier-platine{background:linear-gradient(135deg, #2C1F3D 0%, #1A1130 50%, #0D0820 100%)}
+.tier-platine .accent{color:#C8B5FF}
+
+.tier-vip{background:linear-gradient(135deg, #1A1A1A 0%, #0D0D0D 50%, #000000 100%)}
+.tier-vip .accent{color:#FFD700}
+
+/* Patterns décoratifs sur les cartes */
+.loyalty-card-face::before{
+  content:'';position:absolute;
+  top:-50%;right:-30%;width:80%;height:200%;
+  background:radial-gradient(ellipse, rgba(255,255,255,.08) 0%, transparent 60%);
+  pointer-events:none;
+}
+.loyalty-card-face::after{
+  content:'';position:absolute;
+  bottom:-40%;left:-20%;width:60%;height:150%;
+  background:radial-gradient(ellipse, rgba(255,255,255,.05) 0%, transparent 60%);
+  pointer-events:none;
+}
+/* VIP : effet doré subtil */
+.tier-vip .loyalty-card-face::before{
+  background:radial-gradient(ellipse, rgba(255,215,0,.12) 0%, transparent 60%);
+}
+
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1}
+.card-brand{font-family:var(--ff-d);font-weight:700;font-size:1.15rem;letter-spacing:-.01em;line-height:1}
+.card-brand small{display:block;font-family:var(--ff-m);font-size:.62rem;font-weight:400;opacity:.75;letter-spacing:.1em;text-transform:uppercase;margin-top:3px}
+.card-tier-badge{
+  font-family:var(--ff-m);font-size:.7rem;font-weight:700;
+  letter-spacing:.12em;padding:5px 11px;
+  background:rgba(255,255,255,.18);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.25);border-radius:9999px;
+  text-transform:uppercase;
+}
+
+.card-chip{
+  position:relative;z-index:1;width:46px;height:34px;
+  background:linear-gradient(135deg, #DEB856 0%, #A37D2C 60%, #8B6919 100%);
+  border-radius:6px;margin:14px 0 10px;
+  display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+  gap:1px;padding:4px;
+}
+.card-chip > div{background:linear-gradient(135deg, #C9A648, #8B6919);border-radius:1px}
+
+.card-number{
+  font-family:var(--ff-m);font-size:1.05rem;font-weight:600;
+  letter-spacing:.18em;margin:6px 0 14px;position:relative;z-index:1;
+}
+
+.card-bottom{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:1}
+.card-info-block{font-family:var(--ff-m);font-size:.65rem;line-height:1.4}
+.card-info-block .lbl{opacity:.65;text-transform:uppercase;letter-spacing:.1em;font-size:.6rem;margin-bottom:2px}
+.card-info-block .val{font-size:.85rem;font-weight:600}
+
+.card-contactless{
+  position:absolute;bottom:22px;right:26px;z-index:2;opacity:.55;
+}
+.card-contactless svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* Verso de la carte avec QR */
+.card-back-brand{
+  position:absolute;top:18px;left:22px;
+  font-family:var(--ff-d);font-weight:700;font-size:1rem;
+  letter-spacing:-.01em;opacity:.9;z-index:2;
+}
+.card-back-brand small{
+  display:block;font-family:var(--ff-m);font-size:.6rem;
+  font-weight:400;opacity:.7;letter-spacing:.1em;text-transform:uppercase;margin-top:3px;
+}
+.card-qr-box{
+  background:var(--card);border-radius:12px;padding:10px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+  z-index:2;
+}
+.card-qr-box img{
+  display:block;width:130px;height:130px;
+  image-rendering:pixelated;
+}
+.card-qr-box canvas{
+  display:block;width:130px;height:130px;
+}
+.card-back-label{
+  position:absolute;bottom:18px;left:0;right:0;text-align:center;
+  font-family:var(--ff-m);font-size:.66rem;opacity:.75;
+  letter-spacing:.08em;z-index:2;text-transform:uppercase;
+}
+
+/* Animation tap */
+.loyalty-card:active{
+  transform:scale(.98);
+}
+.loyalty-card.flipped:active{
+  transform:rotateY(180deg) scale(.98);
+}
+
+/* Card hint */
+.card-hint{
+  text-align:center;font-size:.74rem;color:var(--stone);
+  margin-top:10px;font-family:var(--ff-m);letter-spacing:.05em;
+}
+.card-hint span{padding:3px 8px;background:rgba(255,255,255,.04);border-radius:var(--r4);font-weight:500;color:var(--stone)}
+
+/* ─── CONTENU PRINCIPAL ─────────────── */
+.acc-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r16);
+  padding:26px;margin-bottom:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.03);
+}
+.acc-card h2{font-family:var(--ff-d);font-weight:500;font-size:1.25rem;margin-bottom:6px;letter-spacing:-.015em}
+.acc-card .sub{font-size:.82rem;color:var(--stone);margin-bottom:18px}
+
+/* Stats fidélité */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.stat{
+  padding:18px 14px;background:rgba(212,175,55,.07);
+  border:1px solid var(--or-line);border-radius:12px;text-align:center;
+}
+.stat-v{font-family:var(--ff-d);font-weight:700;font-size:1.6rem;color:var(--or);line-height:1;margin-bottom:5px;letter-spacing:-.02em}
+.stat-l{font-size:.7rem;color:var(--stone);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+
+/* Progression tier */
+.tier-progress{padding:16px;background:rgba(212,175,55,.05);border-radius:12px;border:1px solid var(--border);margin-top:14px}
+.tier-progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:.84rem}
+.tier-progress-head .current{font-weight:600;color:var(--ink)}
+.tier-progress-head .next{color:var(--stone)}
+.tier-progress-bar{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;border:1px solid var(--border)}
+.tier-progress-fill{height:100%;background:linear-gradient(90deg, var(--or), var(--or));border-radius:9999px;transition:width 1s cubic-bezier(0.4, 0, 0.2, 1)}
+.tier-progress-info{font-size:.78rem;color:var(--stone);margin-top:8px;text-align:center}
+.tier-progress-info strong{color:var(--ink)}
+
+/* ════ Cartes commande avec tracker ════ */
+.cmd-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--r16);padding:20px 22px;margin-bottom:14px;
+  transition:.2s;cursor:pointer;display:block;text-decoration:none;color:inherit;
+  position:relative;
+}
+.cmd-card::after{
+  content:'›';position:absolute;right:18px;top:50%;
+  transform:translateY(-50%);font-size:1.8rem;color:var(--stone);
+  font-family:var(--ff-d);transition:.2s;
+}
+.cmd-card:hover::after{color:var(--or);transform:translateY(-50%) translateX(3px)}
+.cmd-card:hover{border-color:var(--sand);box-shadow:0 6px 20px rgba(0,0,0,.06)}
+
+.cmd-header{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:18px;
+}
+.cmd-num{
+  font-family:var(--ff-m);font-size:.82rem;font-weight:700;
+  color:var(--or);letter-spacing:.04em;
+}
+.cmd-date{
+  font-size:.78rem;color:var(--stone);margin-top:3px;
+}
+.cmd-amount{
+  font-family:var(--ff-d);font-weight:700;
+  font-size:1.4rem;color:var(--or);letter-spacing:-.02em;
+}
+
+/* Tracker visuel */
+.tracker{margin:18px 0 6px;position:relative;padding:0 12px}
+.tracker-line{
+  position:absolute;top:14px;left:24px;right:24px;
+  height:3px;background:rgba(212,175,55,.1);border-radius:9999px;
+  z-index:1;
+}
+.tracker-line-fill{
+  height:100%;background:linear-gradient(90deg, var(--green), var(--green-bright, #2ea566));
+  border-radius:9999px;transition:width .8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tracker-steps{
+  display:flex;justify-content:space-between;
+  position:relative;z-index:2;
+}
+.tracker-step{
+  display:flex;flex-direction:column;align-items:center;
+  flex:1;text-align:center;
+}
+.tracker-dot{
+  width:30px;height:30px;border-radius:50%;
+  background:var(--card);border:3px solid var(--border);
+  display:grid;place-items:center;
+  font-weight:700;color:#fff;
+  font-size:.75rem;
+  transition:.3s;
+  position:relative;
+}
+.tracker-step.active .tracker-dot{
+  background:var(--green, #2ea566);border-color:var(--green, #2ea566);
+}
+.tracker-step.current .tracker-dot{
+  box-shadow:0 0 0 4px rgba(46,165,102,.18);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{
+  0%, 100%{box-shadow:0 0 0 4px rgba(46,165,102,.18)}
+  50%{box-shadow:0 0 0 7px rgba(46,165,102,.05)}
+}
+.tracker-lbl{
+  font-size:.72rem;color:var(--stone);
+  margin-top:6px;font-weight:500;
+}
+.tracker-step.active .tracker-lbl{
+  color:var(--ink);font-weight:600;
+}
+.tracker-step.current .tracker-lbl{
+  color:var(--or);font-weight:700;
+}
+
+.tracker-cancelled{
+  background:#FEE2E2;color:#991B1B;
+  padding:14px 18px;border-radius:var(--r12);
+  display:flex;align-items:center;gap:12px;
+  margin:14px 0;font-weight:500;
+}
+
+/* Infos commande */
+.cmd-info{
+  margin-top:14px;padding-top:14px;
+  border-top:1px dashed rgba(212,175,55,.1);
+}
+.cmd-info-line{
+  display:flex;gap:10px;font-size:.86rem;
+  padding:4px 0;color:var(--stone);
+}
+.cmd-info-label{
+  color:var(--stone);min-width:fit-content;
+}
+.cmd-info-val{
+  color:var(--ink);font-weight:500;flex:1;
+}
+
+@media (max-width:560px){
+  .cmd-card{padding:16px}
+  .cmd-amount{font-size:1.2rem}
+  .tracker-lbl{font-size:.65rem}
+  .tracker-dot{width:26px;height:26px;font-size:.7rem}
+}
+
+.loading{padding:40px;text-align:center;color:var(--stone)}
+.loading::before{content:'';display:inline-block;width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--or);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.empty-sub{padding:30px;text-align:center;color:var(--stone);font-size:.88rem}
+
+/* Animation entrée carte */
+@keyframes cardEnter{
+  0%{opacity:0;transform:translateY(20px) scale(.95)}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+.loyalty-card{animation:cardEnter .6s cubic-bezier(0.4, 0, 0.2, 1)}
+
+/* ════════ MODALE CARTE FIDÉLITÉ — Design moderne style Wave ════════ */
+/* QR section dans la modale */
+.lc-qr-section{
+  display:flex;align-items:center;gap:18px;
+  background:var(--card);border-radius:16px;
+  padding:16px;margin-top:14px;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+  width:100%;max-width:420px;
+}
+.lc-qr-box{
+  flex-shrink:0;
+  background:var(--card);border-radius:12px;
+  padding:8px;border:2px solid #f0f0f0;
+}
+.lc-qr-box img{
+  display:block;width:110px;height:110px;
+  image-rendering:pixelated;
+}
+.lc-qr-info{flex:1;min-width:0}
+.lc-qr-title{
+  font-family:var(--ff-d);font-weight:600;
+  font-size:1.05rem;color:#1a1a1a;margin-bottom:4px;
+}
+.lc-qr-sub{
+  font-size:.82rem;color:#666;line-height:1.4;
+}
+
+@media(max-width:560px){
+  .lc-qr-section{padding:12px;gap:12px}
+  .lc-qr-box img{width:90px;height:90px}
+  .lc-qr-title{font-size:.92rem}
+  .lc-qr-sub{font-size:.74rem}
+}
+
+.lc-modal{
+  display:none;
+  position:fixed;inset:0;z-index:9999;
+  background:rgba(8, 12, 24, 0.85);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  align-items:flex-start;justify-content:center;
+  overflow-y:auto;
+  padding:64px 20px 40px;
+  animation:lcFadeIn .3s ease-out;
+}
+.lc-modal.open{display:flex}
+@keyframes lcFadeIn{from{opacity:0}to{opacity:1}}
+
+.lc-close{
+  position:fixed;top:20px;right:20px;
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,.12);
+  color:#fff;border:none;cursor:pointer;
+  font-size:1.6rem;font-weight:300;
+  display:grid;place-items:center;
+  transition:.2s;
+  z-index:10;
+}
+.lc-close:hover{background:rgba(255,255,255,.22);transform:rotate(90deg)}
+
+.lc-modal-inner{
+  width:100%;max-width:480px;
+  display:flex;flex-direction:column;align-items:center;gap:16px;
+  padding-bottom:2rem;
+}
+
+/* CARTE GRANDE — premium avec reflet */
+.lc-card-modern{
+  position:relative;
+  width:100%;
+  aspect-ratio:1.586/1;
+  border-radius:20px;
+  padding:clamp(18px,4vw,28px) clamp(20px,5vw,32px);
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  color:#fff;
+  overflow:hidden;
+  border:1px solid rgba(255,210,140,.25);
+  box-shadow:
+    0 40px 80px -20px rgba(0,0,0,.7),
+    0 16px 40px -10px rgba(0,0,0,.5),
+    inset 0 1px 0 rgba(255,255,255,.2),
+    inset 0 -1px 0 rgba(0,0,0,.2);
+  background:linear-gradient(135deg, #8B5A3C 0%, #6B4226 45%, #4A2B16 100%);
+  animation:lcCardEnter .55s cubic-bezier(.34,1.56,.64,1) both;
+  transition:transform .15s ease, box-shadow .15s ease;
+  cursor:pointer;
+  will-change:transform;
+}
+/* Reflet brillant animé en CSS pur */
+.lc-card-modern::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,
+    transparent 30%,
+    rgba(255,255,255,.08) 45%,
+    rgba(255,255,255,.2) 50%,
+    rgba(255,255,255,.08) 55%,
+    transparent 70%
+  );
+  transform:translateX(-100%);
+  transition:transform 0s;
+  border-radius:inherit;
+}
+.lc-card-modern:hover::after{
+  transform:translateX(100%);
+  transition:transform .7s ease;
+}
+
+@keyframes lcCardEnter{
+  from{opacity:0;transform:translateY(40px) scale(.9);filter:blur(4px)}
+  to{opacity:1;transform:translateY(0) scale(1);filter:none}
+}
+
+/* Wrapper pour le flip 3D */
+.lc-card-flipper{
+  position:relative;
+  width:100%;
+  aspect-ratio:1.586/1;
+  perspective:1500px;
+  cursor:pointer;
+  animation:lcCardEnter .5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.lc-card-flipper.flipped .lc-card-front{
+  transform:rotateY(180deg);
+}
+.lc-card-flipper.flipped .lc-card-back{
+  transform:rotateY(0deg);
+}
+.lc-card-flipper:hover{
+  transform:translateY(-4px);
+}
+
+.lc-card-front, .lc-card-back{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  -webkit-backface-visibility:hidden;
+  backface-visibility:hidden;
+  transition:transform .7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.lc-card-front{
+  transform:rotateY(0deg);
+  z-index:2;
+}
+.lc-card-back{
+  transform:rotateY(-180deg);
+  z-index:1;
+}
+
+/* Hint flip discret */
+.lc-flip-hint{
+  position:absolute;
+  bottom:8px;
+  right:14px;
+  font-size:.65rem;
+  letter-spacing:.05em;
+  opacity:.6;
+  font-weight:500;
+  pointer-events:none;
+}
+
+/* Verso : grand QR centré */
+.lc-back-content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  gap:14px;
+  position:relative;z-index:2;
+}
+.lc-back-title{
+  font-size:.78rem;letter-spacing:.18em;font-weight:600;
+  text-transform:uppercase;
+  opacity:.75;
+}
+.lc-card-qr-big{
+  background:var(--card);
+  border-radius:14px;
+  padding:14px;
+  width:160px;height:160px;
+  display:grid;place-items:center;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+.lc-card-qr-big canvas{display:block;width:100%;height:100%}
+.lc-back-num{
+  font-family:var(--ff-m);
+  font-size:1.05rem;font-weight:700;
+  letter-spacing:.16em;
+}
+.lc-back-hint{
+  font-size:.78rem;font-style:italic;
+  opacity:.7;
+}
+.lc-card-modern.tier-bronze{background:linear-gradient(135deg, #B07845 0%, #8B5A3C 50%, #4A2B16 100%)}
+.lc-card-modern.tier-argent{background:linear-gradient(135deg, #C8C8C8 0%, #8E8E8E 50%, #4A4A4A 100%)}
+.lc-card-modern.tier-or{background:linear-gradient(135deg, #E6BC54 0%, #B89028 50%, #6B4F0F 100%)}
+.lc-card-modern.tier-platine{background:linear-gradient(135deg, #4A3F6B 0%, #2C1F3D 50%, #0D0820 100%)}
+.lc-card-modern.tier-vip{
+  background:linear-gradient(135deg, #2A2A2A 0%, #0A0A0A 100%);
+  border:1.5px solid #FFD700;
+}
+
+/* Pattern décoratif (cercles abstraits) */
+.lc-pattern{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,.06) 0%, transparent 50%),
+    radial-gradient(circle at 90% 10%, rgba(255,255,255,.05) 0%, transparent 35%);
+  pointer-events:none;
+}
+
+.lc-card-top{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  position:relative;z-index:2;
+}
+
+.lc-brand-block{
+  display:flex;flex-direction:column;
+}
+
+.lc-brand{
+  font-family:var(--ff-d);font-size:1.5rem;font-weight:700;
+  color:#fff;letter-spacing:-.02em;line-height:1;
+}
+.lc-sub{
+  font-size:.72rem;letter-spacing:.16em;font-weight:500;
+  opacity:.85;margin-top:5px;text-transform:uppercase;
+}
+
+.lc-tier-pill{
+  font-size:.72rem;letter-spacing:.18em;font-weight:700;
+  padding:6px 13px;border:1.5px solid currentColor;
+  border-radius:20px;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  color:#FFE89A;
+}
+
+/* Bloc points central — c'est la valeur émotionnelle */
+.lc-points-block{
+  text-align:center;
+  position:relative;z-index:2;
+  width:100%;
+}
+.lc-pts-label{
+  font-size:.72rem;letter-spacing:.14em;font-weight:600;
+  opacity:.75;text-transform:uppercase;margin-bottom:6px;
+}
+.lc-pts-big{
+  font-family:var(--ff-d);
+  font-size:2.8rem;font-weight:800;
+  letter-spacing:-.04em;line-height:1;
+  text-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.lc-pts-value{
+  font-size:.82rem;font-weight:500;opacity:.85;
+  margin-top:6px;
+}
+
+/* Bottom : titulaire + numéro + QR */
+.lc-card-bottom{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  position:relative;z-index:2;gap:12px;
+}
+.lc-card-bottom-info{
+  display:flex;flex-direction:column;gap:14px;
+  flex:1;min-width:0;
+}
+
+.lc-card-qr{
+  background:var(--card);
+  border-radius:8px;
+  padding:5px;
+  width:64px;height:64px;
+  flex-shrink:0;
+  display:grid;place-items:center;
+  box-shadow:0 4px 12px rgba(0,0,0,.25);
+}
+.lc-card-qr canvas{display:block;width:100%;height:100%}
+
+.lc-lbl{
+  font-size:.62rem;letter-spacing:.18em;font-weight:600;
+  opacity:.65;margin-bottom:4px;text-transform:uppercase;
+}
+
+.lc-name{
+  font-family:var(--ff-d);font-size:1.05rem;font-weight:600;
+  letter-spacing:.02em;
+}
+
+.lc-num{
+  font-family:var(--ff-m);font-size:.95rem;font-weight:600;
+  letter-spacing:.12em;opacity:.9;
+}
+
+/* Tiers : couleurs accents */
+.lc-card-modern.tier-bronze .lc-tier-pill{color:#FFD4A3}
+.lc-card-modern.tier-argent .lc-tier-pill{color:#F0F0F0}
+.lc-card-modern.tier-or .lc-tier-pill{color:#FFE89A}
+.lc-card-modern.tier-platine .lc-tier-pill{color:#C8B5FF}
+.lc-card-modern.tier-vip .lc-tier-pill{color:#FFD700}
+
+/* Infos en dessous (grille 3 colonnes) */
+.lc-info-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:12px;
+  width:100%;
+  margin-top:6px;
+}
+.lc-info-cell{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;
+  padding:14px 12px;
+  text-align:center;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.lc-info-lbl{
+  font-size:.68rem;letter-spacing:.1em;font-weight:600;
+  color:rgba(255,255,255,.55);
+  text-transform:uppercase;margin-bottom:6px;
+}
+.lc-info-val{
+  font-family:var(--ff-d);font-size:1rem;font-weight:600;
+  color:#fff;
+}
+
+.lc-hint{
+  text-align:center;
+  color:rgba(255,255,255,.55);
+  font-size:.85rem;font-style:italic;
+  margin:0;
+}
+
+/* Mobile */
+@media (max-width:600px){
+  .lc-modal-inner{max-width:100%;gap:14px}
+  .lc-card-modern{padding:22px 24px;border-radius:20px}
+  .lc-pts-big{font-size:2.6rem}
+  .lc-brand{font-size:1.2rem}
+  .lc-name{font-size:.92rem}
+  .lc-num{font-size:.82rem}
+  .lc-close{top:14px;right:14px;width:40px;height:40px;font-size:1.4rem}
+  .lc-info-grid{gap:8px}
+  .lc-info-cell{padding:10px 8px}
+  .lc-info-val{font-size:.88rem}
+  .lc-info-lbl{font-size:.62rem}
+  .lc-hint{font-size:.78rem;padding:0 10px}
+  .lc-card-qr{width:54px;height:54px;padding:4px}
+  .lc-card-bottom-info{gap:10px}
+}
+
+</style>
+</head>
+<body>
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links">
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="maison.html">Maison</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="collections.html">Collections</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+    <a href="compte.html" class="nav-icon" aria-label="Mon compte">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+</nav>
+<aside class="mobile-menu" id="mobile-menu">
+  <button class="close-btn">×</button>
+  <a href="catalogue.html">📦 Catalogue</a>
+  <a href="panier.html">🛒 Panier</a>
+  <a href="favoris.html">♡ Favoris</a>
+  <a href="compte.html">◎ Compte</a>
+</aside>
+
+<!-- État chargement initial -->
+<main style="padding-top:56px" id="initial-loading" style="text-align:center;padding:80px 20px">
+  <div class="loading">Chargement de votre compte...</div>
+  <div id="loading-emergency" style="margin-top:20px;color:#888;font-size:.9rem;display:none">
+    Cela prend plus longtemps que prévu...<br>
+    <a href="connexion.html" style="color:var(--or);text-decoration:underline">Cliquez ici pour vous reconnecter</a>
+  </div>
+</main>
+<script>
+/* Sécurité : si après 8 sec le loader est toujours là, afficher un lien de secours */
+setTimeout(() => {
+  const loader = document.getElementById('initial-loading');
+  const emergency = document.getElementById('loading-emergency');
+  if (loader && loader.style.display !== 'none' && emergency){
+    emergency.style.display = 'block';
+  }
+}, 8000);
+</script>
+
+<!-- État pas connecté -->
+<main id="not-logged" style="display:none">
+  <div class="w" style="padding:80px 20px;text-align:center">
+    <div style="font-size:3rem;margin-bottom:14px">🔒</div>
+    <h1 style="font-family:var(--ff-d);font-weight:500;font-size:1.8rem;margin-bottom:10px">Accès au compte</h1>
+    <p style="color:var(--stone);margin-bottom:24px">Connectez-vous pour accéder à votre espace client.</p>
+    <a href="connexion.html" class="btn btn-fire btn-lg">Se connecter / S'inscrire</a>
+  </div>
+</main>
+
+<!-- État connecté -->
+<main id="logged" style="display:none">
+
+<div class="page-head">
+  <div class="w">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="sep">›</span><span>Mon compte</span></div>
+    <h1>Bonjour <em id="salut-nom">—</em></h1>
+    <p class="sub">Votre espace client SenExport.</p>
+  </div>
+</div>
+
+<div class="w">
+<div class="acc-layout">
+
+  <aside class="acc-side">
+    <div class="user-head">
+      <div class="avatar" id="avatar">?</div>
+      <h3 id="side-nom">—</h3>
+      <div class="email" id="side-email">—</div>
+    </div>
+
+    <!-- Carte fidélité — flip 3D recto/verso -->
+    <div class="loyalty-card-wrap" id="card-wrap">
+      <div class="loyalty-card-flipper" id="loyalty-card-flipper">
+
+        <!-- RECTO -->
+        <div class="loyalty-card-face-3d front" id="loyalty-card">
+          <div class="card-shine" id="card-shine"></div>
+          <div class="card-top">
+            <div class="card-brand">SenExport<small>Carte Fidélité</small></div>
+            <div class="card-tier-badge" id="card-tier">Bronze</div>
+          </div>
+          <div class="card-chip"><div></div><div></div><div></div><div></div></div>
+          <div class="card-number" id="card-number">SE-CARTE-00000</div>
+          <div class="card-bottom">
+            <div class="card-info-block">
+              <div class="lbl">Titulaire</div>
+              <div class="val accent" id="card-name">—</div>
+            </div>
+            <div class="card-info-block" style="text-align:right">
+              <div class="lbl">Cagnotte</div>
+              <div class="val accent" id="card-points">0 F</div>
+            </div>
+          </div>
+          <div class="card-flip-hint">↺ Retourner</div>
+          <div class="card-contactless">
+            <svg viewBox="0 0 24 24"><path d="M8.5 8.5C9.4 9.4 10 10.6 10 12s-.6 2.6-1.5 3.5"/><path d="M11.5 5.5C13.7 7.7 15 10.7 15 14s-1.3 6.3-3.5 8.5"/><path d="M14.5 2.5C18 6 20 11 20 16s-2 10-5.5 13.5"/></svg>
+          </div>
+        </div>
+
+        <!-- VERSO -->
+        <div class="loyalty-card-face-3d back" id="card-back">
+          <div class="card-back-top">
+            <span class="card-back-brand-small">SenExport <em>Boutique</em></span>
+            <div class="card-tier-badge" id="card-tier-back">Bronze</div>
+          </div>
+          <div class="card-qr-center">
+            <div class="card-qr-frame">
+              <img id="card-qr-img" alt="QR code" style="width:100%;height:100%;display:block"/>
+            </div>
+            <p class="card-qr-label">Présentez au dépôt pour identifier votre compte</p>
+          </div>
+          <div class="card-back-num" id="card-back-number">SE-CARTE-00000</div>
+          <div class="card-flip-hint">↺ Retourner</div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr style="border:none;border-top:1px solid rgba(212,175,55,.1);margin:18px 0">
+
+    <nav class="side-nav">
+      <a data-section="overview" class="active">📊 Programme fidélité</a>
+      <a data-section="commandes">🛒 Mes commandes</a>
+      <a data-section="parametres">⚙ Paramètres</a>
+      <hr>
+      <a id="btn-logout" style="color:var(--red)">→ Déconnexion</a>
+    </nav>
+  </aside>
+
+  <div>
+    <!-- Section Overview / Fidélité -->
+    <section class="acc-card" id="sec-overview">
+      <h2>💎 Cagnotte SenExport</h2>
+      <p class="sub">1% de chaque achat est automatiquement mis de côté dans votre cagnotte, utilisable au site ou au dépôt.</p>
+
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-v" id="s-points">0 F</div><div class="stat-l">Cagnotte disponible</div></div>
+        <div class="stat"><div class="stat-v" id="s-nb">0</div><div class="stat-l">Achats</div></div>
+        <div class="stat"><div class="stat-v" id="s-dep">0</div><div class="stat-l">FCFA dépensés</div></div>
+      </div>
+
+      <!-- Barre de progression vers palier suivant -->
+      <div class="tier-progress" id="tier-progress">
+        <div class="tier-progress-head">
+          <span class="current" id="tier-current">Palier Bronze</span>
+          <span class="next" id="tier-next">→ Argent à 50 000 F</span>
+        </div>
+        <div class="tier-progress-bar"><div class="tier-progress-fill" id="tier-fill" style="width:0%"></div></div>
+        <div class="tier-progress-info"><strong id="tier-points-needed">50 000</strong> FCFA d'achats à atteindre pour le palier suivant</div>
+      </div>
+
+      <!-- Historique de la cagnotte -->
+      <div style="margin-top:20px;border-radius:10px;overflow:hidden;border:1px solid rgba(212,175,55,.15)">
+        <div style="background:rgba(212,175,55,.08);padding:14px 18px;border-bottom:1px solid rgba(212,175,55,.12);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+          <p style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--or);margin:0">Historique de votre cagnotte</p>
+          <span style="font-size:.68rem;color:var(--stone)">Une ligne par commande</span>
+        </div>
+        <div id="points-history-list" style="background:var(--bg2)">
+          <div style="padding:24px;text-align:center;color:var(--stone);font-size:.85rem">Chargement…</div>
+        </div>
+      </div>
+
+      <!-- Tuto fidélité -->
+      <div style="margin-top:20px;border-radius:10px;overflow:hidden;border:1px solid rgba(212,175,55,.15)">
+        <div style="background:rgba(212,175,55,.08);padding:14px 18px;border-bottom:1px solid rgba(212,175,55,.12)">
+          <p style="font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--or);margin:0">Comment ça marche</p>
+        </div>
+        <div style="padding:18px;display:flex;flex-direction:column;gap:0;background:var(--bg2)">
+
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.2);display:grid;place-items:center;font-size:.75rem;font-weight:700;color:var(--or);flex-shrink:0">1</div>
+            <div>
+              <p style="font-weight:600;color:var(--ink);font-size:.9rem;margin-bottom:4px">Achetez, gagnez du cash directement</p>
+              <p style="font-size:.82rem;color:var(--stone);line-height:1.6">Chaque commande récupérée vous fait gagner <strong style="color:var(--or)">1% de son montant</strong>, ajouté directement à votre cagnotte en FCFA. Pas de points abstraits, pas de conversion.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.05)">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.2);display:grid;place-items:center;font-size:.75rem;font-weight:700;color:var(--or);flex-shrink:0">2</div>
+            <div>
+              <p style="font-weight:600;color:var(--ink);font-size:.9rem;margin-bottom:4px">Utilisez votre cagnotte</p>
+              <p style="font-size:.82rem;color:var(--stone);line-height:1.6"><strong style="color:var(--ink)">Sur le site</strong> : appliquez tout votre solde au checkout.<br><strong style="color:var(--ink)">Au dépôt</strong> : présentez votre QR code, Ahmed déduit le montant directement.<br>Vous pouvez utiliser tout votre solde d'un coup, aucun bon à imprimer.</p>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 0">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.2);display:grid;place-items:center;font-size:.75rem;font-weight:700;color:var(--or);flex-shrink:0">3</div>
+            <div>
+              <p style="font-weight:600;color:var(--ink);font-size:.9rem;margin-bottom:4px">Montez de palier</p>
+              <p style="font-size:.82rem;color:var(--stone);line-height:1.6;margin-bottom:10px">Le palier se base sur le total cumulé de vos achats. Le franchir vous offre un bonus en plus du 1% habituel.</p>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="display:flex;align-items:center;gap:8px;font-size:.78rem"><span style="padding:2px 10px;border-radius:3px;background:#5C3A1E;color:#FFD4A3;font-weight:600;min-width:70px;text-align:center">🥉 Bronze</span><span style="color:var(--stone)">0 à 49 999 F — <strong style="color:var(--ink)">+500 F bonus</strong></span></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:.78rem"><span style="padding:2px 10px;border-radius:3px;background:#3A3A3A;color:#E0E0E0;font-weight:600;min-width:70px;text-align:center">🥈 Argent</span><span style="color:var(--stone)">50 000 à 499 999 F — <strong style="color:var(--ink)">+2 000 F bonus</strong></span></div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:.78rem"><span style="padding:2px 10px;border-radius:3px;background:#5C4A10;color:#FFE89A;font-weight:600;min-width:70px;text-align:center">🥇 Or</span><span style="color:var(--stone)">500 000 F et plus — <strong style="color:var(--ink)">+5 000 F bonus</strong></span></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-top:1px solid rgba(255,255,255,.05)">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.2);display:grid;place-items:center;font-size:.75rem;font-weight:700;color:var(--or);flex-shrink:0">📱</div>
+            <div>
+              <p style="font-weight:600;color:var(--ink);font-size:.9rem;margin-bottom:4px">Votre carte QR</p>
+              <p style="font-size:.82rem;color:var(--stone);line-height:1.6">Appuyez sur la carte à gauche pour afficher votre QR code. Présentez-le au vendeur lors de votre retrait pour identifier votre compte et utiliser votre cagnotte automatiquement.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Section Commandes -->
+    <section class="acc-card" id="sec-commandes" style="display:none">
+      <h2>🛒 Mes commandes</h2>
+      <p class="sub">Historique de toutes vos commandes SenExport.</p>
+      <div id="cmd-list"><div class="loading">Chargement...</div></div>
+    </section>
+
+    <!-- Section Paramètres -->
+    <section class="acc-card" id="sec-parametres" style="display:none">
+      <h2>⚙ Paramètres du compte</h2>
+      <p class="sub">Modifiez vos informations personnelles.</p>
+      <div class="field">
+        <label>Nom complet</label>
+        <input class="input" id="p-nom">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Téléphone</label>
+          <input class="input" id="p-tel">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input class="input" id="p-email" disabled style="opacity:.7">
+          <span class="hint">L'email ne peut pas être modifié ici</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>Adresse</label>
+        <textarea class="textarea" id="p-adr"></textarea>
+      </div>
+      <button class="btn btn-fire" id="btn-save">💾 Enregistrer</button>
+
+      <div class="divider" style="margin:28px 0"></div>
+
+      <!-- Préférences notifications -->
+      <h3 style="font-family:var(--ff-d);font-weight:400;font-size:1.1rem;margin-bottom:4px;color:var(--ink)">Notifications WhatsApp</h3>
+      <p style="font-size:.82rem;color:var(--stone);margin-bottom:16px">Toutes les options sont activées par défaut. Décochez ce que vous ne souhaitez pas recevoir.</p>
+      <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:24px">
+        <label style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid var(--or-line);border-radius:6px;cursor:pointer;gap:1rem">
+          <div>
+            <p style="font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:3px">Produits qui peuvent m'intéresser</p>
+            <p style="font-size:.75rem;color:var(--stone)">Recevoir un message quand un nouveau produit correspond à mes goûts ou achats précédents</p>
+          </div>
+          <input type="checkbox" id="pref-arrivages" checked style="width:20px;height:20px;accent-color:var(--or);flex-shrink:0">
+        </label>
+        <label style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid var(--or-line);border-radius:6px;cursor:pointer;gap:1rem">
+          <div>
+            <p style="font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:3px">Mises à jour de ma commande</p>
+            <p style="font-size:.75rem;color:var(--stone)">Être informé à chaque changement de statut — confirmée, prête au retrait, récupérée</p>
+          </div>
+          <input type="checkbox" id="pref-commandes" checked style="width:20px;height:20px;accent-color:var(--or);flex-shrink:0">
+        </label>
+        <label style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid var(--or-line);border-radius:6px;cursor:pointer;gap:1rem">
+          <div>
+            <p style="font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:3px">Recevoir un appel quand ma commande est prête</p>
+            <p style="font-size:.75rem;color:var(--stone)">En plus du message WhatsApp, recevoir un appel téléphonique de confirmation</p>
+          </div>
+          <input type="checkbox" id="pref-appel" checked style="width:20px;height:20px;accent-color:var(--or);flex-shrink:0">
+        </label>
+        <label style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(255,255,255,.04);border:1px solid var(--or-line);border-radius:6px;cursor:pointer;gap:1rem">
+          <div>
+            <p style="font-size:.88rem;font-weight:600;color:var(--ink);margin-bottom:3px">Points de fidélité et récompenses</p>
+            <p style="font-size:.75rem;color:var(--stone)">Être notifié à chaque gain de points et lors d'un passage de niveau</p>
+          </div>
+          <input type="checkbox" id="pref-points" checked style="width:20px;height:20px;accent-color:var(--or);flex-shrink:0">
+        </label>
+      </div>
+
+      <div class="divider" style="margin:28px 0"></div>
+
+      <h3 style="font-family:var(--ff-d);font-weight:400;font-size:1.1rem;margin-bottom:4px;color:var(--ink)">Apparence</h3>
+      <p style="font-size:.82rem;color:var(--stone);margin-bottom:16px">Personnalisez l'affichage du site.</p>
+      <div id="se-theme-widget"></div>
+    </section>
+  </div>
+</div>
+</div>
+
+<!-- ════════ MODALE CARTE FIDÉLITÉ PLEIN ÉCRAN ════════ -->
+<div class="lc-modal" id="lc-modal" onclick="closeLoyaltyModal(event)">
+  <button class="lc-close" onclick="closeLoyaltyModal()" aria-label="Fermer">×</button>
+  
+  <div class="lc-modal-inner">
+    <!-- Carte simple moderne (style Wave) - sans QR, sans flip -->
+    <div class="lc-card-modern" id="lc-card-big">
+      <!-- Pattern décoratif -->
+      <div class="lc-pattern"></div>
+      
+      <!-- Top : marque + tier -->
+      <div class="lc-card-top">
+        <div class="lc-brand-block">
+          <div class="lc-brand">SenExport</div>
+          <div class="lc-sub">Carte Fidélité</div>
+        </div>
+        <div class="lc-tier-pill" id="lc-tier-pill">BRONZE</div>
+      </div>
+      
+      <!-- Centre : SOLDE CAGNOTTE en gros -->
+      <div class="lc-points-block">
+        <div class="lc-pts-label">Cagnotte disponible</div>
+        <div class="lc-pts-big" id="lc-pts">0 F</div>
+        <div class="lc-pts-value" id="lc-pts-value">Utilisable au site ou au dépôt</div>
+      </div>
+      
+      <!-- Bottom : titulaire + numéro -->
+      <div class="lc-card-bottom">
+        <div class="lc-card-bottom-info" style="flex:1">
+          <div>
+            <div class="lc-lbl">TITULAIRE</div>
+            <div class="lc-name" id="lc-name">—</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="lc-lbl">N° MEMBRE</div>
+          <div class="lc-num" id="lc-num">SE-•••••</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Infos en dessous (pas dans la carte) -->
+    <div class="lc-info-grid">
+      <div class="lc-info-cell">
+        <div class="lc-info-lbl">Membre depuis</div>
+        <div class="lc-info-val" id="lc-back-since">—</div>
+      </div>
+      <div class="lc-info-cell">
+        <div class="lc-info-lbl">Achats</div>
+        <div class="lc-info-val" id="lc-back-nb">0</div>
+      </div>
+      <div class="lc-info-cell">
+        <div class="lc-info-lbl">Total dépensé</div>
+        <div class="lc-info-val" id="lc-back-spent">0 F</div>
+      </div>
+    </div>
+    
+    <!-- QR code scannable -->
+    <div class="lc-qr-section">
+      <div class="lc-qr-box">
+        <img id="lc-qr-img" alt="QR code carte fidélité" />
+      </div>
+      <div class="lc-qr-info">
+        <div class="lc-qr-title">📱 Présentez ce QR au vendeur</div>
+        <div class="lc-qr-sub">Pour identifier votre compte rapidement</div>
+      </div>
+    </div>
+    
+    <p class="lc-hint">💡 Ou indiquez votre numéro de membre</p>
+  </div>
+</div>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
+      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:240px;margin-bottom:1.25rem">Produits français importés. Dépôt à Thiès, Sénégal.</p>
+      <div class="pay-tags"><span class="pay-tag">Wave</span><span class="pay-tag">Orange Money</span><span class="pay-tag">Espèces</span></div>
+    </div>
+    <nav class="footer-col"><h4>Univers</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="collections.html">Collections</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li><li><a href="favoris.html">Favoris</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li><li><a href="cgv.html">CGV</a></li></ul></nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SenExport Boutique · Fait à Thiès</p>
+    <a href="cgv.html">Conditions générales</a>
+  </div>
+</footer>
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="app.js"></script>
+<script src="animations.js" defer></script>
+<script>
+/* Onboarding première connexion (une seule fois, ne réapparaît jamais) */
+document.addEventListener('se:auth-changed', () => SE.Onboarding && SE.Onboarding.maybeShow());
+setTimeout(() => SE.Onboarding && SE.Onboarding.maybeShow(), 1500);
+
+/* Paliers de la cagnotte (matchent le trigger SQL côté Supabase — fn_palier_cagnotte) */
+const TIERS = [
+  { name:'Bronze', min:0,      class:'tier-bronze', benefit:'+500 F au passage',   next:'Argent', nextAt:50000,  bonus:500 },
+  { name:'Argent', min:50000,  class:'tier-argent', benefit:'+2 000 F au passage', next:'Or',     nextAt:500000, bonus:2000 },
+  { name:'Or',     min:500000, class:'tier-or',     benefit:'+5 000 F au passage', next:null,     nextAt:null,   bonus:5000 },
+];
+
+// Palier calculé sur le TOTAL DÉPENSÉ cumulé (pas sur le solde de cagnotte)
+function getTier(totalDepense){
+  for (let i = TIERS.length - 1; i >= 0; i--){
+    if (totalDepense >= TIERS[i].min) return TIERS[i];
+  }
+  return TIERS[0];
+}
+
+function formatCardNumber(num){
+  if (!num) return '•••• •••• •••• ••••';
+  // SE-CARTE-NNNNN → on formate joliment en 4-4-4-4 style carte bancaire
+  // Extraction du nombre
+  const m = num.match(/(\d+)$/);
+  if (m){
+    const n = m[1].padStart(16, '0');
+    // Format 4-4-4-4 avec préfixe SE
+    return `${n.slice(0,4)} ${n.slice(4,8)} ${n.slice(8,12)} ${n.slice(12,16)}`;
+  }
+  return num;
+}
+
+/* Génération QR : différée pour ne PAS bloquer la page principale */
+function generateCardQR(clientId, numCarte){
+  // Le QR n'est pas affiché sur la carte mini, juste dans la modale
+  // (voir fillModalQR ci-dessous)
+}
+
+/* QR de la grande modale — utilise un service externe avec timeout court */
+function fillModalQR(c){
+  const qrImg = document.getElementById('lc-qr-img');
+  if (!qrImg) return;
+  if (!c || (!c.id && !c.numero_carte)) {
+    qrImg.style.display = 'none';
+    return;
+  }
+  const data = JSON.stringify({
+    type: 'senexport_card',
+    id: c.id || '',
+    n: c.numero_carte || '',
+    v: 1
+  });
+  // On tente 2 services QR en parallèle, on garde le plus rapide
+  const encoded = encodeURIComponent(data);
+  const services = [
+    `https://api.qrserver.com/v1/create-qr-code/?size=260x260&margin=10&format=png&data=${encoded}`,
+    `https://quickchart.io/qr?text=${encoded}&size=260`,
+  ];
+  qrImg.src = services[0];
+  qrImg.onerror = () => {
+    // Si le premier échoue, essaie le second
+    if (qrImg.src !== services[1]) qrImg.src = services[1];
+    else qrImg.style.display = 'none';
+  };
+  qrImg.style.display = 'block';
+}
+
+(async () => {
+  /* Attente initiale pour OAuth (Google peut prendre du temps, surtout sur connexion lente) */
+  await new Promise(r => setTimeout(r, 500));
+  
+  /* Re-check session avec retry — important après OAuth */
+  let attempts = 0;
+  while (!SE.Auth.isLogged() && attempts < 12){
+    await new Promise(r => setTimeout(r, 350));
+    attempts++;
+    if (SE.sb && !SE.Auth.currentUser){
+      try {
+        const { data: { session } } = await SE.sb.auth.getSession();
+        if (session?.user){
+          SE.Auth.currentUser = session.user;
+          await SE.Auth._loadClient();
+          break;
+        }
+      } catch(err){
+        console.error('Auth retry error:', err);
+      }
+    }
+  }
+  
+  document.getElementById('initial-loading').style.display = 'none';
+  
+  if (!SE.Auth.isLogged()){
+    document.getElementById('not-logged').style.display = 'block';
+    return;
+  }
+  
+  const u = SE.Auth.currentUser;
+  let c = SE.Auth.currentClient;
+  
+  /* Si l'enregistrement client n'existe pas (cas Google OAuth fresh), on le crée */
+  if (!c && u){
+    const nom = u.user_metadata?.full_name || u.user_metadata?.name || u.email?.split('@')[0] || 'Client';
+    await SE.Auth._createClientRecord(u.id, {
+      nom_complet: nom,
+      email: u.email || '',
+      telephone: u.phone || u.user_metadata?.phone || '',
+    });
+    /* Attendre un peu et recharger */
+    await new Promise(r => setTimeout(r, 300));
+    await SE.Auth._loadClient();
+    c = SE.Auth.currentClient;
+  }
+  
+  document.getElementById('logged').style.display = 'block';
+  
+  const nom = c?.nom_complet || u.user_metadata?.full_name || u.email || 'Client';
+  const initiale = (nom[0] || '?').toUpperCase();
+  
+  document.getElementById('salut-nom').textContent = nom.split(' ')[0];
+  document.getElementById('avatar').textContent = initiale;
+  document.getElementById('side-nom').textContent = nom;
+  document.getElementById('side-email').textContent = u.email || u.phone || '';
+  
+  /* ─── Carte fidélité (cagnotte) ─── */
+  const solde = c?.cagnotte_solde || 0;
+  const totalDepense = c?.total_depense || 0;
+  const tier = getTier(totalDepense);
+  const cardEl    = document.getElementById('loyalty-card');
+  const cardBack  = document.getElementById('card-back');
+  const flipper   = document.getElementById('loyalty-card-flipper');
+  const tierClass = tier.class; // e.g. 'tier-bronze'
+
+  // Applique le gradient de tier sur le recto ET le verso
+  if (cardEl) {
+    TIERS.forEach(t => cardEl.classList.remove(t.class));
+    cardEl.classList.add(tierClass);
+  }
+  if (cardBack) {
+    TIERS.forEach(t => cardBack.classList.remove(t.class));
+    cardBack.classList.add(tierClass);
+  }
+
+  document.getElementById('card-tier').textContent = tier.name;
+  document.getElementById('card-number').textContent = formatCardNumber(c?.numero_carte);
+  document.getElementById('card-name').textContent = (nom || '—').toUpperCase();
+  document.getElementById('card-points').textContent = SE.fprix(solde);
+
+  // Synchronise aussi le badge palier au verso
+  const tierBack = document.getElementById('card-tier-back');
+  if (tierBack) tierBack.textContent = tier.name;
+  const numBack = document.getElementById('card-back-number');
+  if (numBack) numBack.textContent = formatCardNumber(c?.numero_carte);
+
+  /* Date d'inscription */
+  const sinceDate = c?.created_at ? new Date(c.created_at) : (u.created_at ? new Date(u.created_at) : new Date());
+
+  /* QR code au verso */
+  if (c?.id || c?.numero_carte) {
+    generateCardQR(c?.id || '', c?.numero_carte || '');
+  }
+
+  /* Clic → flip 3D recto/verso (+ vibration sur mobile) */
+  if (flipper) {
+    flipper.addEventListener('click', () => {
+      if (navigator.vibrate) navigator.vibrate(8);
+      flipper.classList.toggle('flipped');
+    });
+  }
+
+  /* ── Reflet doré — desktop souris — désactivé sur le flipper (conflits 3D) ── */
+  if (window.matchMedia('(hover: hover)').matches && !flipper) {
+    const shine = document.getElementById('card-shine');
+    const wrap = cardEl?.closest('.loyalty-card-wrap') || cardEl;
+    if (cardEl) {
+      cardEl.addEventListener('mousemove', (e) => {
+        const r = cardEl.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top)  / r.height;
+        if (shine) {
+          shine.style.background = `radial-gradient(circle at ${(x*100).toFixed(0)}% ${(y*100).toFixed(0)}%, rgba(255,255,255,.28) 0%, rgba(255,215,0,.15) 28%, transparent 60%)`;
+          shine.style.opacity = '1';
+        }
+      });
+      cardEl.addEventListener('mouseleave', () => { if (shine) shine.style.opacity = '0'; });
+    }
+  }
+  
+  /* ─── Stats fidélité ─── */
+  document.getElementById('s-points').textContent = SE.fprix(solde);
+  document.getElementById('s-nb').textContent = c?.nb_achats || 0;
+  document.getElementById('s-dep').textContent = SE.fnum(c?.total_depense || 0);
+  
+  /* ─── Progression vers palier suivant ─── */
+  const tp = document.getElementById('tier-progress');
+  document.getElementById('tier-current').textContent = `Palier ${tier.name}`;
+  if (tier.next){
+    document.getElementById('tier-next').textContent = `→ ${tier.next} à ${SE.fprix(tier.nextAt)}`;
+    const range = tier.nextAt - tier.min;
+    const progress = totalDepense - tier.min;
+    const pct = Math.min(100, Math.max(0, (progress / range) * 100));
+    setTimeout(() => {
+      document.getElementById('tier-fill').style.width = pct + '%';
+    }, 200);
+    document.getElementById('tier-points-needed').textContent = SE.fnum(Math.max(0, tier.nextAt - totalDepense));
+  } else {
+    /* Or atteint */
+    document.getElementById('tier-next').textContent = '🏆 Palier maximum atteint';
+    document.getElementById('tier-fill').style.width = '100%';
+    document.getElementById('tier-points-needed').parentElement.innerHTML = '🥇 Vous bénéficiez du <strong>palier Or</strong>, le plus haut niveau de la cagnotte !';
+  }
+  
+  /* ─── Pré-remplit paramètres ─── */
+  if (c){
+    document.getElementById('p-nom').value = c.nom_complet || '';
+    document.getElementById('p-tel').value = c.telephone || '';
+    document.getElementById('p-email').value = c.email || u.email || '';
+    document.getElementById('p-adr').value = c.adresse || '';
+
+    /* Restaurer préférences de notification (toutes cochées par défaut) */
+    const prefs = c.preferences || {};
+    const setCheck = (id, key) => {
+      const el = document.getElementById(id);
+      if (el) el.checked = prefs[key] !== false; // true par défaut
+    };
+    setCheck('pref-arrivages', 'notif_produits');
+    setCheck('pref-commandes', 'notif_commandes');
+    setCheck('pref-appel',     'notif_appel');
+    setCheck('pref-points',    'notif_points');
+  } else {
+    document.getElementById('p-email').value = u.email || '';
+    document.getElementById('p-nom').value = u.user_metadata?.full_name || '';
+  }
+  
+  /* Charge commandes en parallèle */
+  loadCommandes();
+})();
+
+async function renderPointsHistory(){
+  const host = document.getElementById('points-history-list');
+  if (!host) return;
+
+  if (!SE.sb || !SE.Auth.currentUser){
+    host.innerHTML = `<div style="padding:24px;text-align:center;color:var(--stone);font-size:.85rem">Connectez-vous pour voir votre historique.</div>`;
+    return;
+  }
+
+  const { data, error } = await SE.sb
+    .from('cagnotte_mouvements')
+    .select('*')
+    .eq('client_id', SE.Auth.currentUser.id)
+    .order('created_at', { ascending:false })
+    .limit(50);
+
+  if (error){
+    console.error('renderPointsHistory:', error);
+    host.innerHTML = `<div style="padding:24px;text-align:center;color:var(--stone);font-size:.85rem">Historique indisponible pour l'instant.</div>`;
+    return;
+  }
+
+  if (!data || !data.length){
+    host.innerHTML = `<div style="padding:24px;text-align:center;color:var(--stone);font-size:.85rem">
+      Aucun mouvement pour l'instant. Votre premier achat récupéré apparaîtra ici.
+    </div>`;
+    return;
+  }
+
+  const LABELS = {
+    gain:             { icon:'🛒', lbl:'Gain sur commande' },
+    bonus_palier:     { icon:'🏆', lbl:'Bonus de palier' },
+    utilisation_site: { icon:'🌐', lbl:'Utilisé sur le site' },
+    utilisation_depot:{ icon:'🏢', lbl:'Utilisé au dépôt' },
+  };
+
+  const rows = data.map(m => {
+    const info = LABELS[m.type] || { icon:'•', lbl:m.type };
+    const date = m.created_at ? new Date(m.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}) : '—';
+    const positive = m.montant >= 0;
+    const sub = m.type === 'bonus_palier' && m.palier ? `${date} · Palier ${m.palier}` : date;
+    return `
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 18px;border-bottom:1px solid rgba(255,255,255,.05)">
+        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.2);display:grid;place-items:center;font-size:.85rem;flex-shrink:0">${info.icon}</div>
+          <div style="min-width:0">
+            <p style="font-size:.85rem;color:var(--ink);font-weight:500;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${info.lbl}</p>
+            <p style="font-size:.72rem;color:var(--stone);margin:2px 0 0">${sub}</p>
+          </div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:700;color:${positive?'var(--or)':'var(--red)'};white-space:nowrap">${positive?'+':''}${SE.fnum(m.montant)} F</div>
+      </div>`;
+  }).join('');
+
+  host.innerHTML = rows;
+}
+
+async function loadCommandes(){
+  const cmds = await SE.Commandes.mine();
+  const host = document.getElementById('cmd-list');
+
+  renderPointsHistory();
+  
+  // Notifications de changement de statut (compare avec dernière visite)
+  if (cmds && cmds.length > 0){
+    // Permet à OrderNotif de retrouver l'ID via le numéro
+    SE.OrderNotif._getCmdId = function(numero){
+      const c = cmds.find(x => x.numero === numero);
+      return c ? c.id : '';
+    };
+    SE.OrderNotif.checkUpdates(cmds);
+  }
+  
+  if (cmds.length === 0){
+    host.innerHTML = `
+      <div class="empty-sub">
+        <div style="font-size:2.5rem;margin-bottom:10px;opacity:.4">🛒</div>
+        <p>Vous n'avez pas encore passé de commande.</p>
+        <a href="catalogue.html" class="btn btn-fire" style="margin-top:14px">Découvrir le catalogue</a>
+      </div>`;
+    return;
+  }
+  
+  // Mapping : statut interne → étape client
+  function getClientStep(statut, mode){
+    // Le client voit 4 étapes simples : Reçue → Confirmée → En route → Reçue
+    // Mode livraison : Reçue → Confirmée → En route → Livrée
+    // Mode retrait   : Reçue → Confirmée → Prête au dépôt → Récupérée
+    const map = {
+      'nouvelle':       0,  // Reçue
+      'confirmee':      1,  // Confirmée
+      'en_preparation': 1,  // (vu comme "Confirmée" par le client — il sait pas qu'on prépare)
+      'prete_retrait':  2,  // Prête au retrait (mode retrait)
+      'en_livraison':   2,  // En route (mode livraison)
+      'livree':         3,  // Reçue
+      'annulee':       -1,  // Annulée
+    };
+    return map[statut] !== undefined ? map[statut] : 0;
+  }
+  
+  host.innerHTML = cmds.map(cmd => {
+    const items = Array.isArray(cmd.articles_json) ? cmd.articles_json : [];
+    const itemCount = items.reduce((s,i) => s + (i.qte || 1), 0);
+    const date = cmd.created_at ? new Date(cmd.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'}) : '';
+    const step = getClientStep(cmd.statut, cmd.mode_livraison);
+    const isLivraison = false;
+    const isAnnulee = cmd.statut === 'annulee';
+    
+    // Labels selon mode
+    const stepLabels = isLivraison
+      ? ['Reçue', 'Confirmée', 'En route', 'Livrée']
+      : ['Reçue', 'Confirmée', 'Prête au retrait', 'Récupérée'];
+    
+    // Construire le tracker
+    let trackerHTML = '';
+    if (isAnnulee){
+      trackerHTML = `
+        <div class="tracker-cancelled">
+          <span style="font-size:1.4rem">❌</span>
+          <strong>Commande annulée</strong>
+        </div>`;
+    } else {
+      const dots = stepLabels.map((lbl, i) => {
+        const isActive = i <= step;
+        const isCurrent = i === step;
+        return `
+          <div class="tracker-step ${isActive ? 'active' : ''} ${isCurrent ? 'current' : ''}">
+            <div class="tracker-dot">${isActive ? '✓' : ''}</div>
+            <div class="tracker-lbl">${lbl}</div>
+          </div>`;
+      }).join('');
+      
+      const progressPct = step >= 0 ? (step / (stepLabels.length - 1)) * 100 : 0;
+      
+      trackerHTML = `
+        <div class="tracker">
+          <div class="tracker-line">
+            <div class="tracker-line-fill" style="width:${progressPct}%"></div>
+          </div>
+          <div class="tracker-steps">
+            ${dots}
+          </div>
+        </div>`;
+    }
+    
+    // Articles preview
+    let itemsPreview = '';
+    if (items.length > 0){
+      const firstItem = items[0];
+      itemsPreview = firstItem.nom || '';
+      if (items.length > 1) itemsPreview += ` + ${items.length - 1} autre${items.length > 2 ? 's' : ''}`;
+    }
+    
+    return `
+      <a class="cmd-card" href="commande.html?id=${cmd.id}">
+        <div class="cmd-header">
+          <div>
+            <div class="cmd-num">${cmd.numero}</div>
+            <div class="cmd-date">${date}</div>
+          </div>
+          <div class="cmd-amount">${SE.fprix(cmd.total_ttc || 0)}</div>
+        </div>
+        
+        ${trackerHTML}
+        
+        <div class="cmd-info">
+          <div class="cmd-info-line">
+            <span class="cmd-info-label">${isLivraison ? '🚚 Livraison' : '🏢 Retrait au dépôt'}</span>
+            <span class="cmd-info-val">${itemCount} article${itemCount > 1 ? 's' : ''}</span>
+          </div>
+          ${itemsPreview ? `
+          <div class="cmd-info-line">
+            <span class="cmd-info-label">📦</span>
+            <span class="cmd-info-val">${itemsPreview}</span>
+          </div>` : ''}
+        </div>
+      </a>`;
+  }).join('');
+}
+
+/* Navigation entre sections */
+document.querySelectorAll('.side-nav a[data-section]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const sec = a.dataset.section;
+    document.querySelectorAll('.side-nav a[data-section]').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+    ['overview','commandes','parametres'].forEach(s => {
+      document.getElementById('sec-'+s).style.display = (s===sec) ? 'block' : 'none';
+    });
+  });
+});
+
+/* Save paramètres */
+document.getElementById('btn-save').addEventListener('click', async () => {
+  if (!SE.sb || !SE.Auth.currentUser) return;
+
+  const prefs = {
+    notif_produits:   document.getElementById('pref-arrivages')?.checked ?? true,
+    notif_commandes:  document.getElementById('pref-commandes')?.checked ?? true,
+    notif_appel:      document.getElementById('pref-appel')?.checked ?? true,
+    notif_points:     document.getElementById('pref-points')?.checked ?? true,
+  };
+
+  const updates = {
+    nom_complet: document.getElementById('p-nom').value.trim(),
+    telephone: document.getElementById('p-tel').value.trim(),
+    adresse: document.getElementById('p-adr').value.trim(),
+    preferences: prefs,
+  };
+  try {
+    const { error } = await SE.sb.from('clients').update(updates).eq('id', SE.Auth.currentUser.id);
+    if (error) throw error;
+    SE.toast('Préférences enregistrées ✓');
+    SE.Auth.currentClient = { ...(SE.Auth.currentClient||{}), ...updates };
+    document.getElementById('side-nom').textContent = updates.nom_complet;
+    document.getElementById('card-name').textContent = updates.nom_complet.toUpperCase();
+  } catch (err){
+    SE.toast('Erreur : ' + err.message, false);
+  }
+});
+
+/* Logout */
+document.getElementById('btn-logout').addEventListener('click', async e => {
+  e.preventDefault();
+  if (!confirm('Se déconnecter ?')) return;
+  await SE.Auth.signOut();
+  SE.toast('Déconnecté');
+  setTimeout(() => location.href = 'index.html', 500);
+});
+
+/* ════════ MODALE CARTE FIDÉLITÉ ════════ */
+function openLoyaltyModal(tier, c, nom, sinceDate){
+  const modal = document.getElementById('lc-modal');
+  const cardBig = document.getElementById('lc-card-big');
+  
+  // Apply tier class to the card
+  TIERS.forEach(t => cardBig.classList.remove(t.class));
+  cardBig.classList.add(tier.class);
+  
+  // Fill data
+  document.getElementById('lc-tier-pill').textContent = tier.name.toUpperCase();
+  document.getElementById('lc-name').textContent = (nom || '—').toUpperCase();
+  document.getElementById('lc-num').textContent = c?.numero_carte || 'SE-•••••';
+  
+  // Cagnotte : grand affichage
+  const solde = c?.cagnotte_solde || 0;
+  document.getElementById('lc-pts').textContent = SE.fprix(solde);
+  document.getElementById('lc-pts-value').textContent = 'Utilisable au site ou au dépôt';
+  
+  // Infos en dessous
+  const dateStr = sinceDate.toLocaleDateString('fr-FR', {month:'long', year:'numeric'});
+  document.getElementById('lc-back-since').textContent = dateStr;
+  document.getElementById('lc-back-nb').textContent = c?.nb_achats || 0;
+  const totalSpent = c?.total_depense || 0;
+  document.getElementById('lc-back-spent').textContent = SE.fnum(totalSpent) + ' F';
+  
+  // Show modal
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  // ── Tilt 3D + reflet sur la grande carte (desktop) ──
+  if (window.matchMedia('(hover: hover)').matches) {
+    setTimeout(() => {
+      const bigCard = document.getElementById('lc-card-big');
+      if (!bigCard) return;
+
+      bigCard.addEventListener('mousemove', function(e) {
+        const r = bigCard.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        const dx = x - .5, dy = y - .5;
+        bigCard.style.transform = `perspective(900px) rotateX(${(-dy*12).toFixed(1)}deg) rotateY(${(dx*12).toFixed(1)}deg) scale(1.02)`;
+        bigCard.style.transition = 'transform .08s ease';
+        bigCard.style.boxShadow = `
+          ${-dx*20}px ${-dy*20}px 60px -15px rgba(0,0,0,.7),
+          0 40px 80px -20px rgba(0,0,0,.6),
+          inset 0 1px 0 rgba(255,255,255,.25)
+        `;
+      });
+
+      bigCard.addEventListener('mouseleave', function() {
+        bigCard.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
+        bigCard.style.transition = 'transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s';
+        bigCard.style.boxShadow = '';
+      });
+    }, 100);
+  }
+
+  // Générer le QR de la modale (lib locale, offline)
+  fillModalQR(c);
+}
+
+function closeLoyaltyModal(event){
+  // Si event existe, ne fermer que si click sur le fond ou bouton X
+  if (event && event.target.closest('.lc-card-modern')) return;
+  
+  const modal = document.getElementById('lc-modal');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* Fermer avec Échap */
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape'){
+    closeLoyaltyModal();
+  }
+});
+
+</script>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/service-worker.js").catch(()=>{}));</script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>

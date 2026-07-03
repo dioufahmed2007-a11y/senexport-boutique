@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Catalogue — SenExport</title>
+<meta property="og:image" content="https://senexport.netlify.app/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://senexport.netlify.app/og.jpg">
+  <meta name="theme-color" content="#C4531A">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+<style>
+.cat-layout{display:grid;grid-template-columns:260px 1fr;gap:28px;padding:28px 0 56px}
+@media(max-width:920px){
+  .cat-layout{grid-template-columns:1fr;gap:20px}
+  .filters{display:none;position:fixed;inset:0;z-index:200;background:var(--paper);padding:20px;overflow-y:auto}
+  .filters.open{display:block}
+}
+.filters{position:sticky;top:85px;max-height:calc(100vh - 105px);overflow-y:auto;padding-right:8px}
+.filters::-webkit-scrollbar{width:6px}
+.filters::-webkit-scrollbar-thumb{background:var(--whisper);border-radius:3px}
+
+.filter-group{background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r12);padding:18px 20px;margin-bottom:14px}
+.filter-group h4{font-family:var(--ff-d);font-weight:500;font-size:.95rem;margin-bottom:14px;color:var(--ink)}
+.filter-option{display:flex;align-items:center;gap:10px;padding:6px 0;font-size:.86rem;color:var(--stone);cursor:pointer;transition:.12s}
+.filter-option:hover{color:var(--ink)}
+.filter-option input{accent-color:var(--or);width:16px;height:16px;flex-shrink:0}
+.filter-option .count{margin-left:auto;font-family:var(--ff-m);font-size:.72rem;color:var(--mist)}
+.filter-option .emoji{font-size:.95rem}
+
+.price-range{display:flex;gap:8px;align-items:center;margin-top:4px}
+.price-range input{width:100%;padding:8px 10px;border:1px solid rgba(212,175,55,.15);border-radius:var(--r8);font-size:.82rem;font-family:var(--ff-m)}
+.price-range span{color:var(--mist);font-size:.8rem}
+
+.filter-clear{width:100%;padding:9px;background:rgba(255,255,255,.04);border-radius:var(--r8);font-size:.82rem;font-weight:500;color:var(--stone);transition:.15s;margin-top:4px}
+.filter-clear:hover{background:var(--ink);color:var(--paper)}
+
+.mobile-filter-bar{display:none;gap:8px;padding:14px 0;border-bottom:1px solid rgba(212,175,55,.1);margin-bottom:20px}
+@media(max-width:920px){.mobile-filter-bar{display:flex}}
+
+.results-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:16px;flex-wrap:wrap}
+.results-count{font-size:.88rem;color:var(--stone)}
+.results-count strong{color:var(--ink);font-weight:600;font-family:var(--ff-d)}
+
+.sort-select{padding:9px 32px 9px 14px;background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r8);font-size:.84rem;color:var(--ink);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236B5B4E' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+
+.active-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.active-filters-label{font-size:.78rem;color:var(--stone);margin-right:4px;font-weight:500}
+
+.pagination{display:flex;justify-content:center;gap:6px;margin-top:40px}
+.pg-btn{min-width:38px;height:38px;padding:0 12px;display:grid;place-items:center;background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r8);font-size:.86rem;font-weight:500;color:var(--stone);transition:.15s}
+.pg-btn:hover{background:rgba(255,255,255,.04);border-color:var(--sand)}
+.pg-btn.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pg-btn:disabled{opacity:.4;cursor:not-allowed}
+
+.loading{padding:60px 20px;text-align:center;color:var(--stone);grid-column:1/-1}
+.loading::before{content:'';display:inline-block;width:32px;height:32px;border:3px solid rgba(212,175,55,.1);border-top-color:var(--or);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:14px;vertical-align:middle;margin-right:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links">
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="maison.html">Maison</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="collections.html">Collections</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+    </a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier">
+      <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="nav-badge" id="cart-badge"></span>
+    </a>
+    <a href="compte.html" class="nav-icon" aria-label="Mon compte">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </a>
+  </div>
+</nav>
+<aside class="mobile-menu" id="mobile-menu">
+  <button class="close-btn">×</button>
+  <a href="catalogue.html">📦 Catalogue</a>
+  <a href="demande-speciale.html">🎯 Demande spéciale</a>
+  <div class="divider"></div>
+  <a href="panier.html">🛒 Panier</a>
+  <a href="favoris.html">♡ Favoris</a>
+  <a href="compte.html">◎ Compte</a>
+</aside>
+
+<div class="page-head">
+  <div class="w">
+    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="sep">›</span><span id="bc-title">Catalogue</span></div>
+    <h1 id="page-title">Tout le <em>catalogue</em></h1>
+    <p class="sub" id="page-sub">Parcourez l'ensemble des articles importés de France.</p>
+  </div>
+</div>
+
+<main style="padding-top:56px">
+<div class="w">
+<div class="cat-layout">
+
+  <aside class="filters" id="filters">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+      <h3 style="font-family:var(--ff-d);font-weight:500;font-size:1.1rem">Filtres</h3>
+      <button id="close-filters" style="display:none;width:36px;height:36px;border-radius:9999px;background:rgba(255,255,255,.04);font-size:1.2rem" onclick="document.getElementById('filters').classList.remove('open')">×</button>
+    </div>
+
+    <div class="filter-group">
+      <h4>Catégorie</h4>
+      <div id="f-cat">Chargement...</div>
+    </div>
+
+    <div class="filter-group">
+      <h4>État</h4>
+      <label class="filter-option"><input type="checkbox" data-f="etat" value="Neuf"> Neuf</label>
+      <label class="filter-option"><input type="checkbox" data-f="etat" value="Reconditionne"> Reconditionné</label>
+      <label class="filter-option"><input type="checkbox" data-f="etat" value="Bon etat"> Bon état</label>
+    </div>
+
+    <div class="filter-group">
+      <h4>Prix (FCFA)</h4>
+      <div class="price-range">
+        <input type="number" id="price-min" placeholder="Min" min="0">
+        <span>—</span>
+        <input type="number" id="price-max" placeholder="Max" min="0">
+      </div>
+    </div>
+
+    <button class="filter-clear" id="clear-filters">Effacer tous les filtres</button>
+  </aside>
+
+  <section class="results">
+    <div class="mobile-filter-bar">
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('filters').classList.add('open');document.getElementById('close-filters').style.display='grid'">⚙ Filtres</button>
+      <select class="sort-select" id="sort-mobile">
+        <option value="recent">Récents</option>
+        <option value="prix-asc">Prix ↑</option>
+        <option value="prix-desc">Prix ↓</option>
+      </select>
+    </div>
+
+    <div class="results-head">
+      <div class="results-count"><strong id="count">0</strong> articles trouvés</div>
+      <select class="sort-select" id="sort">
+        <option value="recent">Trier par : récents</option>
+        <option value="prix-asc">Prix : croissant</option>
+        <option value="prix-desc">Prix : décroissant</option>
+      </select>
+    </div>
+
+    <div class="active-filters" id="active-filters" style="display:none">
+      <span class="active-filters-label">Filtres actifs :</span>
+    </div>
+
+    <div class="p-grid" id="grid">
+      <div class="loading">Chargement du catalogue...</div>
+    </div>
+
+    <div class="pagination" id="pagination"></div>
+  </section>
+
+</div>
+</div>
+</main>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
+      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:240px;margin-bottom:1.25rem">Produits français importés. Dépôt à Thiès, Sénégal.</p>
+      <div class="pay-tags"><span class="pay-tag">Wave</span><span class="pay-tag">Orange Money</span><span class="pay-tag">Espèces</span></div>
+    </div>
+    <nav class="footer-col"><h4>Univers</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="collections.html">Collections</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li><li><a href="favoris.html">Favoris</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li><li><a href="cgv.html">CGV</a></li></ul></nav>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 SenExport Boutique · Fait à Thiès</p>
+    <a href="cgv.html">Conditions générales</a>
+  </div>
+</footer>
+
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="images.js"></script>
+<script src="app.js"></script>
+<script src="animations.js" defer></script>
+<script>
+const params = new URLSearchParams(location.search);
+const initialCat = params.get('cat');  // = id de catégorie (BIGINT)
+const initialSearch = params.get('q');
+
+const state = {
+  cats: initialCat ? [+initialCat] : [],  // liste d'IDs numériques
+  etats: [],
+  priceMin: null, priceMax: null,
+  sort: 'recent',
+  search: initialSearch || '',
+  page: 1, perPage: 12,
+};
+
+if (initialSearch) document.getElementById('search').value = initialSearch;
+
+let ALL_ARTICLES = [];
+let ALL_CATS = [];
+
+async function boot(){
+  await new Promise(r => setTimeout(r, 50));
+  
+  const [articles, cats] = await Promise.all([
+    SE.Articles.load(),
+    SE.Categories.load()
+  ]);
+  ALL_ARTICLES = articles;
+  ALL_CATS = cats;
+  
+  /* Mise à jour header de page si filtre cat */
+  if (initialCat){
+    const c = cats.find(x => x.id === +initialCat);
+    if (c){
+      document.getElementById('page-title').innerHTML = `${c.emoji || '📦'} <em>${c.nom}</em>`;
+      document.getElementById('page-sub').textContent = `Tous les articles dans la catégorie ${c.nom}.`;
+      document.getElementById('bc-title').textContent = c.nom;
+      document.title = c.nom + ' — SenExport';
+    }
+  }
+  
+  /* Remplir la liste des catégories du filtre */
+  const catsWithCount = cats.map(c => ({
+    ...c,
+    count: articles.filter(a => a.categorie_id === c.id).length
+  })).filter(c => c.count > 0);
+  
+  document.getElementById('f-cat').innerHTML = catsWithCount.map(c => `
+    <label class="filter-option">
+      <input type="checkbox" data-f="cat" value="${c.id}" ${state.cats.includes(c.id)?'checked':''}>
+      <span class="emoji">${c.emoji || '📦'}</span> ${c.nom}
+      <span class="count">${c.count}</span>
+    </label>
+  `).join('') || '<div style="font-size:.8rem;color:var(--stone)">Aucune catégorie</div>';
+  
+  /* Câbler les checkbox catégories */
+  document.querySelectorAll('[data-f="cat"]').forEach(cb => cb.addEventListener('change', e => {
+    const v = +e.target.value;
+    if (e.target.checked) state.cats.push(v); else state.cats = state.cats.filter(x=>x!==v);
+    state.page = 1; render();
+  }));
+  
+  render();
+}
+
+function applyFilters(){
+  let list = [...ALL_ARTICLES];
+  if (state.search){
+    const q = state.search.toLowerCase();
+    list = list.filter(a => (a.nom||'').toLowerCase().includes(q) || (a.reference||'').toLowerCase().includes(q) || (a.description||'').toLowerCase().includes(q));
+  }
+  if (state.cats.length) list = list.filter(a => state.cats.includes(a.categorie_id));
+  if (state.etats.length){
+    list = list.filter(a => state.etats.includes(SE.normEtat(a.etat)));
+  }
+  if (state.priceMin !== null) list = list.filter(a => (a.prix_vente_fcfa||0) >= state.priceMin);
+  if (state.priceMax !== null) list = list.filter(a => (a.prix_vente_fcfa||0) <= state.priceMax);
+
+  if (state.sort === 'prix-asc') list.sort((a,b) => (a.prix_vente_fcfa||0) - (b.prix_vente_fcfa||0));
+  else if (state.sort === 'prix-desc') list.sort((a,b) => (b.prix_vente_fcfa||0) - (a.prix_vente_fcfa||0));
+  return list;
+}
+
+function render(){
+  const list = applyFilters();
+  document.getElementById('count').textContent = SE.fnum(list.length);
+  const totalPages = Math.max(1, Math.ceil(list.length / state.perPage));
+  if (state.page > totalPages) state.page = 1;
+  const slice = list.slice((state.page-1)*state.perPage, state.page*state.perPage);
+
+  if (list.length === 0){
+    document.getElementById('grid').innerHTML = `
+      <div class="empty" style="grid-column:1/-1;text-align:center;padding:60px 20px;background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r16)">
+        <div style="font-size:3rem;margin-bottom:14px;opacity:.5">🔍</div>
+        <h3 style="font-family:var(--ff-d);font-weight:500;font-size:1.3rem;margin-bottom:8px">Aucun article trouvé</h3>
+        <p style="color:var(--stone);margin-bottom:18px">${ALL_ARTICLES.length===0 ? 'Le catalogue est en cours de création.' : 'Essayez de modifier vos filtres.'}</p>
+        ${ALL_ARTICLES.length===0 ? '<a href="demande-speciale.html" class="btn btn-fire">Faire une demande spéciale</a>' : '<button class="btn btn-ghost" onclick="clearAll()">Effacer les filtres</button>'}
+      </div>`;
+    document.getElementById('pagination').innerHTML = '';
+    updateChips();
+    return;
+  }
+  
+  document.getElementById('grid').innerHTML = slice.map(SE.productCard).join('');
+  
+  if (totalPages > 1){
+    let html = `<button class="pg-btn" ${state.page===1?'disabled':''} onclick="goPage(${state.page-1})">←</button>`;
+    for (let i=1;i<=totalPages;i++) html += `<button class="pg-btn ${state.page===i?'active':''}" onclick="goPage(${i})">${i}</button>`;
+    html += `<button class="pg-btn" ${state.page===totalPages?'disabled':''} onclick="goPage(${state.page+1})">→</button>`;
+    document.getElementById('pagination').innerHTML = html;
+  } else {
+    document.getElementById('pagination').innerHTML = '';
+  }
+
+  updateChips();
+}
+
+function updateChips(){
+  const chips = [];
+  state.cats.forEach(cid => { const c = ALL_CATS.find(x=>x.id===cid); if (c) chips.push({label:`${c.emoji||'📦'} ${c.nom}`, remove:()=>{state.cats=state.cats.filter(x=>x!==cid);syncCheckboxes();render()}}); });
+  state.etats.forEach(e => chips.push({label:SE.etatLabel(e), remove:()=>{state.etats=state.etats.filter(x=>x!==e);syncCheckboxes();render()}}));
+  if (state.priceMin !== null) chips.push({label:`Min ${SE.fnum(state.priceMin)} FCFA`, remove:()=>{state.priceMin=null;document.getElementById('price-min').value='';render()}});
+  if (state.priceMax !== null) chips.push({label:`Max ${SE.fnum(state.priceMax)} FCFA`, remove:()=>{state.priceMax=null;document.getElementById('price-max').value='';render()}});
+  if (state.search) chips.push({label:`"${state.search}"`, remove:()=>{state.search='';document.getElementById('search').value='';render()}});
+
+  const af = document.getElementById('active-filters');
+  if (chips.length === 0) af.style.display = 'none';
+  else {
+    af.style.display = 'flex';
+    af.innerHTML = `<span class="active-filters-label">Filtres :</span>` + chips.map((c,i) => `<span class="chip active" onclick="window.__chipRemove[${i}]()">${c.label} <span class="remove">×</span></span>`).join('');
+    window.__chipRemove = chips.map(c => c.remove);
+  }
+}
+
+function syncCheckboxes(){
+  document.querySelectorAll('[data-f="cat"]').forEach(cb => { cb.checked = state.cats.includes(+cb.value); });
+  document.querySelectorAll('[data-f="etat"]').forEach(cb => { cb.checked = state.etats.includes(cb.value); });
+}
+
+function clearAll(){
+  state.cats=[]; state.etats=[]; state.priceMin=null; state.priceMax=null; state.search='';
+  document.getElementById('price-min').value=''; document.getElementById('price-max').value='';
+  document.getElementById('search').value='';
+  syncCheckboxes(); render();
+}
+
+window.goPage = p => { state.page = p; window.scrollTo({top:0,behavior:'smooth'}); render(); };
+
+/* Event listeners pour tous les filtres sauf cat (câblés dynamiquement) */
+document.querySelectorAll('[data-f="etat"]').forEach(cb => cb.addEventListener('change', e => {
+  const v = e.target.value;
+  if (e.target.checked) state.etats.push(v); else state.etats = state.etats.filter(x=>x!==v);
+  state.page = 1; render();
+}));
+
+document.getElementById('price-min').addEventListener('input', e => { state.priceMin = e.target.value ? +e.target.value : null; state.page=1; render(); });
+document.getElementById('price-max').addEventListener('input', e => { state.priceMax = e.target.value ? +e.target.value : null; state.page=1; render(); });
+document.getElementById('sort').addEventListener('change', e => { state.sort = e.target.value; render(); });
+const sm = document.getElementById('sort-mobile');
+if (sm) sm.addEventListener('change', e => { state.sort = e.target.value; render(); });
+let _searchTrackTimer = null;
+document.getElementById('search').addEventListener('input', e => {
+  state.search = e.target.value;
+  state.page=1;
+  render();
+  // Track la recherche (debounce 1s pour ne pas spammer)
+  clearTimeout(_searchTrackTimer);
+  const q = e.target.value.trim();
+  if (q.length >= 3){
+    _searchTrackTimer = setTimeout(() => {
+      if (SE.Track) SE.Track.search(q);
+    }, 1000);
+  }
+});
+document.getElementById('clear-filters').addEventListener('click', clearAll);
+
+boot();
+</script>
+<script>if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("/service-worker.js").catch(()=>{}));</script>
+<script src="theme.js"></script>
+<script src="animations.js"></script>
+</body>
+</html>
