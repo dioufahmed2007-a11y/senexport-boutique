@@ -29,7 +29,7 @@ input, select, textarea { font-family: inherit; }
   position: fixed; top: 0; left: 0; right: 0; z-index: 300;
   height: 56px; display: flex; align-items: center;
   justify-content: space-between; padding: 0 var(--pad);
-  background: rgba(8,9,14,.92);
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
   backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--or-line);
   transition: background var(--mid);
@@ -136,9 +136,12 @@ input, select, textarea { font-family: inherit; }
 .p-card:hover .p-img img { transform: scale(1.06); }
 
 /* Overlay rupture de stock */
-.p-out-overlay { position: absolute; inset: 0; background: rgba(8,9,14,.52); display: flex; align-items: center; justify-content: center; z-index: 2; }
-.p-out-label { font-family: var(--ff-m); font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.22); padding: .48rem 1.1rem; border-radius: 99px; }
+.p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.5); display: flex; align-items: center; justify-content: center; z-index: 2; }
 
+.p-out-label { font-family: var(--ff-m); 
+  font-size: .65rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; 
+  color: #fff; background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.22);
+   padding: .48rem 1.1rem; border-radius: 99px; }
 /* Badges */
 .p-badges { position: absolute; top: .6rem; left: .6rem; display: flex; flex-direction: column; gap: .3rem; z-index: 3; }
 .p-badge { font-family: var(--ff-m); font-size: .57rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .2rem .6rem; border-radius: 99px; }
@@ -254,7 +257,7 @@ section { padding: clamp(3rem, 7vw, 5rem) 0; }
 
 /* ── FOOTER ── */
 .footer {
-  background: #060710; border-top: 1px solid var(--border);
+  background: var(--bg2); border-top: 1px solid var(--border);
   padding: clamp(2.5rem, 6vw, 4.5rem) var(--pad) 1.5rem;
 }
 .footer-grid {
