@@ -257,7 +257,7 @@
 .prod-name{font-family:var(--ff-d);font-size:.98rem;color:var(--ink);line-height:1.3}
 .prod-name:hover{color:var(--or)}
 .prod-price{font-family:var(--ff-d);font-size:1.05rem;font-weight:600;color:var(--or);margin-top:.2rem}
-.prod-desc{font-size:.74rem;color:var(--stone);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prod-desc{font-size:.74rem;color:var(--stone);line-height:1.5;display:-webkit-box;-line-clamp: 2;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ══════════════════════════════════════════════════
    HERO ÉDITORIAL PARTAGÉ — split texte/visuel avec 3D

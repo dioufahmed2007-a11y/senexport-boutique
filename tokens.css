@@ -63,3 +63,71 @@
   --ivoire:    var(--ink);
   --mauv:      #C8B5FF;
 }
+/* ═══════════════════════════════════════════════════════════════
+   UNIVERS MAISON (Brico & Électroménager)
+   S'active automatiquement sur la page maison.html
+   ═══════════════════════════════════════════════════════════════ */
+body[data-univers="maison"] {
+  --bg:        #F4F5F0; /* Fond clair type béton/usine */
+  --bg2:       #EAEAEA;
+  --card:      #FFFFFF;
+  --card2:     #F9F9F9;
+  --border:    rgba(0,0,0,.1);
+  --ink:       #1A1A1A; /* Texte sombre */
+  --slate:     #333333;
+  --stone:     #666666;
+  --muted:     #888888;
+  
+  --or:        #F5A623; /* Le fameux jaune/orange BricoDépôt */
+  --or2:       #FFB84D;
+  --or-dim:    rgba(245,166,35,.1);
+  --or-line:   rgba(245,166,35,.3);
+
+  --ff-d: 'Roboto Condensed', sans-serif; /* Police plus industrielle */
+  --ff-b: 'Inter', system-ui, sans-serif;
+}
+/* ═══════════════════════════════════════════════════════════════
+   UNIVERS FILLE (Girly & Cosmétiques)
+   ═══════════════════════════════════════════════════════════════ */
+body[data-univers="fille"] {
+  --bg:        #FFF5F8; /* Fond rose très pâle */
+  --bg2:       #FFEBF2;
+  --card:      #FFFFFF;
+  --card2:     #FFF0F5;
+  --border:    rgba(255,143,177,.2);
+  --ink:       #4A4A4A; /* Texte gris doux */
+  --slate:     #6B6B6B;
+  --stone:     #8A8A8A;
+  --muted:     #B0B0B0;
+  
+  --or:        #FF8FB1; /* Accent Rose girly */
+  --or2:       #FFA6C4;
+  --or-dim:    rgba(255,143,177,.1);
+  --or-line:   rgba(255,143,177,.3);
+
+  --ff-d: 'Playfair Display', serif;
+  --ff-b: 'Poppins', system-ui, sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UNIVERS SPORT (Foot & Sports de combat)
+   ═══════════════════════════════════════════════════════════════ */
+body[data-univers="sport"] {
+  --bg:        #0A0A0A; /* Fond noir profond */
+  --bg2:       #121212;
+  --card:      #1A1A1A;
+  --card2:     #222222;
+  --border:    rgba(208,2,27,.3);
+  --ink:       #FFFFFF;
+  --slate:     #CCCCCC;
+  --stone:     #999999;
+  --muted:     #666666;
+  
+  --or:        #D0021B; /* Accent Rouge sang */
+  --or2:       #FF1A33;
+  --or-dim:    rgba(208,2,27,.1);
+  --or-line:   rgba(208,2,27,.3);
+
+  --ff-d: 'Oswald', sans-serif;
+  --ff-b: 'Roboto', system-ui, sans-serif;
+}
