@@ -23,14 +23,13 @@
     a{color:inherit;text-decoration:none}
     #particles{position:fixed;inset:0;pointer-events:none;z-index:0}
 
-    .hero-bg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center 30%;opacity:0;transition:opacity 1.4s var(--ease)}
+        .hero-bg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center 30%;opacity:0;transition:opacity 1.4s var(--ease)}
     .hero-bg.loaded{opacity:1}
     .hero-bg::after{content:'';position:absolute;inset:0;
       background:
-        linear-gradient(180deg, rgba(8,9,14,.55) 0%, rgba(8,9,14,.78) 55%, rgba(8,9,14,.95) 100%),
-        radial-gradient(ellipse 80% 60% at 50% 38%, rgba(8,9,14,.15) 0%, rgba(8,9,14,.8) 75%);
+        linear-gradient(180deg, rgba(255,245,248,.55) 0%, rgba(255,245,248,.78) 55%, rgba(255,245,248,.95) 100%),
+        radial-gradient(ellipse 80% 60% at 50% 38%, rgba(255,143,177,.15) 0%, rgba(255,245,248,.8) 75%);
     }
-
     .nav{position:fixed;top:0;left:0;right:0;z-index:50;height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.5rem,5vw,4rem);background:rgba(8,9,14,.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
     .nav-logo{font-family:var(--ff-d);font-size:1.25rem;font-weight:600;color:var(--or);letter-spacing:.04em}
     .nav-logo span{color:var(--ink);font-weight:300}
