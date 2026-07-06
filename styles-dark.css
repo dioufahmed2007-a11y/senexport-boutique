@@ -590,3 +590,132 @@ body.theme-nuit-bleue .lc-card-modern { color: #fff !important; }
 
 /* ── STUDIO SOMBRE (défaut, renforcé) ── */
 .hero-title em, .sec-title em, .ed-hero-title em { color: var(--or); }
+/* ═══════════════════════════════════════════════════════════════
+   MODE STREETWEAR LAYOUT (Dynamique - S'adapte à tous les thèmes)
+   ═══════════════════════════════════════════════════════════════ */
+
+.prod-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px; /* Gap très serré style lookbook */
+}
+@media (max-width: 768px) {
+  .prod-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* La carte produit de base */
+.prod-card {
+  background: var(--bg2) !important;
+  border: none !important;
+  border-radius: 0 !important; /* Angles droits = plus streetwer */
+  overflow: hidden;
+  position: relative;
+  transition: transform .4s var(--ease);
+}
+
+/* L'image prend toute la carte */
+.prod-card .prod-img {
+  aspect-ratio: 3/4; /* Format portrait style streetwer */
+  background: var(--bg2);
+}
+.prod-card .prod-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .8s var(--ease), opacity .4s ease;
+  opacity: 0.9;
+}
+
+/* Au survol : l'image devient nette et zoome légèrement */
+.prod-card:hover .prod-img img {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+/* Le corps de la carte : par-dessus l'image en bas */
+/* Le dégradé reste sombre car il est AU-DESSUS de l'image pour la lisibilité */
+.prod-card .prod-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.5rem 1rem 1rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 70%, transparent 100%);
+  z-index: 2;
+  transform: translateY(20px); /* Caché par défaut */
+  opacity: 0;
+  transition: transform .4s var(--ease), opacity .4s var(--ease);
+}
+
+/* Au survol, le texte monte */
+.prod-card:hover .prod-body {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Typo streetwer : sobre et minimaliste */
+/* Le texte sur image reste blanc pour la lisibilité, peu importe le thème */
+.prod-name {
+  font-family: var(--ff-b) !important; /* DM Sans, propre et moderne */
+  font-size: 0.85rem !important;
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff !important; 
+  margin-bottom: 4px;
+}
+
+.prod-price {
+  font-family: var(--ff-m) !important; /* JetBrains Mono pour le prix = techwear */
+  font-size: 0.8rem !important;
+  color: var(--or) !important; /* L'or s'adapte selon le thème */
+  font-weight: 500 !important;
+}
+
+/* Les badges (Neuf, Stock limité) */
+.prod-badge {
+  font-family: var(--ff-m) !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.6) !important;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.2) !important;
+  color: #ffffff !important;
+  padding: 4px 8px !important;
+  border-radius: 0 !important;
+}
+.prod-badge.low {
+  background: var(--or) !important;
+  color: var(--bg) !important; /* Texte du badge qui s'adapte au fond du thème */
+  border-color: var(--or) !important;
+}
+
+/* Bouton favori (cœur) */
+.prod-wish {
+  top: 10px !important; right: 10px !important;
+  background: rgba(0,0,0,0.4) !important;
+  backdrop-filter: blur(4px);
+  border-radius: 50% !important;
+}
+.prod-wish svg { stroke: #ffffff; }
+.prod-wish.active svg { fill: var(--or); stroke: var(--or); }
+
+/* Bouton ajout rapide */
+/* Utilise les variables pour s'adapter au thème (blanc sur fond sombre, noir sur fond clair) */
+.prod-quick {
+  background: var(--ink) !important;
+  color: var(--bg) !important;
+  font-family: var(--ff-m) !important;
+  font-size: 0.65rem !important;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-radius: 0 !important;
+  margin-top: 10px;
+  width: 100% !important;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .3s ease, transform .3s ease, background .2s;
+}
+.prod-card:hover .prod-quick {
+  opacity: 1;
+  transform: translateY(0);
+}
+.prod-quick:hover { background: var(--or) !important; color: var(--bg) !important; }
