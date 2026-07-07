@@ -15,31 +15,32 @@
   <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="styles-dark.css">
   <style>
-    /* ── HERO Mode ── */
+    /* ── HERO CADRE ET PROPRE ── */
     .mode-hero-full{
       position:relative;
-      height:60svh;min-height:400px;
+      height: 70vh; min-height: 500px;
       overflow:hidden;
-      display:flex;align-items:center;
+      display:flex;align-items:center;justify-content:center;
       background: #000;
+      text-align: center;
     }
     .mode-hero-bg{
       position:absolute;inset:0;
-      background:url('https://images.unsplash.com/photo-1604948501466-4e9c339b9c24?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-      opacity: 0.6;
+      background:url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+      opacity: 0.5;
     }
     .mode-hero-overlay{
       position:absolute;inset:0;
-      background:linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+      background:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
     }
     .mode-hero-content{
       position:relative;z-index:2;
-      padding:clamp(2rem,5vw,5rem);
-      max-width:800px;
+      padding: 2rem;
+      max-width: 800px;
     }
     .mode-hero-eyebrow{
       display:block;
-      font-family:var(--ff-m);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;
+      font-family:var(--ff-m);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
       color:var(--or);margin-bottom:1.5rem;
     }
     .mode-hero-title{
@@ -52,45 +53,99 @@
     .mode-hero-title em{color:var(--or);font-style:italic}
     .mode-hero-sub{
       font-size:1rem;color:rgba(255,255,255,.8);
-      line-height:1.6;margin-bottom:2rem;max-width:400px;
+      line-height:1.6;margin: 0 auto 2rem;max-width:500px;
     }
 
-    /* ── Bannière Streetwer ── */
-    .street-banner {
+    /* ── MINI TEASER (Ligne du haut) ── */
+    .top-teaser {
       background: var(--bg2);
-      padding: 4rem 0;
-      text-align: center;
-      border-top: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
-      margin: 4rem 0;
-    }
-    .street-banner h2 {
-      font-family: var(--ff-d);
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 300;
-      font-style: italic;
-      color: var(--ink);
-      line-height: 1.1;
-    }
-    .street-banner p {
+      padding: 1rem;
+      text-align: center;
+      font-family: var(--ff-m);
+      font-size: 0.8rem;
       color: var(--stone);
-      margin-top: 1rem;
+    }
+    .top-teaser strong { color: var(--or); margin-right: 8px; }
+    .top-teaser a { color: var(--ink); text-decoration: underline; }
+
+    /* ── ZONE COLLECTIONS (Personnalisation) ── */
+    .collections-wrap { max-width: 1280px; margin: 4rem auto; padding: 0 var(--pad); }
+    .collections-title { text-align: center; margin-bottom: 3rem; }
+    .collections-title h2 { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 400; color: var(--ink); }
+    .collections-title h2 em { color: var(--or); font-style: italic; }
+
+    /* Collection en cours (Mise en avant) */
+    .sec-col-encours {
+      border: 1px solid var(--or) !important;
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
+      background: linear-gradient(135deg, var(--card) 0%, var(--bg2) 100%) !important;
+    }
+    /* Collections passées (Propres, pas "mortes") */
+    .sec-col-passee {
+      background: var(--card) !important;
+      border: 1px solid var(--border) !important;
+      opacity: 1 !important; /* On enlève l'effet gris */
+    }
+    .sec-col-passee .sec-col-passee-name { color: var(--ink) !important; }
+    .sec-col-passee .sec-col-passee-stock { color: var(--stone) !important; }
+
+    /* ── CATALOGUE TEASER ── */
+    .catalog-teaser {
+      text-align: center;
+      padding: 4rem 1.5rem 2rem;
+    }
+    .catalog-teaser h2 {
+      font-family: var(--ff-d);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+    .catalog-teaser h2 em { color: var(--or); font-style: italic; }
+    .catalog-teaser p {
+      color: var(--stone);
       letter-spacing: 0.1em;
       text-transform: uppercase;
       font-size: 0.8rem;
     }
 
-    /* ── Filtres ── */
-    .filters-bar{padding:1rem var(--pad);background:var(--bg);border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-    .filter-btn{background:none;border:1px solid var(--border);border-radius:99px;padding:.4rem 1rem;font-family:var(--ff-b);font-size:.75rem;font-weight:500;color:var(--stone);cursor:pointer;transition:.2s}
-    .filter-btn:hover{color:var(--ink);border-color:var(--or)}
-    .filter-btn.active{background:var(--or);color:#000;border-color:var(--or)}
+    /* ── FILTRES & GRILLE ── */
+    .filters-bar{padding:1rem var(--pad);background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:center}
+    .grid-section{padding:3rem var(--pad) 5rem}
 
-    /* ── Grille ── */
-    .grid-section{padding:2rem var(--pad) 5rem}
-    .section-header{margin-bottom:2rem}
-    .section-title{font-family:var(--ff-d);font-size:2rem;font-weight:400;color:var(--ink)}
-    .section-title em{font-style:italic;color:var(--or)}
+    /* ── ARGUMENTS DE VENTE (Photos + Texte) ── */
+    .marketing-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-top: 5rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    @media(max-width: 768px) { .marketing-section { grid-template-columns: 1fr; } }
+    .mkt-block {
+      padding: 4rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .mkt-block:nth-child(odd) { background: var(--bg2); }
+    .mkt-block h3 { font-family: var(--ff-d); font-size: 2rem; color: var(--ink); margin-bottom: 1rem; font-weight: 400; }
+    .mkt-block h3 em { color: var(--or); font-style: italic; }
+    .mkt-block p { color: var(--stone); line-height: 1.7; margin-bottom: 1.5rem; }
+    .mkt-img {
+      height: 400px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* ── FAQ ── */
+    .faq-section { max-width: 800px; margin: 5rem auto; padding: 0 1.5rem; }
+    .faq-section h2 { text-align: center; font-family: var(--ff-d); font-size: 2.5rem; color: var(--ink); margin-bottom: 3rem; font-weight: 400; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 1.5rem 0; }
+    .faq-item h4 { font-family: var(--ff-b); font-size: 1.1rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .faq-item p { color: var(--stone); line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -110,29 +165,41 @@
     </div>
 </nav>
 
-<!-- HERO STREETWEAR -->
+<!-- 1. HERO PROPRE -->
 <div class="mode-hero-full">
   <div class="mode-hero-bg"></div>
   <div class="mode-hero-overlay"></div>
   <div class="mode-hero-content">
-    <span class="mode-hero-eyebrow">✦ Arrivage France 2026</span>
+    <span class="mode-hero-eyebrow">Arrivage France 2026</span>
     <h1 class="mode-hero-title">Thrifty.<br><em>Curated.</em></h1>
     <p class="mode-hero-sub">Sélection pointue importée de France. Stock limité, pièces uniques. Paiement à la récupération à Thiès.</p>
   </div>
 </div>
 
-<!-- ZONE DES DROPS (Le script collections.js s'injecte ici) -->
-<div id="se-collections"></div>
-
-<!-- BANNIERE EDITORIALE -->
-<div class="street-banner">
-  <h2>"Ne porte pas ce qui est tendance,<br>porte ce qui te ressemble."</h2>
-  <p>— L'équipe SenExport</p>
+<!-- 2. MINI TEASER LIGNE DU HAUT -->
+<div class="top-teaser">
+  <strong>✦ Bientôt :</strong> Drop Techwear Futur dans 15 jours. <a href="https://wa.me/221778038874?text=Notifiez%20moi%20pour%20le%20prochain%20drop" target="_blank">M'avertir →</a>
 </div>
 
-<!-- FILTRES -->
+<!-- 3. ZONE DES COLLECTIONS (Script collections.js s'injecte ici) -->
+<div class="collections-wrap">
+  <div class="collections-title">
+    <h2>Nos <em>Arrivages</em></h2>
+  </div>
+  <div id="se-collections"></div>
+</div>
+
+<!-- 4. CATALOGUE TEASER -->
+<div class="catalog-teaser">
+  <h2>La <em>Sélection</em></h2>
+  <p>Pièces disponibles maintenant</p>
+</div>
+
+<!-- 5. FILTRES -->
 <div class="filters-bar">
   <button class="filter-btn active" data-genre="all">Tout voir</button>
+  <button class="filter-btn" data-genre="homme">Homme</button>
+  <button class="filter-btn" data-genre="femme">Femme</button>
   <span style="flex:1"></span>
   <select class="sort-select" id="sort-select" style="background:var(--card);border:1px solid var(--border);color:var(--ink);padding:.5rem;border-radius:4px">
     <option value="default">Trier par</option>
@@ -141,11 +208,8 @@
   </select>
 </div>
 
-<!-- GRILLE DES PRODUITS -->
+<!-- 6. GRILLE DES PRODUITS -->
 <section class="grid-section">
-  <div class="section-header">
-    <h2 class="section-title">La <em>Sélection</em></h2>
-  </div>
   <div class="prod-grid" id="product-grid">
     <div class="skel" style="aspect-ratio:3/4"></div>
     <div class="skel" style="aspect-ratio:3/4"></div>
@@ -153,6 +217,48 @@
     <div class="skel" style="aspect-ratio:3/4"></div>
   </div>
 </section>
+
+<!-- 7. ARGUMENTS DE VENTE (Photos + Texte) -->
+<div class="marketing-section">
+  <div class="mkt-block">
+    <h3>Importé de <em>France</em></h3>
+    <p>Des pièces introuvables ou vendus bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
+    <p style="color: var(--or); font-family: var(--ff-m); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">✓ Qualité vérifiée</p>
+  </div>
+  <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop');"></div>
+  
+  <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1000&auto=format&fit=crop');"></div>
+  <div class="mkt-block">
+    <h3>Zéro <em>Avance</em></h3>
+    <p>Tu commandes, on importe, tu récupères à Thiès. Tu ne paies qu'au moment de la récupération. Wave, Orange Money ou espèces. Zéro stress, zéro arnaque.</p>
+    <p style="color: var(--or); font-family: var(--ff-m); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">✓ Paiement à la livraison</p>
+  </div>
+</div>
+
+<!-- 8. FAQ -->
+<div class="faq-section">
+  <h2>Questions <em>Fréquentes</em></h2>
+  
+  <div class="faq-item">
+    <h4>Comment se passe le paiement ?</h4>
+    <p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p>
+  </div>
+  
+  <div class="faq-item">
+    <h4>Combien de temps pour recevoir ma commande ?</h4>
+    <p>En général entre 48h et quelques jours selon l'article et le prochain arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p>
+  </div>
+
+  <div class="faq-item">
+    <h4>Et si l'article ne me convient pas ?</h4>
+    <p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p>
+  </div>
+
+  <div class="faq-item">
+    <h4>Les vêtements sont-ils neufs ?</h4>
+    <p>Nous proposons du neuf importé, mais aussi du vintage en parfait état (thrifted). L'état est précisé sur chaque article.</p>
+  </div>
+</div>
 
 <footer class="footer">
   <div class="footer-grid">
@@ -182,10 +288,21 @@
 
   let allArticles=[];
 
+  document.querySelectorAll('[data-genre]').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('[data-genre]').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      applyFilters();
+    });
+  });
+
   document.getElementById('sort-select').addEventListener('change',applyFilters);
 
   function applyFilters(){
     let r=[...allArticles];
+    const activeGenre=document.querySelector('[data-genre].active').dataset.genre;
+    if(activeGenre!=='all')r=r.filter(a=>(a.genre||'').toLowerCase()===activeGenre);
+    
     const sort=document.getElementById('sort-select').value;
     if(sort==='prix_asc')r.sort((a,b)=>(a.prix_vente_fcfa||0)-(b.prix_vente_fcfa||0));
     else if(sort==='prix_desc')r.sort((a,b)=>(b.prix_vente_fcfa||0)-(a.prix_vente_fcfa||0));
@@ -203,9 +320,8 @@
   async function loadArticles(){
     try{
       const raw=await SE.Articles.load();
-      // Filtre les produits streetwear qu'on vient d'ajouter
       allArticles = raw.filter(a => a.reference && a.reference.startsWith('SW-'));
-      if(allArticles.length === 0) allArticles = raw; // fallback
+      if(allArticles.length === 0) allArticles = raw; 
       applyFilters();
     }catch(e){
       console.warn('[SenExport] Erreur chargement mode',e);
