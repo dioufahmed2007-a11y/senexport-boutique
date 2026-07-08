@@ -5,147 +5,143 @@
 <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mode &amp; Vêtements — SenExport Boutique</title>
-  <meta name="theme-color" content="#D4AF37">
+  <meta name="theme-color" content="#08090E">
   <link rel="icon" type="image/png" href="logo.png" />
   <link rel="manifest" href="manifest.json" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="styles-dark.css">
   <style>
-    /* ── HERO CADRE ET PROPRE ── */
-    .mode-hero-full{
-      position:relative;
-      height: 70vh; min-height: 500px;
-      overflow:hidden;
-      display:flex;align-items:center;justify-content:center;
+    body { background: var(--bg); }
+    
+    /* ═══ 1. HERO AVEC FONDU ═══ */
+    .mode-hero {
+      position: relative;
+      height: 90vh;
+      min-height: 600px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       background: #000;
-      text-align: center;
     }
-    .mode-hero-bg{
-      position:absolute;inset:0;
-      background:url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-      opacity: 0.5;
+    .mode-hero-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+      opacity: 0.6;
     }
-    .mode-hero-overlay{
-      position:absolute;inset:0;
-      background:linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
+    /* LE FONDU MAGIQUE VERS LA COULEUR DU SITE */
+    .mode-hero-fade {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(to bottom, transparent 0%, var(--bg) 100%);
+      z-index: 1;
     }
-    .mode-hero-content{
-      position:relative;z-index:2;
+    .mode-hero-content {
+      position: relative; z-index: 2;
       padding: 2rem;
-      max-width: 800px;
+      max-width: 900px;
     }
-    .mode-hero-eyebrow{
-      display:block;
-      font-family:var(--ff-m);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
-      color:var(--or);margin-bottom:1.5rem;
+    .mode-hero-eyebrow {
+      font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--or); margin-bottom: 1.5rem;
+      display: block;
     }
-    .mode-hero-title{
-      font-family:var(--ff-d);
-      font-size:clamp(3rem,8vw,6rem);
-      font-weight:700;line-height:.9;letter-spacing:-.03em;
-      color:#fff;margin-bottom:1rem;
-      text-transform: uppercase;
+    .mode-hero-title {
+      font-family: var(--ff-d); font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 700; line-height: 0.9; letter-spacing: -0.03em;
+      color: #fff; text-transform: uppercase; margin-bottom: 1.5rem;
     }
-    .mode-hero-title em{color:var(--or);font-style:italic}
-    .mode-hero-sub{
-      font-size:1rem;color:rgba(255,255,255,.8);
-      line-height:1.6;margin: 0 auto 2rem;max-width:500px;
+    .mode-hero-title em { color: var(--or); font-style: italic; }
+    .mode-hero-sub {
+      font-size: 1.1rem; color: rgba(255,255,255,0.8);
+      line-height: 1.6; max-width: 500px; margin: 0 auto;
     }
 
-    /* ── MINI TEASER (Ligne du haut) ── */
+    /* ═══ 2. MINI TEASER ═══ */
     .top-teaser {
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 1rem;
-      text-align: center;
-      font-family: var(--ff-m);
-      font-size: 0.8rem;
-      color: var(--stone);
+      position: relative; z-index: 3;
+      max-width: 800px; margin: -40px auto 40px; /* Chevauche le fondu */
+      background: var(--card); border: 1px solid var(--border);
+      padding: 1rem 2rem; text-align: center; border-radius: 4px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      font-family: var(--ff-b); font-size: 0.9rem; color: var(--ink);
     }
-    .top-teaser strong { color: var(--or); margin-right: 8px; }
-    .top-teaser a { color: var(--ink); text-decoration: underline; }
+    .top-teaser strong { color: var(--or); font-family: var(--ff-m); text-transform: uppercase; font-size: 0.8rem; }
+    .top-teaser a { color: var(--or); text-decoration: underline; font-weight: 600; }
 
-    /* ── ZONE COLLECTIONS (Personnalisation) ── */
-    .collections-wrap { max-width: 1280px; margin: 4rem auto; padding: 0 var(--pad); }
-    .collections-title { text-align: center; margin-bottom: 3rem; }
-    .collections-title h2 { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 400; color: var(--ink); }
-    .collections-title h2 em { color: var(--or); font-style: italic; }
-
-    /* Collection en cours (Mise en avant) */
+    /* ═══ 3. COLLECTION EN COURS (BLOC ÉDITORIAL) ═══ */
+    .collections-section {
+      padding: 4rem var(--pad);
+      max-width: 1280px; margin: 0 auto;
+    }
+    .sec-col-card {
+      border-radius: 8px !important; overflow: hidden; border: 1px solid var(--border) !important;
+    }
     .sec-col-encours {
+      background: var(--bg2) !important;
       border: 1px solid var(--or) !important;
-      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1);
-      background: linear-gradient(135deg, var(--card) 0%, var(--bg2) 100%) !important;
-    }
-    /* Collections passées (Propres, pas "mortes") */
-    .sec-col-passee {
-      background: var(--card) !important;
-      border: 1px solid var(--border) !important;
-      opacity: 1 !important; /* On enlève l'effet gris */
-    }
-    .sec-col-passee .sec-col-passee-name { color: var(--ink) !important; }
-    .sec-col-passee .sec-col-passee-stock { color: var(--stone) !important; }
-
-    /* ── CATALOGUE TEASER ── */
-    .catalog-teaser {
-      text-align: center;
-      padding: 4rem 1.5rem 2rem;
-    }
-    .catalog-teaser h2 {
-      font-family: var(--ff-d);
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 400;
-      color: var(--ink);
-      margin-bottom: 0.5rem;
-    }
-    .catalog-teaser h2 em { color: var(--or); font-style: italic; }
-    .catalog-teaser p {
-      color: var(--stone);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-size: 0.8rem;
     }
 
-    /* ── FILTRES & GRILLE ── */
-    .filters-bar{padding:1rem var(--pad);background:var(--bg);border-top:1px solid var(--border);border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:center;flex-wrap:wrap;justify-content:center}
-    .grid-section{padding:3rem var(--pad) 5rem}
+    /* ═══ 4. CATALOGUE ═══ */
+    .catalog-header {
+      text-align: center; padding: 4rem 1.5rem 2rem;
+    }
+    .catalog-header h2 {
+      font-family: var(--ff-d); font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 400; color: var(--ink); margin-bottom: 0.5rem;
+    }
+    .catalog-header h2 em { color: var(--or); font-style: italic; }
+    .catalog-header p { color: var(--stone); font-family: var(--ff-m); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
-    /* ── ARGUMENTS DE VENTE (Photos + Texte) ── */
+    .filters-bar {
+      padding: 1.5rem var(--pad); background: var(--bg);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      display: flex; gap: 0.75rem; align-items: center; justify-content: center; flex-wrap: wrap;
+    }
+    .filter-btn {
+      background: transparent; border: 1px solid var(--border); color: var(--stone);
+      padding: 0.5rem 1.2rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; transition: 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--or); color: var(--ink); }
+    .filter-btn.active { background: var(--or); color: #000; border-color: var(--or); font-weight: 600; }
+
+    .grid-section { padding: 3rem var(--pad) 5rem; max-width: 1280px; margin: 0 auto; }
+
+    /* ═══ 5. MARKETING (PROPRE SUR MOBILE) ═══ */
     .marketing-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      margin-top: 5rem;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border); margin: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     }
     @media(max-width: 768px) { .marketing-section { grid-template-columns: 1fr; } }
     .mkt-block {
-      padding: 4rem 3rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      background: var(--bg); padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center;
     }
-    .mkt-block:nth-child(odd) { background: var(--bg2); }
     .mkt-block h3 { font-family: var(--ff-d); font-size: 2rem; color: var(--ink); margin-bottom: 1rem; font-weight: 400; }
     .mkt-block h3 em { color: var(--or); font-style: italic; }
     .mkt-block p { color: var(--stone); line-height: 1.7; margin-bottom: 1.5rem; }
     .mkt-img {
-      height: 400px;
-      background-size: cover;
-      background-position: center;
+      width: 100%; height: 100%; min-height: 350px; object-fit: cover; display: block;
     }
+    .mkt-tag { color: var(--or); font-family: var(--ff-m); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
 
-    /* ── FAQ ── */
+    /* ═══ 6. FAQ ACCORDÉON ═══ */
     .faq-section { max-width: 800px; margin: 5rem auto; padding: 0 1.5rem; }
-    .faq-section h2 { text-align: center; font-family: var(--ff-d); font-size: 2.5rem; color: var(--ink); margin-bottom: 3rem; font-weight: 400; }
-    .faq-item { border-bottom: 1px solid var(--border); padding: 1.5rem 0; }
-    .faq-item h4 { font-family: var(--ff-b); font-size: 1.1rem; color: var(--ink); margin-bottom: 0.5rem; }
-    .faq-item p { color: var(--stone); line-height: 1.6; }
+    .faq-section h2 { text-align: center; font-family: var(--ff-d); font-size: 2.5rem; color: var(--ink); margin-bottom: 2rem; font-weight: 400; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q {
+      width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: 1.5rem 0; background: none; border: none; cursor: pointer; text-align: left;
+      font-family: var(--ff-d); font-size: 1.1rem; color: var(--ink); font-weight: 400;
+    }
+    .faq-q .ic { font-size: 1.2rem; color: var(--or); transition: transform var(--mid) var(--ease); flex-shrink: 0; }
+    .faq-item.open .faq-q .ic { transform: rotate(45deg); }
+    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
+    .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: var(--stone); line-height: 1.7; max-width: 600px; }
   </style>
 </head>
 <body>
@@ -165,10 +161,10 @@
     </div>
 </nav>
 
-<!-- 1. HERO PROPRE -->
-<div class="mode-hero-full">
+<!-- 1. HERO + FONDU -->
+<div class="mode-hero">
   <div class="mode-hero-bg"></div>
-  <div class="mode-hero-overlay"></div>
+  <div class="mode-hero-fade"></div>
   <div class="mode-hero-content">
     <span class="mode-hero-eyebrow">Arrivage France 2026</span>
     <h1 class="mode-hero-title">Thrifty.<br><em>Curated.</em></h1>
@@ -176,39 +172,30 @@
   </div>
 </div>
 
-<!-- 2. MINI TEASER LIGNE DU HAUT -->
+<!-- 2. TEASER -->
 <div class="top-teaser">
-  <strong>✦ Bientôt :</strong> Drop Techwear Futur dans 15 jours. <a href="https://wa.me/221778038874?text=Notifiez%20moi%20pour%20le%20prochain%20drop" target="_blank">M'avertir →</a>
+  <strong>✦ Prochain Drop :</strong> Techwear Futur dans 15 jours. <a href="https://wa.me/221778038874?text=Notifiez%20moi%20pour%20le%20prochain%20drop" target="_blank">M'avertir →</a>
 </div>
 
-<!-- 3. ZONE DES COLLECTIONS (Script collections.js s'injecte ici) -->
-<div class="collections-wrap">
-  <div class="collections-title">
-    <h2>Nos <em>Arrivages</em></h2>
-  </div>
+<!-- 3. COLLECTIONS -->
+<div class="collections-section">
   <div id="se-collections"></div>
 </div>
 
-<!-- 4. CATALOGUE TEASER -->
-<div class="catalog-teaser">
+<!-- 4. CATALOGUE HEADER -->
+<div class="catalog-header">
   <h2>La <em>Sélection</em></h2>
   <p>Pièces disponibles maintenant</p>
 </div>
 
-<!-- 5. FILTRES -->
+<!-- FILTRES (Basés sur l'état) -->
 <div class="filters-bar">
-  <button class="filter-btn active" data-genre="all">Tout voir</button>
-  <button class="filter-btn" data-genre="homme">Homme</button>
-  <button class="filter-btn" data-genre="femme">Femme</button>
-  <span style="flex:1"></span>
-  <select class="sort-select" id="sort-select" style="background:var(--card);border:1px solid var(--border);color:var(--ink);padding:.5rem;border-radius:4px">
-    <option value="default">Trier par</option>
-    <option value="prix_asc">Prix croissant</option>
-    <option value="prix_desc">Prix décroissant</option>
-  </select>
+  <button class="filter-btn active" data-filter="all">Tout voir</button>
+  <button class="filter-btn" data-filter="neuf">Neuf</button>
+  <button class="filter-btn" data-filter="bon">Occasion</button>
 </div>
 
-<!-- 6. GRILLE DES PRODUITS -->
+<!-- GRILLE -->
 <section class="grid-section">
   <div class="prod-grid" id="product-grid">
     <div class="skel" style="aspect-ratio:3/4"></div>
@@ -218,45 +205,45 @@
   </div>
 </section>
 
-<!-- 7. ARGUMENTS DE VENTE (Photos + Texte) -->
+<!-- 5. MARKETING PROPRE -->
 <div class="marketing-section">
   <div class="mkt-block">
     <h3>Importé de <em>France</em></h3>
-    <p>Des pièces introuvables ou vendus bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
-    <p style="color: var(--or); font-family: var(--ff-m); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">✓ Qualité vérifiée</p>
+    <p>Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
+    <span class="mkt-tag">✓ Qualité vérifiée</span>
   </div>
-  <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop');"></div>
+  <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop" class="mkt-img" alt="Import France">
   
-  <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1000&auto=format&fit=crop');"></div>
+  <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1000&auto=format&fit=crop" class="mkt-img" alt="Zéro avance">
   <div class="mkt-block">
     <h3>Zéro <em>Avance</em></h3>
     <p>Tu commandes, on importe, tu récupères à Thiès. Tu ne paies qu'au moment de la récupération. Wave, Orange Money ou espèces. Zéro stress, zéro arnaque.</p>
-    <p style="color: var(--or); font-family: var(--ff-m); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em;">✓ Paiement à la livraison</p>
+    <span class="mkt-tag">✓ Paiement à la livraison</span>
   </div>
 </div>
 
-<!-- 8. FAQ -->
+<!-- 6. FAQ ACCORDÉON -->
 <div class="faq-section">
-  <h2>Questions <em>Fréquentes</em></h2>
+  <h2>Avant de <em>commander</em></h2>
   
   <div class="faq-item">
-    <h4>Comment se passe le paiement ?</h4>
-    <p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p>
+    <button class="faq-q"><span>Comment se passe le paiement ?</span><span class="ic">+</span></button>
+    <div class="faq-a"><p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p></div>
   </div>
   
   <div class="faq-item">
-    <h4>Combien de temps pour recevoir ma commande ?</h4>
-    <p>En général entre 48h et quelques jours selon l'article et le prochain arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p>
+    <button class="faq-q"><span>Combien de temps pour recevoir ma commande ?</span><span class="ic">+</span></button>
+    <div class="faq-a"><p>En général entre 48h et quelques jours selon l'article et le prochain arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p></div>
   </div>
 
   <div class="faq-item">
-    <h4>Et si l'article ne me convient pas ?</h4>
-    <p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p>
+    <button class="faq-q"><span>Et si l'article ne me convient pas ?</span><span class="ic">+</span></button>
+    <div class="faq-a"><p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p></div>
   </div>
 
   <div class="faq-item">
-    <h4>Les vêtements sont-ils neufs ?</h4>
-    <p>Nous proposons du neuf importé, mais aussi du vintage en parfait état (thrifted). L'état est précisé sur chaque article.</p>
+    <button class="faq-q"><span>Les vêtements sont-ils neufs ?</span><span class="ic">+</span></button>
+    <div class="faq-a"><p>Nous proposons du neuf importé, mais aussi du vintage en parfait état (thrifted). L'état est précisé sur chaque article.</p></div>
   </div>
 </div>
 
@@ -281,6 +268,23 @@
 (() => {
   'use strict';
 
+  // FAQ Accordéon JS
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const q = item.querySelector('.faq-q');
+    const a = item.querySelector('.faq-a');
+    q.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(other => {
+        other.classList.remove('open');
+        other.querySelector('.faq-a').style.maxHeight = '0px';
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        a.style.maxHeight = a.scrollHeight + 'px';
+      }
+    });
+  });
+
   function updateBadge(){
     try{const n=SE?.Cart?.count?.()??0;const b=document.getElementById('cart-count');if(b){b.textContent=n;b.classList.toggle('show',n>0)}}catch(e){}
   }
@@ -288,30 +292,29 @@
 
   let allArticles=[];
 
-  document.querySelectorAll('[data-genre]').forEach(b=>{
+  document.querySelectorAll('.filter-btn').forEach(b=>{
     b.addEventListener('click',()=>{
-      document.querySelectorAll('[data-genre]').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
       b.classList.add('active');
       applyFilters();
     });
   });
 
-  document.getElementById('sort-select').addEventListener('change',applyFilters);
-
   function applyFilters(){
     let r=[...allArticles];
-    const activeGenre=document.querySelector('[data-genre].active').dataset.genre;
-    if(activeGenre!=='all')r=r.filter(a=>(a.genre||'').toLowerCase()===activeGenre);
+    const activeFilter=document.querySelector('.filter-btn.active').dataset.filter;
     
-    const sort=document.getElementById('sort-select').value;
-    if(sort==='prix_asc')r.sort((a,b)=>(a.prix_vente_fcfa||0)-(b.prix_vente_fcfa||0));
-    else if(sort==='prix_desc')r.sort((a,b)=>(b.prix_vente_fcfa||0)-(a.prix_vente_fcfa||0));
+    if(activeFilter === 'neuf') {
+      r = r.filter(a => (a.etat || '').toLowerCase().includes('neuf'));
+    } else if (activeFilter === 'bon') {
+      r = r.filter(a => (a.etat || '').toLowerCase().includes('bon'));
+    }
     renderGrid(r);
   }
 
   function renderGrid(articles){
     const grid=document.getElementById('product-grid');
-    if(articles.length===0){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--stone)">Aucun article.</div>';return}
+    if(articles.length===0){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--stone)">Aucun article dans cette catégorie.</div>';return}
     if(typeof SE!=='undefined'&&typeof SE.productCard==='function'){
       grid.innerHTML=articles.map(a=>SE.productCard(a)).join('');
     }
@@ -320,8 +323,7 @@
   async function loadArticles(){
     try{
       const raw=await SE.Articles.load();
-      allArticles = raw.filter(a => a.reference && a.reference.startsWith('SW-'));
-      if(allArticles.length === 0) allArticles = raw; 
+      allArticles = raw.filter(a => a.etat !== 'Vendu' && a.etat !== 'Reserve');
       applyFilters();
     }catch(e){
       console.warn('[SenExport] Erreur chargement mode',e);
