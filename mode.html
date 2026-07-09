@@ -17,24 +17,19 @@
   <style>
     body { background: var(--bg); }
     
-    /* ═══ 1. HERO AVEC FONDU ═══ */
+    /* ═══ 1. HERO + FONDU ═══ */
     .mode-hero {
       position: relative;
-      height: 90vh;
-      min-height: 600px;
+      height: 90vh; min-height: 600px;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      background: #000;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; background: #000;
     }
     .mode-hero-bg {
       position: absolute; inset: 0;
-      background: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+      background: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
       opacity: 0.6;
     }
-    /* LE FONDU MAGIQUE VERS LA COULEUR DU SITE */
     .mode-hero-fade {
       position: absolute; bottom: 0; left: 0; right: 0;
       height: 40%;
@@ -42,14 +37,11 @@
       z-index: 1;
     }
     .mode-hero-content {
-      position: relative; z-index: 2;
-      padding: 2rem;
-      max-width: 900px;
+      position: relative; z-index: 2; padding: 2rem; max-width: 900px;
     }
     .mode-hero-eyebrow {
       font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--or); margin-bottom: 1.5rem;
-      display: block;
+      text-transform: uppercase; color: var(--or); margin-bottom: 1.5rem; display: block;
     }
     .mode-hero-title {
       font-family: var(--ff-d); font-size: clamp(3.5rem, 10vw, 7rem);
@@ -62,44 +54,80 @@
       line-height: 1.6; max-width: 500px; margin: 0 auto;
     }
 
-    /* ═══ 2. MINI TEASER ═══ */
-    .top-teaser {
+    /* ═══ 2. PRODUITS PHARES (Ligne du haut) ═══ */
+    .featured-row-wrap {
       position: relative; z-index: 3;
-      max-width: 800px; margin: -40px auto 40px; /* Chevauche le fondu */
-      background: var(--card); border: 1px solid var(--border);
-      padding: 1rem 2rem; text-align: center; border-radius: 4px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      font-family: var(--ff-b); font-size: 0.9rem; color: var(--ink);
+      max-width: 1280px; margin: -60px auto 40px; /* Chevauche le fondu */
+      padding: 0 1rem;
     }
-    .top-teaser strong { color: var(--or); font-family: var(--ff-m); text-transform: uppercase; font-size: 0.8rem; }
+    .featured-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    }
+    @media(max-width: 768px) {
+      .featured-row { 
+        display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem;
+        scrollbar-width: none; -ms-overflow-style: none;
+      }
+      .featured-row::-webkit-scrollbar { display: none; }
+      .featured-row .p-card { min-width: 75%; scroll-snap-align: start; }
+    }
+
+    /* ═══ 3. MINI TEASER ═══ */
+    .top-teaser {
+      max-width: 800px; margin: 0 auto 60px;
+      background: var(--card); border: 1px solid var(--or-line);
+      padding: 0.8rem 1.5rem; text-align: center; border-radius: 4px;
+      font-family: var(--ff-b); font-size: 0.85rem; color: var(--ink);
+    }
+    .top-teaser strong { color: var(--or); font-family: var(--ff-m); text-transform: uppercase; font-size: 0.75rem; }
     .top-teaser a { color: var(--or); text-decoration: underline; font-weight: 600; }
 
-    /* ═══ 3. COLLECTION EN COURS (BLOC ÉDITORIAL) ═══ */
-    .collections-section {
-      padding: 4rem var(--pad);
-      max-width: 1280px; margin: 0 auto;
+    /* ═══ 4. COLLECTION EN COURS (BLOC ÉDITORIAL) ═══ */
+    .collection-editorial {
+      position: relative; max-width: 1280px; margin: 0 auto 60px;
+      height: 450px; border-radius: 8px; overflow: hidden;
+      border: 1px solid var(--border);
     }
-    .sec-col-card {
-      border-radius: 8px !important; overflow: hidden; border: 1px solid var(--border) !important;
+    .col-ed-bg {
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+      filter: brightness(0.4);
+      transition: transform 8s ease;
     }
-    .sec-col-encours {
-      background: var(--bg2) !important;
-      border: 1px solid var(--or) !important;
+    .collection-editorial:hover .col-ed-bg { transform: scale(1.05); }
+    .col-ed-content {
+      position: relative; z-index: 2; height: 100%;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center; padding: 2rem;
     }
+    .col-ed-badge {
+      font-family: var(--ff-m); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: #fff; background: rgba(212,175,55,0.2); border: 1px solid var(--or);
+      padding: 0.3rem 0.8rem; border-radius: 3px; margin-bottom: 1.5rem;
+    }
+    .col-ed-title {
+      font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700;
+      color: #fff; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: -0.02em;
+    }
+    .col-ed-desc { color: rgba(255,255,255,0.8); margin-bottom: 2rem; max-width: 500px; }
+    .col-ed-btn {
+      display: inline-block; padding: 1rem 2.5rem; background: var(--or); color: #000;
+      font-family: var(--ff-m); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; border-radius: 3px; text-decoration: none; transition: 0.2s;
+    }
+    .col-ed-btn:hover { background: #fff; transform: translateY(-2px); }
 
-    /* ═══ 4. CATALOGUE ═══ */
-    .catalog-header {
-      text-align: center; padding: 4rem 1.5rem 2rem;
-    }
+    /* ═══ 5. CATALOGUE ═══ */
+    .catalog-header { text-align: center; padding: 2rem 1.5rem; }
     .catalog-header h2 {
-      font-family: var(--ff-d); font-size: clamp(2.5rem, 6vw, 4rem);
+      font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3rem);
       font-weight: 400; color: var(--ink); margin-bottom: 0.5rem;
     }
     .catalog-header h2 em { color: var(--or); font-style: italic; }
-    .catalog-header p { color: var(--stone); font-family: var(--ff-m); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .catalog-header p { color: var(--stone); font-family: var(--ff-m); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
     .filters-bar {
-      padding: 1.5rem var(--pad); background: var(--bg);
+      padding: 1rem var(--pad); background: var(--bg);
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
       display: flex; gap: 0.75rem; align-items: center; justify-content: center; flex-wrap: wrap;
     }
@@ -112,7 +140,7 @@
 
     .grid-section { padding: 3rem var(--pad) 5rem; max-width: 1280px; margin: 0 auto; }
 
-    /* ═══ 5. MARKETING (PROPRE SUR MOBILE) ═══ */
+    /* ═══ 6. MARKETING ═══ */
     .marketing-section {
       display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
       background: var(--border); margin: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
@@ -124,12 +152,10 @@
     .mkt-block h3 { font-family: var(--ff-d); font-size: 2rem; color: var(--ink); margin-bottom: 1rem; font-weight: 400; }
     .mkt-block h3 em { color: var(--or); font-style: italic; }
     .mkt-block p { color: var(--stone); line-height: 1.7; margin-bottom: 1.5rem; }
-    .mkt-img {
-      width: 100%; height: 100%; min-height: 350px; object-fit: cover; display: block;
-    }
+    .mkt-img { width: 100%; height: 100%; min-height: 350px; object-fit: cover; display: block; }
     .mkt-tag { color: var(--or); font-family: var(--ff-m); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
 
-    /* ═══ 6. FAQ ACCORDÉON ═══ */
+    /* ═══ 7. FAQ ═══ */
     .faq-section { max-width: 800px; margin: 5rem auto; padding: 0 1.5rem; }
     .faq-section h2 { text-align: center; font-family: var(--ff-d); font-size: 2.5rem; color: var(--ink); margin-bottom: 2rem; font-weight: 400; }
     .faq-item { border-bottom: 1px solid var(--border); }
@@ -161,7 +187,7 @@
     </div>
 </nav>
 
-<!-- 1. HERO + FONDU -->
+<!-- 1. HERO -->
 <div class="mode-hero">
   <div class="mode-hero-bg"></div>
   <div class="mode-hero-fade"></div>
@@ -172,30 +198,44 @@
   </div>
 </div>
 
-<!-- 2. TEASER -->
+<!-- 2. PRODUITS PHARES (Ligne qui chevauche le fondu) -->
+<div class="featured-row-wrap">
+  <div class="featured-row" id="featured-row">
+    <div class="skel" style="aspect-ratio:3/4"></div>
+    <div class="skel" style="aspect-ratio:3/4"></div>
+    <div class="skel" style="aspect-ratio:3/4"></div>
+    <div class="skel" style="aspect-ratio:3/4"></div>
+  </div>
+</div>
+
+<!-- 3. TEASER -->
 <div class="top-teaser">
   <strong>✦ Prochain Drop :</strong> Techwear Futur dans 15 jours. <a href="https://wa.me/221778038874?text=Notifiez%20moi%20pour%20le%20prochain%20drop" target="_blank">M'avertir →</a>
 </div>
 
-<!-- 3. COLLECTIONS -->
-<div class="collections-section">
-  <div id="se-collections"></div>
+<!-- 4. COLLECTION EN COURS (Bloc Éditorial Pur) -->
+<div class="collection-editorial">
+  <div class="col-ed-bg"></div>
+  <div class="col-ed-content">
+    <span class="col-ed-badge">● Disponible maintenant</span>
+    <h2 class="col-ed-title">Drop Hiver #01</h2>
+    <p class="col-ed-desc">Sélection streetwear premium importée de France. Pièces uniques, stock limité.</p>
+    <a href="catalogue.html" class="col-ed-btn">Explorer la collection →</a>
+  </div>
 </div>
 
-<!-- 4. CATALOGUE HEADER -->
+<!-- 5. CATALOGUE -->
 <div class="catalog-header">
   <h2>La <em>Sélection</em></h2>
   <p>Pièces disponibles maintenant</p>
 </div>
 
-<!-- FILTRES (Basés sur l'état) -->
 <div class="filters-bar">
   <button class="filter-btn active" data-filter="all">Tout voir</button>
   <button class="filter-btn" data-filter="neuf">Neuf</button>
   <button class="filter-btn" data-filter="bon">Occasion</button>
 </div>
 
-<!-- GRILLE -->
 <section class="grid-section">
   <div class="prod-grid" id="product-grid">
     <div class="skel" style="aspect-ratio:3/4"></div>
@@ -205,7 +245,7 @@
   </div>
 </section>
 
-<!-- 5. MARKETING PROPRE -->
+<!-- 6. MARKETING -->
 <div class="marketing-section">
   <div class="mkt-block">
     <h3>Importé de <em>France</em></h3>
@@ -222,7 +262,7 @@
   </div>
 </div>
 
-<!-- 6. FAQ ACCORDÉON -->
+<!-- 7. FAQ -->
 <div class="faq-section">
   <h2>Avant de <em>commander</em></h2>
   
@@ -263,7 +303,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="images.js"></script>
 <script src="app.js"></script>
-<script src="collections.js"></script>
 <script>
 (() => {
   'use strict';
@@ -324,6 +363,15 @@
     try{
       const raw=await SE.Articles.load();
       allArticles = raw.filter(a => a.etat !== 'Vendu' && a.etat !== 'Reserve');
+      
+      // Afficher les 4 premiers produits dans la rangée "Phares"
+      const featured = allArticles.slice(0, 4);
+      const featRow = document.getElementById('featured-row');
+      if (featRow && typeof SE!=='undefined'&&typeof SE.productCard==='function'){
+        featRow.innerHTML = featured.map(a=>SE.productCard(a)).join('');
+      }
+
+      // Afficher tout dans la grille principale
       applyFilters();
     }catch(e){
       console.warn('[SenExport] Erreur chargement mode',e);
