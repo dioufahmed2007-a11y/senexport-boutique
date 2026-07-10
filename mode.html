@@ -15,156 +15,159 @@
   <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="styles-dark.css">
   <style>
+    /* ═══ FIL CONDUCTEUR & RELIEF ═══ */
     body { background: var(--bg); }
-    
-    /* ═══ 1. HERO + FONDU ═══ */
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 clamp(1rem, 5vw, 2.5rem); }
+
+    /* ═══ 1. HERO (Profond et immersif) ═══ */
     .mode-hero {
       position: relative;
-      height: 90vh; min-height: 600px;
+      height: 85vh; min-height: 550px;
       overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center; background: #000;
+      display: flex; align-items: flex-end;
+      background: #000;
     }
     .mode-hero-bg {
       position: absolute; inset: 0;
       background: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
-      opacity: 0.6;
+      opacity: 0.5;
+      transform: scale(1.05);
     }
     .mode-hero-fade {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 40%;
-      background: linear-gradient(to bottom, transparent 0%, var(--bg) 100%);
+      position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+      background: linear-gradient(to bottom, transparent 0%, var(--bg) 95%);
       z-index: 1;
     }
     .mode-hero-content {
-      position: relative; z-index: 2; padding: 2rem; max-width: 900px;
-    }
-    .mode-hero-eyebrow {
-      font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--or); margin-bottom: 1.5rem; display: block;
+      position: relative; z-index: 2;
+      padding: 4rem; max-width: 800px;
     }
     .mode-hero-title {
-      font-family: var(--ff-d); font-size: clamp(3.5rem, 10vw, 7rem);
-      font-weight: 700; line-height: 0.9; letter-spacing: -0.03em;
+      font-family: var(--ff-d); font-size: clamp(3.5rem, 12vw, 8rem);
+      font-weight: 700; line-height: 0.85; letter-spacing: -0.04em;
       color: #fff; text-transform: uppercase; margin-bottom: 1.5rem;
+      text-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Le relief */
     }
-    .mode-hero-title em { color: var(--or); font-style: italic; }
-    .mode-hero-sub {
-      font-size: 1.1rem; color: rgba(255,255,255,0.8);
-      line-height: 1.6; max-width: 500px; margin: 0 auto;
+    .mode-hero-title em { color: var(--or); font-style: italic; font-weight: 300; }
+    .mode-hero-eyebrow {
+      font-family: var(--ff-m); font-size: 0.75rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--or); margin-bottom: 1.5rem; display: block;
+      border-left: 2px solid var(--or); padding-left: 1rem;
     }
 
-    /* ═══ 2. PRODUITS PHARES (Ligne du haut) ═══ */
-    .featured-row-wrap {
+    /* ═══ 2. PHARES (Galeries flottantes) ═══ */
+    .featured-section {
       position: relative; z-index: 3;
-      max-width: 1280px; margin: -60px auto 40px; /* Chevauche le fondu */
-      padding: 0 1rem;
+      margin-top: -80px; /* Chevauche le hero */
+      padding-bottom: 3rem;
     }
+    .section-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;
+    }
+    .section-head h2 {
+      font-family: var(--ff-d); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 400; color: var(--ink);
+    }
+    .section-head h2 em { color: var(--or); font-style: italic; }
+    .section-head span { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; }
+    
     .featured-row {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
     }
     @media(max-width: 768px) {
-      .featured-row { 
-        display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem;
-        scrollbar-width: none; -ms-overflow-style: none;
-      }
-      .featured-row::-webkit-scrollbar { display: none; }
-      .featured-row .p-card { min-width: 75%; scroll-snap-align: start; }
+      .featured-row { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 1rem; padding-bottom: 1rem; }
+      .featured-row .p-card { min-width: 80%; scroll-snap-align: start; }
+    }
+    /* Cartes produits avec relief et coins doux */
+    .p-card {
+      border-radius: 12px !important; overflow: hidden;
+      border: 1px solid var(--border) !important;
+      background: var(--card) !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2); /* Ombre pour le relief */
+      transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+    }
+    .p-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      border-color: var(--or) !important;
     }
 
-    /* ═══ 3. MINI TEASER ═══ */
-    .top-teaser {
-      max-width: 800px; margin: 0 auto 60px;
-      background: var(--card); border: 1px solid var(--or-line);
-      padding: 0.8rem 1.5rem; text-align: center; border-radius: 4px;
-      font-family: var(--ff-b); font-size: 0.85rem; color: var(--ink);
+    /* ═══ 3. TEASER (Fin et épuré) ═══ */
+    .teaser-strip {
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 1.5rem 0; text-align: center; margin-bottom: 4rem;
     }
-    .top-teaser strong { color: var(--or); font-family: var(--ff-m); text-transform: uppercase; font-size: 0.75rem; }
-    .top-teaser a { color: var(--or); text-decoration: underline; font-weight: 600; }
+    .teaser-strip p { font-family: var(--ff-m); font-size: 0.85rem; color: var(--stone); letter-spacing: 0.05em; }
+    .teaser-strip strong { color: var(--or); font-weight: 500; }
+    .teaser-strip a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
 
-    /* ═══ 4. COLLECTION EN COURS (BLOC ÉDITORIAL) ═══ */
-    .collection-editorial {
-      position: relative; max-width: 1280px; margin: 0 auto 60px;
-      height: 450px; border-radius: 8px; overflow: hidden;
-      border: 1px solid var(--border);
+    /* ═══ 4. COLLECTION EDITO (Le fil directeur) ═══ */
+    .collection-block {
+      position: relative; height: 500px; border-radius: 16px; overflow: hidden;
+      margin-bottom: 4rem; border: 1px solid var(--border);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
     }
-    .col-ed-bg {
+    .col-bg {
       position: absolute; inset: 0;
       background: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
-      filter: brightness(0.4);
-      transition: transform 8s ease;
+      filter: brightness(0.3) contrast(1.1);
+      transition: transform 5s ease;
     }
-    .collection-editorial:hover .col-ed-bg { transform: scale(1.05); }
-    .col-ed-content {
+    .collection-block:hover .col-bg { transform: scale(1.05); }
+    .col-content {
       position: relative; z-index: 2; height: 100%;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; padding: 2rem;
+      display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+      padding: 2rem;
     }
-    .col-ed-badge {
-      font-family: var(--ff-m); font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-      color: #fff; background: rgba(212,175,55,0.2); border: 1px solid var(--or);
-      padding: 0.3rem 0.8rem; border-radius: 3px; margin-bottom: 1.5rem;
+    .col-label { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; }
+    .col-title { font-family: var(--ff-d); font-size: clamp(2.5rem, 6vw, 4rem); color: #fff; font-weight: 300; margin-bottom: 1.5rem; }
+    .col-title em { font-style: italic; color: var(--or); }
+    .col-btn {
+      padding: 1rem 2rem; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3);
+      color: #fff; border-radius: 99px; text-decoration: none; font-family: var(--ff-b); font-size: 0.85rem;
+      backdrop-filter: blur(10px); transition: 0.2s;
     }
-    .col-ed-title {
-      font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700;
-      color: #fff; text-transform: uppercase; margin-bottom: 1rem; letter-spacing: -0.02em;
-    }
-    .col-ed-desc { color: rgba(255,255,255,0.8); margin-bottom: 2rem; max-width: 500px; }
-    .col-ed-btn {
-      display: inline-block; padding: 1rem 2.5rem; background: var(--or); color: #000;
-      font-family: var(--ff-m); font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; border-radius: 3px; text-decoration: none; transition: 0.2s;
-    }
-    .col-ed-btn:hover { background: #fff; transform: translateY(-2px); }
+    .col-btn:hover { background: var(--or); border-color: var(--or); color: #000; }
 
-    /* ═══ 5. CATALOGUE ═══ */
-    .catalog-header { text-align: center; padding: 2rem 1.5rem; }
-    .catalog-header h2 {
-      font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 400; color: var(--ink); margin-bottom: 0.5rem;
-    }
-    .catalog-header h2 em { color: var(--or); font-style: italic; }
-    .catalog-header p { color: var(--stone); font-family: var(--ff-m); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
-
+    /* ═══ 5. CATALOGUE GRILLE ═══ */
     .filters-bar {
-      padding: 1rem var(--pad); background: var(--bg);
-      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-      display: flex; gap: 0.75rem; align-items: center; justify-content: center; flex-wrap: wrap;
+      display: flex; gap: 0.5rem; margin-bottom: 2rem; align-items: center;
     }
     .filter-btn {
       background: transparent; border: 1px solid var(--border); color: var(--stone);
-      padding: 0.5rem 1.2rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; transition: 0.2s;
+      padding: 0.6rem 1.5rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; transition: 0.2s;
     }
-    .filter-btn:hover { border-color: var(--or); color: var(--ink); }
-    .filter-btn.active { background: var(--or); color: #000; border-color: var(--or); font-weight: 600; }
-
-    .grid-section { padding: 3rem var(--pad) 5rem; max-width: 1280px; margin: 0 auto; }
-
-    /* ═══ 6. MARKETING ═══ */
-    .marketing-section {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
-      background: var(--border); margin: 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    .filter-btn:hover { color: var(--ink); border-color: var(--ink); }
+    .filter-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    
+    .prod-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem;
     }
-    @media(max-width: 768px) { .marketing-section { grid-template-columns: 1fr; } }
-    .mkt-block {
-      background: var(--bg); padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center;
-    }
-    .mkt-block h3 { font-family: var(--ff-d); font-size: 2rem; color: var(--ink); margin-bottom: 1rem; font-weight: 400; }
-    .mkt-block h3 em { color: var(--or); font-style: italic; }
-    .mkt-block p { color: var(--stone); line-height: 1.7; margin-bottom: 1.5rem; }
-    .mkt-img { width: 100%; height: 100%; min-height: 350px; object-fit: cover; display: block; }
-    .mkt-tag { color: var(--or); font-family: var(--ff-m); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    @media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, 1fr); } }
 
-    /* ═══ 7. FAQ ═══ */
+    /* ═══ 6. VALEURS (Fin, sans clichés) ═══ */
+    .values-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--border); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      margin-top: 5rem;
+    }
+    @media (max-width: 768px) { .values-row { grid-template-columns: 1fr; } }
+    .val-item {
+      background: var(--bg); padding: 3rem 2rem; text-align: center;
+    }
+    .val-num { font-family: var(--ff-m); font-size: 0.8rem; color: var(--or); margin-bottom: 1rem; display: block; }
+    .val-title { font-family: var(--ff-d); font-size: 1.5rem; color: var(--ink); font-weight: 400; margin-bottom: 0.5rem; }
+    .val-desc { font-size: 0.85rem; color: var(--stone); line-height: 1.6; }
+
+    /* ═══ 7. FAQ (Minimaliste) ═══ */
     .faq-section { max-width: 800px; margin: 5rem auto; padding: 0 1.5rem; }
-    .faq-section h2 { text-align: center; font-family: var(--ff-d); font-size: 2.5rem; color: var(--ink); margin-bottom: 2rem; font-weight: 400; }
     .faq-item { border-bottom: 1px solid var(--border); }
     .faq-q {
       width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
       padding: 1.5rem 0; background: none; border: none; cursor: pointer; text-align: left;
-      font-family: var(--ff-d); font-size: 1.1rem; color: var(--ink); font-weight: 400;
+      font-family: var(--ff-d); font-size: 1.2rem; color: var(--ink); font-weight: 400;
     }
-    .faq-q .ic { font-size: 1.2rem; color: var(--or); transition: transform var(--mid) var(--ease); flex-shrink: 0; }
+    .faq-q .ic { font-size: 1.5rem; color: var(--or); transition: transform var(--mid) var(--ease); flex-shrink: 0; }
     .faq-item.open .faq-q .ic { transform: rotate(45deg); }
     .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
     .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: var(--stone); line-height: 1.7; max-width: 600px; }
@@ -187,103 +190,104 @@
     </div>
 </nav>
 
-<!-- 1. HERO -->
+<!-- HERO -->
 <div class="mode-hero">
   <div class="mode-hero-bg"></div>
   <div class="mode-hero-fade"></div>
   <div class="mode-hero-content">
-    <span class="mode-hero-eyebrow">Arrivage France 2026</span>
+    <span class="mode-hero-eyebrow">Sen·Export · Thiès</span>
     <h1 class="mode-hero-title">Thrifty.<br><em>Curated.</em></h1>
-    <p class="mode-hero-sub">Sélection pointue importée de France. Stock limité, pièces uniques. Paiement à la récupération à Thiès.</p>
   </div>
 </div>
 
-<!-- 2. PRODUITS PHARES (Ligne qui chevauche le fondu) -->
-<div class="featured-row-wrap">
+<!-- PHARES -->
+<div class="featured-section container">
+  <div class="section-head">
+    <h2>Pieces <em>Highlights</em></h2>
+    <span>Sélection 2026</span>
+  </div>
   <div class="featured-row" id="featured-row">
-    <div class="skel" style="aspect-ratio:3/4"></div>
-    <div class="skel" style="aspect-ratio:3/4"></div>
-    <div class="skel" style="aspect-ratio:3/4"></div>
-    <div class="skel" style="aspect-ratio:3/4"></div>
+    <div class="skel" style="aspect-ratio:3/4; border-radius: 12px;"></div>
+    <div class="skel" style="aspect-ratio:3/4; border-radius: 12px;"></div>
+    <div class="skel" style="aspect-ratio:3/4; border-radius: 12px;"></div>
+    <div class="skel" style="aspect-ratio:3/4; border-radius: 12px;"></div>
   </div>
 </div>
 
-<!-- 3. TEASER -->
-<div class="top-teaser">
-  <strong>✦ Prochain Drop :</strong> Techwear Futur dans 15 jours. <a href="https://wa.me/221778038874?text=Notifiez%20moi%20pour%20le%20prochain%20drop" target="_blank">M'avertir →</a>
-</div>
-
-<!-- 4. COLLECTION EN COURS (Bloc Éditorial Pur) -->
-<div class="collection-editorial">
-  <div class="col-ed-bg"></div>
-  <div class="col-ed-content">
-    <span class="col-ed-badge">● Disponible maintenant</span>
-    <h2 class="col-ed-title">Drop Hiver #01</h2>
-    <p class="col-ed-desc">Sélection streetwear premium importée de France. Pièces uniques, stock limité.</p>
-    <a href="catalogue.html" class="col-ed-btn">Explorer la collection →</a>
+<!-- TEASER -->
+<div class="container">
+  <div class="teaser-strip">
+    <p><strong>✦ Next Drop :</strong> Techwear Futur · 15j restants · <a href="https://wa.me/221778038874?text=Notifiez%20moi%20pour%20le%20prochain%20drop" target="_blank">Notify me</a></p>
   </div>
 </div>
 
-<!-- 5. CATALOGUE -->
-<div class="catalog-header">
-  <h2>La <em>Sélection</em></h2>
-  <p>Pièces disponibles maintenant</p>
+<!-- COLLECTION -->
+<div class="container">
+  <a href="catalogue.html" class="collection-block" style="text-decoration:none;">
+    <div class="col-bg"></div>
+    <div class="col-content">
+      <span class="col-label">Volume 01</span>
+      <h2 class="col-title">Drop <em>Hiver</em></h2>
+      <span class="col-btn">Explorer →</span>
+    </div>
+  </a>
 </div>
 
-<div class="filters-bar">
-  <button class="filter-btn active" data-filter="all">Tout voir</button>
-  <button class="filter-btn" data-filter="neuf">Neuf</button>
-  <button class="filter-btn" data-filter="bon">Occasion</button>
-</div>
-
-<section class="grid-section">
-  <div class="prod-grid" id="product-grid">
-    <div class="skel" style="aspect-ratio:3/4"></div>
-    <div class="skel" style="aspect-ratio:3/4"></div>
-    <div class="skel" style="aspect-ratio:3/4"></div>
-    <div class="skel" style="aspect-ratio:3/4"></div>
+<!-- CATALOGUE -->
+<div class="container">
+  <div class="section-head" style="margin-bottom: 1.5rem;">
+    <h2>The <em>Selection</em></h2>
+    <span>En stock maintenant</span>
   </div>
-</section>
-
-<!-- 6. MARKETING -->
-<div class="marketing-section">
-  <div class="mkt-block">
-    <h3>Importé de <em>France</em></h3>
-    <p>Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
-    <span class="mkt-tag">✓ Qualité vérifiée</span>
-  </div>
-  <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop" class="mkt-img" alt="Import France">
   
-  <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1000&auto=format&fit=crop" class="mkt-img" alt="Zéro avance">
-  <div class="mkt-block">
-    <h3>Zéro <em>Avance</em></h3>
-    <p>Tu commandes, on importe, tu récupères à Thiès. Tu ne paies qu'au moment de la récupération. Wave, Orange Money ou espèces. Zéro stress, zéro arnaque.</p>
-    <span class="mkt-tag">✓ Paiement à la livraison</span>
+  <div class="filters-bar">
+    <button class="filter-btn active" data-filter="all">Tout voir</button>
+    <button class="filter-btn" data-filter="neuf">Neuf</button>
+    <button class="filter-btn" data-filter="bon">Occasion</button>
+  </div>
+
+  <section style="padding-bottom: 4rem;">
+    <div class="prod-grid" id="product-grid">
+      <div class="skel" style="aspect-ratio:3/4; border-radius: 12px;"></div>
+      <div class="skel" style="aspect-ratio:3/4; border-radius: 12px;"></div>
+      <div class="skel" style="aspect-ratio:3/4; border-radius: 12px;"></div>
+      <div class="skel" style="aspect-ratio:3/4; border-radius: 12px;"></div>
+    </div>
+  </section>
+</div>
+
+<!-- VALEURS -->
+<div class="values-row">
+  <div class="val-item">
+    <span class="val-num">01.</span>
+    <h3 class="val-title">Curated</h3>
+    <p class="val-desc">Des pièces choisies une par une en France. Pas de masse, juste du style.</p>
+  </div>
+  <div class="val-item">
+    <span class="val-num">02.</span>
+    <h3 class="val-title">Trusted</h3>
+    <p class="val-desc">Paiement à la récupération. Zéro avance, zéro stress.</p>
+  </div>
+  <div class="val-item">
+    <span class="val-num">03.</span>
+    <h3 class="val-title">Local</h3>
+    <p class="val-desc">Dépôt à Thiès. Un coup de WhatsApp et c'est prêt.</p>
   </div>
 </div>
 
-<!-- 7. FAQ -->
+<!-- FAQ -->
 <div class="faq-section">
-  <h2>Avant de <em>commander</em></h2>
-  
   <div class="faq-item">
     <button class="faq-q"><span>Comment se passe le paiement ?</span><span class="ic">+</span></button>
-    <div class="faq-a"><p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p></div>
+    <div class="faq-a"><p>Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p></div>
   </div>
-  
   <div class="faq-item">
-    <button class="faq-q"><span>Combien de temps pour recevoir ma commande ?</span><span class="ic">+</span></button>
-    <div class="faq-a"><p>En général entre 48h et quelques jours selon l'article et le prochain arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p></div>
+    <button class="faq-q"><span>Combien de temps pour recevoir ?</span><span class="ic">+</span></button>
+    <div class="faq-a"><p>Entre 48h et quelques jours selon l'arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p></div>
   </div>
-
   <div class="faq-item">
     <button class="faq-q"><span>Et si l'article ne me convient pas ?</span><span class="ic">+</span></button>
-    <div class="faq-a"><p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p></div>
-  </div>
-
-  <div class="faq-item">
-    <button class="faq-q"><span>Les vêtements sont-ils neufs ?</span><span class="ic">+</span></button>
-    <div class="faq-a"><p>Nous proposons du neuf importé, mais aussi du vintage en parfait état (thrifted). L'état est précisé sur chaque article.</p></div>
+    <div class="faq-a"><p>Vous inspectez l'article au moment du retrait, avant de payer. Sans engagement.</p></div>
   </div>
 </div>
 
@@ -307,7 +311,6 @@
 (() => {
   'use strict';
 
-  // FAQ Accordéon JS
   document.querySelectorAll('.faq-item').forEach(item => {
     const q = item.querySelector('.faq-q');
     const a = item.querySelector('.faq-a');
@@ -342,18 +345,15 @@
   function applyFilters(){
     let r=[...allArticles];
     const activeFilter=document.querySelector('.filter-btn.active').dataset.filter;
-    
-    if(activeFilter === 'neuf') {
-      r = r.filter(a => (a.etat || '').toLowerCase().includes('neuf'));
-    } else if (activeFilter === 'bon') {
-      r = r.filter(a => (a.etat || '').toLowerCase().includes('bon'));
-    }
+    if(activeFilter === 'neuf') r = r.filter(a => (a.etat || '').toLowerCase().includes('neuf'));
+    else if (activeFilter === 'bon') r = r.filter(a => (a.etat || '').toLowerCase().includes('bon'));
     renderGrid(r);
   }
 
-  function renderGrid(articles){
-    const grid=document.getElementById('product-grid');
-    if(articles.length===0){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--stone)">Aucun article dans cette catégorie.</div>';return}
+  function renderGrid(articles, gridId = 'product-grid'){
+    const grid=document.getElementById(gridId);
+    if(!grid) return;
+    if(articles.length===0 && gridId === 'product-grid'){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--stone)">Aucun article.</div>';return}
     if(typeof SE!=='undefined'&&typeof SE.productCard==='function'){
       grid.innerHTML=articles.map(a=>SE.productCard(a)).join('');
     }
@@ -364,14 +364,11 @@
       const raw=await SE.Articles.load();
       allArticles = raw.filter(a => a.etat !== 'Vendu' && a.etat !== 'Reserve');
       
-      // Afficher les 4 premiers produits dans la rangée "Phares"
+      // Remplir la rangée Phares
       const featured = allArticles.slice(0, 4);
-      const featRow = document.getElementById('featured-row');
-      if (featRow && typeof SE!=='undefined'&&typeof SE.productCard==='function'){
-        featRow.innerHTML = featured.map(a=>SE.productCard(a)).join('');
-      }
+      renderGrid(featured, 'featured-row');
 
-      // Afficher tout dans la grille principale
+      // Remplir la grille principale
       applyFilters();
     }catch(e){
       console.warn('[SenExport] Erreur chargement mode',e);
