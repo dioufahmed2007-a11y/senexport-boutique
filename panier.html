@@ -1,251 +1,537 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<script>document.documentElement.style.visibility="hidden";setTimeout(function(){document.documentElement.style.visibility="";},4000);</script>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mon panier — SenExport</title>
-<meta name="theme-color" content="#C4531A">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mode & Vêtements — SenExport Boutique</title>
+<meta name="theme-color" content="#D4AF37">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="manifest" href="manifest.json">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="styles-dark.css">
+
 <style>
-.cart-layout{display:grid;grid-template-columns:1.4fr .8fr;gap:28px;padding:28px 0 56px}
-@media(max-width:920px){.cart-layout{grid-template-columns:1fr;gap:20px}}
-.cart-items{background:var(--card);border:1px solid rgba(212,175,55,.15);border-radius:var(--r16);overflow:hidden}
-.cart-item{display:grid;grid-template-columns:88px 1fr auto;gap:16px;padding:18px;align-items:center}
-.cart-item + .cart-item{border-top:1px solid rgba(212,175,55,.1)}
-.cart-item-img{aspect-ratio:1/1;border-radius:var(--r8);overflow:hidden;background:#f5f5f3}
-.cart-item-img img{width:100%;height:100%;object-fit:cover}
-.cart-item-info{min-width:0}
-.cart-item-info .ref{font-family:var(--ff-m);font-size:.72rem;color:var(--or);margin-bottom:2px}
-.cart-item-info h3{font-size:.94rem;font-weight:500;color:var(--ink);line-height:1.3;margin-bottom:4px}
-.cart-item-info h3 a:hover{color:var(--or)}
-.cart-item-info .prix-unit{font-size:.82rem;color:var(--stone)}
-.cart-item-info .prix-unit strong{color:var(--ink);font-family:var(--ff-m)}
-.cart-item-actions{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.cart-qty{display:flex;align-items:center;background:rgba(255,255,255,.04);border-radius:9999px;overflow:hidden}
-.cart-qty button{width:30px;height:30px;font-size:.95rem;color:var(--stone)}
-.cart-qty button:hover{background:var(--sand);color:var(--ink)}
-.cart-qty input{width:34px;height:30px;text-align:center;background:transparent;border:none;font-family:var(--ff-m);font-weight:600;font-size:.85rem;-moz-appearance:textfield;appearance:textfield;}
-.cart-qty input::-webkit-outer-spin-button,.cart-qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.cart-total{font-family:var(--ff-m);font-weight:700;color:var(--ink);font-size:1rem}
-.cart-rm{font-size:.76rem;color:var(--red);cursor:pointer;text-decoration:underline;background:none;border:none;font-family:inherit}
-.cart-rm:hover{color:var(--or)}
-@media(max-width:560px){
-  .cart-item{grid-template-columns:72px 1fr;gap:12px;padding:14px}
-  .cart-item-actions{grid-column:1/-1;flex-direction:row;justify-content:space-between;align-items:center;padding-top:8px;border-top:1px dashed rgba(212,175,55,.1);margin-top:8px}
-}
-.cart-summary{position:sticky;top:85px;align-self:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.15);border-radius:var(--r16);padding:20px}
-@media(max-width:920px){.cart-summary{position:static}}
-.cart-summary h3{font-family:var(--ff-d);font-weight:500;font-size:1.1rem;margin-bottom:14px}
-.sum-line{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:10px}
-.sum-line .lbl{color:var(--stone)}
-.sum-line .val{color:var(--ink);font-weight:500;font-family:var(--ff-m)}
-.sum-line.total{padding-top:14px;margin-top:14px;border-top:1px solid rgba(212,175,55,.1);font-size:1rem}
-.sum-line.total .lbl{color:var(--ink);font-weight:600;font-family:var(--ff-d)}
-.sum-line.total .val{color:var(--or);font-weight:700;font-size:1.35rem;font-family:var(--ff-d);letter-spacing:-.015em}
-.sum-mode{margin:14px 0}
-.sum-mode .radio{padding:10px 12px;font-size:.85rem}
-.sum-mode .radio-title{font-size:.86rem}
-.sum-mode .radio-desc{font-size:.74rem}
-.sum-mode .radio-price{font-size:.78rem}
-.cart-empty{padding:60px 20px;text-align:center}
-.cart-empty .emo{font-size:4rem;margin-bottom:16px}
+  /* ═══ 1. HERO ═══ */
+  .mode-hero {
+    position: relative;
+    height: 65vh;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: #000;
+    overflow: hidden;
+    margin-top: 56px; /* Décale sous la nav fixe */
+  }
+  .mode-hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat;
+    opacity: 0.6;
+  }
+  .mode-hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
+  }
+  .mode-hero-content {
+    position: relative; z-index: 2;
+    padding: 2rem; max-width: 900px;
+  }
+  .mode-hero h1 {
+    font-family: var(--ff-d);
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .mode-hero h1 em { color: var(--or); font-style: italic; font-weight: 400; }
+  .mode-hero p {
+    color: rgba(255,255,255,0.85);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  /* ═══ 2. FILTRES ═══ */
+  .filters-bar {
+    padding: 2rem var(--pad);
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .filters-bar::-webkit-scrollbar { display: none; }
+  .filter-group {
+    display: flex; gap: 0.5rem; flex-shrink: 0;
+  }
+  .filter-pill {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--stone);
+    padding: 0.5rem 1.25rem;
+    border-radius: 99px;
+    font-family: var(--ff-b);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+  }
+  .filter-pill:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .filter-pill.active {
+    background: #D4AF37;
+    color: #000;
+    border-color: #D4AF37;
+    font-weight: 600;
+  }
+  .sort-select {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 0.5rem 1rem;
+    border-radius: 99px;
+    font-family: var(--ff-b);
+    font-size: 0.85rem;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  /* ═══ 3. GRILLE PRODUITS ═══ */
+  .prod-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    padding: 3rem var(--pad);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  @media (max-width: 900px) {
+    .prod-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  }
+
+  .p-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .p-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+    border-color: var(--or-line);
+  }
+  .p-image-wrap {
+    aspect-ratio: 3/4;
+    background: var(--bg2);
+    position: relative;
+    overflow: hidden;
+    display: block;
+  }
+  .p-image-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .p-card:hover .p-image-wrap img {
+    transform: scale(1.05);
+  }
+  
+  /* Overlay rupture rouge */
+  .p-out-overlay {
+    position: absolute; inset: 0;
+    background: rgba(231, 76, 60, 0.85);
+    backdrop-filter: blur(2px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 2;
+  }
+  .p-out-label {
+    color: #fff;
+    font-family: var(--ff-m);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+  }
+
+  .p-wish {
+    position: absolute; top: 12px; right: 12px; z-index: 3;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(4px);
+    border: none;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: grid; place-items: center;
+    cursor: pointer;
+    color: var(--ink);
+    transition: 0.2s;
+  }
+  .p-wish:hover { background: #fff; color: var(--or); }
+  .p-wish.active { color: var(--or); }
+
+  .p-body {
+    padding: 1.25rem;
+    display: flex; flex-direction: column;
+    flex: 1;
+  }
+  .p-name {
+    font-family: var(--ff-b);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+  }
+  .p-prix {
+    font-family: var(--ff-d);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #D4AF37;
+    margin-bottom: 1rem;
+  }
+  .p-action {
+    margin-top: auto;
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-family: var(--ff-b);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid var(--or);
+    background: var(--or);
+    color: #000;
+    transition: 0.2s;
+  }
+  .p-action:hover {
+    background: transparent;
+    color: var(--or);
+  }
+  .p-action:disabled {
+    background: transparent;
+    color: var(--muted);
+    border-color: var(--border);
+    cursor: not-allowed;
+  }
+
+  /* ═══ 4. COLLECTION BLOCK ═══ */
+  .collection-block-wrap {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 0 var(--pad);
+  }
+  .collection-card {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  }
+  .col-bg {
+    position: absolute; inset: 0;
+    background: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+    filter: brightness(0.4);
+    transition: transform 5s ease;
+  }
+  .collection-card:hover .col-bg { transform: scale(1.05); }
+  .col-content {
+    position: relative; z-index: 2;
+    padding: 2rem;
+  }
+  .col-title {
+    font-family: var(--ff-d);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+  .col-title em { color: var(--or); font-style: italic; }
+  .glass-btn {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2.5rem;
+    border-radius: 99px;
+    color: #fff;
+    font-family: var(--ff-b);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+  .glass-btn:hover {
+    background: var(--or);
+    border-color: var(--or);
+    color: #000;
+  }
+
+  @media (max-width: 768px) {
+    .mode-hero { height: 50vh; margin-top: 56px; }
+    .filters-bar { gap: 1rem; }
+    .sort-select { margin-left: 0; }
+  }
 </style>
 </head>
 <body>
+
 <nav class="nav" id="nav">
   <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
   <ul class="nav-links">
-    <li><a href="mode.html">Mode</a></li>
-    <li><a href="maison.html">Maison</a></li>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="mode.html" class="active">Mode</a></li>
     <li><a href="catalogue.html">Catalogue</a></li>
-    <li><a href="collections.html">Collections</a></li>
+    <li><a href="maison.html">Maison</a></li>
   </ul>
   <div class="nav-right">
     <a href="favoris.html" class="nav-icon" aria-label="Favoris">
-      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
     </a>
     <a href="panier.html" class="nav-icon" aria-label="Panier">
       <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <span class="nav-badge" id="cart-badge"></span>
+      <span class="nav-badge" id="cart-count"></span>
     </a>
-    <a href="compte.html" class="nav-icon" aria-label="Mon compte">
+    <a href="compte.html" class="nav-icon" aria-label="Compte">
       <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
     </a>
   </div>
 </nav>
-<aside class="mobile-menu" id="mobile-menu">
-  <button class="close-btn">×</button>
-  <a href="catalogue.html">📦 Catalogue</a>
-  <a href="panier.html">🛒 Panier</a>
-  <a href="favoris.html">♡ Favoris</a>
-  <a href="compte.html">◎ Compte</a>
-</aside>
-<div class="page-head">
-  <div class="w">
-    <div class="breadcrumb"><a href="index.html">Accueil</a><span class="sep">›</span><span>Mon panier</span></div>
-    <h1>Mon <em>panier</em></h1>
-    <p class="sub">Vérifiez votre commande avant de valider.</p>
+
+<!-- HERO -->
+<div class="mode-hero">
+  <div class="mode-hero-bg"></div>
+  <div class="mode-hero-overlay"></div>
+  <div class="mode-hero-content">
+    <h1>L'Excellence Française,<br><em>Livrée à Thiès</em></h1>
+    <p>Une sélection pointue de vêtements premium importés de France. Stock limité, pièces vérifiées. Paiement à la récupération.</p>
   </div>
 </div>
-<main>
-<div class="w">
-<div id="empty-cart" style="display:none">
-  <div class="cart-empty">
-    <div class="emo">🛒</div>
-    <h3 style="font-family:var(--ff-d);font-weight:500;font-size:1.6rem;margin-bottom:10px">Votre panier est vide</h3>
-    <p style="color:var(--stone);margin-bottom:24px">Parcourez le catalogue pour trouver ce que vous cherchez.</p>
-    <a href="catalogue.html" class="btn btn-fire btn-lg">Voir le catalogue</a>
+
+<!-- FILTRES -->
+<div class="filters-bar">
+  <div class="filter-group">
+    <button class="filter-pill active" data-genre="all">Tout</button>
+    <button class="filter-pill" data-genre="homme">Homme</button>
+    <button class="filter-pill" data-genre="femme">Femme</button>
+    <button class="filter-pill" data-genre="enfant">Enfant</button>
   </div>
+  <div class="filter-group">
+    <button class="filter-pill active" data-etat="all">Tous</button>
+    <button class="filter-pill" data-etat="neuf">Neuf</button>
+    <button class="filter-pill" data-etat="bon">Bon état</button>
+  </div>
+  <select class="sort-select" id="sort-select">
+    <option value="default">Nouveautés</option>
+    <option value="prix_asc">Prix ↑</option>
+    <option value="prix_desc">Prix ↓</option>
+  </select>
 </div>
-<div class="cart-layout" id="cart-wrap" style="display:none">
-  <div>
-    <div class="cart-items" id="items"></div>
-    <div style="margin-top:14px;text-align:right">
-      <button id="btn-clear" class="cart-rm" style="background:none;border:none;font-size:.86rem">🗑 Vider le panier</button>
+
+<!-- GRILLE PRODUITS -->
+<div class="prod-grid" id="product-grid">
+  <div class="skel" style="aspect-ratio:3/4; border-radius:12px;"></div>
+  <div class="skel" style="aspect-ratio:3/4; border-radius:12px;"></div>
+  <div class="skel" style="aspect-ratio:3/4; border-radius:12px;"></div>
+  <div class="skel" style="aspect-ratio:3/4; border-radius:12px;"></div>
+</div>
+
+<!-- COLLECTION BLOCK -->
+<div class="collection-block-wrap">
+  <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="collection-card">
+    <div class="col-bg"></div>
+    <div class="col-content">
+      <h2 class="col-title">Arrivage <em>Hiver 2026</em></h2>
+      <span class="glass-btn">Explorer la collection</span>
     </div>
-  </div>
-  <aside class="cart-summary">
-    <h3>Récapitulatif</h3>
-    <div class="sum-line"><span class="lbl" id="sum-count">0 article</span><span class="val" id="sum-subtotal">0 FCFA</span></div>
-    <div class="pickup-info" style="background:rgba(255,255,255,.04);border:1px solid rgba(212,175,55,.15);border-radius:var(--r12);padding:14px 16px;margin:14px 0;display:flex;gap:12px;align-items:flex-start">
-      <span style="font-size:1.4rem">🏢</span>
-      <div>
-        <strong style="display:block;font-size:.95rem;margin-bottom:2px;color:var(--ink)">Retrait au dépôt à Thiès</strong>
-        <p style="font-size:.82rem;color:var(--stone);margin:0">Lun-Sam 9h-18h · Adresse par WhatsApp</p>
-      </div>
-    </div>
-    <div class="sum-line total"><span class="lbl">Total</span><span class="val" id="sum-total">0 FCFA</span></div>
-    <button class="btn btn-fire btn-lg btn-block" id="btn-checkout" style="margin-top:14px">Passer la commande</button>
-    <p style="font-size:.78rem;color:var(--stone);margin-top:12px;text-align:center;line-height:1.5"><strong>Aucun paiement maintenant</strong><br>Vous payez au retrait au dépôt<br>(Wave, OM, espèces)</p>
-  </aside>
+  </a>
 </div>
-</div>
-</main>
+
 <footer class="footer">
   <div class="footer-grid">
     <div class="footer-brand">
       <div style="font-family:var(--ff-d);font-size:1.4rem;font-weight:500;margin-bottom:.9rem">Sen·Export <em style="color:var(--or);font-style:italic;font-weight:300">Boutique</em></div>
-      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:240px;margin-bottom:1.25rem">Produits français importés. Dépôt à Thiès, Sénégal.</p>
-      <div class="pay-tags"><span class="pay-tag">Wave</span><span class="pay-tag">Orange Money</span><span class="pay-tag">Espèces</span></div>
+      <p style="font-size:.84rem;color:var(--stone);line-height:1.65;max-width:260px">Les meilleurs produits sélectionnés pour vous. Paiement à la récupération.</p>
     </div>
-    <nav class="footer-col"><h4>Univers</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="collections.html">Collections</a></li></ul></nav>
-    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li><li><a href="favoris.html">Favoris</a></li></ul></nav>
-    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="a-propos.html">À propos</a></li><li><a href="demande-speciale.html">Demande spéciale</a></li><li><a href="cgv.html">CGV</a></li></ul></nav>
+    <nav class="footer-col"><h4>Boutique</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank">WhatsApp</a></li></ul></nav>
   </div>
-  <div class="footer-bottom">
-    <p>© 2026 SenExport Boutique · Fait à Thiès</p>
-    <a href="cgv.html">Conditions générales</a>
-  </div>
+  <div class="footer-bottom"><p>© 2026 SenExport Boutique</p><a href="cgv.html">CGV</a></div>
 </footer>
-<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="app.js"></script>
 <script>
-(async () => {
-  await new Promise(r => setTimeout(r, 50));
-  await SE.Articles.load();
-  render();
-})();
+(() => {
+  'use strict';
 
-async function render(){
-  const items = await SE.Cart.items();
-  if (items.length === 0){
-    document.getElementById('empty-cart').style.display = 'block';
-    document.getElementById('cart-wrap').style.display = 'none';
-    return;
+  // Init Badges & Wishlist state
+  function updateUI() {
+    try {
+      const n = SE?.Cart?.count?.() ?? 0;
+      const b = document.getElementById('cart-count');
+      if (b) { b.textContent = n; b.classList.toggle('show', n > 0); }
+      
+      // Marquer les favoris actifs
+      document.querySelectorAll('.p-wish').forEach(btn => {
+        const ref = btn.dataset.ref;
+        if (SE.Wishlist.has(ref)) {
+          btn.classList.add('active');
+          btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+        } else {
+          btn.classList.remove('active');
+          btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+        }
+      });
+    } catch(e) {}
   }
-  document.getElementById('empty-cart').style.display = 'none';
-  document.getElementById('cart-wrap').style.display = '';
 
-  document.getElementById('items').innerHTML = items.map(i => {
-    const a = i.article;
-    const prix = a.prix_vente_fcfa || 0;
-    const lineTotal = prix * i.qte;
-    const photo = SE.imgUrl(a.photo_url, 200);
-    return `
-      <div class="cart-item" data-ref="${a.reference}">
-        <div class="cart-item-img"><img src="${photo}" alt="${a.nom}" onerror="this.src='https://placehold.co/200x200/f5efe4/c4531a?text=SE'"></div>
-        <div class="cart-item-info">
-          <div class="ref">${a.reference}</div>
-          <h3><a href="produit.html?ref=${a.reference}">${a.nom}</a></h3>
-          <div class="prix-unit">Prix unitaire : <strong>${SE.fprix(prix)}</strong></div>
-        </div>
-        <div class="cart-item-actions">
-          <div class="cart-qty">
-            <button data-qty-dec="${a.reference}">−</button>
-            <input type="number" value="${i.qte}" min="1" max="${a.quantite}" data-qty="${a.reference}">
-            <button data-qty-inc="${a.reference}">+</button>
+  let allArticles = [];
+
+  // Gestion des filtres pills
+  document.querySelectorAll('.filter-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const type = btn.dataset.genre ? 'genre' : 'etat';
+      document.querySelectorAll(`.filter-pill[data-${type}]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    });
+  });
+
+  document.getElementById('sort-select').addEventListener('change', applyFilters);
+
+  function applyFilters() {
+    let r = [...allArticles];
+    
+    const activeGenre = document.querySelector('.filter-pill[data-genre].active').dataset.genre;
+    const activeEtat = document.querySelector('.filter-pill[data-etat].active').dataset.etat;
+    const sort = document.getElementById('sort-select').value;
+
+    // Filtrage Genre
+    if (activeGenre !== 'all') {
+      r = r.filter(a => {
+        const text = `${a.nom} ${a.description} ${a.genre || ''} ${a.sexe || ''}`.toLowerCase();
+        return text.includes(activeGenre);
+      });
+    }
+
+    // Filtrage État
+    if (activeEtat !== 'all') {
+      r = r.filter(a => (a.etat || '').toLowerCase().includes(activeEtat));
+    }
+
+    // Tri
+    if (sort === 'prix_asc') r.sort((a, b) => (a.prix_vente_fcfa || 0) - (b.prix_vente_fcfa || 0));
+    else if (sort === 'prix_desc') r.sort((a, b) => (b.prix_vente_fcfa || 0) - (a.prix_vente_fcfa || 0));
+
+    renderGrid(r);
+  }
+
+  function renderGrid(articles) {
+    const grid = document.getElementById('product-grid');
+    if (articles.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:5rem;color:var(--stone);font-family:var(--ff-d);font-size:1.5rem;">Aucun article ne correspond à votre sélection.</div>';
+      return;
+    }
+
+    grid.innerHTML = articles.map(a => {
+      const prix = a.prix_vente_fcfa || 0;
+      const isOut = (a.quantite || 0) <= 0;
+      const photo = SE.imgUrl ? SE.imgUrl(a.photo_url, 600) : (a.photo_url || 'https://placehold.co/600x800');
+
+      const overlay = isOut ? `
+        <div class="p-out-overlay">
+          <span class="p-out-label">Rupture de stock</span>
+        </div>` : '';
+
+      const button = isOut 
+        ? `<button class="p-action" disabled>Voir l'article</button>`
+        : `<button class="p-action" data-cart-add="${a.reference}">Ajouter au panier</button>`;
+
+      return `
+        <article class="p-card">
+          <a href="produit.html?ref=${a.reference}" class="p-image-wrap">
+            <img src="${photo}" alt="${a.nom}" loading="lazy">
+            ${overlay}
+          </a>
+          <button class="p-wish" data-ref="${a.reference}" aria-label="Favoris">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <div class="p-body">
+            <a href="produit.html?ref=${a.reference}" class="p-name">${a.nom}</a>
+            <span class="p-prix">${SE.fprix ? SE.fprix(prix) : prix + ' FCFA'}</span>
+            ${button}
           </div>
-          <div class="cart-total">${SE.fprix(lineTotal)}</div>
-          <button class="cart-rm" data-rm="${a.reference}">Retirer</button>
-        </div>
-      </div>`;
-  }).join('');
+        </article>`;
+    }).join('');
 
-  const subtotal = await SE.Cart.total();
-  const count = SE.Cart.count();
-  document.getElementById('sum-count').textContent = count + ' article' + (count>1?'s':'');
-  document.getElementById('sum-subtotal').textContent = SE.fprix(subtotal);
-  updateTotal(subtotal);
-}
-
-function updateTotal(subtotal){
-  document.getElementById('sum-total').textContent = SE.fprix(subtotal);
-}
-
-// Plus de mode à gérer — retrait uniquement
-
-document.addEventListener('click', async e => {
-  const dec = e.target.dataset.qtyDec;
-  const inc = e.target.dataset.qtyInc;
-  const rm = e.target.dataset.rm;
-  if (dec){
-    const item = SE.Cart.all().find(i => i.ref === dec);
-    if (item && item.qte > 1) SE.Cart.setQte(dec, item.qte - 1);
-    render();
-  } else if (inc){
-    const item = SE.Cart.all().find(i => i.ref === inc);
-    const a = await SE.Articles.get(inc);
-    if (item && a && item.qte < a.quantite) SE.Cart.setQte(inc, item.qte + 1);
-    render();
-  } else if (rm){
-    SE.Cart.remove(rm);
-    SE.toast('Article retiré');
-    render();
+    updateUI();
   }
-});
 
-document.addEventListener('change', e => {
-  const ref = e.target.dataset.qty;
-  if (ref){
-    const v = Math.max(1, +e.target.value || 1);
-    SE.Cart.setQte(ref, v);
-    render();
+  // Délégation d'événements pour le panier et wishlist
+  document.getElementById('product-grid').addEventListener('click', e => {
+    const cartBtn = e.target.closest('[data-cart-add]');
+    const wishBtn = e.target.closest('.p-wish');
+    
+    if (cartBtn) {
+      e.preventDefault();
+      const ref = cartBtn.dataset.cartAdd;
+      try { SE.Cart.add(ref); SE.toast('Ajouté au panier'); updateUI(); } catch(err) {}
+    }
+    
+    if (wishBtn) {
+      e.preventDefault();
+      const ref = wishBtn.dataset.ref;
+      try { 
+        SE.Wishlist.toggle(ref); 
+        updateUI();
+      } catch(err) {}
+    }
+  });
+
+  // Chargement initial
+  async function loadArticles() {
+    try {
+      const raw = await SE.Articles.load();
+      // Trier par quantité desc (en stock en premier)
+      allArticles = raw.sort((a, b) => (b.quantite || 0) - (a.quantite || 0));
+      applyFilters();
+    } catch (e) {
+      console.error('[SenExport] Erreur chargement mode', e);
+      document.getElementById('product-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:5rem;color:var(--red);">Erreur de chargement.</div>';
+    }
   }
-});
 
-document.getElementById('btn-clear').addEventListener('click', () => {
-  if (confirm('Vider le panier ?')){
-    SE.Cart.clear();
-    SE.toast('Panier vidé');
-    render();
-  }
-});
-
-document.getElementById('btn-checkout').addEventListener('click', () => {
-  location.href = 'checkout.html';
-});
+  if (document.readyState === 'complete') loadArticles();
+  else window.addEventListener('load', loadArticles);
+})();
 </script>
-<script src="theme.js"></script>
-<script src="animations.js"></script>
 </body>
 </html>
