@@ -17,163 +17,87 @@
 <link rel="stylesheet" href="styles-dark.css">
 
 <style>
-  :root {
-    --ease: cubic-bezier(.16, 1, .3, 1);
-  }
-  
   body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); margin: 0; overflow-x: hidden; }
   .container { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); }
 
-  /* ═══ 1. GRAIN TEXTURE (Bruit photographique) ═══ */
-  .grain-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none; z-index: 9998; opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  }
-
-  /* ═══ 2. HERO ═══ */
-  .mode-hero {
-    position: relative; height: 90vh; min-height: 600px;
-    display: flex; align-items: center; justify-content: center; text-align: center;
-    overflow: hidden; margin-top: -56px;
-  }
-  .mode-hero-bg {
-    position: absolute; inset: 0;
-    background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=2000&q=80') center/cover no-repeat;
-    z-index: 0; filter: grayscale(40%) contrast(1.1);
-  }
-  .mode-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
-    z-index: 1;
-  }
+  /* ═══ 1. HERO ═══ */
+  .mode-hero { position: relative; height: 90vh; min-height: 600px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; margin-top: -56px; }
+  .mode-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=2000&q=80') center/cover no-repeat; z-index: 0; filter: grayscale(40%) contrast(1.1); }
+  .mode-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%); z-index: 1; }
   .hero-content { position: relative; z-index: 2; padding: 2rem; max-width: 800px; }
-  .hero-label {
-    font-family: var(--ff-m); font-size: 0.75rem; color: var(--or);
-    letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.5rem;
-    display: flex; align-items: center; justify-content: center; gap: 1rem;
-  }
+  .hero-label { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1rem; }
   .hero-label::before, .hero-label::after { content: ''; width: 40px; height: 1px; background: var(--or); }
-  .hero-title {
-    font-family: var(--ff-d); font-size: clamp(3.5rem, 10vw, 7rem);
-    font-weight: 700; line-height: 0.9; letter-spacing: -0.03em;
-    text-transform: uppercase; margin: 0 0 1.5rem 0; color: #fff;
-  }
+  .hero-title { font-family: var(--ff-d); font-size: clamp(3.5rem, 10vw, 7rem); font-weight: 700; line-height: 0.9; letter-spacing: -0.03em; text-transform: uppercase; margin: 0 0 1.5rem 0; color: #fff; }
   .hero-title em { color: var(--or); font-style: italic; font-weight: 400; }
-  .hero-cta {
-    display: inline-block; margin-top: 1rem; background: var(--or); color: var(--bg);
-    text-decoration: none; padding: 1.2rem 3rem; font-weight: 700; font-size: 0.85rem;
-    letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; transition: 0.3s;
-  }
+  .hero-cta { display: inline-block; margin-top: 1rem; background: var(--or); color: var(--bg); text-decoration: none; padding: 1.2rem 3rem; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; transition: 0.3s; }
   .hero-cta:hover { background: #fff; transform: translateY(-3px); }
 
-  /* ═══ 3. MARQUEE (Bandeau défilant) ═══ */
-  .marquee {
-    background: var(--or); color: var(--bg); padding: 0.8rem 0;
-    overflow: hidden; white-space: nowrap; z-index: 10;
-  }
-  .marquee-track {
-    display: inline-block; animation: scroll 20s linear infinite;
-    font-family: var(--ff-m); font-size: 0.85rem; font-weight: 600;
-    text-transform: uppercase; letter-spacing: 0.1em;
-  }
-  .marquee-track span { margin: 0 2rem; }
-  .marquee-track span::before { content: '✦'; margin-right: 2rem; }
-  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-  /* ═══ 4. STRUCTURE & STAGGER (Animations) ═══ */
-  .section-head {
-    display: flex; justify-content: space-between; align-items: flex-end;
-    margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;
-  }
+  /* ═══ 2. STRUCTURE COMMUNE ═══ */
+  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
   .section-head h2 { font-family: var(--ff-d); font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; color: var(--ink); margin: 0; }
   .section-head h2 em { color: var(--or); font-style: italic; }
   .section-head .meta { font-family: var(--ff-m); font-size: 0.8rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
-
   .reveal-stagger { opacity: 0; transform: translateY(30px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
   .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
 
-  /* ═══ 5. FILTRES & GRILLE ═══ */
+  /* ═══ 3. BANDEAU DROPS (Collections) ═══ */
+  .drops-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 5rem; }
+  @media (max-width: 900px) { .drops-grid { grid-template-columns: 1fr; } }
+  .drop-card { position: relative; height: 350px; overflow: hidden; text-decoration: none; border: 1px solid var(--border); border-radius: 4px; display: block; }
+  .drop-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; filter: brightness(0.6); }
+  .drop-card:hover .drop-img { transform: scale(1.05); }
+  .drop-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 60%, transparent 100%); z-index: 1; }
+  .drop-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem; }
+  .drop-title { font-family: var(--ff-d); font-size: 1.5rem; color: #fff; text-transform: uppercase; margin: 0; }
+  .drop-badge { display: inline-block; background: var(--or); color: var(--bg); padding: 0.2rem 0.6rem; font-size: 0.65rem; font-weight: 700; margin-bottom: 0.5rem; width: fit-content; text-transform: uppercase; }
+  .drop-card.upcoming { border: 1px dashed var(--border); background: var(--bg2); }
+  .drop-card.upcoming .drop-img { display: none; }
+  .drop-card.upcoming .drop-content { justify-content: center; align-items: center; text-align: center; }
+
+  /* ═══ 4. FILTRES & GRILLE ═══ */
   .filters-bar { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
-  .filter-pill {
-    background: transparent; border: 1px solid var(--border); color: var(--stone);
-    padding: 0.6rem 1.5rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem;
-    cursor: pointer; transition: 0.2s; text-transform: uppercase;
-  }
+  .filter-pill { background: transparent; border: 1px solid var(--border); color: var(--stone); padding: 0.6rem 1.5rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; transition: 0.2s; text-transform: uppercase; }
   .filter-pill:hover { border-color: var(--ink); color: var(--ink); }
   .filter-pill.active { background: var(--or); color: var(--bg); border-color: var(--or); font-weight: 600; }
   .filter-sep { width: 1px; height: 24px; background: var(--border); margin: 0 0.5rem; }
-  .sort-select {
-    background: transparent; border: 1px solid var(--border); color: var(--ink);
-    padding: 0.6rem 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem;
-    cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase;
-  }
+  .sort-select { background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 0.6rem 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
   .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; padding-bottom: 5rem; }
   @media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
 
   .p-card { background: transparent; border: none; display: flex; flex-direction: column; position: relative; text-decoration: none; }
-  .p-image-wrap {
-    aspect-ratio: 3/4; background: var(--bg2); position: relative; overflow: hidden;
-    display: block; border-radius: 4px; margin-bottom: 1rem;
-  }
-  .p-image-wrap img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.5s var(--ease), filter 0.5s var(--ease);
-    filter: grayscale(100%) contrast(1.1); /* MAGIC N&B */
-  }
+  .p-image-wrap { aspect-ratio: 3/4; background: var(--bg2); position: relative; overflow: hidden; display: block; border-radius: 4px; margin-bottom: 1rem; }
+  .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease), filter 0.5s var(--ease); filter: grayscale(100%) contrast(1.1); }
   .p-card:hover .p-image-wrap img { transform: scale(1.05); filter: grayscale(0%) contrast(1); }
-  
   .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
   .p-out-label { color: #fff; font-family: var(--ff-m); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid #fff; padding: 0.5rem 1.5rem; }
-
-  .p-wish {
-    position: absolute; top: 12px; right: 12px; z-index: 3;
-    background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2);
-    width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center;
-    cursor: pointer; color: #fff; transition: 0.2s;
-  }
+  .p-wish { position: absolute; top: 12px; right: 12px; z-index: 3; background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2); width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; cursor: pointer; color: #fff; transition: 0.2s; }
   .p-wish:hover, .p-wish.active { background: var(--or); border-color: var(--or); color: var(--bg); }
   .p-wish svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
-
   .p-name { font-family: var(--ff-b); font-size: 0.9rem; font-weight: 500; color: var(--ink); text-transform: uppercase; margin: 0 0 0.5rem 0; display: block; text-decoration: none; }
   .p-prix { font-family: var(--ff-d); font-size: 1.3rem; font-weight: 600; color: var(--or); margin-bottom: 1rem; display: block; }
-  .p-action {
-    margin-top: auto; width: 100%; padding: 0.8rem; border: 1px solid var(--ink);
-    font-family: var(--ff-b); font-size: 0.8rem; font-weight: 700; text-align: center;
-    cursor: pointer; text-transform: uppercase; transition: 0.2s; display: block; box-sizing: border-box; text-decoration: none;
-  }
+  .p-action { margin-top: auto; width: 100%; padding: 0.8rem; border: 1px solid var(--ink); font-family: var(--ff-b); font-size: 0.8rem; font-weight: 700; text-align: center; cursor: pointer; text-transform: uppercase; transition: 0.2s; display: block; box-sizing: border-box; text-decoration: none; }
   .p-action.add { background: var(--ink); color: var(--bg); }
   .p-action.add:hover { background: var(--or); border-color: var(--or); }
   .p-action.view { background: transparent; color: var(--ink); border-color: var(--border); }
   .p-action.view:hover { border-color: var(--ink); }
 
-  /* ═══ 6. BLOCS PLEINE LARGEUR (Découpage) ═══ */
-  .full-width-block {
-    min-height: 500px; display: flex; align-items: center; padding: 5rem 0;
-    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  }
-  .fw-inner { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); width: 100%; }
-  .fw-image-only { min-height: 400px; background-size: cover; background-position: center; background-attachment: fixed; filter: grayscale(30%); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-  @media (max-width: 768px) { .fw-image-only { background-attachment: scroll; } }
+  /* ═══ 5. BLOCS TEXTES (Marketing) ═══ */
+  .marketing-section { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin: 5rem 0; }
+  @media (max-width: 768px) { .marketing-section { grid-template-columns: 1fr; gap: 2rem; } }
+  .mkt-text h3 { font-family: var(--ff-d); font-size: clamp(2rem, 4vw, 3rem); color: var(--ink); font-weight: 400; margin: 0 0 1.5rem 0; }
+  .mkt-text h3 em { color: var(--or); font-style: italic; }
+  .mkt-text p { color: var(--stone); line-height: 1.8; margin-bottom: 1.5rem; font-size: 1rem; }
+  .mkt-list { list-style: none; padding: 0; margin: 0; }
+  .mkt-list li { color: var(--ink); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
+  .mkt-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
+  .mkt-img { width: 100%; height: 450px; object-fit: cover; border-radius: 4px; filter: grayscale(20%); }
 
-  .text-block { text-align: center; max-width: 800px; margin: 0 auto; }
-  .text-block h2 { font-family: var(--ff-d); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; color: var(--ink); margin: 0 0 1.5rem 0; }
-  .text-block h2 em { color: var(--or); font-style: italic; }
-  .text-block p { font-size: 1.1rem; line-height: 1.8; color: var(--stone); margin-bottom: 2rem; }
-  .text-block .btn { display: inline-block; padding: 1rem 2.5rem; background: var(--ink); color: var(--bg); text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; transition: 0.2s; border: 1px solid var(--ink); }
-  .text-block .btn:hover { background: transparent; color: var(--ink); }
-
-  /* ═══ 7. PANIER COULISSANT (Drawer) ═══ */
+  /* ═══ 6. PANIER COULISSANT (Drawer) ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
-  .cart-drawer {
-    position: fixed; top: 0; right: 0; width: 400px; max-width: 100vw; height: 100vh;
-    background: var(--bg); border-left: 1px solid var(--border); z-index: 10000;
-    transform: translateX(100%); transition: transform 0.4s var(--ease);
-    display: flex; flex-direction: column;
-  }
+  .cart-drawer { position: fixed; top: 0; right: 0; width: 400px; max-width: 100vw; height: 100vh; background: var(--bg); border-left: 1px solid var(--border); z-index: 10000; transform: translateX(100%); transition: transform 0.4s var(--ease); display: flex; flex-direction: column; }
   .cart-drawer.open { transform: translateX(0); }
   .drawer-head { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
   .drawer-head h3 { font-family: var(--ff-d); font-size: 1.5rem; margin: 0; color: var(--ink); }
@@ -190,14 +114,10 @@
   .drawer-btn:hover { background: transparent; color: var(--or); }
   .drawer-empty { text-align: center; color: var(--stone); padding: 3rem 1rem; }
 
-  /* ═══ 8. FAQ ═══ */
+  /* ═══ 7. FAQ ═══ */
   .faq-section { max-width: 800px; margin: 5rem auto; padding: 0 1.5rem; }
   .faq-item { border-bottom: 1px solid var(--border); }
-  .faq-q {
-    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
-    padding: 1.5rem 0; background: none; border: none; cursor: pointer; text-align: left;
-    font-family: var(--ff-d); font-size: 1.2rem; color: var(--ink); font-weight: 400;
-  }
+  .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--ff-d); font-size: 1.2rem; color: var(--ink); font-weight: 400; }
   .faq-q .ic { font-size: 1.5rem; color: var(--or); transition: transform 0.3s var(--ease); flex-shrink: 0; }
   .faq-item.open .faq-q .ic { transform: rotate(45deg); }
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
@@ -208,24 +128,16 @@
 </head>
 <body>
 
-<!-- GRAIN OVERLAY -->
-<div class="grain-overlay"></div>
-
-<!-- CART DRAWER -->
+<!-- PANIER COULISSANT -->
 <div class="drawer-overlay" id="drawer-overlay"></div>
 <div class="cart-drawer" id="cart-drawer">
   <div class="drawer-head">
     <h3>Panier</h3>
     <button class="drawer-close" id="drawer-close">×</button>
   </div>
-  <div class="drawer-body" id="drawer-body">
-    <div class="drawer-empty">Votre panier est vide.</div>
-  </div>
+  <div class="drawer-body" id="drawer-body"><div class="drawer-empty">Votre panier est vide.</div></div>
   <div class="drawer-footer" id="drawer-footer" style="display: none;">
-    <div class="drawer-total">
-      <span>Total</span>
-      <span id="drawer-total-val">0 FCFA</span>
-    </div>
+    <div class="drawer-total"><span>Total</span><span id="drawer-total-val">0 FCFA</span></div>
     <a href="panier.html" class="drawer-btn">Voir le panier</a>
   </div>
 </div>
@@ -240,16 +152,9 @@
     <li><a href="maison.html">Maison</a></li>
   </ul>
   <div class="nav-right">
-    <a href="favoris.html" class="nav-icon" aria-label="Favoris">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-    </a>
-    <a href="panier.html" class="nav-icon" aria-label="Panier">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <span class="nav-badge" id="cart-count"></span>
-    </a>
-    <a href="compte.html" class="nav-icon" aria-label="Compte">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    </a>
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
+    <a href="panier.html" class="nav-icon" aria-label="Panier"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-badge" id="cart-count"></span></a>
+    <a href="compte.html" class="nav-icon" aria-label="Compte"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
   </div>
 </nav>
 
@@ -264,21 +169,44 @@
   </div>
 </div>
 
-<!-- MARQUEE -->
-<div class="marquee">
-  <div class="marquee-track">
-    <span>LIVRAISON À THIÈS</span><span>PAIEMENT À LA RÉCUP</span><span>DROP 2026</span><span>IMPORT FRANCE</span>
-    <span>LIVRAISON À THIÈS</span><span>PAIEMENT À LA RÉCUP</span><span>DROP 2026</span><span>IMPORT FRANCE</span>
+<!-- 1. PRODUITS PHARES (Le top du début) -->
+<div class="container" style="padding-top: 5rem;">
+  <div class="section-head">
+    <h2>Pièces <em>Phares</em></h2>
+    <span class="meta">Les plus voulus</span>
+  </div>
+  <div class="prod-grid" id="featured-grid" style="grid-template-columns: repeat(4, 1fr); padding-bottom: 2rem;">
+    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
   </div>
 </div>
 
-<!-- CATALOGUE -->
-<div id="catalog" class="container" style="padding-top: 5rem;">
+<!-- 2. SECTION DES DROPS (Collections) -->
+<div class="container">
   <div class="section-head">
-    <h2>La <em>Sélection</em></h2>
-    <span class="meta">Pièces disponibles maintenant</span>
+    <h2>Les <em>Drops</em></h2>
+    <span class="meta">Arrivages & Archives</span>
   </div>
+  <div class="drops-grid">
+    <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="drop-card">
+      <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=800&auto=format&fit=crop" alt="Drop Hiver" class="drop-img">
+      <div class="drop-content"><span class="drop-badge">Disponible</span><h3 class="drop-title">Drop Hiver 2026</h3></div>
+    </a>
+    <a href="collections.html" class="drop-card">
+      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop" alt="Archives" class="drop-img">
+      <div class="drop-content"><span class="drop-badge" style="background: #555; color: #fff;">Archive</span><h3 class="drop-title">Collections Passées</h3></div>
+    </a>
+    <a href="#" class="drop-card upcoming">
+      <div class="drop-content"><span class="drop-badge">Bientôt</span><h3 class="drop-title">Drop Techwear</h3></div>
+    </a>
+  </div>
+</div>
 
+<!-- 3. CATALOGUE COMPLET -->
+<div id="catalog" class="container">
+  <div class="section-head">
+    <h2>Le <em>Catalogue</em></h2>
+    <span class="meta">Toutes les pièces</span>
+  </div>
   <div class="filters-bar">
     <button class="filter-pill active" data-genre="all">Tout</button>
     <button class="filter-pill" data-genre="homme">Homme</button>
@@ -293,91 +221,50 @@
       <option value="prix_desc">Prix décroissant</option>
     </select>
   </div>
-
   <div class="prod-grid" id="product-grid">
-    <div class="skel" style="aspect-ratio:3/4;"></div>
-    <div class="skel" style="aspect-ratio:3/4;"></div>
-    <div class="skel" style="aspect-ratio:3/4;"></div>
-    <div class="skel" style="aspect-ratio:3/4;"></div>
+    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
   </div>
 </div>
 
-<!-- BLOC PLEINE LARGEUR 1 (Texte sur fond) -->
-<div class="full-width-block" style="background: var(--bg2);">
-  <div class="fw-inner">
-    <div class="text-block">
-      <h2>Importé de <em>France</em></h2>
-      <p>Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française. Qualité vérifiée, tendances parisiennes direct.</p>
+<!-- 4. ARGUMENTS DE VENTE (Textes propres) -->
+<div class="container">
+  <div class="marketing-section">
+    <div class="mkt-text">
+      <h3>Importé de <em>France</em></h3>
+      <p>Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
+      <ul class="mkt-list"><li>Qualité vérifiée avant l'envoi</li><li>Pièces uniques et stock limité</li><li>Tendances parisiennes direct</li></ul>
     </div>
+    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop" alt="Import" class="mkt-img">
   </div>
-</div>
 
-<!-- IMAGE PLEINE LARGEUR (Effet Parallaxe) -->
-<div class="fw-image-only" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1600&auto=format&fit=crop');"></div>
-
-<!-- BLOC PLEINE LARGEUR 2 (Collection Drop) -->
-<div class="full-width-block" style="background: var(--bg);">
-  <div class="fw-inner">
-    <div class="text-block">
-      <h2>Drop Hiver <em>2026</em></h2>
-      <p>Notre première collection signature. Des pièces uniques, stock limité. Soyez les premiers à porter le style SenExport.</p>
-      <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="btn">Voir la collection</a>
+  <div class="marketing-section" style="direction: rtl;">
+    <div class="mkt-text" style="direction: ltr;">
+      <h3>Zéro <em>Avance</em></h3>
+      <p>Tu commandes, on importe, tu récupères à Thiès. Tu ne paies qu'au moment de la récupération. Wave, Orange Money ou espèces. Zéro stress, zéro arnaque.</p>
+      <ul class="mkt-list"><li>Paiement à la livraison</li><li>Retrait au dépôt à Thiès</li><li>Inspection avant achat</li></ul>
     </div>
+    <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1000&auto=format&fit=crop" alt="Confiance" class="mkt-img" style="direction: ltr;">
   </div>
 </div>
 
-<!-- FAQ -->
+<!-- 5. FAQ -->
 <div class="faq-section">
   <div class="section-head" style="justify-content: center; text-align: center; border: none; margin-bottom: 1rem;">
     <h2>Avant de <em>commander</em></h2>
   </div>
-  
-  <div class="faq-item">
-    <button class="faq-q"><span>Comment se passe le paiement ?</span><span class="ic">+</span></button>
-    <div class="faq-a"><p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p></div>
-  </div>
-  <div class="faq-item">
-    <button class="faq-q"><span>Combien de temps pour recevoir ?</span><span class="ic">+</span></button>
-    <div class="faq-a"><p>Entre 48h et quelques jours selon l'arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p></div>
-  </div>
-  <div class="faq-item">
-    <button class="faq-q"><span>Et si l'article ne me convient pas ?</span><span class="ic">+</span></button>
-    <div class="faq-a"><p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p></div>
-  </div>
+  <div class="faq-item"><button class="faq-q"><span>Comment se passe le paiement ?</span><span class="ic">+</span></button><div class="faq-a"><p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p></div></div>
+  <div class="faq-item"><button class="faq-q"><span>Combien de temps pour recevoir ?</span><span class="ic">+</span></button><div class="faq-a"><p>Entre 48h et quelques jours selon l'arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p></div></div>
+  <div class="faq-item"><button class="faq-q"><span>Et si l'article ne me convient pas ?</span><span class="ic">+</span></button><div class="faq-a"><p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p></div></div>
 </div>
 
 <footer class="footer">
   <div class="footer-grid">
-    <div class="footer-brand">
-      <div>Sen·Export <em style="color:var(--or); font-style:italic; font-weight:300;">Boutique</em></div>
-      <p>Les meilleurs produits sélectionnés pour vous. Paiement à la récupération.</p>
-    </div>
-    <nav class="footer-col">
-      <h4>Boutique</h4>
-      <ul>
-        <li><a href="mode.html">Mode</a></li>
-        <li><a href="maison.html">Maison</a></li>
-        <li><a href="catalogue.html">Catalogue</a></li>
-      </ul>
-    </nav>
-    <nav class="footer-col">
-      <h4>Compte</h4>
-      <ul>
-        <li><a href="compte.html">Mon compte</a></li>
-        <li><a href="panier.html">Panier</a></li>
-      </ul>
-    </nav>
-    <nav class="footer-col">
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="https://wa.me/221778038874" target="_blank">WhatsApp</a></li>
-      </ul>
-    </nav>
+    <div class="footer-brand"><div>Sen·Export <em style="color:var(--or); font-style:italic; font-weight:300;">Boutique</em></div><p>Les meilleurs produits sélectionnés pour vous. Paiement à la récupération.</p></div>
+    <nav class="footer-col"><h4>Boutique</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li></ul></nav>
+    <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li></ul></nav>
+    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank">WhatsApp</a></li></ul></nav>
   </div>
-  <div class="footer-bottom">
-    <p>© 2026 SenExport Boutique</p>
-    <a href="cgv.html">CGV</a>
-  </div>
+  <div class="footer-bottom"><p>© 2026 SenExport Boutique</p><a href="cgv.html">CGV</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -390,14 +277,11 @@
 (() => {
   'use strict';
 
-  // 1. PANIER COULISSANT (Drawer)
   const drawer = document.getElementById('cart-drawer');
   const overlay = document.getElementById('drawer-overlay');
   const closeBtn = document.getElementById('drawer-close');
-
   const openDrawer = () => { drawer.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow = 'hidden'; };
   const closeDrawer = () => { drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow = ''; };
-
   overlay.addEventListener('click', closeDrawer);
   closeBtn.addEventListener('click', closeDrawer);
 
@@ -407,46 +291,28 @@
       const body = document.getElementById('drawer-body');
       const footer = document.getElementById('drawer-footer');
       const totalEl = document.getElementById('drawer-total-val');
-
-      if (items.length === 0) {
-        body.innerHTML = '<div class="drawer-empty">Votre panier est vide.</div>';
-        footer.style.display = 'none';
-      } else {
-        body.innerHTML = items.map(i => `
-          <div class="drawer-item">
-            <img src="${SE.imgUrl ? SE.imgUrl(i.article.photo_url, 100) : i.article.photo_url}" alt="${i.article.nom}">
-            <div class="drawer-item-info">
-              <h4>${i.article.nom}</h4>
-              <p>${SE.fprix(i.article.prix_vente_fcfa)} × ${i.qte}</p>
-            </div>
-          </div>
-        `).join('');
+      if (items.length === 0) { body.innerHTML = '<div class="drawer-empty">Votre panier est vide.</div>'; footer.style.display = 'none'; } 
+      else {
+        body.innerHTML = items.map(i => `<div class="drawer-item"><img src="${SE.imgUrl ? SE.imgUrl(i.article.photo_url, 100) : i.article.photo_url}" alt="${i.article.nom}"><div class="drawer-item-info"><h4>${i.article.nom}</h4><p>${SE.fprix(i.article.prix_vente_fcfa)} × ${i.qte}</p></div></div>`).join('');
         const total = await SE.Cart.total();
         totalEl.textContent = SE.fprix(total);
         footer.style.display = 'block';
       }
-    } catch(e) { console.warn('Drawer update err', e); }
+    } catch(e) {}
   }
 
-  // 2. FAQ Accordéon
   document.querySelectorAll('.faq-item').forEach(item => {
-    const q = item.querySelector('.faq-q');
-    const a = item.querySelector('.faq-a');
+    const q = item.querySelector('.faq-q'); const a = item.querySelector('.faq-a');
     q.addEventListener('click', () => {
       const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(other => {
-        other.classList.remove('open');
-        other.querySelector('.faq-a').style.maxHeight = '0px';
-      });
+      document.querySelectorAll('.faq-item.open').forEach(other => { other.classList.remove('open'); other.querySelector('.faq-a').style.maxHeight = '0px'; });
       if (!isOpen) { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
     });
   });
 
-  // 3. ANIMATIONS STAGGER (Intersection Observer)
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        // Délai calculé pour l'effet "un par un"
         const index = Array.from(entry.target.parentNode.children).indexOf(entry.target);
         entry.target.style.transitionDelay = `${index * 0.1}s`;
         entry.target.classList.add('visible');
@@ -459,10 +325,7 @@
       const n = SE?.Cart?.count?.() ?? 0;
       const b = document.getElementById('cart-count');
       if (b) { b.textContent = n; b.classList.toggle('show', n > 0); }
-      document.querySelectorAll('.p-wish').forEach(btn => {
-        if (SE.Wishlist.has(btn.dataset.ref)) btn.classList.add('active');
-        else btn.classList.remove('active');
-      });
+      document.querySelectorAll('.p-wish').forEach(btn => { if (SE.Wishlist.has(btn.dataset.ref)) btn.classList.add('active'); else btn.classList.remove('active'); });
     } catch(e) {}
   }
 
@@ -495,34 +358,27 @@
     if (sort === 'prix_asc') r.sort((a, b) => (a.prix_vente_fcfa || 0) - (b.prix_vente_fcfa || 0));
     else if (sort === 'prix_desc') r.sort((a, b) => (b.prix_vente_fcfa || 0) - (a.prix_vente_fcfa || 0));
 
-    renderGrid(r);
+    renderGrid(r, 'product-grid');
   }
 
-  function renderGrid(articles) {
-    const grid = document.getElementById('product-grid');
-    if (articles.length === 0) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:5rem;color:var(--stone);">Aucun article ne correspond à votre sélection.</div>';
-      return;
-    }
-
+  function renderGrid(articles, gridId = 'product-grid') {
+    const grid = document.getElementById(gridId);
+    if (!grid) return;
+    if (articles.length === 0 && gridId === 'product-grid') { grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:5rem;color:var(--stone);">Aucun article ne correspond à votre sélection.</div>'; return; }
+    
     grid.innerHTML = articles.map(a => {
       const prix = a.prix_vente_fcfa || 0;
       const isOut = (a.quantite || 0) <= 0;
       const photo = SE.imgUrl ? SE.imgUrl(a.photo_url, 600) : (a.photo_url || 'https://placehold.co/600x800');
       const overlayOut = isOut ? `<div class="p-out-overlay"><span class="p-out-label">Sold Out</span></div>` : '';
-      const button = isOut 
-        ? `<button class="p-action view" data-ref="${a.reference}">Voir l'article</button>`
-        : `<button class="p-action add" data-cart-add="${a.reference}">Ajouter</button>`;
+      const button = isOut ? `<button class="p-action view" data-ref="${a.reference}">Voir l'article</button>` : `<button class="p-action add" data-cart-add="${a.reference}">Ajouter</button>`;
 
       return `
         <article class="p-card reveal-stagger">
           <a href="produit.html?ref=${a.reference}" class="p-image-wrap" style="text-decoration:none;">
-            <img src="${photo}" alt="${a.nom}" loading="lazy">
-            ${overlayOut}
+            <img src="${photo}" alt="${a.nom}" loading="lazy">${overlayOut}
           </a>
-          <button class="p-wish" data-ref="${a.reference}" aria-label="Favoris">
-            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </button>
+          <button class="p-wish" data-ref="${a.reference}" aria-label="Favoris"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
           <a href="produit.html?ref=${a.reference}" class="p-name" style="text-decoration:none;">${a.nom}</a>
           <span class="p-prix">${SE.fprix ? SE.fprix(prix) : prix + ' FCFA'}</span>
           ${button}
@@ -545,9 +401,7 @@
         SE.Cart.add(ref); 
         cartBtn.textContent = '✓ Ajouté';
         setTimeout(() => { cartBtn.textContent = 'Ajouter'; }, 2000);
-        updateUI(); 
-        updateDrawer();
-        openDrawer();
+        updateUI(); updateDrawer(); openDrawer();
       } catch(err) {}
     }
     if (viewBtn) { e.preventDefault(); location.href = 'produit.html?ref=' + viewBtn.dataset.ref; }
@@ -558,6 +412,10 @@
     try {
       const raw = await SE.Articles.load();
       allArticles = raw.sort((a, b) => (b.quantite || 0) - (a.quantite || 0));
+      
+      // Remplir les produits phares (4 premiers)
+      renderGrid(allArticles.slice(0, 4), 'featured-grid');
+      // Remplir le catalogue complet
       applyFilters();
     } catch (e) {
       console.error('[SenExport] Erreur chargement mode', e);
