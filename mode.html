@@ -17,10 +17,21 @@
 <link rel="stylesheet" href="styles-dark.css">
 
 <style>
+  :root {
+    --ease: cubic-bezier(.16, 1, .3, 1);
+  }
+  
   body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); margin: 0; overflow-x: hidden; }
   .container { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); }
 
-  /* ═══ 1. HERO AÉRÉ ═══ */
+  /* ═══ 1. GRAIN TEXTURE (Bruit photographique) ═══ */
+  .grain-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 9998; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* ═══ 2. HERO ═══ */
   .mode-hero {
     position: relative; height: 90vh; min-height: 600px;
     display: flex; align-items: center; justify-content: center; text-align: center;
@@ -29,7 +40,7 @@
   .mode-hero-bg {
     position: absolute; inset: 0;
     background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=2000&q=80') center/cover no-repeat;
-    z-index: 0; filter: grayscale(30%) contrast(1.1);
+    z-index: 0; filter: grayscale(40%) contrast(1.1);
   }
   .mode-hero-overlay {
     position: absolute; inset: 0;
@@ -56,7 +67,21 @@
   }
   .hero-cta:hover { background: #fff; transform: translateY(-3px); }
 
-  /* ═══ 2. STRUCTURE & EN-TÊTES ═══ */
+  /* ═══ 3. MARQUEE (Bandeau défilant) ═══ */
+  .marquee {
+    background: var(--or); color: var(--bg); padding: 0.8rem 0;
+    overflow: hidden; white-space: nowrap; z-index: 10;
+  }
+  .marquee-track {
+    display: inline-block; animation: scroll 20s linear infinite;
+    font-family: var(--ff-m); font-size: 0.85rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  .marquee-track span { margin: 0 2rem; }
+  .marquee-track span::before { content: '✦'; margin-right: 2rem; }
+  @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ═══ 4. STRUCTURE & STAGGER (Animations) ═══ */
   .section-head {
     display: flex; justify-content: space-between; align-items: flex-end;
     margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem;
@@ -65,11 +90,11 @@
   .section-head h2 em { color: var(--or); font-style: italic; }
   .section-head .meta { font-family: var(--ff-m); font-size: 0.8rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
 
-  /* ═══ 3. GRILLE PRODUITS (N&B -> Couleur) ═══ */
-  .filters-bar {
-    display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap;
-    align-items: center;
-  }
+  .reveal-stagger { opacity: 0; transform: translateY(30px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+  .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
+
+  /* ═══ 5. FILTRES & GRILLE ═══ */
+  .filters-bar { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
   .filter-pill {
     background: transparent; border: 1px solid var(--border); color: var(--stone);
     padding: 0.6rem 1.5rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem;
@@ -84,31 +109,22 @@
     cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase;
   }
 
-  .prod-grid {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
-    padding-bottom: 5rem;
-  }
+  .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; padding-bottom: 5rem; }
   @media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
 
-  .p-card {
-    background: transparent; border: none; display: flex; flex-direction: column;
-    position: relative; text-decoration: none;
-  }
+  .p-card { background: transparent; border: none; display: flex; flex-direction: column; position: relative; text-decoration: none; }
   .p-image-wrap {
     aspect-ratio: 3/4; background: var(--bg2); position: relative; overflow: hidden;
     display: block; border-radius: 4px; margin-bottom: 1rem;
   }
   .p-image-wrap img {
     width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.5s ease, filter 0.5s ease;
-    filter: grayscale(100%) contrast(1.1); /* L'EFFECTE MAGIC N&B */
+    transition: transform 0.5s var(--ease), filter 0.5s var(--ease);
+    filter: grayscale(100%) contrast(1.1); /* MAGIC N&B */
   }
   .p-card:hover .p-image-wrap img { transform: scale(1.05); filter: grayscale(0%) contrast(1); }
   
-  .p-out-overlay {
-    position: absolute; inset: 0; background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2;
-  }
+  .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
   .p-out-label { color: #fff; font-family: var(--ff-m); font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid #fff; padding: 0.5rem 1.5rem; }
 
   .p-wish {
@@ -123,7 +139,6 @@
 
   .p-name { font-family: var(--ff-b); font-size: 0.9rem; font-weight: 500; color: var(--ink); text-transform: uppercase; margin: 0 0 0.5rem 0; display: block; text-decoration: none; }
   .p-prix { font-family: var(--ff-d); font-size: 1.3rem; font-weight: 600; color: var(--or); margin-bottom: 1rem; display: block; }
-  
   .p-action {
     margin-top: auto; width: 100%; padding: 0.8rem; border: 1px solid var(--ink);
     font-family: var(--ff-b); font-size: 0.8rem; font-weight: 700; text-align: center;
@@ -134,44 +149,48 @@
   .p-action.view { background: transparent; color: var(--ink); border-color: var(--border); }
   .p-action.view:hover { border-color: var(--ink); }
 
-  /* ═══ 4. SECTION ÉDITORIALE (Image + Texte) ═══ */
-  .editorial-section {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
-    margin: 5rem 0; align-items: stretch; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  /* ═══ 6. BLOCS PLEINE LARGEUR (Découpage) ═══ */
+  .full-width-block {
+    min-height: 500px; display: flex; align-items: center; padding: 5rem 0;
+    border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
   }
-  @media (max-width: 768px) { .editorial-section { grid-template-columns: 1fr; } }
-  
-  .edit-img { height: 500px; background-size: cover; background-position: center; filter: grayscale(50%); }
-  .edit-text {
-    padding: 4rem clamp(2rem, 5vw, 5rem); display: flex; flex-direction: column; justify-content: center;
-  }
-  .edit-num { font-family: var(--ff-m); font-size: 0.8rem; color: var(--or); margin-bottom: 1rem; letter-spacing: 0.2em; }
-  .edit-title { font-family: var(--ff-d); font-size: clamp(2rem, 4vw, 3rem); color: var(--ink); font-weight: 400; margin: 0 0 1.5rem 0; line-height: 1.1; }
-  .edit-title em { color: var(--or); font-style: italic; }
-  .edit-desc { color: var(--stone); line-height: 1.8; margin-bottom: 2rem; font-size: 1rem; }
-  .edit-list { list-style: none; padding: 0; margin: 0; }
-  .edit-list li { color: var(--ink); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
-  .edit-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
+  .fw-inner { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); width: 100%; }
+  .fw-image-only { min-height: 400px; background-size: cover; background-position: center; background-attachment: fixed; filter: grayscale(30%); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  @media (max-width: 768px) { .fw-image-only { background-attachment: scroll; } }
 
-  /* ═══ 5. COLLECTION BANNER ═══ */
-  .col-banner {
-    position: relative; height: 400px; border-radius: 8px; overflow: hidden;
-    display: flex; align-items: center; justify-content: center; text-align: center;
-    margin: 5rem 0; border: 1px solid var(--border);
-  }
-  .col-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: brightness(0.4); transition: transform 5s ease; }
-  .col-banner:hover .col-bg { transform: scale(1.05); }
-  .col-content { position: relative; z-index: 2; padding: 2rem; }
-  .col-title { font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3.5rem); color: #fff; margin: 0 0 1rem 0; font-weight: 400; }
-  .col-title em { color: var(--or); font-style: italic; }
-  .col-btn {
-    display: inline-block; padding: 1rem 2.5rem; background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(10px); color: #fff;
-    text-decoration: none; font-family: var(--ff-b); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s;
-  }
-  .col-btn:hover { background: var(--or); border-color: var(--or); color: var(--bg); }
+  .text-block { text-align: center; max-width: 800px; margin: 0 auto; }
+  .text-block h2 { font-family: var(--ff-d); font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; color: var(--ink); margin: 0 0 1.5rem 0; }
+  .text-block h2 em { color: var(--or); font-style: italic; }
+  .text-block p { font-size: 1.1rem; line-height: 1.8; color: var(--stone); margin-bottom: 2rem; }
+  .text-block .btn { display: inline-block; padding: 1rem 2.5rem; background: var(--ink); color: var(--bg); text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; transition: 0.2s; border: 1px solid var(--ink); }
+  .text-block .btn:hover { background: transparent; color: var(--ink); }
 
-  /* ═══ 6. FAQ ═══ */
+  /* ═══ 7. PANIER COULISSANT (Drawer) ═══ */
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+  .cart-drawer {
+    position: fixed; top: 0; right: 0; width: 400px; max-width: 100vw; height: 100vh;
+    background: var(--bg); border-left: 1px solid var(--border); z-index: 10000;
+    transform: translateX(100%); transition: transform 0.4s var(--ease);
+    display: flex; flex-direction: column;
+  }
+  .cart-drawer.open { transform: translateX(0); }
+  .drawer-head { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .drawer-head h3 { font-family: var(--ff-d); font-size: 1.5rem; margin: 0; color: var(--ink); }
+  .drawer-close { background: none; border: none; color: var(--stone); font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
+  .drawer-close:hover { color: var(--or); }
+  .drawer-body { flex: 1; overflow-y: auto; padding: 1.5rem; }
+  .drawer-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .drawer-item img { width: 70px; height: 90px; object-fit: cover; border-radius: 4px; }
+  .drawer-item-info h4 { font-family: var(--ff-b); font-size: 0.9rem; margin: 0 0 0.5rem 0; color: var(--ink); }
+  .drawer-item-info p { font-family: var(--ff-m); font-size: 0.85rem; color: var(--or); margin: 0; }
+  .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+  .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.3rem; color: var(--ink); }
+  .drawer-btn { display: block; width: 100%; padding: 1rem; background: var(--or); color: var(--bg); text-align: center; text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; transition: 0.2s; border: 1px solid var(--or); }
+  .drawer-btn:hover { background: transparent; color: var(--or); }
+  .drawer-empty { text-align: center; color: var(--stone); padding: 3rem 1rem; }
+
+  /* ═══ 8. FAQ ═══ */
   .faq-section { max-width: 800px; margin: 5rem auto; padding: 0 1.5rem; }
   .faq-item { border-bottom: 1px solid var(--border); }
   .faq-q {
@@ -179,7 +198,7 @@
     padding: 1.5rem 0; background: none; border: none; cursor: pointer; text-align: left;
     font-family: var(--ff-d); font-size: 1.2rem; color: var(--ink); font-weight: 400;
   }
-  .faq-q .ic { font-size: 1.5rem; color: var(--or); transition: transform var(--mid) var(--ease); flex-shrink: 0; }
+  .faq-q .ic { font-size: 1.5rem; color: var(--or); transition: transform 0.3s var(--ease); flex-shrink: 0; }
   .faq-item.open .faq-q .ic { transform: rotate(45deg); }
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
   .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: var(--stone); line-height: 1.7; max-width: 600px; }
@@ -188,6 +207,28 @@
 </style>
 </head>
 <body>
+
+<!-- GRAIN OVERLAY -->
+<div class="grain-overlay"></div>
+
+<!-- CART DRAWER -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="drawer-head">
+    <h3>Panier</h3>
+    <button class="drawer-close" id="drawer-close">×</button>
+  </div>
+  <div class="drawer-body" id="drawer-body">
+    <div class="drawer-empty">Votre panier est vide.</div>
+  </div>
+  <div class="drawer-footer" id="drawer-footer" style="display: none;">
+    <div class="drawer-total">
+      <span>Total</span>
+      <span id="drawer-total-val">0 FCFA</span>
+    </div>
+    <a href="panier.html" class="drawer-btn">Voir le panier</a>
+  </div>
+</div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
@@ -223,6 +264,14 @@
   </div>
 </div>
 
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>LIVRAISON À THIÈS</span><span>PAIEMENT À LA RÉCUP</span><span>DROP 2026</span><span>IMPORT FRANCE</span>
+    <span>LIVRAISON À THIÈS</span><span>PAIEMENT À LA RÉCUP</span><span>DROP 2026</span><span>IMPORT FRANCE</span>
+  </div>
+</div>
+
 <!-- CATALOGUE -->
 <div id="catalog" class="container" style="padding-top: 5rem;">
   <div class="section-head">
@@ -253,45 +302,28 @@
   </div>
 </div>
 
-<!-- SECTION ÉDITORIALE 1 -->
-<div class="editorial-section">
-  <div class="edit-img" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1200&auto=format&fit=crop');"></div>
-  <div class="edit-text">
-    <span class="edit-num">01. — Sélection</span>
-    <h3 class="edit-title">Importé de <em>France</em></h3>
-    <p class="edit-desc">Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
-    <ul class="edit-list">
-      <li>Qualité vérifiée avant l'envoi</li>
-      <li>Pièces uniques et stock limité</li>
-      <li>Tendances parisiennes direct</li>
-    </ul>
-  </div>
-</div>
-
-<!-- COLLECTION BANNER -->
-<div class="container">
-  <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="col-banner" style="text-decoration:none;">
-    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1559551409-dadc959f76b8?q=80&w=1600&auto=format&fit=crop');"></div>
-    <div class="col-content">
-      <h2 class="col-title">Drop Hiver <em>2026</em></h2>
-      <span class="col-btn">Voir la collection</span>
+<!-- BLOC PLEINE LARGEUR 1 (Texte sur fond) -->
+<div class="full-width-block" style="background: var(--bg2);">
+  <div class="fw-inner">
+    <div class="text-block">
+      <h2>Importé de <em>France</em></h2>
+      <p>Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française. Qualité vérifiée, tendances parisiennes direct.</p>
     </div>
-  </a>
+  </div>
 </div>
 
-<!-- SECTION ÉDITORIALE 2 (Inversée) -->
-<div class="editorial-section">
-  <div class="edit-text" style="order: 1;">
-    <span class="edit-num">02. — Confiance</span>
-    <h3 class="edit-title">Zéro <em>Avance</em></h3>
-    <p class="edit-desc">Tu commandes, on importe, tu récupères à Thiès. Tu ne paies qu'au moment de la récupération. Wave, Orange Money ou espèces. Zéro stress, zéro arnaque.</p>
-    <ul class="edit-list">
-      <li>Paiement à la livraison</li>
-      <li>Retrait au dépôt à Thiès</li>
-      <li>Inspection avant achat</li>
-    </ul>
+<!-- IMAGE PLEINE LARGEUR (Effet Parallaxe) -->
+<div class="fw-image-only" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1600&auto=format&fit=crop');"></div>
+
+<!-- BLOC PLEINE LARGEUR 2 (Collection Drop) -->
+<div class="full-width-block" style="background: var(--bg);">
+  <div class="fw-inner">
+    <div class="text-block">
+      <h2>Drop Hiver <em>2026</em></h2>
+      <p>Notre première collection signature. Des pièces uniques, stock limité. Soyez les premiers à porter le style SenExport.</p>
+      <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="btn">Voir la collection</a>
+    </div>
   </div>
-  <div class="edit-img" style="background-image: url('https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1200&auto=format&fit=crop'); order: 2;"></div>
 </div>
 
 <!-- FAQ -->
@@ -358,7 +390,45 @@
 (() => {
   'use strict';
 
-  // FAQ Accordéon
+  // 1. PANIER COULISSANT (Drawer)
+  const drawer = document.getElementById('cart-drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  const closeBtn = document.getElementById('drawer-close');
+
+  const openDrawer = () => { drawer.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const closeDrawer = () => { drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow = ''; };
+
+  overlay.addEventListener('click', closeDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+
+  async function updateDrawer() {
+    try {
+      const items = await SE.Cart.items();
+      const body = document.getElementById('drawer-body');
+      const footer = document.getElementById('drawer-footer');
+      const totalEl = document.getElementById('drawer-total-val');
+
+      if (items.length === 0) {
+        body.innerHTML = '<div class="drawer-empty">Votre panier est vide.</div>';
+        footer.style.display = 'none';
+      } else {
+        body.innerHTML = items.map(i => `
+          <div class="drawer-item">
+            <img src="${SE.imgUrl ? SE.imgUrl(i.article.photo_url, 100) : i.article.photo_url}" alt="${i.article.nom}">
+            <div class="drawer-item-info">
+              <h4>${i.article.nom}</h4>
+              <p>${SE.fprix(i.article.prix_vente_fcfa)} × ${i.qte}</p>
+            </div>
+          </div>
+        `).join('');
+        const total = await SE.Cart.total();
+        totalEl.textContent = SE.fprix(total);
+        footer.style.display = 'block';
+      }
+    } catch(e) { console.warn('Drawer update err', e); }
+  }
+
+  // 2. FAQ Accordéon
   document.querySelectorAll('.faq-item').forEach(item => {
     const q = item.querySelector('.faq-q');
     const a = item.querySelector('.faq-a');
@@ -368,27 +438,30 @@
         other.classList.remove('open');
         other.querySelector('.faq-a').style.maxHeight = '0px';
       });
-      if (!isOpen) {
-        item.classList.add('open');
-        a.style.maxHeight = a.scrollHeight + 'px';
-      }
+      if (!isOpen) { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
     });
   });
+
+  // 3. ANIMATIONS STAGGER (Intersection Observer)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Délai calculé pour l'effet "un par un"
+        const index = Array.from(entry.target.parentNode.children).indexOf(entry.target);
+        entry.target.style.transitionDelay = `${index * 0.1}s`;
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
 
   function updateUI() {
     try {
       const n = SE?.Cart?.count?.() ?? 0;
       const b = document.getElementById('cart-count');
       if (b) { b.textContent = n; b.classList.toggle('show', n > 0); }
-      
-      // Update wishlist icons
       document.querySelectorAll('.p-wish').forEach(btn => {
-        const ref = btn.dataset.ref;
-        if (SE.Wishlist.has(ref)) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
+        if (SE.Wishlist.has(btn.dataset.ref)) btn.classList.add('active');
+        else btn.classList.remove('active');
       });
     } catch(e) {}
   }
@@ -418,9 +491,7 @@
         return text.includes(activeGenre);
       });
     }
-    if (activeEtat !== 'all') {
-      r = r.filter(a => (a.etat || '').toLowerCase().includes(activeEtat));
-    }
+    if (activeEtat !== 'all') r = r.filter(a => (a.etat || '').toLowerCase().includes(activeEtat));
     if (sort === 'prix_asc') r.sort((a, b) => (a.prix_vente_fcfa || 0) - (b.prix_vente_fcfa || 0));
     else if (sort === 'prix_desc') r.sort((a, b) => (b.prix_vente_fcfa || 0) - (a.prix_vente_fcfa || 0));
 
@@ -438,17 +509,16 @@
       const prix = a.prix_vente_fcfa || 0;
       const isOut = (a.quantite || 0) <= 0;
       const photo = SE.imgUrl ? SE.imgUrl(a.photo_url, 600) : (a.photo_url || 'https://placehold.co/600x800');
-
-      const overlay = isOut ? `<div class="p-out-overlay"><span class="p-out-label">Sold Out</span></div>` : '';
+      const overlayOut = isOut ? `<div class="p-out-overlay"><span class="p-out-label">Sold Out</span></div>` : '';
       const button = isOut 
         ? `<button class="p-action view" data-ref="${a.reference}">Voir l'article</button>`
         : `<button class="p-action add" data-cart-add="${a.reference}">Ajouter</button>`;
 
       return `
-        <article class="p-card">
+        <article class="p-card reveal-stagger">
           <a href="produit.html?ref=${a.reference}" class="p-image-wrap" style="text-decoration:none;">
             <img src="${photo}" alt="${a.nom}" loading="lazy">
-            ${overlay}
+            ${overlayOut}
           </a>
           <button class="p-wish" data-ref="${a.reference}" aria-label="Favoris">
             <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
@@ -459,6 +529,7 @@
         </article>`;
     }).join('');
 
+    document.querySelectorAll('.reveal-stagger').forEach(el => observer.observe(el));
     updateUI();
   }
 
@@ -475,23 +546,12 @@
         cartBtn.textContent = '✓ Ajouté';
         setTimeout(() => { cartBtn.textContent = 'Ajouter'; }, 2000);
         updateUI(); 
+        updateDrawer();
+        openDrawer();
       } catch(err) {}
     }
-    
-    if (viewBtn) {
-      e.preventDefault();
-      const ref = viewBtn.dataset.ref;
-      location.href = 'produit.html?ref=' + ref;
-    }
-
-    if (wishBtn) {
-      e.preventDefault();
-      const ref = wishBtn.dataset.ref;
-      try { 
-        SE.Wishlist.toggle(ref); 
-        updateUI();
-      } catch(err) {}
-    }
+    if (viewBtn) { e.preventDefault(); location.href = 'produit.html?ref=' + viewBtn.dataset.ref; }
+    if (wishBtn) { e.preventDefault(); SE.Wishlist.toggle(wishBtn.dataset.ref); updateUI(); }
   });
 
   async function loadArticles() {
