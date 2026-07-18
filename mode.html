@@ -40,39 +40,64 @@
   .reveal-stagger { opacity: 0; transform: translateY(30px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
   .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
 
-  /* ═══ 3. BLOCS COLLECTIONS (En lignes) ═══ */
-  .col-block { position: relative; height: 300px; overflow: hidden; text-decoration: none; display: block; margin-bottom: 1.5rem; border-radius: 0; }
-  .col-block img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; filter: brightness(0.5); }
-  .col-block:hover img { transform: scale(1.05); filter: brightness(0.7); }
-  .col-block::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 60%, transparent 100%); z-index: 1; }
-  .col-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; padding: 2rem 3rem; }
-  .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
-  .col-title { font-family: var(--ff-d); font-size: clamp(1.8rem, 3vw, 2.5rem); color: #fff; text-transform: uppercase; margin: 0; }
-  .col-title em { color: var(--or); font-style: italic; }
+  /* ═══ 3. BLOCS COLLECTIONS ═══ */
+  .col-block { position: relative; overflow: hidden; text-decoration: none; display: flex; align-items: center; margin-bottom: 2rem; border-radius: 0; }
+  .col-img { width: 50%; height: 350px; object-fit: cover; transition: transform 0.6s ease; filter: grayscale(30%); }
+  .col-block:hover .col-img { transform: scale(1.02); }
+  .col-content { width: 50%; padding: 3rem; background: var(--bg2); height: 350px; display: flex; flex-direction: column; justify-content: center; }
   
-  /* Collection actuelle : Fin liseré doré */
-  .col-block.current { border: 1px solid var(--or); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
-  /* Collection passée : Simple */
-  .col-block.past { border: 1px solid var(--border); }
-  /* Collection à venir : Fond uni sans image */
-  .col-block.upcoming { border: 1px dashed var(--border); background: var(--bg2); }
-  .col-block.upcoming img { display: none; }
-  .col-block.upcoming::after { display: none; }
-  .col-block.upcoming .col-content { align-items: center; text-align: center; justify-content: center; }
+  @media (max-width: 768px) {
+    .col-block { flex-direction: column; }
+    .col-img { width: 100%; height: 250px; }
+    .col-content { width: 100%; height: auto; padding: 2rem; text-align: center; align-items: center; }
+  }
 
-  /* ═══ 4. FILTRES & GRILLE (BORDERLESS) ═══ */
+  .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+  .col-title { font-family: var(--ff-d); font-size: clamp(2rem, 3vw, 3rem); color: var(--ink); text-transform: uppercase; margin: 0 0 1rem 0; }
+  .col-title em { color: var(--or); font-style: italic; }
+  .col-desc { color: var(--stone); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6; }
+  
+  .col-block.current .col-content { border: 1px solid var(--or); border-left: none; }
+  .col-block.current .col-img { filter: grayscale(0%) brightness(1); }
+  
+  .col-block.past .col-img { filter: grayscale(100%); opacity: 0.7; }
+  .col-block.past .col-title { color: var(--stone); }
+
+  .col-block.upcoming { background: var(--bg2); border: 1px dashed var(--border); }
+  .col-block.upcoming .col-img { display: none; }
+  .col-block.upcoming .col-content { width: 100%; text-align: center; align-items: center; border: none; }
+
+  /* Chrono (Compte à rebours) */
+  .chrono { display: flex; gap: 1.5rem; margin-top: 1rem; }
+  .chrono-unit { text-align: center; }
+  .chrono-val { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 700; color: var(--or); line-height: 1; }
+  .chrono-lbl { font-family: var(--ff-m); font-size: 0.65rem; color: var(--stone); text-transform: uppercase; margin-top: 0.25rem; }
+
+  /* ═══ 4. FILTRES & GRILLE (FORCAGE BORDERLESS) ═══ */
   .filters-bar { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
-  .filter-pill { background: var(--bg2); border: none; color: var(--stone); padding: 0.6rem 1.5rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; transition: 0.2s; text-transform: uppercase; }
+  .filter-pill { background: var(--bg2); border: none !important; color: var(--stone); padding: 0.6rem 1.5rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; transition: 0.2s; text-transform: uppercase; }
   .filter-pill:hover { color: var(--ink); }
   .filter-pill.active { background: var(--or); color: var(--bg); font-weight: 600; }
   .filter-sep { width: 1px; height: 24px; background: var(--border); margin: 0 0.5rem; }
-  .sort-select { background: var(--bg2); border: none; color: var(--ink); padding: 0.6rem 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
+  .sort-select { background: var(--bg2); border: none !important; color: var(--ink); padding: 0.6rem 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
   .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; padding-bottom: 5rem; }
   @media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
 
-  .p-card { background: transparent; border: none; display: flex; flex-direction: column; position: relative; text-decoration: none; }
-  .p-image-wrap { aspect-ratio: 3/4; background: var(--bg2); position: relative; overflow: hidden; display: block; border-radius: 0; margin-bottom: 1rem; border: none; }
+  /* FORCAGE ABSOLU POUR AVOIR AUCUNE BORDURE ET AUCUN FOND */
+  .p-card {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: flex; flex-direction: column; position: relative; text-decoration: none;
+  }
+  .p-image-wrap {
+    aspect-ratio: 3/4;
+    background: var(--bg2) !important;
+    position: relative; overflow: hidden; display: block;
+    border: none !important; border-radius: 0 !important;
+    margin-bottom: 1rem;
+  }
   .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease), filter 0.5s var(--ease); filter: grayscale(100%) contrast(1.1); }
   .p-card:hover .p-image-wrap img { transform: scale(1.05); filter: grayscale(0%) contrast(1); }
   .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
@@ -81,26 +106,16 @@
   .p-wish:hover, .p-wish.active { background: var(--or); border-color: var(--or); color: var(--bg); }
   .p-wish svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
+  .p-body { background: transparent !important; border: none !important; padding: 0 !important; display: flex; flex-direction: column; flex: 1; }
   .p-name { font-family: var(--ff-b); font-size: 0.9rem; font-weight: 500; color: var(--ink); text-transform: uppercase; margin: 0 0 0.5rem 0; display: block; text-decoration: none; }
   .p-prix { font-family: var(--ff-d); font-size: 1.3rem; font-weight: 600; color: var(--or); margin-bottom: 1rem; display: block; }
-  .p-action { margin-top: auto; width: 100%; padding: 0.8rem; border: none; font-family: var(--ff-b); font-size: 0.8rem; font-weight: 700; text-align: center; cursor: pointer; text-transform: uppercase; transition: 0.2s; display: block; box-sizing: border-box; text-decoration: none; }
+  .p-action { margin-top: auto; width: 100%; padding: 0.8rem; border: none !important; font-family: var(--ff-b); font-size: 0.8rem; font-weight: 700; text-align: center; cursor: pointer; text-transform: uppercase; transition: 0.2s; display: block; box-sizing: border-box; text-decoration: none; }
   .p-action.add { background: var(--ink); color: var(--bg); }
   .p-action.add:hover { background: var(--or); }
-  .p-action.view { background: transparent; color: var(--ink); border: 1px solid var(--border); }
-  .p-action.view:hover { border-color: var(--ink); }
+  .p-action.view { background: transparent; color: var(--ink); border: 1px solid var(--border) !important; }
+  .p-action.view:hover { border-color: var(--ink) !important; }
 
-  /* ═══ 5. BLOCS TEXTES (Marketing) ═══ */
-  .marketing-section { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin: 5rem 0; }
-  @media (max-width: 768px) { .marketing-section { grid-template-columns: 1fr; gap: 2rem; } }
-  .mkt-text h3 { font-family: var(--ff-d); font-size: clamp(2rem, 4vw, 3rem); color: var(--ink); font-weight: 400; margin: 0 0 1.5rem 0; }
-  .mkt-text h3 em { color: var(--or); font-style: italic; }
-  .mkt-text p { color: var(--stone); line-height: 1.8; margin-bottom: 1.5rem; font-size: 1rem; }
-  .mkt-list { list-style: none; padding: 0; margin: 0; }
-  .mkt-list li { color: var(--ink); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
-  .mkt-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
-  .mkt-img { width: 100%; height: 450px; object-fit: cover; border-radius: 0; filter: grayscale(20%); }
-
-  /* ═══ 6. PANIER COULISSANT ═══ */
+  /* ═══ 5. PANIER COULISSANT ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; top: 0; right: 0; width: 400px; max-width: 100vw; height: 100vh; background: var(--bg); border-left: 1px solid var(--border); z-index: 10000; transform: translateX(100%); transition: transform 0.4s var(--ease); display: flex; flex-direction: column; }
@@ -120,7 +135,7 @@
   .drawer-btn:hover { background: transparent; color: var(--or); }
   .drawer-empty { text-align: center; color: var(--stone); padding: 3rem 1rem; }
 
-  /* ═══ 7. FAQ ═══ */
+  /* ═══ 6. FAQ ═══ */
   .faq-section { max-width: 800px; margin: 5rem auto; padding: 0 1.5rem; }
   .faq-item { border-bottom: 1px solid var(--border); }
   .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--ff-d); font-size: 1.2rem; color: var(--ink); font-weight: 400; }
@@ -129,7 +144,7 @@
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
   .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: var(--stone); line-height: 1.7; max-width: 600px; }
 
-  .skel { background: var(--bg2); border-radius: 0; }
+  .skel { background: var(--bg2) !important; border-radius: 0 !important; border: none !important; }
 </style>
 </head>
 <body>
@@ -164,41 +179,61 @@
   </div>
 </div>
 
-<!-- 1. COLLECTIONS (En lignes) -->
+<!-- 1. PRODUITS PHARES (Retour en haut) -->
 <div class="container" style="padding-top: 5rem;">
   <div class="section-head">
+    <h2>Pièces <em>Phares</em></h2>
+    <span class="meta">Les plus voulus</span>
+  </div>
+  <div class="prod-grid" id="featured-grid" style="grid-template-columns: repeat(4, 1fr); padding-bottom: 2rem;">
+    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
+  </div>
+</div>
+
+<!-- 2. COLLECTIONS -->
+<div class="container">
+  <div class="section-head">
     <h2>Les <em>Arrivages</em></h2>
-    <span class="meta">Drops & Collections</span>
+    <span class="meta">Drops & Archives</span>
   </div>
 
-  <!-- Ligne 1 : Actuelle -->
+  <!-- Collection Actuelle (Hiver) -->
   <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="col-block current">
-    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1600&auto=format&fit=crop" alt="Drop Hiver">
+    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1200&auto=format&fit=crop" alt="Hiver" class="col-img">
     <div class="col-content">
-      <span class="col-badge">● Disponible maintenant</span>
+      <span class="col-badge">● Disponible Maintenant</span>
       <h3 class="col-title">Drop Hiver <em>2026</em></h3>
+      <p class="col-desc">Sélection streetwear premium importée de France. Pièces uniques, stock limité.</p>
     </div>
   </a>
 
-  <!-- Ligne 2 : Passée -->
+  <!-- Collection À Venir (Teaser + Chrono) -->
+  <div class="col-block upcoming">
+    <div class="col-content">
+      <span class="col-badge">✦ Prochain Arrivage</span>
+      <h3 class="col-title">Drop Techwear <em>Futur</em></h3>
+      <p class="col-desc">Arrivage de pièces techniques et futuristes. Soyez notifié en avant-première.</p>
+      <div class="chrono" id="chrono">
+        <div class="chrono-unit"><span class="chrono-val" id="cd-j">00</span><span class="chrono-lbl">Jours</span></div>
+        <div class="chrono-unit"><span class="chrono-val" id="cd-h">00</span><span class="chrono-lbl">Heures</span></div>
+        <div class="chrono-unit"><span class="chrono-val" id="cd-m">00</span><span class="chrono-lbl">Min</span></div>
+        <div class="chrono-unit"><span class="chrono-val" id="cd-s">00</span><span class="chrono-lbl">Sec</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Collection Passée (Printemps) -->
   <a href="collections.html" class="col-block past">
-    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1600&auto=format&fit=crop" alt="Archives">
+    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200&auto=format&fit=crop" alt="Printemps" class="col-img">
     <div class="col-content">
       <span class="col-badge">Archives</span>
-      <h3 class="col-title">Collections <em>Passées</em></h3>
-    </div>
-  </a>
-
-  <!-- Ligne 3 : À venir -->
-  <a href="#" class="col-block upcoming">
-    <div class="col-content">
-      <span class="col-badge">Bientôt</span>
-      <h3 class="col-title">Drop Techwear <em>Futur</em></h3>
+      <h3 class="col-title">Drop Printemps <em>2025</em></h3>
+      <p class="col-desc">Les dernières pièces de la collection précédente. Derniers stocks disponibles.</p>
     </div>
   </a>
 </div>
 
-<!-- 2. CATALOGUE COMPLET -->
+<!-- 3. CATALOGUE COMPLET -->
 <div id="catalog" class="container">
   <div class="section-head">
     <h2>Le <em>Catalogue</em></h2>
@@ -220,26 +255,6 @@
   </div>
   <div class="prod-grid" id="product-grid">
     <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
-  </div>
-</div>
-
-<!-- 3. TEXTES DE VENTE -->
-<div class="container">
-  <div class="marketing-section">
-    <div class="mkt-text">
-      <h3>Importé de <em>France</em></h3>
-      <p>Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
-      <ul class="mkt-list"><li>Qualité vérifiée avant l'envoi</li><li>Pièces uniques et stock limité</li><li>Tendances parisiennes direct</li></ul>
-    </div>
-    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop" alt="Import" class="mkt-img">
-  </div>
-  <div class="marketing-section" style="direction: rtl;">
-    <div class="mkt-text" style="direction: ltr;">
-      <h3>Zéro <em>Avance</em></h3>
-      <p>Tu commandes, on importe, tu récupères à Thiès. Tu ne paies qu'au moment de la récupération. Wave, Orange Money ou espèces. Zéro stress, zéro arnaque.</p>
-      <ul class="mkt-list"><li>Paiement à la livraison</li><li>Retrait au dépôt à Thiès</li><li>Inspection avant achat</li></ul>
-    </div>
-    <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1000&auto=format&fit=crop" alt="Confiance" class="mkt-img" style="direction: ltr;">
   </div>
 </div>
 
@@ -272,6 +287,25 @@
 <script>
 (() => {
   'use strict';
+
+  // 1. COMPTE À REBOURS (Chrono pour le teaser)
+  const DROP_DATE = new Date('2026-12-15T00:00:00').getTime();
+  function tickChrono() {
+    const now = new Date().getTime();
+    const diff = DROP_DATE - now;
+    if (diff <= 0) return;
+    const j = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-j').textContent = String(j).padStart(2, '0');
+    document.getElementById('cd-h').textContent = String(h).padStart(2, '0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2, '0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2, '0');
+  }
+  tickChrono(); setInterval(tickChrono, 1000);
+
+  // 2. PANIER COULISSANT
   const drawer = document.getElementById('cart-drawer');
   const overlay = document.getElementById('drawer-overlay');
   const closeBtn = document.getElementById('drawer-close');
@@ -296,6 +330,7 @@
     } catch(e) {}
   }
 
+  // 3. FAQ
   document.querySelectorAll('.faq-item').forEach(item => {
     const q = item.querySelector('.faq-q'); const a = item.querySelector('.faq-a');
     q.addEventListener('click', () => {
@@ -305,6 +340,7 @@
     });
   });
 
+  // 4. ANIMATIONS & UI
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -394,6 +430,9 @@
     try {
       const raw = await SE.Articles.load();
       allArticles = raw.sort((a, b) => (b.quantite || 0) - (a.quantite || 0));
+      // Remplir les produits phares (4 premiers)
+      renderGrid(allArticles.slice(0, 4), 'featured-grid');
+      // Remplir le catalogue
       applyFilters();
     } catch (e) {
       console.error('[SenExport] Erreur chargement mode', e);
