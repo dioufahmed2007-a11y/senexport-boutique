@@ -21,7 +21,7 @@
   .container { max-width: 1400px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 3rem); }
 
   /* ═══ 1. HERO ═══ */
-  .mode-hero { position: relative; height: 90vh; min-height: 600px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; margin-top: -56px; }
+  .mode-hero { position: relative; height: 85vh; min-height: 550px; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden; margin-top: -56px; }
   .mode-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=2000&q=80') center/cover no-repeat; z-index: 0; filter: grayscale(40%) contrast(1.1); }
   .mode-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%); z-index: 1; }
   .hero-content { position: relative; z-index: 2; padding: 2rem; max-width: 800px; }
@@ -32,46 +32,37 @@
   .hero-cta { display: inline-block; margin-top: 1rem; background: var(--or); color: var(--bg); text-decoration: none; padding: 1.2rem 3rem; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; transition: 0.3s; }
   .hero-cta:hover { background: #fff; transform: translateY(-3px); }
 
-  /* ═══ 2. STRUCTURE COMMUNE ═══ */
-  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+  /* ═══ 2. STRUCTURE (Espaces réduits) ═══ */
+  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
   .section-head h2 { font-family: var(--ff-d); font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; color: var(--ink); margin: 0; }
   .section-head h2 em { color: var(--or); font-style: italic; }
   .section-head .meta { font-family: var(--ff-m); font-size: 0.8rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
   .reveal-stagger { opacity: 0; transform: translateY(30px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
   .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
 
-  /* ═══ 3. BLOCS COLLECTIONS ═══ */
-  .col-block { position: relative; overflow: hidden; text-decoration: none; display: flex; align-items: center; margin-bottom: 2rem; border-radius: 0; }
-  .col-img { width: 50%; height: 350px; object-fit: cover; transition: transform 0.6s ease; filter: grayscale(30%); }
-  .col-block:hover .col-img { transform: scale(1.02); }
-  .col-content { width: 50%; padding: 3rem; background: var(--bg2); height: 350px; display: flex; flex-direction: column; justify-content: center; }
-  
-  @media (max-width: 768px) {
-    .col-block { flex-direction: column; }
-    .col-img { width: 100%; height: 250px; }
-    .col-content { width: 100%; height: auto; padding: 2rem; text-align: center; align-items: center; }
-  }
-
-  .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
-  .col-title { font-family: var(--ff-d); font-size: clamp(2rem, 3vw, 3rem); color: var(--ink); text-transform: uppercase; margin: 0 0 1rem 0; }
+  /* ═══ 3. COLLECTIONS (Bannières cinématiques retravaillées) ═══ */
+  .col-banner { position: relative; height: 300px; overflow: hidden; text-decoration: none; display: flex; align-items: flex-end; margin-bottom: 1.5rem; border-radius: 0; }
+  .col-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.6s var(--ease); }
+  .col-banner:hover .col-bg { transform: scale(1.05); }
+  .col-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, transparent 100%); z-index: 1; }
+  .col-content { position: relative; z-index: 2; padding: 2rem 2.5rem; width: 100%; }
+  .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+  .col-title { font-family: var(--ff-d); font-size: clamp(1.8rem, 3vw, 2.5rem); color: #fff; text-transform: uppercase; margin: 0; }
   .col-title em { color: var(--or); font-style: italic; }
-  .col-desc { color: var(--stone); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.6; }
-  
-  .col-block.current .col-content { border: 1px solid var(--or); border-left: none; }
-  .col-block.current .col-img { filter: grayscale(0%) brightness(1); }
-  
-  .col-block.past .col-img { filter: grayscale(100%); opacity: 0.7; }
-  .col-block.past .col-title { color: var(--stone); }
+  .col-desc { color: #ccc; margin-top: 0.5rem; font-size: 0.9rem; line-height: 1.5; max-width: 500px; }
 
-  .col-block.upcoming { background: var(--bg2); border: 1px dashed var(--border); }
-  .col-block.upcoming .col-img { display: none; }
-  .col-block.upcoming .col-content { width: 100%; text-align: center; align-items: center; border: none; }
+  /* Spécifiques */
+  .col-banner.current { border: 1px solid var(--or); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
+  .col-banner.past .col-bg { filter: grayscale(100%); opacity: 0.7; }
+  .col-banner.upcoming { background: var(--bg); border: 1px dashed var(--border); align-items: center; }
+  .col-banner.upcoming::after { display: none; }
+  .col-banner.upcoming .col-content { text-align: center; }
 
-  /* Chrono (Compte à rebours) */
-  .chrono { display: flex; gap: 1.5rem; margin-top: 1rem; }
+  /* Chrono */
+  .chrono { display: flex; gap: 1.5rem; margin-top: 1rem; justify-content: center; }
   .chrono-unit { text-align: center; }
-  .chrono-val { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 700; color: var(--or); line-height: 1; }
-  .chrono-lbl { font-family: var(--ff-m); font-size: 0.65rem; color: var(--stone); text-transform: uppercase; margin-top: 0.25rem; }
+  .chrono-val { font-family: var(--ff-d); font-size: 2rem; font-weight: 700; color: var(--or); line-height: 1; }
+  .chrono-lbl { font-family: var(--ff-m); font-size: 0.6rem; color: var(--stone); text-transform: uppercase; margin-top: 0.25rem; }
 
   /* ═══ 4. FILTRES & GRILLE (FORCAGE BORDERLESS) ═══ */
   .filters-bar { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
@@ -81,23 +72,11 @@
   .filter-sep { width: 1px; height: 24px; background: var(--border); margin: 0 0.5rem; }
   .sort-select { background: var(--bg2); border: none !important; color: var(--ink); padding: 0.6rem 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.8rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
-  .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; padding-bottom: 5rem; }
+  .prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding-bottom: 3rem; }
   @media (max-width: 900px) { .prod-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; } }
 
-  /* FORCAGE ABSOLU POUR AVOIR AUCUNE BORDURE ET AUCUN FOND */
-  .p-card {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    display: flex; flex-direction: column; position: relative; text-decoration: none;
-  }
-  .p-image-wrap {
-    aspect-ratio: 3/4;
-    background: var(--bg2) !important;
-    position: relative; overflow: hidden; display: block;
-    border: none !important; border-radius: 0 !important;
-    margin-bottom: 1rem;
-  }
+  .p-card { background: transparent !important; border: none !important; box-shadow: none !important; display: flex; flex-direction: column; position: relative; text-decoration: none; }
+  .p-image-wrap { aspect-ratio: 3/4; background: var(--bg2) !important; position: relative; overflow: hidden; display: block; border: none !important; border-radius: 0 !important; margin-bottom: 1rem; }
   .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease), filter 0.5s var(--ease); filter: grayscale(100%) contrast(1.1); }
   .p-card:hover .p-image-wrap img { transform: scale(1.05); filter: grayscale(0%) contrast(1); }
   .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
@@ -115,7 +94,18 @@
   .p-action.view { background: transparent; color: var(--ink); border: 1px solid var(--border) !important; }
   .p-action.view:hover { border-color: var(--ink) !important; }
 
-  /* ═══ 5. PANIER COULISSANT ═══ */
+  /* ═══ 5. TEXTES DE VENTE (Même fond que la page, sans boîte) ═══ */
+  .mkt-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin: 4rem 0; }
+  @media (max-width: 768px) { .mkt-section { grid-template-columns: 1fr; gap: 1.5rem; margin: 3rem 0; } }
+  .mkt-text h3 { font-family: var(--ff-d); font-size: clamp(1.8rem, 3vw, 2.5rem); color: var(--ink); font-weight: 400; margin: 0 0 1rem 0; }
+  .mkt-text h3 em { color: var(--or); font-style: italic; }
+  .mkt-text p { color: var(--stone); line-height: 1.7; margin-bottom: 1.5rem; font-size: 0.95rem; }
+  .mkt-list { list-style: none; padding: 0; margin: 0; }
+  .mkt-list li { color: var(--ink); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
+  .mkt-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
+  .mkt-img { width: 100%; height: 400px; object-fit: cover; border-radius: 0; filter: grayscale(20%); }
+
+  /* ═══ 6. PANIER COULISSANT ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; top: 0; right: 0; width: 400px; max-width: 100vw; height: 100vh; background: var(--bg); border-left: 1px solid var(--border); z-index: 10000; transform: translateX(100%); transition: transform 0.4s var(--ease); display: flex; flex-direction: column; }
@@ -135,8 +125,8 @@
   .drawer-btn:hover { background: transparent; color: var(--or); }
   .drawer-empty { text-align: center; color: var(--stone); padding: 3rem 1rem; }
 
-  /* ═══ 6. FAQ ═══ */
-  .faq-section { max-width: 800px; margin: 5rem auto; padding: 0 1.5rem; }
+  /* ═══ 7. FAQ ═══ */
+  .faq-section { max-width: 800px; margin: 4rem auto; padding: 0 1.5rem; }
   .faq-item { border-bottom: 1px solid var(--border); }
   .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.5rem 0; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--ff-d); font-size: 1.2rem; color: var(--ink); font-weight: 400; }
   .faq-q .ic { font-size: 1.5rem; color: var(--or); transition: transform 0.3s var(--ease); flex-shrink: 0; }
@@ -179,40 +169,38 @@
   </div>
 </div>
 
-<!-- 1. PRODUITS PHARES (Retour en haut) -->
-<div class="container" style="padding-top: 5rem;">
+<!-- 1. PRODUITS PHARES -->
+<div class="container" style="padding-top: 3rem;">
   <div class="section-head">
     <h2>Pièces <em>Phares</em></h2>
     <span class="meta">Les plus voulus</span>
   </div>
-  <div class="prod-grid" id="featured-grid" style="grid-template-columns: repeat(4, 1fr); padding-bottom: 2rem;">
+  <div class="prod-grid" id="featured-grid" style="grid-template-columns: repeat(4, 1fr); padding-bottom: 1rem;">
     <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
   </div>
 </div>
 
-<!-- 2. COLLECTIONS -->
-<div class="container">
+<!-- 2. COLLECTIONS (Nouveau design cinématique) -->
+<div class="container" style="padding-top: 2rem;">
   <div class="section-head">
     <h2>Les <em>Arrivages</em></h2>
     <span class="meta">Drops & Archives</span>
   </div>
 
-  <!-- Collection Actuelle (Hiver) -->
-  <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="col-block current">
-    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1200&auto=format&fit=crop" alt="Hiver" class="col-img">
+  <!-- Ligne 1 : Actuelle -->
+  <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="col-banner current">
+    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1600&auto=format&fit=crop');"></div>
     <div class="col-content">
       <span class="col-badge">● Disponible Maintenant</span>
       <h3 class="col-title">Drop Hiver <em>2026</em></h3>
-      <p class="col-desc">Sélection streetwear premium importée de France. Pièces uniques, stock limité.</p>
     </div>
   </a>
 
-  <!-- Collection À Venir (Teaser + Chrono) -->
-  <div class="col-block upcoming">
+  <!-- Ligne 2 : À Venir (Teaser + Chrono) -->
+  <div class="col-banner upcoming">
     <div class="col-content">
       <span class="col-badge">✦ Prochain Arrivage</span>
       <h3 class="col-title">Drop Techwear <em>Futur</em></h3>
-      <p class="col-desc">Arrivage de pièces techniques et futuristes. Soyez notifié en avant-première.</p>
       <div class="chrono" id="chrono">
         <div class="chrono-unit"><span class="chrono-val" id="cd-j">00</span><span class="chrono-lbl">Jours</span></div>
         <div class="chrono-unit"><span class="chrono-val" id="cd-h">00</span><span class="chrono-lbl">Heures</span></div>
@@ -222,19 +210,18 @@
     </div>
   </div>
 
-  <!-- Collection Passée (Printemps) -->
-  <a href="collections.html" class="col-block past">
-    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200&auto=format&fit=crop" alt="Printemps" class="col-img">
+  <!-- Ligne 3 : Passée -->
+  <a href="collections.html" class="col-banner past">
+    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1600&auto=format&fit=crop');"></div>
     <div class="col-content">
       <span class="col-badge">Archives</span>
       <h3 class="col-title">Drop Printemps <em>2025</em></h3>
-      <p class="col-desc">Les dernières pièces de la collection précédente. Derniers stocks disponibles.</p>
     </div>
   </a>
 </div>
 
 <!-- 3. CATALOGUE COMPLET -->
-<div id="catalog" class="container">
+<div id="catalog" class="container" style="padding-top: 2rem;">
   <div class="section-head">
     <h2>Le <em>Catalogue</em></h2>
     <span class="meta">Toutes les pièces</span>
@@ -258,7 +245,28 @@
   </div>
 </div>
 
-<!-- 4. FAQ -->
+<!-- 4. TEXTES DE VENTE (Fond identique à la page) -->
+<div class="container">
+  <div class="mkt-section">
+    <div class="mkt-text">
+      <h3>Importé de <em>France</em></h3>
+      <p>Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
+      <ul class="mkt-list"><li>Qualité vérifiée avant l'envoi</li><li>Pièces uniques et stock limité</li><li>Tendances parisiennes direct</li></ul>
+    </div>
+    <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop" alt="Import" class="mkt-img">
+  </div>
+
+  <div class="mkt-section" style="direction: rtl;">
+    <div class="mkt-text" style="direction: ltr;">
+      <h3>Zéro <em>Avance</em></h3>
+      <p>Tu commandes, on importe, tu récupères à Thiès. Tu ne paies qu'au moment de la récupération. Wave, Orange Money ou espèces. Zéro stress, zéro arnaque.</p>
+      <ul class="mkt-list"><li>Paiement à la livraison</li><li>Retrait au dépôt à Thiès</li><li>Inspection avant achat</li></ul>
+    </div>
+    <img src="https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1000&auto=format&fit=crop" alt="Confiance" class="mkt-img" style="direction: ltr;">
+  </div>
+</div>
+
+<!-- 5. FAQ -->
 <div class="faq-section">
   <div class="section-head" style="justify-content: center; text-align: center; border: none; margin-bottom: 1rem;">
     <h2>Avant de <em>commander</em></h2>
@@ -288,7 +296,7 @@
 (() => {
   'use strict';
 
-  // 1. COMPTE À REBOURS (Chrono pour le teaser)
+  // 1. COMPTE À REBOURS
   const DROP_DATE = new Date('2026-12-15T00:00:00').getTime();
   function tickChrono() {
     const now = new Date().getTime();
@@ -430,7 +438,7 @@
     try {
       const raw = await SE.Articles.load();
       allArticles = raw.sort((a, b) => (b.quantite || 0) - (a.quantite || 0));
-      // Remplir les produits phares (4 premiers)
+      // Remplir les produits phares
       renderGrid(allArticles.slice(0, 4), 'featured-grid');
       // Remplir le catalogue
       applyFilters();
