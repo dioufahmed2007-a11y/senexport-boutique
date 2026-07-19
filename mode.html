@@ -17,92 +17,51 @@
 <link rel="stylesheet" href="styles-dark.css">
 
 <style>
-  /* ═══ 1. RESET CSS MOBILE ═══ */
+  /* ═══ 1. RESET & BASE MOBILE ═══ */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; -webkit-text-size-adjust: 100%; }
   body { 
-    background: var(--bg); 
-    color: var(--ink); 
-    font-family: var(--ff-b); 
-    overflow-x: hidden; 
-    -webkit-tap-highlight-color: transparent;
-    padding-top: 56px; /* hauteur nav fixe */
+    background: var(--bg); color: var(--ink); font-family: var(--ff-b);
+    overflow-x: hidden; -webkit-tap-highlight-color: transparent;
+    padding-top: 56px;
   }
   img { max-width: 100%; display: block; }
-  button { cursor: pointer; -webkit-appearance: none; }
+  button { cursor: pointer; -webkit-appearance: none; font-family: inherit; }
   .container { width: 100%; padding: 0 1.25rem; }
   
-  /* ═══ 2. HERO — MOBILE ═══ */
+  /* ═══ 2. HERO ═══ */
   .mode-hero {
-    height: calc(100svh - 56px);
-    min-height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end; /* titre en bas comme Instagram */
-    padding: 2rem 1.25rem 2.5rem;
-    position: relative;
-    overflow: hidden;
-    margin-top: -56px; /* Annule le padding-top pour passer sous la nav */
+    height: calc(100svh - 56px); min-height: 500px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 2rem 1.25rem 2.5rem; position: relative; overflow: hidden;
+    margin-top: -56px;
   }
-  .mode-hero-bg {
-    position: absolute; inset: 0;
-    background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1200&q=80') center/cover no-repeat;
-    z-index: 0; filter: grayscale(40%) contrast(1.1);
-  }
-  .mode-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, transparent 100%);
-    z-index: 1;
-  }
+  .mode-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1200&q=80') center/cover no-repeat; z-index: 0; filter: grayscale(30%) contrast(1.1); }
+  .mode-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, transparent 100%); z-index: 1; }
   .hero-content { position: relative; z-index: 2; }
   .hero-label { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
-  .hero-title {
-    font-family: var(--ff-d);
-    font-size: clamp(2.8rem, 12vw, 4rem); /* GRAND sur mobile */
-    font-weight: 700;
-    line-height: 0.88;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: -0.03em;
-    margin-bottom: 1.5rem;
-  }
-  .hero-title em { 
-    display: block; 
-    color: var(--or); 
-    font-style: italic; 
-    font-weight: 300; 
-  }
-  .hero-cta {
-    display: inline-block; background: var(--or); color: var(--bg);
-    text-decoration: none; padding: 1rem 2rem; font-weight: 700; font-size: 0.8rem;
-    letter-spacing: 0.1em; text-transform: uppercase; border-radius: 0; transition: 0.3s;
-  }
+  .hero-title { font-family: var(--ff-d); font-size: clamp(2.8rem, 12vw, 4rem); font-weight: 700; line-height: 0.88; color: #fff; text-transform: uppercase; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+  .hero-title em { display: block; color: var(--or); font-style: italic; font-weight: 300; }
+  .hero-cta { display: inline-block; background: var(--or); color: var(--bg); text-decoration: none; padding: 1rem 2rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; transition: 0.3s; }
 
-  /* Desktop Hero */
   @media (min-width: 768px) {
-    .mode-hero { 
-      justify-content: center; 
-      text-align: center; 
-      align-items: center;
-      height: 88vh;
-      padding: 2rem;
-    }
+    .mode-hero { justify-content: center; text-align: center; align-items: center; height: 88vh; padding: 2rem; }
     .hero-title { font-size: clamp(4rem, 10vw, 7rem); }
     .hero-title em { display: inline; }
     .hero-cta { padding: 1.2rem 3rem; font-size: 0.85rem; }
     .container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; }
   }
 
-  /* ═══ STRUCTURE COMMUNE ═══ */
-  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; padding-top: 2.5rem; }
+  /* ═══ 3. STRUCTURE (Le fil conducteur) ═══ */
+  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; padding-bottom: 1rem; padding-top: 3rem; border-bottom: 1px solid var(--or-line); }
   .section-head h2 { font-family: var(--ff-d); font-size: 1.8rem; font-weight: 400; color: var(--ink); margin: 0; }
   .section-head h2 em { color: var(--or); font-style: italic; }
   .section-head .meta { font-family: var(--ff-m); font-size: 0.7rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
   .reveal-stagger { opacity: 0; transform: translateY(30px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
   .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
 
-  /* ═══ 3. COLLECTIONS ═══ */
-  .col-banner { position: relative; height: 220px; overflow: hidden; text-decoration: none; display: flex; align-items: flex-end; margin-bottom: 1.5rem; }
+  /* ═══ 4. COLLECTIONS (Arrondies) ═══ */
+  .col-banner { position: relative; height: 220px; overflow: hidden; text-decoration: none; display: flex; align-items: flex-end; margin-bottom: 1.5rem; border-radius: 12px; border: 1px solid var(--border); }
   .col-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.6s var(--ease); }
   .col-banner:hover .col-bg { transform: scale(1.05); }
   .col-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, transparent 100%); z-index: 1; }
@@ -111,9 +70,9 @@
   .col-title { font-family: var(--ff-d); font-size: 1.5rem; color: #fff; text-transform: uppercase; margin: 0; }
   .col-title em { color: var(--or); font-style: italic; }
 
-  .col-banner.current { border: 1px solid var(--or); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
+  .col-banner.current { border-color: var(--or); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
   .col-banner.past .col-bg { filter: grayscale(100%); opacity: 0.7; }
-  .col-banner.upcoming { background: var(--bg); border: 1px dashed var(--border); align-items: center; height: auto; padding: 2rem 1rem; }
+  .col-banner.upcoming { background: var(--card); border: 1px dashed var(--border); align-items: center; height: auto; padding: 2rem 1rem; }
   .col-banner.upcoming::after { display: none; }
   .col-banner.upcoming .col-content { text-align: center; }
 
@@ -128,209 +87,53 @@
     .chrono-val { font-size: 2rem; }
   }
 
-  /* ═══ 4. FILTRES — MOBILE ═══ */
-  .filters-bar {
-    display: flex;
-    gap: 0.5rem;
-    padding: 0.85rem 1.25rem;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    position: sticky;
-    top: 56px;
-    z-index: 50;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-  }
+  /* ═══ 5. FILTRES ═══ */
+  .filters-bar { display: flex; gap: 0.5rem; padding: 0.85rem 0; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .filters-bar::-webkit-scrollbar { display: none; }
-  .filter-pill {
-    flex-shrink: 0;
-    scroll-snap-align: start;
-    padding: 0.55rem 1.1rem;
-    min-height: 44px; /* tap target Apple/Google */
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    border-radius: 99px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--stone);
-    font-size: 0.82rem;
-    font-family: var(--ff-b);
-    transition: 0.2s;
-  }
+  .filter-pill { flex-shrink: 0; scroll-snap-align: start; padding: 0.55rem 1.1rem; min-height: 44px; display: flex; align-items: center; white-space: nowrap; border-radius: 99px; border: 1px solid var(--border); background: transparent; color: var(--stone); font-size: 0.82rem; transition: 0.2s; }
   .filter-pill:hover { color: var(--ink); border-color: var(--ink); }
-  .filter-pill.active {
-    background: var(--ink);
-    color: var(--bg);
-    border-color: var(--ink);
-    font-weight: 700;
-  }
+  .filter-pill.active { background: var(--ink); color: var(--bg); border-color: var(--ink); font-weight: 700; }
   .filter-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; align-self: center; margin: 0 0.25rem; }
-  .sort-select {
-    flex-shrink: 0;
-    min-height: 44px;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--ink);
-    padding: 0 1rem;
-    border-radius: 99px;
-    font-family: var(--ff-b);
-    font-size: 0.82rem;
-    cursor: pointer;
-    margin-left: auto;
-    outline: none;
-    text-transform: uppercase;
-  }
+  .sort-select { flex-shrink: 0; min-height: 44px; background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 0 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.82rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
-  /* ═══ 5. GRILLE PRODUITS — MOBILE FIRST ═══ */
-  .prod-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: var(--border); /* gap = ligne de séparation */
-    padding-bottom: 0; /* Pas de padding pour aller bord à bord */
-  }
+  /* ═══ 6. GRILLE PRODUITS (Beauté & Espacement) ═══ */
+  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; padding-bottom: 2rem; }
 
-  /* Carte : PORTRAIT obligatoire */
-  .p-card {
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    text-decoration: none;
-  }
-  .p-image-wrap {
-    aspect-ratio: 2/3; /* PORTRAIT — jamais carré */
-    overflow: hidden;
-    background: var(--card2);
-    display: block;
-    position: relative;
-  }
-  .p-image-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: filter 0.4s ease;
-    filter: grayscale(100%);
-  }
-  .p-card:hover .p-image-wrap img,
-  .p-card:focus-within .p-image-wrap img {
-    filter: grayscale(0%);
-  }
-  .p-out-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-  }
-  .p-out-label {
-    font-family: var(--ff-m);
-    font-size: 0.7rem;
-    color: #fff;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    border: 1px solid rgba(255,255,255,0.5);
-    padding: 0.4rem 1rem;
-  }
-  .p-wish {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    z-index: 3;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(0,0,0,0.45);
-    backdrop-filter: blur(4px);
-    border: none;
-    display: grid;
-    place-items: center;
-    color: #fff;
-    transition: 0.2s;
-  }
+  .p-card { background: var(--card); display: flex; flex-direction: column; position: relative; text-decoration: none; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
+  .p-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+  
+  .p-image-wrap { aspect-ratio: 3/4; overflow: hidden; background: var(--card2); display: block; position: relative; }
+  .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.4s ease, transform 0.4s ease; filter: grayscale(100%); }
+  .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { filter: grayscale(0%); transform: scale(1.03); }
+  
+  .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .p-out-label { font-family: var(--ff-m); font-size: 0.7rem; color: #fff; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.5); padding: 0.4rem 1rem; border-radius: 4px; }
+  
+  .p-wish { position: absolute; top: 0.75rem; right: 0.75rem; z-index: 3; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); border: none; display: grid; place-items: center; color: #fff; transition: 0.2s; }
   .p-wish.active { background: var(--or); color: var(--bg); }
   .p-wish svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
   
-  .p-body {
-    padding: 0.7rem 0.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    flex: 1;
-  }
-  .p-name {
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--ink);
-    font-family: var(--ff-b);
-    font-weight: 500;
-    line-height: 1.3;
-    text-decoration: none;
-    display: block;
-  }
-  .p-prix {
-    font-family: var(--ff-d);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--or);
-    margin-top: auto;
-  }
-  .p-action {
-    width: 100%;
-    padding: 0.75rem;
-    min-height: 44px; /* tap target */
-    font-size: 0.72rem;
-    font-weight: 700;
-    font-family: var(--ff-b);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    border: 1px solid var(--ink);
-    background: var(--ink);
-    color: var(--bg);
-    transition: 0.2s;
-    margin-top: 0.5rem;
-  }
+  .p-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+  .p-name { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); font-weight: 500; line-height: 1.3; text-decoration: none; display: block; }
+  .p-prix { font-family: var(--ff-d); font-size: 1.1rem; font-weight: 600; color: var(--or); margin-top: 0.25rem; margin-bottom: 0.75rem; }
+  .p-action { width: 100%; padding: 0.75rem; min-height: 44px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); transition: 0.2s; border-radius: 8px; margin-top: auto; }
   .p-action.add:hover { background: var(--or); border-color: var(--or); }
-  .p-action.view {
-    background: transparent;
-    color: var(--stone);
-    border-color: var(--border);
-  }
+  .p-action.view { background: transparent; color: var(--stone); border-color: var(--border); }
   .p-action.view:hover { border-color: var(--ink); color: var(--ink); }
 
-  /* DESKTOP : 4 colonnes */
   @media (min-width: 768px) {
-    .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 1px; }
-    .p-image-wrap { aspect-ratio: 3/4; }
+    .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
     .p-name { font-size: 0.85rem; }
-    .p-prix { font-size: 1.2rem; }
-    .p-body { padding: 1rem; }
+    .p-prix { font-size: 1.25rem; }
+    .p-body { padding: 1.25rem; }
     .p-action { font-size: 0.8rem; }
   }
 
-  /* ═══ 6. SECTIONS ÉDITORIALES — MOBILE ═══ */
-  .mkt-section {
-    display: grid;
-    grid-template-columns: 1fr;
-    margin: 3rem 0;
-  }
-  .mkt-img {
-    height: 280px;
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.7);
-  }
-  .mkt-text {
-    padding: 2rem 1.25rem;
-  }
+  /* ═══ 7. SECTIONS ÉDITORIALES (Cohérentes et arrondies) ═══ */
+  .mkt-section { display: grid; grid-template-columns: 1fr; margin: 2.5rem 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card); }
+  .mkt-img { height: 260px; background-size: cover; background-position: center; filter: grayscale(20%); }
+  .mkt-text { padding: 2rem 1.5rem; }
   .mkt-text h3 { font-family: var(--ff-d); font-size: 1.8rem; color: var(--ink); font-weight: 400; margin: 0 0 1rem 0; }
   .mkt-text h3 em { color: var(--or); font-style: italic; }
   .mkt-text p { color: var(--stone); line-height: 1.7; margin-bottom: 1.5rem; font-size: 0.95rem; }
@@ -338,82 +141,44 @@
   .mkt-list li { color: var(--ink); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
   .mkt-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
 
-  /* Desktop : 2 colonnes côte à côte */
   @media (min-width: 768px) {
-    .mkt-section { grid-template-columns: 1fr 1fr; min-height: 480px; margin: 4rem 0; }
+    .mkt-section { grid-template-columns: 1fr 1fr; min-height: 450px; margin: 3.5rem 0; }
     .mkt-section.reverse .mkt-text { order: 1; }
     .mkt-section.reverse .mkt-img { order: 2; }
     .mkt-img { height: auto; }
-    .mkt-text { padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
+    .mkt-text { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
     .mkt-text h3 { font-size: 2.5rem; }
   }
 
-  /* ═══ 7. TIROIR PANIER — MOBILE FIRST ═══ */
+  /* ═══ 8. PANIER COULISSANT (Bottom Sheet) ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
-  
-  /* Mobile : bas de l'écran, pleine largeur (bottom sheet) */
-  .cart-drawer {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    height: 85vh;
-    background: var(--bg2);
-    border-radius: 20px 20px 0 0;
-    border-top: 1px solid var(--border);
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
-    z-index: 10000;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
+  .cart-drawer { position: fixed; bottom: 0; left: 0; right: 0; height: 85vh; background: var(--bg); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 10000; display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
   .cart-drawer.open { transform: translateY(0); }
-  .cart-handle {
-    width: 40px; height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    margin: 10px auto 0;
-    flex-shrink: 0;
-  }
+  .cart-handle { width: 40px; height: 4px; background: var(--border); border-radius: 2px; margin: 10px auto 0; flex-shrink: 0; }
   .drawer-head { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
   .drawer-head h3 { font-family: var(--ff-d); font-size: 1.4rem; margin: 0; color: var(--ink); }
   .drawer-close { background: none; border: none; color: var(--stone); font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
   .drawer-close:hover { color: var(--or); }
-  
-  .cart-drawer-inner {
-    overflow-y: auto;
-    flex: 1;
-    padding: 1.25rem;
-    -webkit-overflow-scrolling: touch;
-  }
+  .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 1.25rem; -webkit-overflow-scrolling: touch; }
   .drawer-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-  .drawer-item img { width: 70px; height: 90px; object-fit: cover; border-radius: 4px; }
+  .drawer-item img { width: 70px; height: 90px; object-fit: cover; border-radius: 8px; }
   .drawer-item-info h4 { font-family: var(--ff-b); font-size: 0.9rem; margin: 0 0 0.5rem 0; color: var(--ink); }
   .drawer-item-info p { font-family: var(--ff-m); font-size: 0.85rem; color: var(--or); margin: 0; }
   .drawer-footer { padding: 1.25rem; border-top: 1px solid var(--border); background: var(--bg); }
   .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.3rem; color: var(--ink); }
-  .drawer-btn { display: block; width: 100%; padding: 1rem; background: var(--or); color: var(--bg); text-align: center; text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; transition: 0.2s; border: 1px solid var(--or); min-height: 44px; display: flex; align-items: center; justify-content: center; }
+  .drawer-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 1rem; background: var(--or); color: var(--bg); text-align: center; text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; transition: 0.2s; border: 1px solid var(--or); min-height: 44px; border-radius: 8px; }
   .drawer-btn:hover { background: transparent; color: var(--or); }
   .drawer-empty { text-align: center; color: var(--stone); padding: 3rem 1rem; }
 
-  /* Desktop : tiroir latéral */
   @media (min-width: 768px) {
-    .cart-drawer {
-      top: 0; bottom: auto;
-      left: auto; right: 0;
-      width: 420px;
-      height: 100vh;
-      border-radius: 0;
-      border-top: none;
-      border-left: 1px solid var(--border);
-      transform: translateX(100%);
-    }
+    .cart-drawer { top: 0; bottom: auto; left: auto; right: 0; width: 420px; height: 100vh; border-radius: 0; border-top: none; border-left: 1px solid var(--border); transform: translateX(100%); }
     .cart-drawer.open { transform: translateX(0); }
     .cart-handle { display: none; }
   }
 
   /* ═══ FAQ ═══ */
-  .faq-section { width: 100%; padding: 3rem 1.25rem; }
+  .faq-section { width: 100%; padding: 3rem 0; }
   .faq-item { border-bottom: 1px solid var(--border); }
   .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--ff-d); font-size: 1.1rem; color: var(--ink); font-weight: 400; }
   .faq-q .ic { font-size: 1.5rem; color: var(--or); transition: transform 0.3s var(--ease); flex-shrink: 0; }
@@ -426,8 +191,7 @@
     .faq-q { font-size: 1.2rem; }
   }
 
-  /* Skeletons */
-  .skel { background: var(--card2); }
+  .skel { background: var(--card2) !important; border-radius: 12px; }
 </style>
 </head>
 <body>
@@ -470,7 +234,7 @@
     <span class="meta">Les plus voulus</span>
   </div>
   <div class="prod-grid" id="featured-grid" style="margin-bottom: 1.5rem;">
-    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
+    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
   </div>
 </div>
 
@@ -481,7 +245,6 @@
     <span class="meta">Drops & Archives</span>
   </div>
 
-  <!-- Ligne 1 : Actuelle -->
   <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="col-banner current">
     <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1200&auto=format&fit=crop');"></div>
     <div class="col-content">
@@ -490,7 +253,6 @@
     </div>
   </a>
 
-  <!-- Ligne 2 : À Venir (Teaser + Chrono) -->
   <div class="col-banner upcoming">
     <div class="col-content">
       <span class="col-badge">✦ Prochain Arrivage</span>
@@ -504,7 +266,6 @@
     </div>
   </div>
 
-  <!-- Ligne 3 : Passée -->
   <a href="collections.html" class="col-banner past">
     <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200&auto=format&fit=crop');"></div>
     <div class="col-content">
@@ -515,8 +276,8 @@
 </div>
 
 <!-- 3. CATALOGUE COMPLET -->
-<div id="catalog" class="container" style="padding: 0;">
-  <div class="section-head" style="margin: 0 1.25rem 1.5rem;">
+<div id="catalog" class="container">
+  <div class="section-head">
     <h2>Le <em>Catalogue</em></h2>
     <span class="meta">Toutes les pièces</span>
   </div>
@@ -535,11 +296,11 @@
     </select>
   </div>
   <div class="prod-grid" id="product-grid">
-    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
+    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
   </div>
 </div>
 
-<!-- 4. TEXTES DE VENTE -->
+<!-- 4. TEXTES DE VENTE (Dans des blocs unifiés) -->
 <div class="container">
   <div class="mkt-section">
     <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop');"></div>
@@ -561,13 +322,15 @@
 </div>
 
 <!-- 5. FAQ -->
-<div class="faq-section">
-  <div class="section-head" style="justify-content: center; text-align: center; border: none; margin-bottom: 1rem;">
-    <h2>Avant de <em>commander</em></h2>
+<div class="container">
+  <div class="faq-section">
+    <div class="section-head" style="justify-content: center; text-align: center; border: none; margin-bottom: 1rem;">
+      <h2>Avant de <em>commander</em></h2>
+    </div>
+    <div class="faq-item"><button class="faq-q"><span>Comment se passe le paiement ?</span><span class="ic">+</span></button><div class="faq-a"><p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p></div></div>
+    <div class="faq-item"><button class="faq-q"><span>Combien de temps pour recevoir ?</span><span class="ic">+</span></button><div class="faq-a"><p>Entre 48h et quelques jours selon l'arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p></div></div>
+    <div class="faq-item"><button class="faq-q"><span>Et si l'article ne me convient pas ?</span><span class="ic">+</span></button><div class="faq-a"><p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p></div></div>
   </div>
-  <div class="faq-item"><button class="faq-q"><span>Comment se passe le paiement ?</span><span class="ic">+</span></button><div class="faq-a"><p>Vous ne payez rien à la commande. Le règlement se fait uniquement au moment du retrait à Thiès, en espèces, Wave ou Orange Money.</p></div></div>
-  <div class="faq-item"><button class="faq-q"><span>Combien de temps pour recevoir ?</span><span class="ic">+</span></button><div class="faq-a"><p>Entre 48h et quelques jours selon l'arrivage. Vous êtes informé à chaque étape sur WhatsApp.</p></div></div>
-  <div class="faq-item"><button class="faq-q"><span>Et si l'article ne me convient pas ?</span><span class="ic">+</span></button><div class="faq-a"><p>Vous inspectez l'article au moment du retrait, avant de payer. Si quelque chose ne va pas, vous n'êtes pas engagé.</p></div></div>
 </div>
 
 <footer class="footer">
@@ -638,7 +401,7 @@
         `).join('');
         const total = items.reduce((s, i) => s + ((i.article?.prix_vente_fcfa||0)*(i.qte||1)), 0);
         totalEl.textContent = SE.fprix(total);
-        footer.style.display = 'flex'; /* Use flex to align items */
+        footer.style.display = 'block';
       }
     } catch(e) { console.warn('Drawer update err', e); }
   }
@@ -690,15 +453,8 @@
     const activeEtat = document.querySelector('.filter-pill[data-etat].active').dataset.etat;
     const sort = document.getElementById('sort-select').value;
     
-    // Filtre Genre corrigé
-    if (activeGenre !== 'all') {
-      r = r.filter(a => (a.genre || '').toLowerCase().includes(activeGenre));
-    }
-    
-    // Filtre État corrigé
-    if (activeEtat !== 'all') {
-      r = r.filter(a => (a.etat || '').toLowerCase().includes(activeEtat === 'bon' ? 'bon' : 'neuf'));
-    }
+    if (activeGenre !== 'all') r = r.filter(a => (a.genre || '').toLowerCase().includes(activeGenre));
+    if (activeEtat !== 'all') r = r.filter(a => (a.etat || '').toLowerCase().includes(activeEtat === 'bon' ? 'bon' : 'neuf'));
     
     if (sort === 'prix_asc') r.sort((a, b) => (a.prix_vente_fcfa || 0) - (b.prix_vente_fcfa || 0));
     else if (sort === 'prix_desc') r.sort((a, b) => (b.prix_vente_fcfa || 0) - (a.prix_vente_fcfa || 0));
@@ -752,9 +508,7 @@
     try {
       const raw = await SE.Articles.load();
       allArticles = raw.sort((a, b) => (b.quantite || 0) - (a.quantite || 0));
-      // Remplir les produits phares
       renderGrid(allArticles.slice(0, 4), 'featured-grid');
-      // Remplir le catalogue
       applyFilters();
     } catch (e) {
       console.error('[SenExport] Erreur chargement mode', e);
