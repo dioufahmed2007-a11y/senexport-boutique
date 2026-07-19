@@ -99,14 +99,31 @@
   /* ═══ 6. GRILLE PRODUITS (Beauté & Espacement) ═══ */
   .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; padding-bottom: 2rem; }
 
-  .p-card { background: var(--card); display: flex; flex-direction: column; position: relative; text-decoration: none; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.03); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
-  .p-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
+  .p-card { 
+    background: transparent !important; /* Plus de fond gris */
+    border: none !important; /* Plus de bordure */
+    box-shadow: none !important; /* Plus d'ombre autour de la case */
+    display: flex; 
+    flex-direction: column; 
+    position: relative; 
+    text-decoration: none; 
+    border-radius: 0; /* La carte globale n'a pas d'arrondi */
+  }
+  .p-card:hover { transform: translateY(-4px); }
   
-  .p-image-wrap { aspect-ratio: 3/4; overflow: hidden; background: var(--card2); display: block; position: relative; }
+  .p-image-wrap { 
+    aspect-ratio: 3/4; 
+    overflow: hidden; 
+    background: var(--card2); 
+    display: block; 
+    position: relative; 
+    border: none; 
+    border-radius: 12px; /* SEULE l'image a des coins arrondis */
+  }
   .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: filter 0.4s ease, transform 0.4s ease; filter: grayscale(100%); }
   .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { filter: grayscale(0%); transform: scale(1.03); }
   
-  .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; border-radius: 12px; /* L'overlay suit l'arrondi de l'image */ }
   .p-out-label { font-family: var(--ff-m); font-size: 0.7rem; color: #fff; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.5); padding: 0.4rem 1rem; border-radius: 4px; }
   
   .p-wish { position: absolute; top: 0.75rem; right: 0.75rem; z-index: 3; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); border: none; display: grid; place-items: center; color: #fff; transition: 0.2s; }
@@ -114,7 +131,7 @@
   .p-wish svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
   
-  .p-body { padding: 1rem; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+  .p-body { padding: 1rem 0.25rem; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; } /* Padding enlevé sur les côtés pour être aligné avec l'image */
   .p-name { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); font-weight: 500; line-height: 1.3; text-decoration: none; display: block; }
   .p-prix { font-family: var(--ff-d); font-size: 1.1rem; font-weight: 600; color: var(--or); margin-top: 0.25rem; margin-bottom: 0.75rem; }
   .p-action { width: 100%; padding: 0.75rem; min-height: 44px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); transition: 0.2s; border-radius: 8px; margin-top: auto; }
@@ -126,9 +143,10 @@
     .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
     .p-name { font-size: 0.85rem; }
     .p-prix { font-size: 1.25rem; }
-    .p-body { padding: 1.25rem; }
+    .p-body { padding: 1rem 0.5rem; }
     .p-action { font-size: 0.8rem; }
-  }
+  }  
+
 
   /* ═══ 7. SECTIONS ÉDITORIALES (Cohérentes et arrondies) ═══ */
   .mkt-section { display: grid; grid-template-columns: 1fr; margin: 2.5rem 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card); }
