@@ -96,14 +96,18 @@
   .filter-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; align-self: center; margin: 0 0.25rem; }
   .sort-select { flex-shrink: 0; min-height: 44px; background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 0 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.82rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
-  /* ═══ 6. GRILLE PRODUITS (Sans cases, images arrondies) ═══ */
-  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; padding-bottom: 2rem; }
+  /* ═══ 6. GRILLE PRODUITS (Espacement élégant) ═══ */
+  .prod-grid { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1.5rem; 
+    padding: 2rem 0.5rem 3rem; /* De l'air en haut (2rem), sur les côtés (0.5rem), et en bas (3rem) */
+  }
 
   .p-card { background: transparent !important; border: none !important; box-shadow: none !important; display: flex; flex-direction: column; position: relative; text-decoration: none; border-radius: 0; }
   .p-card:hover { transform: translateY(-4px); }
   
   .p-image-wrap { aspect-ratio: 3/4; overflow: hidden; background: var(--card2); display: block; position: relative; border: none; border-radius: 12px; }
-  /* CORRECTION CADRAGE ICI : object-position: center top; */
   .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: filter 0.4s ease, transform 0.4s ease; filter: grayscale(100%); }
   .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { filter: grayscale(0%); transform: scale(1.03); }
   
@@ -115,7 +119,10 @@
   .p-wish svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
   
-  .p-body { padding: 1rem 0.25rem; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+  .p-body { 
+    padding: 1rem 0.25rem 0; /* Aligne parfaitement le texte avec les bords de l'image */
+    display: flex; flex-direction: column; gap: 0.25rem; flex: 1; 
+  }
   .p-name { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); font-weight: 500; line-height: 1.3; text-decoration: none; display: block; }
   .p-prix { font-family: var(--ff-d); font-size: 1.1rem; font-weight: 600; color: var(--or); margin-top: 0.25rem; margin-bottom: 0.75rem; }
   .p-action { width: 100%; padding: 0.75rem; min-height: 44px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); transition: 0.2s; border-radius: 8px; margin-top: auto; }
@@ -127,7 +134,7 @@
     .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
     .p-name { font-size: 0.85rem; }
     .p-prix { font-size: 1.25rem; }
-    .p-body { padding: 1rem 0.5rem; }
+    .p-body { padding: 1rem 0.5rem 0; }
     .p-action { font-size: 0.8rem; }
   }
 
@@ -254,7 +261,6 @@
     </div>
   </a>
 
-  <!-- Ligne 2 : À Venir (Avec image de fond sombre) -->
   <div class="col-banner upcoming">
     <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad719f1?q=80&w=1200&auto=format&fit=crop'); filter: brightness(0.3) grayscale(100%);"></div>
     <div class="col-content">
@@ -474,8 +480,6 @@
     grid.innerHTML = articles.map(a => {
       const prix = a.prix_vente_fcfa || 0;
       const isOut = (a.quantite || 0) <= 0;
-      
-      // CORRECTION ICI : Image par défaut si manquante
       const defaultImg = 'https://placehold.co/600x800/08090E/D4AF37?text=SenExport';
       const rawPhoto = a.photo_url || defaultImg;
       const photo = SE.imgUrl ? SE.imgUrl(rawPhoto, 600) : rawPhoto;
