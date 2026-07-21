@@ -71,27 +71,34 @@
   .filter-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; align-self: center; margin: 0 0.25rem; }
   .sort-select { flex-shrink: 0; min-height: 44px; background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 0 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.82rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
-  /* ═══ 6. GRILLE PRODUITS (Bord à bord mobile, Arrondi desktop) ═══ */
+  /* ═══ 6. GRILLE PRODUITS (Mobile First) ═══ */
   .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; padding: 2rem 0 3rem; background: var(--border); }
-  .p-card { background: var(--bg); display: flex; flex-direction: column; position: relative; text-decoration: none; border: none; border-radius: 0; box-shadow: none; }
+  
+  /* CORRECTION 6 : Fond des cartes */
+  .p-card { background: #111; border: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; position: relative; text-decoration: none; border-radius: 0; box-shadow: none; }
   .p-card:hover { transform: translateY(-4px); }
-  .p-image-wrap { aspect-ratio: 4/5; overflow: hidden; background: var(--card2); display: block; position: relative; border: none; border-radius: 0; }
-  /* LE FILTRE MAGIQUE : Cohérence visuelle sans être noir et blanc */
+  
+  /* CORRECTION 4 : Aspect-ratio 2/3 sur mobile */
+  .p-image-wrap { aspect-ratio: 2/3; overflow: hidden; background: var(--card2); display: block; position: relative; border: none; border-radius: 0; }
   .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: filter 0.4s ease, transform 0.4s ease; filter: contrast(1.1) saturate(0.85) brightness(0.95); }
   .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { filter: contrast(1.1) saturate(1) brightness(1); transform: scale(1.03); }
+  
   .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
   .p-out-label { font-family: var(--ff-m); font-size: 0.7rem; color: #fff; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.5); padding: 0.4rem 1rem; border-radius: 4px; }
   .p-wish { position: absolute; top: 0.75rem; right: 0.75rem; z-index: 3; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); border: none; display: grid; place-items: center; color: #fff; transition: 0.2s; }
   .p-wish.active { background: var(--or); color: var(--bg); }
   .p-wish svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
-  .p-body { padding: 1rem 0.75rem 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; background: var(--bg); }
+  .p-body { padding: 1rem 0.75rem 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; background: transparent; }
   .p-name { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); font-weight: 500; line-height: 1.3; text-decoration: none; display: block; }
   .p-prix { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 600; color: var(--or); margin-top: 0.25rem; margin-bottom: 0.75rem; }
   .p-action { width: 100%; padding: 0.75rem; min-height: 44px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); transition: 0.2s; border-radius: 8px; margin-top: auto; }
-  .p-action.add:hover { background: var(--or); border-color: var(--or); }
-  .p-action.view { background: transparent; color: var(--stone); border-color: var(--border); }
-  .p-action.view:hover { border-color: var(--ink); color: var(--ink); }
+  .p-card .p-action.add:hover { background: var(--or); border-color: var(--or); }
+  .p-card .p-action.view { background: transparent; color: var(--stone); border-color: var(--border); }
+  .p-card .p-action.view:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* CORRECTION 2 : Suppression du !important sur .skel */
+  .prod-grid .skel { background: var(--card2); border-radius: 12px; }
 
   /* ═══ 7. SECTIONS ÉDITORIALES ═══ */
   .mkt-section { display: grid; grid-template-columns: 1fr; margin: 2.5rem 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card); }
@@ -104,7 +111,7 @@
   .mkt-list li { color: var(--ink); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
   .mkt-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
 
-  /* ═══ 8. PANIER COULISSANT (Bottom Sheet Mobile / Side Drawer Desktop) ═══ */
+  /* ═══ 8. PANIER COULISSANT ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; bottom: 0; left: 0; right: 0; height: 85vh; background: var(--bg); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 10000; display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
@@ -134,10 +141,8 @@
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
   .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: var(--stone); line-height: 1.7; }
 
-  .skel { background: var(--card2) !important; border-radius: 12px; }
-
-  /* ═══ 10. DESKTOP QUERIES (min-width: 768px) ═══ */
-  @media (min-width: 768px) {
+  /* ═══ 10. DESKTOP QUERIES (CORRECTION 3 : Min-width 801px) ═══ */
+  @media (min-width: 801px) {
     .container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; }
     .mode-hero { justify-content: center; text-align: center; align-items: center; height: 88vh; padding: 2rem; }
     .hero-title { font-size: clamp(4rem, 10vw, 7rem); }
@@ -150,7 +155,8 @@
     
     /* Grille Desktop : 4 colonnes avec espacement et arrondis */
     .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding: 2rem 0.5rem 3rem; background: transparent; }
-    .p-image-wrap { border-radius: 12px; }
+    /* CORRECTION 4 : Aspect-ratio 3/4 sur desktop */
+    .p-image-wrap { aspect-ratio: 3/4; border-radius: 12px; }
     .p-card:hover .p-image-wrap img { filter: grayscale(0%) contrast(1); } /* Hover effet sur desktop */
     .p-body { padding: 1rem 0.5rem 0; background: transparent; }
     .p-name { font-size: 0.85rem; }
@@ -213,7 +219,7 @@
     <span class="meta">Les plus voulus</span>
   </div>
   <div class="prod-grid" id="featured-grid" style="margin-bottom: 1.5rem;">
-    <div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div>
+    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
   </div>
 </div>
 
@@ -276,7 +282,7 @@
     </select>
   </div>
   <div class="prod-grid" id="product-grid">
-    <div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div>
+    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
   </div>
 </div>
 
@@ -354,9 +360,10 @@
   overlay.addEventListener('click', closeDrawer);
   document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 
-  async function updateDrawer() {
+  // CORRECTION 1 : Protection crash Cart.items
+  function updateDrawer() {
     try {
-      const items = await SE.Cart.items();
+      const items = SE.Cart?.getItems?.() || [];
       const body = document.getElementById('drawer-body');
       const footer = document.getElementById('drawer-footer');
       const totalEl = document.getElementById('drawer-total-val');
@@ -374,7 +381,7 @@
             </div>
           </div>
         `).join('');
-        const total = items.reduce((s, i) => s + ((i.article?.prix_vente_fcfa||0)*(i.qte||1)), 0);
+        const total = items.reduce((s,i)=> s+((i.article?.prix_vente_fcfa||0)*(i.qte||1)),0);
         totalEl.textContent = SE.fprix(total);
         footer.style.display = 'block';
       }
@@ -440,10 +447,21 @@
   function renderGrid(articles, gridId = 'product-grid') {
     const grid = document.getElementById(gridId);
     if (!grid) return;
+    
+    // CORRECTION 5 : État vide catalogue
     if (articles.length === 0 && gridId === 'product-grid') { 
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:5rem;color:var(--stone);">Aucun article ne correspond à votre sélection.</div>'; 
+      grid.innerHTML = `<div style="grid-column:1/-1;padding:4rem 1rem;text-align:center">
+        <p style="font-family:var(--ff-d);font-size:1.8rem;color:#333;margin-bottom:1rem">
+          Aucune pièce disponible
+        </p>
+        <a href="demande-speciale.html" 
+          style="font-family:var(--ff-m);font-size:.75rem;color:var(--or);text-transform:uppercase;letter-spacing:.12em;text-decoration:none;border-bottom:1px solid var(--or);padding-bottom:.2rem">
+          Faire une demande spéciale →
+        </a>
+      </div>`; 
       return; 
     }
+    
     grid.innerHTML = articles.map(a => {
       const prix = a.prix_vente_fcfa || 0;
       const isOut = (a.quantite || 0) <= 0;
