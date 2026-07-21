@@ -71,17 +71,21 @@
   .filter-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; align-self: center; margin: 0 0.25rem; }
   .sort-select { flex-shrink: 0; min-height: 44px; background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 0 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.82rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
-  /* ═══ 6. GRILLE PRODUITS (Mobile First) ═══ */
-  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; padding: 2rem 0 3rem; background: var(--border); }
-  
-  /* CORRECTION 6 : Fond des cartes */
-  .p-card { background: #111; border: 1px solid rgba(255,255,255,.07); display: flex; flex-direction: column; position: relative; text-decoration: none; border-radius: 0; box-shadow: none; }
+  /* ═══ 6. GRILLE PRODUITS (MOBILE FIRST - BORD À BORD) ═══ */
+  /* Sur mobile : bords à bords, couleurs réelles, transparent */
+  .prod-grid { 
+    display: grid; 
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1px; 
+    padding: 0; 
+    margin: 0 -1.25rem; /* Annule le padding du container pour aller bord à bord */
+    background: var(--bg); 
+  }
+  .p-card { background: transparent; border: none; display: flex; flex-direction: column; position: relative; text-decoration: none; border-radius: 0; box-shadow: none; }
   .p-card:hover { transform: translateY(-4px); }
-  
-  /* CORRECTION 4 : Aspect-ratio 2/3 sur mobile */
-  .p-image-wrap { aspect-ratio: 2/3; overflow: hidden; background: var(--card2); display: block; position: relative; border: none; border-radius: 0; }
-  .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: filter 0.4s ease, transform 0.4s ease; filter: contrast(1.1) saturate(0.85) brightness(0.95); }
-  .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { filter: contrast(1.1) saturate(1) brightness(1); transform: scale(1.03); }
+  .p-image-wrap { aspect-ratio: 3/4; overflow: hidden; background: var(--card2); display: block; position: relative; border: none; border-radius: 0; }
+  .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: filter 0.4s ease, transform 0.4s ease; filter: none; }
+  .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { transform: scale(1.03); }
   
   .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
   .p-out-label { font-family: var(--ff-m); font-size: 0.7rem; color: #fff; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.5); padding: 0.4rem 1rem; border-radius: 4px; }
@@ -97,8 +101,7 @@
   .p-card .p-action.view { background: transparent; color: var(--stone); border-color: var(--border); }
   .p-card .p-action.view:hover { border-color: var(--ink); color: var(--ink); }
 
-  /* CORRECTION 2 : Suppression du !important sur .skel */
-  .prod-grid .skel { background: var(--card2); border-radius: 12px; }
+  .prod-grid .skel { background: var(--card2); border-radius: 0; }
 
   /* ═══ 7. SECTIONS ÉDITORIALES ═══ */
   .mkt-section { display: grid; grid-template-columns: 1fr; margin: 2.5rem 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card); }
@@ -141,7 +144,7 @@
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
   .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: var(--stone); line-height: 1.7; }
 
-  /* ═══ 10. DESKTOP QUERIES (CORRECTION 3 : Min-width 801px) ═══ */
+  /* ═══ 10. DESKTOP QUERIES (MIN-WIDTH: 801px) ═══ */
   @media (min-width: 801px) {
     .container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; }
     .mode-hero { justify-content: center; text-align: center; align-items: center; height: 88vh; padding: 2rem; }
@@ -153,12 +156,14 @@
     .col-title { font-size: 2.5rem; }
     .chrono-val { font-size: 2rem; }
     
-    /* Grille Desktop : 4 colonnes avec espacement et arrondis */
-    .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding: 2rem 0.5rem 3rem; background: transparent; }
-    /* CORRECTION 4 : Aspect-ratio 3/4 sur desktop */
-    .p-image-wrap { aspect-ratio: 3/4; border-radius: 12px; }
-    .p-card:hover .p-image-wrap img { filter: grayscale(0%) contrast(1); } /* Hover effet sur desktop */
-    .p-body { padding: 1rem 0.5rem 0; background: transparent; }
+    /* Grille Desktop : 4 colonnes, marges normales, fond de carte visible */
+    .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding: 2rem 0.5rem 3rem; margin: 0; background: transparent; }
+    .p-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .p-image-wrap { border-radius: 0; }
+    /* L'effet Noir & Blanc ne s'active qu'ici (sur ordi) */
+    .p-image-wrap img { filter: grayscale(100%) contrast(1.1) saturate(0.85) brightness(0.95); }
+    .p-card:hover .p-image-wrap img { filter: grayscale(0%) contrast(1.1) saturate(1) brightness(1); }
+    .p-body { padding: 1rem 1rem 1.5rem; background: transparent; }
     .p-name { font-size: 0.85rem; }
     .p-prix { font-size: 1.25rem; }
     .p-action { font-size: 0.8rem; }
@@ -218,8 +223,8 @@
     <h2>Pièces <em>Phares</em></h2>
     <span class="meta">Les plus voulus</span>
   </div>
-  <div class="prod-grid" id="featured-grid" style="margin-bottom: 1.5rem;">
-    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
+  <div class="prod-grid" id="featured-grid" style="margin-bottom: 1.5rem; margin: 0;">
+    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
   </div>
 </div>
 
@@ -282,7 +287,7 @@
     </select>
   </div>
   <div class="prod-grid" id="product-grid">
-    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
+    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
   </div>
 </div>
 
@@ -360,7 +365,7 @@
   overlay.addEventListener('click', closeDrawer);
   document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 
-  // CORRECTION 1 : Protection crash Cart.items
+  // Protection crash Cart.items
   function updateDrawer() {
     try {
       const items = SE.Cart?.getItems?.() || [];
@@ -448,7 +453,7 @@
     const grid = document.getElementById(gridId);
     if (!grid) return;
     
-    // CORRECTION 5 : État vide catalogue
+    // État vide catalogue
     if (articles.length === 0 && gridId === 'product-grid') { 
       grid.innerHTML = `<div style="grid-column:1/-1;padding:4rem 1rem;text-align:center">
         <p style="font-family:var(--ff-d);font-size:1.8rem;color:#333;margin-bottom:1rem">
