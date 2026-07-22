@@ -71,19 +71,34 @@
   .filter-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; align-self: center; margin: 0 0.25rem; }
   .sort-select { flex-shrink: 0; min-height: 44px; background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 0 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.82rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
-  /* ═══ 6. GRILLE PRODUITS (MOBILE FIRST - BORD À BORD) ═══ */
-  /* Sur mobile : bords à bords, couleurs réelles, transparent */
-  .prod-grid { 
-    display: grid; 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 1px; 
-    padding: 0; 
-    margin: 0 -1.25rem; /* Annule le padding du container pour aller bord à bord */
-    background: var(--bg); 
+  /* ═══ 6. GRILLE PRODUITS (MOBILE FIRST) ═══ */
+  .prod-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: #222; /* la couleur du gap = ligne de séparation */
+    margin: 0;        /* SUPPRIMER le margin: 0 -1.25rem */
   }
-  .p-card { background: transparent; border: none; display: flex; flex-direction: column; position: relative; text-decoration: none; border-radius: 0; box-shadow: none; }
-  .p-card:hover { transform: translateY(-4px); }
-  .p-image-wrap { aspect-ratio: 3/4; overflow: hidden; background: var(--card2); display: block; position: relative; border: none; border-radius: 0; }
+  
+  .p-card {
+    background: #111;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .p-card:hover { background: #161616; }
+  .p-card--out { opacity: 0.75; }
+  
+  .p-image-wrap {
+    aspect-ratio: 2/3;
+    overflow: hidden;
+    background: #1a1a1a;
+    display: block;
+    position: relative;
+  }
   .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: filter 0.4s ease, transform 0.4s ease; filter: none; }
   .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { transform: scale(1.03); }
   
@@ -93,13 +108,60 @@
   .p-wish.active { background: var(--or); color: var(--bg); }
   .p-wish svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
-  .p-body { padding: 1rem 0.75rem 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; flex: 1; background: transparent; }
-  .p-name { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink); font-weight: 500; line-height: 1.3; text-decoration: none; display: block; }
-  .p-prix { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 600; color: var(--or); margin-top: 0.25rem; margin-bottom: 0.75rem; }
-  .p-action { width: 100%; padding: 0.75rem; min-height: 44px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); transition: 0.2s; border-radius: 8px; margin-top: auto; }
-  .p-card .p-action.add:hover { background: var(--or); border-color: var(--or); }
-  .p-card .p-action.view { background: transparent; color: var(--stone); border-color: var(--border); }
-  .p-card .p-action.view:hover { border-color: var(--ink); color: var(--ink); }
+  
+  .p-body {
+    padding: 0.6rem 0.6rem 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    flex: 1;
+    background: #111;
+  }
+
+  .p-name {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: #ccc;
+    font-weight: 500;
+    line-height: 1.25;
+    display: block;
+    text-decoration: none;
+    /* MAX 2 lignes sur mobile */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .p-prix {
+    font-family: var(--ff-d);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--or, #D4AF37);
+    margin-top: 0.1rem;
+  }
+
+  .p-action {
+    width: 100%;
+    padding: 0.6rem 0.5rem;
+    min-height: 40px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border: none;
+    margin-top: 0.4rem;
+  }
+  .p-action.add {
+    background: var(--or, #D4AF37);
+    color: #000;
+  }
+  .p-action.view {
+    background: #1a1a1a;
+    color: #555;
+    border: 1px solid #222;
+  }
 
   .prod-grid .skel { background: var(--card2); border-radius: 0; }
 
@@ -144,8 +206,8 @@
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
   .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: var(--stone); line-height: 1.7; }
 
-  /* ═══ 10. DESKTOP QUERIES (MIN-WIDTH: 801px) ═══ */
-  @media (min-width: 801px) {
+  /* ═══ 10. DESKTOP QUERIES (MIN-WIDTH: 768px) ═══ */
+  @media (min-width: 768px) {
     .container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; }
     .mode-hero { justify-content: center; text-align: center; align-items: center; height: 88vh; padding: 2rem; }
     .hero-title { font-size: clamp(4rem, 10vw, 7rem); }
@@ -156,17 +218,20 @@
     .col-title { font-size: 2.5rem; }
     .chrono-val { font-size: 2rem; }
     
-    /* Grille Desktop : 4 colonnes, marges normales, fond de carte visible */
-    .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 1.5rem; padding: 2rem 0.5rem 3rem; margin: 0; background: transparent; }
-    .p-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    .p-image-wrap { border-radius: 0; }
-    /* L'effet Noir & Blanc ne s'active qu'ici (sur ordi) */
+    .prod-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: #222;
+      padding: 0;
+      margin: 0;
+    }
+    .p-image-wrap { aspect-ratio: 3/4; }
     .p-image-wrap img { filter: grayscale(100%) contrast(1.1) saturate(0.85) brightness(0.95); }
     .p-card:hover .p-image-wrap img { filter: grayscale(0%) contrast(1.1) saturate(1) brightness(1); }
-    .p-body { padding: 1rem 1rem 1.5rem; background: transparent; }
-    .p-name { font-size: 0.85rem; }
-    .p-prix { font-size: 1.25rem; }
-    .p-action { font-size: 0.8rem; }
+    .p-body { padding: 0.85rem 1rem 1.25rem; background: #111; }
+    .p-name { font-size: 0.82rem; -webkit-line-clamp: unset; }
+    .p-prix { font-size: 1.15rem; }
+    .p-action { padding: 0.72rem; font-size: 0.72rem; }
 
     .mkt-section { grid-template-columns: 1fr 1fr; min-height: 450px; margin: 3.5rem 0; }
     .mkt-section.reverse .mkt-text { order: 1; }
@@ -224,7 +289,7 @@
     <span class="meta">Les plus voulus</span>
   </div>
   <div class="prod-grid" id="featured-grid" style="margin-bottom: 1.5rem; margin: 0;">
-    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
+    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
   </div>
 </div>
 
@@ -287,7 +352,7 @@
     </select>
   </div>
   <div class="prod-grid" id="product-grid">
-    <div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div><div class="skel" style="aspect-ratio:3/4;"></div>
+    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
   </div>
 </div>
 
