@@ -251,7 +251,7 @@
   .mkt-list li { color: var(--ink); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
   .mkt-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
 
-  /* ═══ 8. PANIER COULISSANT ═══ */
+  /* ═══ 8. PANIER COULISSANT (Avec contrôles quantité) ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; bottom: 0; left: 0; right: 0; height: 85vh; background: var(--bg); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 10000; display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
@@ -262,10 +262,20 @@
   .drawer-close { background: none; border: none; color: var(--stone); font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
   .drawer-close:hover { color: var(--or); }
   .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 1.25rem; -webkit-overflow-scrolling: touch; }
-  .drawer-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .drawer-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); align-items: flex-start; }
   .drawer-item img { width: 70px; height: 90px; object-fit: cover; border-radius: 8px; }
-  .drawer-item-info h4 { font-family: var(--ff-b); font-size: 0.9rem; margin: 0 0 0.5rem 0; color: var(--ink); }
+  .drawer-item-info { flex: 1; display: flex; flex-direction: column; }
+  .drawer-item-info h4 { font-family: var(--ff-b); font-size: 0.9rem; margin: 0 0 0.25rem 0; color: var(--ink); }
   .drawer-item-info p { font-family: var(--ff-m); font-size: 0.85rem; color: var(--or); margin: 0; }
+  
+  /* Contrôles Quantité */
+  .drawer-qty-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .qty-btn { background: #222; border: 1px solid #333; color: var(--ink); width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+  .qty-btn:hover { background: var(--or); color: #000; border-color: var(--or); }
+  .qty-val { font-family: var(--ff-m); font-size: 0.85rem; color: var(--ink); min-width: 20px; text-align: center; }
+  .remove-btn { background: none; border: none; color: #ff6b6b; font-size: 0.65rem; cursor: pointer; margin-left: auto; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px; }
+  .remove-btn:hover { text-decoration: underline; }
+
   .drawer-footer { padding: 1.25rem; border-top: 1px solid var(--border); background: var(--bg); }
   .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.3rem; color: var(--ink); }
   .drawer-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 1rem; background: var(--or); color: var(--bg); text-align: center; text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; transition: 0.2s; border: 1px solid var(--or); min-height: 44px; border-radius: 8px; }
@@ -510,7 +520,7 @@
   overlay.addEventListener('click', closeDrawer);
   document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 
-  // CORRECTION PANIER : Lecture directe du local storage (infaillible)
+  // Affichage du panier avec boutons quantité
   function updateDrawer() {
     try {
       const rawItems = SE.Cart.all();
@@ -536,16 +546,43 @@
               <img src="${esc(photo)}" alt="${esc(nom)}">
               <div class="drawer-item-info">
                 <h4>${esc(nom)}</h4>
-                <p>${SE.fprix(prix)} × ${i.qte || 1}</p>
+                <p>${SE.fprix(prix)} FCFA</p>
+                <div class="drawer-qty-controls">
+                  <button class="qty-btn" data-action="dec" data-ref="${esc(i.ref)}">−</button>
+                  <span class="qty-val">${i.qte || 1}</span>
+                  <button class="qty-btn" data-action="inc" data-ref="${esc(i.ref)}">+</button>
+                  <button class="remove-btn" data-action="rm" data-ref="${esc(i.ref)}">Retirer</button>
+                </div>
               </div>
             </div>
           `;
         }).join('');
-        totalEl.textContent = SE.fprix(total);
+        totalEl.textContent = SE.fprix(total) + ' FCFA';
         footer.style.display = 'block';
       }
     } catch(e) { console.warn('Drawer update err', e); }
   }
+
+  // Gestion des boutons dans le panier (+, -, Retirer)
+  document.getElementById('drawer-body').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const ref = btn.dataset.ref;
+    const action = btn.dataset.action;
+    const item = SE.Cart.all().find(i => i.ref === ref);
+    
+    if (action === 'inc' && item) {
+      SE.Cart.setQte(ref, item.qte + 1);
+    } else if (action === 'dec' && item) {
+      if (item.qte > 1) SE.Cart.setQte(ref, item.qte - 1);
+      else SE.Cart.remove(ref);
+    } else if (action === 'rm' && item) {
+      SE.Cart.remove(ref);
+    }
+    
+    updateUI();
+    updateDrawer();
+  });
 
   // 3. FAQ
   document.querySelectorAll('.faq-item').forEach(item => {
@@ -691,7 +728,8 @@
     }, 700);
   }
 
-  document.getElementById('product-grid').addEventListener('click', e => {
+  // Gestion du clic "Ajouter" (valable pour les 2 grilles)
+  function handleGridClick(e) {
     const cartBtn = e.target.closest('[data-cart-add]');
     const viewBtn = e.target.closest('.p-action.view');
     const wishBtn = e.target.closest('.p-wish');
@@ -710,7 +748,11 @@
     }
     if (viewBtn) { e.preventDefault(); location.href = 'produit.html?ref=' + viewBtn.dataset.ref; }
     if (wishBtn) { e.preventDefault(); SE.Wishlist.toggle(wishBtn.dataset.ref); updateUI(); }
-  });
+  }
+
+  // On branche l'écouteur sur les DEUX grilles
+  document.getElementById('product-grid').addEventListener('click', handleGridClick);
+  document.getElementById('featured-grid').addEventListener('click', handleGridClick);
 
   async function loadArticles() {
     try {
