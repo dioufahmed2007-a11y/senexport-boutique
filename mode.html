@@ -23,7 +23,7 @@
   body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; -webkit-tap-highlight-color: transparent; padding-top: 56px; }
   img { max-width: 100%; display: block; }
   button { cursor: pointer; -webkit-appearance: none; font-family: inherit; }
-  .container { width: 100%; padding: 0 1.25rem; }
+  .container { width: 100%; padding: 0 1rem; }
 
   /* ═══ 2. HERO ═══ */
   .mode-hero { height: calc(100svh - 56px); min-height: 500px; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 1.25rem 2.5rem; position: relative; overflow: hidden; margin-top: -56px; }
@@ -71,99 +71,140 @@
   .filter-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; align-self: center; margin: 0 0.25rem; }
   .sort-select { flex-shrink: 0; min-height: 44px; background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 0 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.82rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
-  /* ═══ 6. GRILLE PRODUITS (MOBILE FIRST) ═══ */
+  /* ═══ 6. GRILLE PRODUITS (FAÇON AMAZAM MOBILE) ═══ */
   .prod-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1px;
-    background: #222; /* la couleur du gap = ligne de séparation */
-    margin: 0;        /* SUPPRIMER le margin: 0 -1.25rem */
+    gap: 12px; /* Vrai espace respirant façon marketplace */
+    padding: 1rem 0 2rem;
+    margin: 0;
+    background: transparent;
   }
   
   .p-card {
-    background: #111;
-    border: none;
-    border-radius: 0;
+    background: #161616; /* Fond de carte distinct du fond global */
+    border: 1px solid #222;
+    border-radius: 12px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
     position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .p-card:hover { background: #161616; }
-  .p-card--out { opacity: 0.75; }
+  .p-card:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+    border-color: #333;
+  }
+  .p-card--out { opacity: 0.7; }
   
   .p-image-wrap {
-    aspect-ratio: 2/3;
+    aspect-ratio: 4/5; /* Format plus carré, plus grand sur mobile */
     overflow: hidden;
     background: #1a1a1a;
     display: block;
     position: relative;
   }
-  .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: filter 0.4s ease, transform 0.4s ease; filter: none; }
+  .p-image-wrap img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    object-position: center top; 
+    transition: filter 0.4s ease, transform 0.4s ease; 
+    filter: none; 
+  }
   .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { transform: scale(1.03); }
+  
+  /* Badges optionnels */
+  .p-badges {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 3;
+  }
+  .p-badge {
+    font-family: var(--ff-b);
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 3px 6px;
+    border-radius: 4px;
+    color: #000;
+    background: var(--or, #D4AF37);
+  }
+  .p-badge.stock {
+    background: #fff;
+    color: #000;
+  }
   
   .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
   .p-out-label { font-family: var(--ff-m); font-size: 0.7rem; color: #fff; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.5); padding: 0.4rem 1rem; border-radius: 4px; }
-  .p-wish { position: absolute; top: 0.75rem; right: 0.75rem; z-index: 3; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); border: none; display: grid; place-items: center; color: #fff; transition: 0.2s; }
+  .p-wish { position: absolute; top: 8px; right: 8px; z-index: 3; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); border: none; display: grid; place-items: center; color: #fff; transition: 0.2s; }
   .p-wish.active { background: var(--or); color: var(--bg); }
-  .p-wish svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; }
+  .p-wish svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
   
   .p-body {
-    padding: 0.6rem 0.6rem 0.85rem;
+    padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: 6px;
     flex: 1;
-    background: #111;
+    background: #161616;
   }
 
   .p-name {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: #ccc;
-    font-weight: 500;
-    line-height: 1.25;
-    display: block;
+    font-size: 0.8rem;
+    text-transform: none; /* Plus naturel pour les noms de produits */
+    letter-spacing: 0.02em;
+    color: #ddd;
+    font-weight: 400;
+    line-height: 1.4; /* Plus aéré */
     text-decoration: none;
-    /* MAX 2 lignes sur mobile */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    min-height: 2.24rem; /* Évite le saut de hauteur si 1 ligne */
   }
 
   .p-prix {
     font-family: var(--ff-d);
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.2rem;
+    font-weight: 700; /* Bien visible */
     color: var(--or, #D4AF37);
-    margin-top: 0.1rem;
+    margin-top: auto; /* Pousse le prix et le bouton en bas */
+    margin-bottom: 8px;
   }
 
   .p-action {
     width: 100%;
-    padding: 0.6rem 0.5rem;
-    min-height: 40px;
-    font-size: 0.68rem;
+    padding: 10px;
+    min-height: 44px;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     border: none;
-    margin-top: 0.4rem;
+    border-radius: 8px;
+    cursor: pointer;
   }
   .p-action.add {
     background: var(--or, #D4AF37);
     color: #000;
   }
   .p-action.view {
-    background: #1a1a1a;
-    color: #555;
-    border: 1px solid #222;
+    background: #2a2a2a;
+    color: #888;
+    border: 1px solid #333;
   }
 
-  .prod-grid .skel { background: var(--card2); border-radius: 0; }
+  .prod-grid .skel { background: #1a1a1a; border-radius: 12px; }
 
   /* ═══ 7. SECTIONS ÉDITORIALES ═══ */
   .mkt-section { display: grid; grid-template-columns: 1fr; margin: 2.5rem 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card); }
@@ -206,7 +247,7 @@
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
   .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: var(--stone); line-height: 1.7; }
 
-  /* ═══ 10. DESKTOP QUERIES (MIN-WIDTH: 768px) ═══ */
+  /* ═══ 10. DESKTOP QUERIES ═══ */
   @media (min-width: 768px) {
     .container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; }
     .mode-hero { justify-content: center; text-align: center; align-items: center; height: 88vh; padding: 2rem; }
@@ -220,18 +261,15 @@
     
     .prod-grid {
       grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: #222;
-      padding: 0;
-      margin: 0;
+      gap: 16px;
+      padding: 2rem 0 3rem;
     }
-    .p-image-wrap { aspect-ratio: 3/4; }
     .p-image-wrap img { filter: grayscale(100%) contrast(1.1) saturate(0.85) brightness(0.95); }
     .p-card:hover .p-image-wrap img { filter: grayscale(0%) contrast(1.1) saturate(1) brightness(1); }
-    .p-body { padding: 0.85rem 1rem 1.25rem; background: #111; }
-    .p-name { font-size: 0.82rem; -webkit-line-clamp: unset; }
-    .p-prix { font-size: 1.15rem; }
-    .p-action { padding: 0.72rem; font-size: 0.72rem; }
+    .p-body { padding: 16px; }
+    .p-name { font-size: 0.85rem; -webkit-line-clamp: unset; min-height: auto; }
+    .p-prix { font-size: 1.3rem; }
+    .p-action { padding: 0.75rem; font-size: 0.8rem; }
 
     .mkt-section { grid-template-columns: 1fr 1fr; min-height: 450px; margin: 3.5rem 0; }
     .mkt-section.reverse .mkt-text { order: 1; }
@@ -288,8 +326,8 @@
     <h2>Pièces <em>Phares</em></h2>
     <span class="meta">Les plus voulus</span>
   </div>
-  <div class="prod-grid" id="featured-grid" style="margin-bottom: 1.5rem; margin: 0;">
-    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
+  <div class="prod-grid" id="featured-grid" style="margin-bottom: 1.5rem;">
+    <div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div>
   </div>
 </div>
 
@@ -352,7 +390,7 @@
     </select>
   </div>
   <div class="prod-grid" id="product-grid">
-    <div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div><div class="skel" style="aspect-ratio:2/3;"></div>
+    <div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div><div class="skel" style="aspect-ratio:4/5;"></div>
   </div>
 </div>
 
@@ -409,6 +447,14 @@
 (() => {
   'use strict';
 
+  // 0. FONCTION DE SÉCURITÉ (Échappement HTML)
+  function esc(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
   // 1. COMPTE À REBOURS
   const DROP_DATE = new Date('2026-12-15T00:00:00').getTime();
   function tickChrono() {
@@ -430,7 +476,6 @@
   overlay.addEventListener('click', closeDrawer);
   document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 
-  // Protection crash Cart.items
   function updateDrawer() {
     try {
       const items = SE.Cart?.getItems?.() || [];
@@ -444,9 +489,9 @@
       } else {
         body.innerHTML = items.map(i => `
           <div class="drawer-item">
-            <img src="${SE.imgUrl ? SE.imgUrl((i.article?.photo_url || ''), 100) : (i.article?.photo_url || '')}" alt="${i.article?.nom || ''}">
+            <img src="${SE.imgUrl ? SE.imgUrl(esc(i.article?.photo_url || ''), 100) : esc(i.article?.photo_url || '')}" alt="${esc(i.article?.nom || '')}">
             <div class="drawer-item-info">
-              <h4>${i.article?.nom || ''}</h4>
+              <h4>${esc(i.article?.nom || '')}</h4>
               <p>${SE.fprix(i.article?.prix_vente_fcfa || 0)} × ${i.qte || 1}</p>
             </div>
           </div>
@@ -518,7 +563,6 @@
     const grid = document.getElementById(gridId);
     if (!grid) return;
     
-    // État vide catalogue
     if (articles.length === 0 && gridId === 'product-grid') { 
       grid.innerHTML = `<div style="grid-column:1/-1;padding:4rem 1rem;text-align:center">
         <p style="font-family:var(--ff-d);font-size:1.8rem;color:#333;margin-bottom:1rem">
@@ -535,20 +579,30 @@
     grid.innerHTML = articles.map(a => {
       const prix = a.prix_vente_fcfa || 0;
       const isOut = (a.quantite || 0) <= 0;
+      const lowStock = !isOut && (a.quantite || 0) <= 3;
+      const isNew = (a.etat || '').toLowerCase().includes('neuf');
+      
       const defaultImg = 'https://placehold.co/600x800/08090E/D4AF37?text=SenExport';
       const rawPhoto = a.photo_url || defaultImg;
       const photo = SE.imgUrl ? SE.imgUrl(rawPhoto, 600) : rawPhoto;
       
+      let badgesHTML = '';
+      if (isNew) badgesHTML += `<span class="p-badge">Neuf</span>`;
+      if (lowStock) badgesHTML += `<span class="p-badge stock">Stock limité</span>`;
+      
       const overlayOut = isOut ? `<div class="p-out-overlay"><span class="p-out-label">Sold Out</span></div>` : '';
-      const button = isOut ? `<button class="p-action view" data-ref="${a.reference}">Voir l'article</button>` : `<button class="p-action add" data-cart-add="${a.reference}">Ajouter</button>`;
+      const button = isOut ? `<button class="p-action view" data-ref="${esc(a.reference)}">Voir l'article</button>` : `<button class="p-action add" data-cart-add="${esc(a.reference)}">Ajouter au panier</button>`;
+      
       return `
-        <article class="p-card reveal-stagger">
-          <a href="produit.html?ref=${a.reference}" class="p-image-wrap" style="text-decoration:none;">
-            <img src="${photo}" alt="${a.nom}" loading="lazy">${overlayOut}
+        <article class="p-card ${isOut ? 'p-card--out' : ''} reveal-stagger">
+          <a href="produit.html?ref=${esc(a.reference)}" class="p-image-wrap" style="text-decoration:none;">
+            <img src="${esc(photo)}" alt="${esc(a.nom)}" loading="lazy">
+            <div class="p-badges">${badgesHTML}</div>
+            ${overlayOut}
           </a>
-          <button class="p-wish" data-ref="${a.reference}" aria-label="Favoris"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <button class="p-wish" data-ref="${esc(a.reference)}" aria-label="Favoris"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
           <div class="p-body">
-            <a href="produit.html?ref=${a.reference}" class="p-name" style="text-decoration:none;">${a.nom}</a>
+            <a href="produit.html?ref=${esc(a.reference)}" class="p-name" style="text-decoration:none;">${esc(a.nom)}</a>
             <span class="p-prix">${SE.fprix ? SE.fprix(prix) : prix + ' FCFA'}</span>
             ${button}
           </div>
@@ -565,7 +619,7 @@
     if (cartBtn) {
       e.preventDefault();
       const ref = cartBtn.dataset.cartAdd;
-      try { SE.Cart.add(ref); cartBtn.textContent = '✓ Ajouté'; setTimeout(() => { cartBtn.textContent = 'Ajouter'; }, 2000); updateUI(); updateDrawer(); openDrawer(); } catch(err) {}
+      try { SE.Cart.add(ref); cartBtn.textContent = '✓ Ajouté'; setTimeout(() => { cartBtn.textContent = 'Ajouter au panier'; }, 2000); updateUI(); updateDrawer(); openDrawer(); } catch(err) {}
     }
     if (viewBtn) { e.preventDefault(); location.href = 'produit.html?ref=' + viewBtn.dataset.ref; }
     if (wishBtn) { e.preventDefault(); SE.Wishlist.toggle(wishBtn.dataset.ref); updateUI(); }
