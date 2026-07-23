@@ -27,7 +27,7 @@
 
   /* ═══ 2. HERO ═══ */
   .mode-hero { height: calc(100svh - 56px); min-height: 500px; display: flex; flex-direction: column; justify-content: flex-end; padding: 2rem 1.25rem 2.5rem; position: relative; overflow: hidden; margin-top: -56px; }
-  .mode-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1200&q=80') center/cover no-repeat; z-index: 0; filter: grayscale(30%) contrast(1.1); }
+  .mode-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; z-index: 0; filter: grayscale(30%) contrast(1.1); }
   .mode-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, transparent 100%); z-index: 1; }
   .hero-content { position: relative; z-index: 2; }
   .hero-label { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
@@ -116,7 +116,7 @@
   }
   .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { transform: scale(1.03); }
   
-  /* BADGES PREMIUM (Glassmorphism) */
+  /* BADGES PREMIUM */
   .p-badges {
     position: absolute;
     top: 10px;
@@ -222,7 +222,7 @@
 
   .prod-grid .skel { background: #1a1a1a; border-radius: 12px; }
 
-  /* ANIMATION FLY TO CART (Adoucie) */
+  /* ANIMATION FLY TO CART */
   .flying-img {
     position: fixed;
     z-index: 99999;
@@ -373,7 +373,7 @@
   </div>
 
   <a href="collection.html?id=ed608fc2-d7ea-497d-b3d9-30273bd77fc9" class="col-banner current">
-    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1200&auto=format&fit=crop');"></div>
+    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1200&auto=format&fit=crop');"></div>
     <div class="col-content">
       <span class="col-badge">● Disponible Maintenant</span>
       <h3 class="col-title">Drop Hiver <em>2026</em></h3>
@@ -381,7 +381,7 @@
   </a>
 
   <div class="col-banner upcoming">
-    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad719f1?q=80&w=1200&auto=format&fit=crop'); filter: brightness(0.3) grayscale(100%);"></div>
+    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1200&auto=format&fit=crop'); filter: brightness(0.3) grayscale(100%);"></div>
     <div class="col-content">
       <span class="col-badge">✦ Prochain Arrivage</span>
       <h3 class="col-title">Drop Techwear <em>Futur</em></h3>
@@ -395,7 +395,7 @@
   </div>
 
   <a href="collections.html" class="col-banner past">
-    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=1200&auto=format&fit=crop');"></div>
+    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?q=80&w=1200&auto=format&fit=crop');"></div>
     <div class="col-content">
       <span class="col-badge">Archives</span>
       <h3 class="col-title">Drop Printemps <em>2025</em></h3>
@@ -431,7 +431,7 @@
 <!-- 4. TEXTES DE VENTE -->
 <div class="container">
   <div class="mkt-section">
-    <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop');"></div>
+    <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1000&auto=format&fit=crop');"></div>
     <div class="mkt-text">
       <h3>Importé de <em>France</em></h3>
       <p>Des pièces introuvables ou vendues bien plus cher localement. On sélectionne pour toi le meilleur du streetwear et de la mode vintage française.</p>
@@ -440,7 +440,7 @@
   </div>
 
   <div class="mkt-section reverse">
-    <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1603252109303-2751441dd157?q=80&w=1000&auto=format&fit=crop');"></div>
+    <div class="mkt-img" style="background-image: url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=1000&auto=format&fit=crop');"></div>
     <div class="mkt-text">
       <h3>Zéro <em>Avance</em></h3>
       <p>Tu commandes, on importe, tu récupères à Thiès. Tu ne paies qu'au moment de la récupération. Wave, Orange Money ou espèces. Zéro stress, zéro arnaque.</p>
@@ -510,28 +510,37 @@
   overlay.addEventListener('click', closeDrawer);
   document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 
-  // Correction du bug panier vide (async/await)
-  async function updateDrawer() {
+  // CORRECTION PANIER : Lecture directe du local storage (infaillible)
+  function updateDrawer() {
     try {
-      const items = await SE.Cart.items() || [];
+      const rawItems = SE.Cart.all();
       const body = document.getElementById('drawer-body');
       const footer = document.getElementById('drawer-footer');
       const totalEl = document.getElementById('drawer-total-val');
       
-      if (!items || items.length === 0) { 
+      if (!rawItems || rawItems.length === 0) { 
         body.innerHTML = '<div class="drawer-empty">Votre panier est vide.</div>'; 
         footer.style.display = 'none'; 
       } else {
-        body.innerHTML = items.map(i => `
-          <div class="drawer-item">
-            <img src="${SE.imgUrl ? SE.imgUrl(esc(i.article?.photo_url || ''), 100) : esc(i.article?.photo_url || '')}" alt="${esc(i.article?.nom || '')}">
-            <div class="drawer-item-info">
-              <h4>${esc(i.article?.nom || '')}</h4>
-              <p>${SE.fprix(i.article?.prix_vente_fcfa || 0)} × ${i.qte || 1}</p>
+        let total = 0;
+        body.innerHTML = rawItems.map(i => {
+          const a = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === i.ref) : null;
+          const nom = a ? a.nom : i.ref;
+          const prix = a ? (a.prix_vente_fcfa || 0) : 0;
+          const photo = a && a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 100) : a.photo_url) : 'https://placehold.co/100x100';
+          
+          total += prix * (i.qte || 1);
+          
+          return `
+            <div class="drawer-item">
+              <img src="${esc(photo)}" alt="${esc(nom)}">
+              <div class="drawer-item-info">
+                <h4>${esc(nom)}</h4>
+                <p>${SE.fprix(prix)} × ${i.qte || 1}</p>
+              </div>
             </div>
-          </div>
-        `).join('');
-        const total = items.reduce((s,i)=> s+((i.article?.prix_vente_fcfa||0)*(i.qte||1)),0);
+          `;
+        }).join('');
         totalEl.textContent = SE.fprix(total);
         footer.style.display = 'block';
       }
@@ -679,11 +688,10 @@
       flyingImg.remove();
       cartIcon.classList.add('cart-bump');
       setTimeout(() => cartIcon.classList.remove('cart-bump'), 400);
-    }, 700); // Délai adouci à 700ms
+    }, 700);
   }
 
-  // Event Listener Async pour attendre la maj du panier
-  document.getElementById('product-grid').addEventListener('click', async e => {
+  document.getElementById('product-grid').addEventListener('click', e => {
     const cartBtn = e.target.closest('[data-cart-add]');
     const viewBtn = e.target.closest('.p-action.view');
     const wishBtn = e.target.closest('.p-wish');
@@ -696,7 +704,7 @@
         cartBtn.textContent = '✓ Ajouté'; 
         setTimeout(() => { cartBtn.textContent = 'Ajouter au panier'; }, 2000); 
         updateUI(); 
-        await updateDrawer(); 
+        updateDrawer(); 
         setTimeout(openDrawer, 400); 
       } catch(err) {}
     }
