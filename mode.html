@@ -251,7 +251,7 @@
   .mkt-list li { color: var(--ink); margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
   .mkt-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
 
-  /* ═══ 8. PANIER COULISSANT (Avec contrôles quantité) ═══ */
+  /* ═══ 8. PANIER COULISSANT ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; bottom: 0; left: 0; right: 0; height: 85vh; background: var(--bg); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 10000; display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
@@ -268,9 +268,9 @@
   .drawer-item-info h4 { font-family: var(--ff-b); font-size: 0.9rem; margin: 0 0 0.25rem 0; color: var(--ink); }
   .drawer-item-info p { font-family: var(--ff-m); font-size: 0.85rem; color: var(--or); margin: 0; }
   
-  /* Contrôles Quantité */
+  /* Contrôles Quantité (CORRECTION VISIBILITÉ) */
   .drawer-qty-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
-  .qty-btn { background: #222; border: 1px solid #333; color: var(--ink); width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+  .qty-btn { background: #333; border: 1px solid #444; color: #fff; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; }
   .qty-btn:hover { background: var(--or); color: #000; border-color: var(--or); }
   .qty-val { font-family: var(--ff-m); font-size: 0.85rem; color: var(--ink); min-width: 20px; text-align: center; }
   .remove-btn { background: none; border: none; color: #ff6b6b; font-size: 0.65rem; cursor: pointer; margin-left: auto; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px; }
@@ -744,13 +744,13 @@
         updateUI(); 
         updateDrawer(); 
         setTimeout(openDrawer, 400); 
-      } catch(err) {}
+      } catch(err) { console.error(err); }
     }
     if (viewBtn) { e.preventDefault(); location.href = 'produit.html?ref=' + viewBtn.dataset.ref; }
     if (wishBtn) { e.preventDefault(); SE.Wishlist.toggle(wishBtn.dataset.ref); updateUI(); }
   }
 
-  // On branche l'écouteur sur les DEUX grilles
+  // On branche l'écouteur sur les DEUX grilles dès le chargement
   document.getElementById('product-grid').addEventListener('click', handleGridClick);
   document.getElementById('featured-grid').addEventListener('click', handleGridClick);
 
