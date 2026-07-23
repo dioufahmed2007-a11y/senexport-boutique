@@ -22,7 +22,7 @@
   html { font-size: 16px; -webkit-text-size-adjust: 100%; }
   body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; -webkit-tap-highlight-color: transparent; padding-top: 56px; }
   img { max-width: 100%; display: block; }
-  button { cursor: pointer; -webkit-appearance: none; font-family: inherit; }
+  button { cursor: pointer; -webkit-appearance: none; appearance: none; font-family: inherit; }
   .container { width: 100%; padding: 0 1rem; }
 
   /* ═══ 2. HERO ═══ */
@@ -71,18 +71,18 @@
   .filter-sep { width: 1px; height: 24px; background: var(--border); flex-shrink: 0; align-self: center; margin: 0 0.25rem; }
   .sort-select { flex-shrink: 0; min-height: 44px; background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 0 1rem; border-radius: 99px; font-family: var(--ff-b); font-size: 0.82rem; cursor: pointer; margin-left: auto; outline: none; text-transform: uppercase; }
 
-  /* ═══ 6. GRILLE PRODUITS (FAÇON AMAZAM MOBILE) ═══ */
+  /* ═══ 6. GRILLE PRODUITS ═══ */
   .prod-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px; /* Vrai espace respirant façon marketplace */
+    gap: 12px;
     padding: 1rem 0 2rem;
     margin: 0;
     background: transparent;
   }
   
   .p-card {
-    background: #161616; /* Fond de carte distinct du fond global */
+    background: #161616; 
     border: 1px solid #222;
     border-radius: 12px;
     overflow: hidden;
@@ -100,7 +100,7 @@
   .p-card--out { opacity: 0.7; }
   
   .p-image-wrap {
-    aspect-ratio: 4/5; /* Format plus carré, plus grand sur mobile */
+    aspect-ratio: 4/5;
     overflow: hidden;
     background: #1a1a1a;
     display: block;
@@ -116,35 +116,50 @@
   }
   .p-card:hover .p-image-wrap img, .p-card:focus-within .p-image-wrap img { transform: scale(1.03); }
   
-  /* Badges optionnels */
+  /* BADGES PREMIUM (Glassmorphism) */
   .p-badges {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    top: 10px;
+    left: 10px;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     z-index: 3;
   }
   .p-badge {
-    font-family: var(--ff-b);
+    font-family: var(--ff-m);
     font-size: 0.6rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 3px 6px;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
     border-radius: 4px;
-    color: #000;
-    background: var(--or, #D4AF37);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .p-badge.neuf {
+    background: rgba(212, 175, 55, 0.2);
+    color: var(--or);
+    border: 1px solid rgba(212, 175, 55, 0.5);
   }
   .p-badge.stock {
-    background: #fff;
-    color: #000;
+    background: rgba(255, 50, 50, 0.15);
+    color: #ff6b6b;
+    border: 1px solid rgba(255, 50, 50, 0.5);
+    animation: pulse-badge 2s infinite;
+  }
+  @keyframes pulse-badge {
+    0% { box-shadow: 0 0 0 0 rgba(255, 50, 50, 0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(255, 50, 50, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 50, 50, 0); }
   }
   
-  .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
   .p-out-label { font-family: var(--ff-m); font-size: 0.7rem; color: #fff; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.5); padding: 0.4rem 1rem; border-radius: 4px; }
-  .p-wish { position: absolute; top: 8px; right: 8px; z-index: 3; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); border: none; display: grid; place-items: center; color: #fff; transition: 0.2s; }
+  .p-wish { position: absolute; top: 8px; right: 8px; z-index: 3; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border: none; display: grid; place-items: center; color: #fff; transition: 0.2s; }
   .p-wish.active { background: var(--or); color: var(--bg); }
   .p-wish svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
@@ -160,25 +175,26 @@
 
   .p-name {
     font-size: 0.8rem;
-    text-transform: none; /* Plus naturel pour les noms de produits */
+    text-transform: none; 
     letter-spacing: 0.02em;
     color: #ddd;
     font-weight: 400;
-    line-height: 1.4; /* Plus aéré */
+    line-height: 1.4; 
     text-decoration: none;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    min-height: 2.24rem; /* Évite le saut de hauteur si 1 ligne */
+    min-height: 2.24rem; 
   }
 
   .p-prix {
     font-family: var(--ff-d);
     font-size: 1.2rem;
-    font-weight: 700; /* Bien visible */
+    font-weight: 700; 
     color: var(--or, #D4AF37);
-    margin-top: auto; /* Pousse le prix et le bouton en bas */
+    margin-top: auto; 
     margin-bottom: 8px;
   }
 
@@ -206,6 +222,24 @@
 
   .prod-grid .skel { background: #1a1a1a; border-radius: 12px; }
 
+  /* ANIMATION FLY TO CART */
+  .flying-img {
+    position: fixed;
+    z-index: 99999;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: all 0.8s cubic-bezier(0.5, -0.5, 1, 1);
+    pointer-events: none;
+  }
+  .nav-icon.cart-bump {
+    animation: bump 0.4s ease-in-out;
+  }
+  @keyframes bump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); color: var(--or); }
+    100% { transform: scale(1); }
+  }
+
   /* ═══ 7. SECTIONS ÉDITORIALES ═══ */
   .mkt-section { display: grid; grid-template-columns: 1fr; margin: 2.5rem 0; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card); }
   .mkt-img { height: 260px; background-size: cover; background-position: center; filter: grayscale(20%); }
@@ -218,7 +252,7 @@
   .mkt-list li::before { content: '✓'; color: var(--or); font-weight: 700; }
 
   /* ═══ 8. PANIER COULISSANT ═══ */
-  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; bottom: 0; left: 0; right: 0; height: 85vh; background: var(--bg); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 10000; display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
   .cart-drawer.open { transform: translateY(0); }
@@ -267,7 +301,7 @@
     .p-image-wrap img { filter: grayscale(100%) contrast(1.1) saturate(0.85) brightness(0.95); }
     .p-card:hover .p-image-wrap img { filter: grayscale(0%) contrast(1.1) saturate(1) brightness(1); }
     .p-body { padding: 16px; }
-    .p-name { font-size: 0.85rem; -webkit-line-clamp: unset; min-height: auto; }
+    .p-name { font-size: 0.85rem; -webkit-line-clamp: unset; line-clamp: unset; min-height: auto; }
     .p-prix { font-size: 1.3rem; }
     .p-action { padding: 0.75rem; font-size: 0.8rem; }
 
@@ -304,7 +338,7 @@
   <ul class="nav-links"><li><a href="index.html">Accueil</a></li><li><a href="mode.html" class="active">Mode</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="maison.html">Maison</a></li></ul>
   <div class="nav-right">
     <a href="favoris.html" class="nav-icon" aria-label="Favoris"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
-    <a href="panier.html" class="nav-icon" aria-label="Panier"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-badge" id="cart-count"></span></a>
+    <a href="panier.html" class="nav-icon" id="nav-cart-icon" aria-label="Panier"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-badge" id="cart-count"></span></a>
     <a href="compte.html" class="nav-icon" aria-label="Compte"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
   </div>
 </nav>
@@ -447,7 +481,7 @@
 (() => {
   'use strict';
 
-  // 0. FONCTION DE SÉCURITÉ (Échappement HTML)
+  // 0. FONCTION DE SÉCURITÉ
   function esc(s) {
     if (s === null || s === undefined) return '';
     return String(s).replace(/[&<>"']/g, c => ({
@@ -587,8 +621,8 @@
       const photo = SE.imgUrl ? SE.imgUrl(rawPhoto, 600) : rawPhoto;
       
       let badgesHTML = '';
-      if (isNew) badgesHTML += `<span class="p-badge">Neuf</span>`;
-      if (lowStock) badgesHTML += `<span class="p-badge stock">Stock limité</span>`;
+      if (isNew) badgesHTML += `<span class="p-badge neuf">★ Neuf</span>`;
+      if (lowStock) badgesHTML += `<span class="p-badge stock">⚡ Stock limité</span>`;
       
       const overlayOut = isOut ? `<div class="p-out-overlay"><span class="p-out-label">Sold Out</span></div>` : '';
       const button = isOut ? `<button class="p-action view" data-ref="${esc(a.reference)}">Voir l'article</button>` : `<button class="p-action add" data-cart-add="${esc(a.reference)}">Ajouter au panier</button>`;
@@ -612,6 +646,41 @@
     updateUI();
   }
 
+  // 6. FLY TO CART ANIMATION
+  function flyToCart(button) {
+    const card = button.closest('.p-card');
+    const img = card.querySelector('.p-image-wrap img');
+    const cartIcon = document.getElementById('nav-cart-icon');
+    
+    if (!img || !cartIcon) return;
+
+    const imgRect = img.getBoundingClientRect();
+    const cartRect = cartIcon.getBoundingClientRect();
+
+    const flyingImg = img.cloneNode(true);
+    flyingImg.classList.add('flying-img');
+    flyingImg.style.top = imgRect.top + 'px';
+    flyingImg.style.left = imgRect.left + 'px';
+    flyingImg.style.width = imgRect.width + 'px';
+    flyingImg.style.height = imgRect.height + 'px';
+    document.body.appendChild(flyingImg);
+
+    // Force reflow to trigger transition
+    flyingImg.offsetWidth;
+
+    flyingImg.style.top = cartRect.top + 'px';
+    flyingImg.style.left = cartRect.left + 'px';
+    flyingImg.style.width = '20px';
+    flyingImg.style.height = '20px';
+    flyingImg.style.opacity = '0.2';
+
+    setTimeout(() => {
+      flyingImg.remove();
+      cartIcon.classList.add('cart-bump');
+      setTimeout(() => cartIcon.classList.remove('cart-bump'), 400);
+    }, 800);
+  }
+
   document.getElementById('product-grid').addEventListener('click', e => {
     const cartBtn = e.target.closest('[data-cart-add]');
     const viewBtn = e.target.closest('.p-action.view');
@@ -619,7 +688,15 @@
     if (cartBtn) {
       e.preventDefault();
       const ref = cartBtn.dataset.cartAdd;
-      try { SE.Cart.add(ref); cartBtn.textContent = '✓ Ajouté'; setTimeout(() => { cartBtn.textContent = 'Ajouter au panier'; }, 2000); updateUI(); updateDrawer(); openDrawer(); } catch(err) {}
+      try { 
+        SE.Cart.add(ref); 
+        flyToCart(cartBtn); 
+        cartBtn.textContent = '✓ Ajouté'; 
+        setTimeout(() => { cartBtn.textContent = 'Ajouter au panier'; }, 2000); 
+        updateUI(); 
+        updateDrawer(); 
+        setTimeout(openDrawer, 400); 
+      } catch(err) {}
     }
     if (viewBtn) { e.preventDefault(); location.href = 'produit.html?ref=' + viewBtn.dataset.ref; }
     if (wishBtn) { e.preventDefault(); SE.Wishlist.toggle(wishBtn.dataset.ref); updateUI(); }
