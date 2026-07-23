@@ -222,13 +222,13 @@
 
   .prod-grid .skel { background: #1a1a1a; border-radius: 12px; }
 
-  /* ANIMATION FLY TO CART */
+  /* ANIMATION FLY TO CART (Adoucie) */
   .flying-img {
     position: fixed;
     z-index: 99999;
     border-radius: 12px;
     object-fit: cover;
-    transition: all 0.8s cubic-bezier(0.5, -0.5, 1, 1);
+    transition: top 0.7s cubic-bezier(0.4, 0, 0.2, 1), left 0.7s cubic-bezier(0.4, 0, 0.2, 1), width 0.7s ease-out, height 0.7s ease-out, opacity 0.7s ease-in;
     pointer-events: none;
   }
   .nav-icon.cart-bump {
@@ -510,9 +510,10 @@
   overlay.addEventListener('click', closeDrawer);
   document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 
-  function updateDrawer() {
+  // Correction du bug panier vide (async/await)
+  async function updateDrawer() {
     try {
-      const items = SE.Cart?.getItems?.() || [];
+      const items = await SE.Cart.items() || [];
       const body = document.getElementById('drawer-body');
       const footer = document.getElementById('drawer-footer');
       const totalEl = document.getElementById('drawer-total-val');
@@ -678,10 +679,11 @@
       flyingImg.remove();
       cartIcon.classList.add('cart-bump');
       setTimeout(() => cartIcon.classList.remove('cart-bump'), 400);
-    }, 800);
+    }, 700); // Délai adouci à 700ms
   }
 
-  document.getElementById('product-grid').addEventListener('click', e => {
+  // Event Listener Async pour attendre la maj du panier
+  document.getElementById('product-grid').addEventListener('click', async e => {
     const cartBtn = e.target.closest('[data-cart-add]');
     const viewBtn = e.target.closest('.p-action.view');
     const wishBtn = e.target.closest('.p-wish');
@@ -694,7 +696,7 @@
         cartBtn.textContent = '✓ Ajouté'; 
         setTimeout(() => { cartBtn.textContent = 'Ajouter au panier'; }, 2000); 
         updateUI(); 
-        updateDrawer(); 
+        await updateDrawer(); 
         setTimeout(openDrawer, 400); 
       } catch(err) {}
     }
