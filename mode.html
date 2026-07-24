@@ -53,7 +53,7 @@
   .col-title { font-family: var(--ff-d); font-size: 1.5rem; color: #fff; text-transform: uppercase; margin: 0; }
   .col-title em { color: var(--or); font-style: italic; }
   .col-banner.current { border-color: var(--or); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
-  .col-banner.past .col-bg { opacity: 0.8; } /* Plus de gris, juste une légère transparence */
+  .col-banner.past .col-bg { opacity: 0.8; }
   .col-banner.upcoming { border: 1px dashed var(--or); align-items: center; }
   .col-banner.upcoming::after { display: none; }
   .col-banner.upcoming .col-content { text-align: center; }
@@ -174,12 +174,13 @@
     background: #161616;
   }
 
+  /* TEXTE CORRIGÉ : Blanc pur et gras pour être bien visible */
   .p-name {
     font-size: 0.8rem;
     text-transform: none; 
     letter-spacing: 0.02em;
-    color: #ddd;
-    font-weight: 400;
+    color: #ffffff; 
+    font-weight: 500;
     line-height: 1.4; 
     text-decoration: none;
     display: -webkit-box;
@@ -217,9 +218,10 @@
     background: var(--or, #D4AF37);
     color: #000;
   }
+  /* BOUTON CORRIGÉ : Blanc clair pour être lisible */
   .p-action.view {
     background: #2a2a2a;
-    color: #888;
+    color: #f0f0f0; 
     border: 1px solid #333;
   }
 
