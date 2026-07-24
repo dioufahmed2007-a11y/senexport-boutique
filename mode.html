@@ -43,7 +43,7 @@
   .reveal-stagger { opacity: 0; transform: translateY(30px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
   .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
 
-  /* ═══ 4. COLLECTIONS ═══ */
+  /* ═══ 4. COLLECTIONS (Images en couleur) ═══ */
   .col-banner { position: relative; height: 220px; overflow: hidden; text-decoration: none; display: flex; align-items: flex-end; margin-bottom: 1.5rem; border-radius: 12px; border: 1px solid var(--border); }
   .col-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.6s var(--ease); }
   .col-banner:hover .col-bg { transform: scale(1.05); }
@@ -53,7 +53,7 @@
   .col-title { font-family: var(--ff-d); font-size: 1.5rem; color: #fff; text-transform: uppercase; margin: 0; }
   .col-title em { color: var(--or); font-style: italic; }
   .col-banner.current { border-color: var(--or); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
-  .col-banner.past .col-bg { filter: grayscale(100%); opacity: 0.7; }
+  .col-banner.past .col-bg { opacity: 0.8; } /* Plus de gris, juste une légère transparence */
   .col-banner.upcoming { border: 1px dashed var(--or); align-items: center; }
   .col-banner.upcoming::after { display: none; }
   .col-banner.upcoming .col-content { text-align: center; }
@@ -380,7 +380,7 @@
   </div>
 </div>
 
-<!-- 2. COLLECTIONS -->
+<!-- 2. COLLECTIONS (Images en couleur) -->
 <div class="container">
   <div class="section-head">
     <h2>Les <em>Arrivages</em></h2>
@@ -396,7 +396,7 @@
   </a>
 
   <div class="col-banner upcoming">
-    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1200&auto=format&fit=crop'); filter: brightness(0.3) grayscale(100%);"></div>
+    <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=1200&auto=format&fit=crop'); filter: brightness(0.5);"></div>
     <div class="col-content">
       <span class="col-badge">✦ Prochain Arrivage</span>
       <h3 class="col-title">Drop Techwear <em>Futur</em></h3>
@@ -659,7 +659,7 @@
     
     if (articles.length === 0 && gridId === 'product-grid') { 
       grid.innerHTML = `<div style="grid-column:1/-1;padding:4rem 1rem;text-align:center">
-        <p style="font-family:var(--ff-d);font-size:1.8rem;color:#333;margin-bottom:1rem">
+        <p style="font-family:var(--ff-d);font-size:1.8rem;color:var(--stone);margin-bottom:1rem">
           Aucune pièce disponible
         </p>
         <a href="demande-speciale.html" 
