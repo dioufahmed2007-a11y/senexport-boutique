@@ -26,6 +26,7 @@
         '--border':    'rgba(255,255,255,.08)',
         '--or':        '#D4AF37',
         '--or2':       '#E0C04A',
+        '--prix':      '#F5C842', /* Doré vif pour le prix */
         '--or-dim':    'rgba(212,175,55,.1)',
         '--or-line':   'rgba(212,175,55,.2)',
         '--ink':       '#F5F5F5',
@@ -52,13 +53,14 @@
         '--bg':        '#FAF6F0',
         '--bg2':       '#F2EBE0',
         '--card':      '#FFFFFF',
-        '--card2':     '#EDE4D8',
+        '--card2':     '#EDE4D8', /* Fond clair pour les cartes */
         '--border':    'rgba(30,20,10,.1)',
         '--or':        '#1A1A1A',
         '--or2':       '#333333',
+        '--prix':      '#B8882A', /* Brun doré foncé, très lisible sur fond clair */
         '--or-dim':    'rgba(30,20,10,.06)',
         '--or-line':   'rgba(30,20,10,.15)',
-        '--ink':       '#1A1208',
+        '--ink':       '#1A1208', /* Texte foncé pour la FAQ */
         '--slate':     '#3D2E1E',
         '--stone':     '#7A6655',
         '--muted':     '#A89080',
@@ -86,6 +88,7 @@
         '--border':    'rgba(56,189,248,.12)',
         '--or':        '#38BDF8',
         '--or2':       '#7DD3FC',
+        '--prix':      '#FCD34D', /* Jaune ambré doux sur fond bleu */
         '--or-dim':    'rgba(56,189,248,.08)',
         '--or-line':   'rgba(56,189,248,.18)',
         '--ink':       '#F0F6FF',
