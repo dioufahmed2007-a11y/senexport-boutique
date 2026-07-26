@@ -30,38 +30,39 @@
   .mode-hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2000&auto=format&fit=crop') center/cover no-repeat; z-index: 0; filter: grayscale(30%) contrast(1.1); }
   .mode-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.6) 40%, transparent 100%); z-index: 1; }
   .hero-content { position: relative; z-index: 2; }
-  .hero-label { font-family: var(--ff-m); font-size: 0.7rem; color: #D4AF37; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
+  .hero-label { font-family: var(--ff-m); font-size: 0.7rem; color: #FFD700; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1.5rem; display: block; }
   .hero-title { font-family: var(--ff-d); font-size: clamp(2.8rem, 12vw, 4rem); font-weight: 700; line-height: 0.88; color: #FFFFFF; text-transform: uppercase; letter-spacing: -0.03em; margin-bottom: 1.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-  .hero-title em { display: block; color: #D4AF37; font-style: italic; font-weight: 300; }
-  .hero-cta { display: inline-block; background: #D4AF37; color: #000000; text-decoration: none; padding: 1rem 2rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; transition: 0.3s; }
+  .hero-title em { display: block; color: #FFD700; font-style: italic; font-weight: 300; }
+  .hero-cta { display: inline-block; background: #FFD700; color: #000000; text-decoration: none; padding: 1rem 2rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; transition: 0.3s; }
 
   /* ═══ 3. STRUCTURE ═══ */
   .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; padding-bottom: 1rem; padding-top: 3rem; border-bottom: 1px solid #333333; }
   .section-head h2 { font-family: var(--ff-d); font-size: 1.8rem; font-weight: 400; color: #FFFFFF; margin: 0; }
-  .section-head h2 em { color: #D4AF37; font-style: italic; }
+  .section-head h2 em { color: #FFD700; font-style: italic; }
   .section-head .meta { font-family: var(--ff-m); font-size: 0.7rem; color: #CCCCCC; text-transform: uppercase; letter-spacing: 0.1em; }
   .reveal-stagger { opacity: 0; transform: translateY(30px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
   .reveal-stagger.visible { opacity: 1; transform: translateY(0); }
 
-  /* ═══ 4. COLLECTIONS (Texte ultra-lisible) ═══ */
+  /* ═══ 4. COLLECTIONS ═══ */
   .col-banner { position: relative; height: 220px; overflow: hidden; text-decoration: none; display: flex; align-items: flex-end; margin-bottom: 1.5rem; border-radius: 12px; border: 1px solid #333333; }
   .col-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.6s var(--ease); }
   .col-banner:hover .col-bg { transform: scale(1.05); }
   .col-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.5) 50%, transparent 100%); z-index: 1; }
   .col-content { position: relative; z-index: 2; padding: 1.5rem; width: 100%; }
   
-  .col-badge { font-family: var(--ff-m); font-size: 0.65rem; color: #000000; background: #D4AF37; padding: 4px 8px; border-radius: 4px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; display: inline-block; width: fit-content; font-weight: 700; }
+  .col-badge { font-family: var(--ff-m); font-size: 0.65rem; color: #000000; background: #FFD700; padding: 4px 8px; border-radius: 4px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.5rem; display: inline-block; width: fit-content; font-weight: 700; }
   .col-title { font-family: var(--ff-d); font-size: 1.5rem; color: #FFFFFF; text-transform: uppercase; margin: 0; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
   .col-title em { color: #FFFFFF; font-style: normal; font-weight: 900; }
   
-  .col-banner.current { border-color: #D4AF37; box-shadow: 0 10px 30px rgba(212, 175, 55, 0.1); }
+  .col-banner.current { border-color: #FFD700; box-shadow: 0 10px 30px rgba(255, 215, 0, 0.1); }
   .col-banner.past .col-bg { opacity: 0.8; }
-  .col-banner.upcoming { border: 1px dashed #D4AF37; align-items: center; }
+  .col-banner.upcoming { border: 1px dashed #FFD700; align-items: center; }
   .col-banner.upcoming::after { display: none; }
   .col-banner.upcoming .col-content { text-align: center; }
   .chrono { display: flex; gap: 1rem; margin-top: 1rem; justify-content: center; }
   .chrono-unit { text-align: center; }
-  .chrono-val { font-family: var(--ff-d); font-size: 1.8rem; font-weight: 700; color: #D4AF37; line-height: 1; }
+  /* COUNTDOWN : Blanc pur pour être bien visible */
+  .chrono-val { font-family: var(--ff-d); font-size: 1.8rem; font-weight: 700; color: #FFFFFF; line-height: 1; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
   .chrono-lbl { font-family: var(--ff-m); font-size: 0.55rem; color: #CCCCCC; text-transform: uppercase; margin-top: 0.25rem; }
 
   /* ═══ 5. FILTRES ═══ */
@@ -143,9 +144,9 @@
     gap: 4px;
   }
   .p-badge.neuf {
-    background: #D4AF37;
+    background: #FFD700;
     color: #000000;
-    border: 1px solid #D4AF37;
+    border: 1px solid #FFD700;
   }
   .p-badge.stock {
     background: rgba(255, 50, 50, 0.15);
@@ -162,7 +163,7 @@
   .p-out-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; z-index: 2; }
   .p-out-label { font-family: var(--ff-m); font-size: 0.7rem; color: #FFFFFF; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.5); padding: 0.4rem 1rem; border-radius: 4px; }
   .p-wish { position: absolute; top: 8px; right: 8px; z-index: 3; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); border: none; display: grid; place-items: center; color: #FFFFFF; transition: 0.2s; }
-  .p-wish.active { background: #D4AF37; color: #000000; }
+  .p-wish.active { background: #FFD700; color: #000000; }
   .p-wish svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; }
   .p-wish.active svg { fill: currentColor; }
   
@@ -191,11 +192,12 @@
     min-height: 2.24rem; 
   }
 
+  /* PRIX : Jaune Doré Vif (#FFD700) pour attirer l'œil */
   .p-prix {
     font-family: var(--ff-d);
     font-size: 1.3rem; 
     font-weight: 800; 
-    color: #FFFFFF; 
+    color: #FFD700; 
     margin-top: auto; 
     margin-bottom: 8px;
   }
@@ -213,7 +215,7 @@
     cursor: pointer;
   }
   .p-action.add {
-    background: #D4AF37;
+    background: #FFD700;
     color: #000000;
   }
   .p-action.view {
@@ -238,7 +240,7 @@
   }
   @keyframes bump {
     0% { transform: scale(1); }
-    50% { transform: scale(1.4); color: #D4AF37; }
+    50% { transform: scale(1.4); color: #FFD700; }
     100% { transform: scale(1); }
   }
 
@@ -247,11 +249,11 @@
   .mkt-img { height: 260px; background-size: cover; background-position: center; filter: grayscale(20%); }
   .mkt-text { padding: 2rem 1.5rem; }
   .mkt-text h3 { font-family: var(--ff-d); font-size: 1.8rem; color: #FFFFFF; font-weight: 400; margin: 0 0 1rem 0; }
-  .mkt-text h3 em { color: #D4AF37; font-style: italic; }
+  .mkt-text h3 em { color: #FFD700; font-style: italic; }
   .mkt-text p { color: #CCCCCC; line-height: 1.7; margin-bottom: 1.5rem; font-size: 0.95rem; }
   .mkt-list { list-style: none; padding: 0; margin: 0; }
   .mkt-list li { color: #FFFFFF; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; font-size: 0.9rem; }
-  .mkt-list li::before { content: '✓'; color: #D4AF37; font-weight: 700; }
+  .mkt-list li::before { content: '✓'; color: #FFD700; font-weight: 700; }
 
   /* ═══ 8. PANIER COULISSANT ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
@@ -262,18 +264,18 @@
   .drawer-head { padding: 1rem 1.5rem; border-bottom: 1px solid #333333; display: flex; justify-content: space-between; align-items: center; }
   .drawer-head h3 { font-family: var(--ff-d); font-size: 1.4rem; margin: 0; color: #FFFFFF; }
   .drawer-close { background: none; border: none; color: #CCCCCC; font-size: 1.5rem; cursor: pointer; transition: 0.2s; }
-  .drawer-close:hover { color: #D4AF37; }
+  .drawer-close:hover { color: #FFD700; }
   .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 1.25rem; -webkit-overflow-scrolling: touch; }
   .drawer-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid #333333; align-items: flex-start; }
   .drawer-item img { width: 70px; height: 90px; object-fit: cover; border-radius: 8px; }
   .drawer-item-info { flex: 1; display: flex; flex-direction: column; }
   .drawer-item-info h4 { font-family: var(--ff-b); font-size: 0.9rem; margin: 0 0 0.25rem 0; color: #FFFFFF; }
-  .drawer-item-info p { font-family: var(--ff-m); font-size: 0.85rem; color: #D4AF37; margin: 0; }
+  .drawer-item-info p { font-family: var(--ff-m); font-size: 0.85rem; color: #FFD700; margin: 0; }
   
   /* Contrôles Quantité */
   .drawer-qty-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
   .qty-btn { background: #333333; border: 1px solid #444444; color: #FFFFFF; width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; }
-  .qty-btn:hover:not(:disabled) { background: #D4AF37; color: #000000; border-color: #D4AF37; }
+  .qty-btn:hover:not(:disabled) { background: #FFD700; color: #000000; border-color: #FFD700; }
   .qty-btn:disabled { background: #222222; color: #666666; cursor: not-allowed; border-color: #222222; }
   .qty-val { font-family: var(--ff-m); font-size: 0.85rem; color: #FFFFFF; min-width: 20px; text-align: center; }
   .remove-btn { background: none; border: none; color: #ff6b6b; font-size: 0.65rem; cursor: pointer; margin-left: auto; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px; }
@@ -281,15 +283,15 @@
 
   .drawer-footer { padding: 1.25rem; border-top: 1px solid #333333; background: #0A0A0A; }
   .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.3rem; color: #FFFFFF; }
-  .drawer-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 1rem; background: #D4AF37; color: #000000; text-align: center; text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; transition: 0.2s; border: 1px solid #D4AF37; min-height: 44px; border-radius: 8px; }
-  .drawer-btn:hover { background: transparent; color: #D4AF37; }
+  .drawer-btn { display: flex; align-items: center; justify-content: center; width: 100%; padding: 1rem; background: #FFD700; color: #000000; text-align: center; text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; transition: 0.2s; border: 1px solid #FFD700; min-height: 44px; border-radius: 8px; }
+  .drawer-btn:hover { background: transparent; color: #FFD700; }
   .drawer-empty { text-align: center; color: #CCCCCC; padding: 3rem 1rem; }
 
   /* ═══ 9. FAQ ═══ */
   .faq-section { width: 100%; padding: 3rem 0; }
   .faq-item { border-bottom: 1px solid #333333; }
   .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; background: none; border: none; cursor: pointer; text-align: left; font-family: var(--ff-d); font-size: 1.1rem; color: #FFFFFF; font-weight: 400; }
-  .faq-q .ic { font-size: 1.5rem; color: #D4AF37; transition: transform 0.3s var(--ease); flex-shrink: 0; }
+  .faq-q .ic { font-size: 1.5rem; color: #FFD700; transition: transform 0.3s var(--ease); flex-shrink: 0; }
   .faq-item.open .faq-q .ic { transform: rotate(45deg); }
   .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease); }
   .faq-a p { padding: 0 0 1.5rem; font-size: 0.9rem; color: #CCCCCC; line-height: 1.7; }
@@ -476,7 +478,7 @@
 
 <footer class="footer">
   <div class="footer-grid">
-    <div class="footer-brand"><div>Sen·Export <em style="color:#D4AF37; font-style:italic; font-weight:300;">Boutique</em></div><p>Les meilleurs produits sélectionnés pour vous. Paiement à la récupération.</p></div>
+    <div class="footer-brand"><div>Sen·Export <em style="color:#FFD700; font-style:italic; font-weight:300;">Boutique</em></div><p>Les meilleurs produits sélectionnés pour vous. Paiement à la récupération.</p></div>
     <nav class="footer-col"><h4>Boutique</h4><ul><li><a href="mode.html">Mode</a></li><li><a href="maison.html">Maison</a></li><li><a href="catalogue.html">Catalogue</a></li></ul></nav>
     <nav class="footer-col"><h4>Compte</h4><ul><li><a href="compte.html">Mon compte</a></li><li><a href="panier.html">Panier</a></li></ul></nav>
     <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank">WhatsApp</a></li></ul></nav>
@@ -661,7 +663,7 @@
           Aucune pièce disponible
         </p>
         <a href="demande-speciale.html" 
-          style="font-family:var(--ff-m);font-size:.75rem;color:#D4AF37;text-transform:uppercase;letter-spacing:.12em;text-decoration:none;border-bottom:1px solid #D4AF37;padding-bottom:.2rem">
+          style="font-family:var(--ff-m);font-size:.75rem;color:#FFD700;text-transform:uppercase;letter-spacing:.12em;text-decoration:none;border-bottom:1px solid #FFD700;padding-bottom:.2rem">
           Faire une demande spéciale →
         </a>
       </div>`; 
@@ -674,7 +676,7 @@
       const lowStock = !isOut && (a.quantite || 0) <= 3;
       const isNew = (a.etat || '').toLowerCase().includes('neuf');
       
-      const defaultImg = 'https://placehold.co/600x800/08090E/D4AF37?text=SenExport';
+      const defaultImg = 'https://placehold.co/600x800/08090E/FFD700?text=SenExport';
       const rawPhoto = a.photo_url || defaultImg;
       const photo = SE.imgUrl ? SE.imgUrl(rawPhoto, 600) : rawPhoto;
       
