@@ -31,15 +31,19 @@
   .breadcrumb span { margin: 0 0.5rem; opacity: 0.5; }
 
   /* ═══ 3. LAYOUT PRODUIT ═══ */
-  .prod-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 1.5rem 0 4rem; }
-  @media (min-width: 768px) { .prod-layout { grid-template-columns: 1fr 1fr; gap: 3rem; padding: 2rem 0 5rem; } }
+  .prod-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 1.5rem 0 3rem; }
+  @media (min-width: 768px) { .prod-layout { grid-template-columns: 1fr 1fr; gap: 3rem; padding: 2rem 0 4rem; } }
 
-  /* Colonne Image */
+  /* Colonne Image & Galerie */
   .prod-gallery { position: relative; }
   .prod-main-img { aspect-ratio: 4/5; background: var(--card2); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-  .prod-main-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s var(--ease); }
-  .prod-main-img:hover img { transform: scale(1.02); }
+  .prod-main-img img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; }
   
+  .prod-thumbs { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
+  .prod-thumb { width: 70px; height: 70px; border-radius: 6px; overflow: hidden; border: 2px solid transparent; cursor: pointer; background: var(--card2); transition: border-color 0.2s; }
+  .prod-thumb.active, .prod-thumb:hover { border-color: var(--or); }
+  .prod-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
   .prod-badges { position: absolute; top: 1rem; left: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 2; }
   .p-badge { font-family: var(--ff-m); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.3rem 0.8rem; border-radius: 4px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; gap: 0.3rem; }
   .p-badge.neuf { background: var(--or); color: var(--bg); border: 1px solid var(--or); }
@@ -52,19 +56,49 @@
   
   .prod-price-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
   .prod-price { font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 600; color: var(--prix); }
-  .prod-status { font-family: var(--ff-m); font-size: 0.75rem; color: var(--green); display: flex; align-items: center; gap: 0.5rem; }
+  .prod-status { font-family: var(--ff-m); font-size: 0.75rem; color: var(--green); display: flex; align-items: center; gap: 0.5rem; text-align: right; }
   .prod-status.out { color: var(--red); }
   .prod-status .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-  .prod-desc-wrap { border-top: 1px solid var(--border); padding-top: 1.5rem; }
+  /* Quantité + Bouton */
+  .prod-action-group { display: flex; gap: 1rem; align-items: stretch; }
+  .prod-qty-controls { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .prod-qty-controls .qty-btn { border: none; border-radius: 0; height: 100%; width: 44px; background: var(--bg2); color: var(--ink); font-size: 1.2rem; display: grid; place-items: center; }
+  .prod-qty-controls .qty-btn:hover:not(:disabled) { background: var(--or); color: var(--bg); }
+  .prod-qty-controls .qty-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .prod-qty-controls .qty-val { padding: 0 1rem; font-family: var(--ff-m); font-size: 1rem; color: var(--ink); min-width: 40px; text-align: center; }
+
+  .prod-action { flex: 1; padding: 1rem; min-height: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; background: var(--or); color: var(--bg); }
+  .prod-action:hover { background: var(--or2); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3); }
+  .prod-action:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* Bloc Réassurance */
+  .prod-reassurance { margin-top: 1.5rem; padding: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; gap: 0.75rem; }
+  .ra-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: var(--stone); }
+  .ra-icon { font-size: 1.1rem; }
+
+  /* Description */
+  .prod-desc-wrap { border-top: 1px solid var(--border); padding-top: 1.5rem; margin-top: 0.5rem; }
   .prod-desc-wrap h2 { font-family: var(--ff-d); font-size: 1.2rem; color: var(--or); margin-bottom: 0.75rem; font-weight: 400; }
   .prod-desc { font-size: 0.9rem; color: var(--stone); line-height: 1.75; }
 
-  /* Bouton Action */
-  .prod-action { width: 100%; padding: 1rem; min-height: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; background: var(--or); color: var(--bg); }
-  .prod-action:hover { background: var(--or2); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3); }
-  .prod-action:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
+  /* Produits Similaires */
+  .sim-section { padding: 2rem 0 4rem; }
+  .sim-title { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  .sim-title em { color: var(--or); font-style: italic; }
+  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (min-width: 768px) { .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
+
+  /* Cartes produits (hérité de mode.html) */
+  .p-card { background: var(--card2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); text-decoration: none; }
+  .p-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); border-color: var(--or-line); }
+  .p-image-wrap { aspect-ratio: 4/5; overflow: hidden; background: var(--bg2); display: block; position: relative; }
+  .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .p-card:hover .p-image-wrap img { transform: scale(1.05); }
+  .p-body { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1; background: var(--card2); }
+  .p-name { font-size: 0.8rem; text-transform: none; letter-spacing: 0.02em; color: var(--ink); font-weight: 500; line-height: 1.4; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.24rem; }
+  .p-prix { font-family: var(--ff-d); font-size: 1.3rem; font-weight: 800; color: var(--prix); margin-top: auto; margin-bottom: 8px; }
 
   /* ═══ 4. PANIER COULISSANT ═══ */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
@@ -95,7 +129,6 @@
   .drawer-btn:hover { background: transparent; color: var(--or); }
   .drawer-empty { text-align: center; color: var(--stone); padding: 3rem 1rem; }
 
-  /* Animation Fly To Cart */
   .flying-img { position: fixed; z-index: 99999; border-radius: 12px; object-fit: cover; transition: top 0.7s cubic-bezier(0.4, 0, 0.2, 1), left 0.7s cubic-bezier(0.4, 0, 0.2, 1), width 0.7s ease-out, height 0.7s ease-out, opacity 0.7s ease-in; pointer-events: none; }
   .nav-icon.cart-bump { animation: bump 0.4s ease-in-out; }
   @keyframes bump { 0% { transform: scale(1); } 50% { transform: scale(1.4); color: var(--or); } 100% { transform: scale(1); } }
@@ -125,20 +158,20 @@
 
 <!-- CONTENU PRODUIT -->
 <div class="container">
-  <div class="breadcrumb">
-    <a href="index.html">Accueil</a><span>/</span><a href="mode.html">Mode</a><span>/</span><span id="crumb-name">Produit</span>
+  <div class="breadcrumb" id="breadcrumb">
+    <a href="index.html">Accueil</a><span>/</span><span id="crumb-cat">Chargement...</span><span>/</span><span id="crumb-name">Produit</span>
   </div>
 
   <div class="prod-layout" id="prod-layout">
-    <!-- Squelette de chargement -->
-    <div class="prod-gallery">
-      <div class="prod-main-img"><div style="width:100%;height:100%;background:var(--bg2);"></div></div>
-    </div>
-    <div class="prod-info">
-      <div class="prod-cat">Chargement...</div>
-      <h1 class="prod-title">Chargement du produit...</h1>
-    </div>
+    <div class="prod-gallery"><div class="prod-main-img"><div style="width:100%;height:100%;background:var(--bg2);"></div></div></div>
+    <div class="prod-info"><h1 class="prod-title">Chargement du produit...</h1></div>
   </div>
+
+  <!-- Section Produits Similaires -->
+  <section class="sim-section" id="sim-section" style="display:none;">
+    <h2 class="sim-title">Vous aimerez <em>aussi</em></h2>
+    <div class="prod-grid" id="sim-grid"></div>
+  </section>
 </div>
 
 <footer class="footer">
@@ -161,12 +194,9 @@
 (() => {
   'use strict';
 
-  // 0. FONCTION DE SÉCURITÉ
   function esc(s) {
     if (s === null || s === undefined) return '';
-    return String(s).replace(/[&<>"']/g, c => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
   // 1. PANIER COULISSANT
@@ -195,10 +225,8 @@
           const prix = a ? (a.prix_vente_fcfa || 0) : 0;
           const stock = a ? (a.quantite || 0) : 0;
           const photo = a && a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 100) : a.photo_url) : 'https://placehold.co/100x100';
-          
           total += prix * (i.qte || 1);
           const isMax = (i.qte || 1) >= stock;
-          
           return `
             <div class="drawer-item">
               <img src="${esc(photo)}" alt="${esc(nom)}">
@@ -212,8 +240,7 @@
                   <button class="remove-btn" data-action="rm" data-ref="${esc(i.ref)}">Retirer</button>
                 </div>
               </div>
-            </div>
-          `;
+            </div>`;
         }).join('');
         totalEl.textContent = SE.fprix(total) + ' FCFA';
         footer.style.display = 'block';
@@ -230,16 +257,11 @@
     const article = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === ref) : null;
     const stock = article ? (article.quantite || 0) : 0;
     
-    if (action === 'inc' && item) {
-      if (item.qte < stock) {
-        SE.Cart.setQte(ref, item.qte + 1);
-      }
-    } else if (action === 'dec' && item) {
+    if (action === 'inc' && item && item.qte < stock) SE.Cart.setQte(ref, item.qte + 1);
+    else if (action === 'dec' && item) {
       if (item.qte > 1) SE.Cart.setQte(ref, item.qte - 1);
       else SE.Cart.remove(ref);
-    } else if (action === 'rm' && item) {
-      SE.Cart.remove(ref);
-    }
+    } else if (action === 'rm' && item) SE.Cart.remove(ref);
     
     updateUI();
     updateDrawer();
@@ -253,14 +275,11 @@
     } catch(e) {}
   }
 
-  // 2. FLY TO CART ANIMATION
   function flyToCart(imgElement) {
     const cartIcon = document.getElementById('nav-cart-icon');
     if (!imgElement || !cartIcon) return;
-
     const imgRect = imgElement.getBoundingClientRect();
     const cartRect = cartIcon.getBoundingClientRect();
-
     const flyingImg = imgElement.cloneNode(true);
     flyingImg.classList.add('flying-img');
     flyingImg.style.top = imgRect.top + 'px';
@@ -268,15 +287,12 @@
     flyingImg.style.width = imgRect.width + 'px';
     flyingImg.style.height = imgRect.height + 'px';
     document.body.appendChild(flyingImg);
-
     flyingImg.offsetWidth;
-
     flyingImg.style.top = cartRect.top + 'px';
     flyingImg.style.left = cartRect.left + 'px';
     flyingImg.style.width = '20px';
     flyingImg.style.height = '20px';
     flyingImg.style.opacity = '0.2';
-
     setTimeout(() => {
       flyingImg.remove();
       cartIcon.classList.add('cart-bump');
@@ -284,7 +300,9 @@
     }, 700);
   }
 
-  // 3. CHARGEMENT DU PRODUIT
+  // 2. CHARGEMENT DU PRODUIT
+  let currentQty = 1;
+
   async function loadProduct() {
     const params = new URLSearchParams(window.location.search);
     const ref = params.get('ref');
@@ -295,7 +313,6 @@
     }
 
     try {
-      // S'assurer que le cache des articles est chargé
       await SE.Articles.load();
       const article = await SE.Articles.get(ref);
 
@@ -304,17 +321,36 @@
         return;
       }
 
-      // Mettre à jour le fil d'Ariane
+      // Fil d'Ariane Dynamique
+      const catName = article.categorie?.nom || 'Catalogue';
+      let catLink = 'catalogue.html';
+      if (catName.toLowerCase().includes('mode')) catLink = 'mode.html';
+      if (catName.toLowerCase().includes('maison')) catLink = 'maison.html';
+      if (catName.toLowerCase().includes('fille')) catLink = 'fille.html';
+      if (catName.toLowerCase().includes('sport')) catLink = 'sport.html';
+      document.getElementById('crumb-cat').innerHTML = `<a href="${catLink}">${esc(catName)}</a>`;
       document.getElementById('crumb-name').textContent = article.nom;
-
-      // Mettre à jour le titre de la page
       document.title = `${article.nom} — SenExport Boutique`;
 
       const prix = article.prix_vente_fcfa || 0;
       const isOut = (article.quantite || 0) <= 0;
       const lowStock = !isOut && (article.quantite || 0) <= 3;
       const isNew = (article.etat || '').toLowerCase().includes('neuf');
-      const photo = article.photo_url ? (SE.imgUrl ? SE.imgUrl(article.photo_url, 800) : article.photo_url) : 'https://placehold.co/600x750/08090E/D4AF37?text=SenExport';
+      
+      // Gestion des images (Galerie)
+      let photos = [];
+      if (Array.isArray(article.photos) && article.photos.length > 0) {
+        photos = article.photos.map(p => SE.imgUrl ? SE.imgUrl(p, 800) : p);
+      } else if (article.photo_url) {
+        photos = [SE.imgUrl ? SE.imgUrl(article.photo_url, 800) : article.photo_url];
+      } else {
+        photos = ['https://placehold.co/600x750/08090E/D4AF37?text=SenExport'];
+      }
+
+      let thumbsHTML = '';
+      if (photos.length > 1) {
+        thumbsHTML = `<div class="prod-thumbs" id="prod-thumbs">${photos.map((p, i) => `<div class="prod-thumb ${i === 0 ? 'active' : ''}" data-img="${esc(p)}"><img src="${esc(p)}" alt="Miniature ${i+1}"></div>`).join('')}</div>`;
+      }
 
       let badgesHTML = '';
       if (isNew) badgesHTML += `<span class="p-badge neuf">★ Neuf</span>`;
@@ -324,15 +360,30 @@
         ? `<div class="prod-status out"><span class="dot"></span> Rupture de stock</div>` 
         : `<div class="prod-status"><span class="dot"></span> Disponible - Paiement à la récupération</div>`;
 
-      const buttonHTML = isOut 
+      const actionHTML = isOut 
         ? `<button class="prod-action" disabled>Indisponible</button>` 
-        : `<button class="prod-action" id="btn-add-cart">Ajouter au panier</button>`;
+        : `
+          <div class="prod-action-group">
+            <div class="prod-qty-controls">
+              <button class="qty-btn" id="qty-dec">−</button>
+              <span class="qty-val" id="qty-val">1</span>
+              <button class="qty-btn" id="qty-inc">+</button>
+            </div>
+            <button class="prod-action" id="btn-add-cart">Ajouter au panier</button>
+          </div>
+          <div class="prod-reassurance">
+            <div class="ra-item"><span class="ra-icon">🏢</span> Retrait au dépôt à Thiès</div>
+            <div class="ra-item"><span class="ra-icon">💵</span> Paiement à la récupération (Wave, OM, Espèces)</div>
+            <div class="ra-item"><span class="ra-icon">✅</span> Inspection avant achat, sans engagement</div>
+          </div>
+        `;
 
       document.getElementById('prod-layout').innerHTML = `
         <div class="prod-gallery">
           <div class="prod-main-img">
-            <img src="${esc(photo)}" alt="${esc(article.nom)}" id="prod-img">
+            <img src="${esc(photos[0])}" alt="${esc(article.nom)}" id="prod-img">
           </div>
+          ${thumbsHTML}
           <div class="prod-badges">${badgesHTML}</div>
         </div>
         <div class="prod-info">
@@ -349,14 +400,42 @@
             <p class="prod-desc">${esc(article.description || 'Aucune description disponible pour ce produit. Contactez-nous sur WhatsApp pour plus d\'informations.')}</p>
           </div>
 
-          ${buttonHTML}
+          ${actionHTML}
         </div>
       `;
 
-      // Gestion du clic "Ajouter au panier"
+      // Gestion Galerie
+      if (photos.length > 1) {
+        document.querySelectorAll('.prod-thumb').forEach(thumb => {
+          thumb.addEventListener('click', () => {
+            document.querySelectorAll('.prod-thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+            document.getElementById('prod-img').src = thumb.dataset.img;
+          });
+        });
+      }
+
+      // Gestion Quantité & Panier
       if (!isOut) {
+        const maxStock = article.quantite || 0;
+        const qtyValEl = document.getElementById('qty-val');
+        
+        document.getElementById('qty-inc').addEventListener('click', () => {
+          if (currentQty < maxStock) {
+            currentQty++;
+            qtyValEl.textContent = currentQty;
+          }
+        });
+        
+        document.getElementById('qty-dec').addEventListener('click', () => {
+          if (currentQty > 1) {
+            currentQty--;
+            qtyValEl.textContent = currentQty;
+          }
+        });
+
         document.getElementById('btn-add-cart').addEventListener('click', () => {
-          SE.Cart.add(ref);
+          SE.Cart.add(ref, currentQty);
           const img = document.getElementById('prod-img');
           flyToCart(img);
           updateUI();
@@ -365,10 +444,45 @@
         });
       }
 
+      // Chargement des produits similaires
+      loadSimilar(article);
+
       updateUI();
     } catch (e) {
       console.error('[SenExport] Erreur chargement produit', e);
       document.getElementById('prod-layout').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:5rem;color:var(--red);">Erreur de chargement du produit.</div>';
+    }
+  }
+
+  function loadSimilar(article) {
+    const allArts = SE.Articles.cache || [];
+    if (allArts.length === 0) return;
+
+    // Filtrer par même catégorie, ou à défaut par même état, en excluant l'article actuel
+    let similar = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && a.categorie_id === article.categorie_id);
+    
+    // Si pas assez, on complète avec d'autres
+    if (similar.length < 4) {
+      const others = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && !similar.includes(a));
+      similar = [...similar, ...others].slice(0, 4);
+    } else {
+      similar = similar.slice(0, 4);
+    }
+
+    if (similar.length > 0) {
+      document.getElementById('sim-section').style.display = 'block';
+      document.getElementById('sim-grid').innerHTML = similar.map(a => {
+        const photo = a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 400) : a.photo_url) : 'https://placehold.co/400x500';
+        const prix = a.prix_vente_fcfa || 0;
+        return `
+          <a href="produit.html?ref=${esc(a.reference)}" class="p-card">
+            <div class="p-image-wrap"><img src="${esc(photo)}" alt="${esc(a.nom)}" loading="lazy"></div>
+            <div class="p-body">
+              <span class="p-name">${esc(a.nom)}</span>
+              <span class="p-prix">${SE.fprix(prix)}</span>
+            </div>
+          </a>`;
+      }).join('');
     }
   }
 
