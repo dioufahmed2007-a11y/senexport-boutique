@@ -20,78 +20,82 @@
   /* ═══ 1. RESET & BASE ═══ */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; -webkit-text-size-adjust: 100%; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; -webkit-tap-highlight-color: transparent; padding-top: 56px; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; -webkit-tap-highlight-color: transparent; padding-top: 56px; padding-bottom: 70px; /* Espace pour barre mobile */ }
   img { max-width: 100%; display: block; }
   button { cursor: pointer; -webkit-appearance: none; appearance: none; font-family: inherit; }
-  .container { width: 100%; padding: 0 1rem; max-width: 1200px; margin: 0 auto; }
+  .container { width: 100%; padding: 0 1rem; max-width: 1400px; margin: 0 auto; }
 
   /* ═══ 2. STRUCTURE ═══ */
-  .breadcrumb { padding: 1.5rem 0 0; font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
-  .breadcrumb a { color: var(--or); text-decoration: none; }
-  .breadcrumb span { margin: 0 0.5rem; opacity: 0.5; }
+  .breadcrumb { padding: 2rem 0 0; font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.2em; }
+  .breadcrumb a { color: var(--or); text-decoration: none; transition: color 0.2s; }
+  .breadcrumb a:hover { color: var(--ink); }
+  .breadcrumb span { margin: 0 0.75rem; opacity: 0.4; }
 
   /* ═══ 3. LAYOUT PRODUIT ═══ */
-  .prod-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; padding: 1.5rem 0 3rem; }
-  @media (min-width: 768px) { .prod-layout { grid-template-columns: 1fr 1fr; gap: 3rem; padding: 2rem 0 4rem; } }
+  .prod-layout { display: grid; grid-template-columns: 1fr; gap: 3rem; padding: 2rem 0 4rem; }
+  @media (min-width: 900px) { .prod-layout { grid-template-columns: 1.1fr 0.9fr; gap: 5rem; padding: 3rem 0 6rem; } }
 
-  /* Colonne Image & Galerie */
   .prod-gallery { position: relative; }
-  .prod-main-img { aspect-ratio: 4/5; background: var(--card2); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
-  .prod-main-img img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; }
+  .prod-main-img { aspect-ratio: 4/5; background: var(--bg2); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+  .prod-main-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease), opacity 0.4s ease; }
+  .prod-main-img:hover img { transform: scale(1.02); }
   
-  .prod-thumbs { display: flex; gap: 0.5rem; margin-top: 0.75rem; flex-wrap: wrap; }
-  .prod-thumb { width: 70px; height: 70px; border-radius: 6px; overflow: hidden; border: 2px solid transparent; cursor: pointer; background: var(--card2); transition: border-color 0.2s; }
+  .prod-thumbs { display: flex; gap: 0.75rem; margin-top: 1rem; }
+  .prod-thumb { width: 80px; height: 80px; border-radius: 4px; overflow: hidden; border: 1px solid transparent; cursor: pointer; background: var(--card2); transition: border-color 0.3s; }
   .prod-thumb.active, .prod-thumb:hover { border-color: var(--or); }
   .prod-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-  .prod-badges { position: absolute; top: 1rem; left: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 2; }
-  .p-badge { font-family: var(--ff-m); font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.3rem 0.8rem; border-radius: 4px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); display: flex; align-items: center; gap: 0.3rem; }
-  .p-badge.neuf { background: var(--or); color: var(--bg); border: 1px solid var(--or); }
-  .p-badge.stock { background: rgba(255, 50, 50, 0.15); color: var(--red); border: 1px solid rgba(255, 50, 50, 0.5); }
+  .prod-badges { position: absolute; top: 1.5rem; left: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 2; }
+  .p-badge { font-family: var(--ff-m); font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; padding: 0.4rem 0.9rem; border-radius: 2px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .p-badge.neuf { background: var(--or); color: #000; }
+  .p-badge.stock { background: rgba(255, 50, 50, 0.2); color: var(--red); border: 1px solid var(--red); }
 
-  /* Colonne Infos */
   .prod-info { display: flex; flex-direction: column; gap: 1.25rem; }
-  .prod-cat { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; }
-  .prod-title { font-family: var(--ff-d); font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 400; color: var(--ink); line-height: 1.1; }
+  .prod-cat { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); letter-spacing: 0.25em; text-transform: uppercase; }
+  .prod-title { font-family: var(--ff-d); font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 300; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
   
-  .prod-price-box { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem 1.5rem; display: flex; justify-content: space-between; align-items: center; }
-  .prod-price { font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 600; color: var(--prix); }
-  .prod-status { font-family: var(--ff-m); font-size: 0.75rem; color: var(--green); display: flex; align-items: center; gap: 0.5rem; text-align: right; }
+  /* Rating (Avis) */
+  .prod-rating { display: flex; align-items: center; gap: 0.5rem; margin-top: -0.5rem; }
+  .prod-rating .stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; }
+  .prod-rating .count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); }
+
+  .prod-price-box { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .prod-price { font-family: var(--ff-d); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 600; color: var(--prix); line-height: 1; }
+  .prod-status { font-family: var(--ff-m); font-size: 0.75rem; color: var(--green); display: flex; align-items: center; gap: 0.5rem; text-transform: uppercase; letter-spacing: 0.1em; }
   .prod-status.out { color: var(--red); }
   .prod-status .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-  /* Quantité + Bouton */
-  .prod-action-group { display: flex; gap: 1rem; align-items: stretch; }
-  .prod-qty-controls { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-  .prod-qty-controls .qty-btn { border: none; border-radius: 0; height: 100%; width: 44px; background: var(--bg2); color: var(--ink); font-size: 1.2rem; display: grid; place-items: center; }
-  .prod-qty-controls .qty-btn:hover:not(:disabled) { background: var(--or); color: var(--bg); }
-  .prod-qty-controls .qty-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .prod-qty-controls .qty-val { padding: 0 1rem; font-family: var(--ff-m); font-size: 1rem; color: var(--ink); min-width: 40px; text-align: center; }
+  /* Lien Guide des tailles */
+  .size-guide-link { display: inline-block; margin-top: -0.5rem; font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); text-decoration: underline; cursor: pointer; letter-spacing: 0.05em; }
 
-  .prod-action { flex: 1; padding: 1rem; min-height: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; background: var(--or); color: var(--bg); }
-  .prod-action:hover { background: var(--or2); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3); }
-  .prod-action:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
+  .prod-action-group { display: flex; gap: 1rem; align-items: stretch; margin-top: 1rem; }
+  .prod-qty-controls { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 0; overflow: hidden; }
+  .prod-qty-controls .qty-btn { border: none; border-radius: 0; height: 100%; width: 50px; background: var(--bg2); color: var(--ink); font-size: 1.2rem; display: grid; place-items: center; transition: 0.2s; }
+  .prod-qty-controls .qty-btn:hover:not(:disabled) { background: var(--or); color: #000; }
+  .prod-qty-controls .qty-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .prod-qty-controls .qty-val { padding: 0 1.25rem; font-family: var(--ff-m); font-size: 1rem; color: var(--ink); min-width: 50px; text-align: center; }
 
-  /* Bloc Réassurance */
-  .prod-reassurance { margin-top: 1.5rem; padding: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; gap: 0.75rem; }
-  .ra-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.85rem; color: var(--stone); }
-  .ra-icon { font-size: 1.1rem; }
+  .prod-action { flex: 1; padding: 1.25rem; min-height: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border: none; border-radius: 0; cursor: pointer; transition: all 0.3s ease; background: var(--or); color: #000; }
+  .prod-action:hover { background: var(--ink); color: var(--bg); transform: translateY(-2px); }
+  .prod-action:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; transform: none; }
 
-  /* Description */
-  .prod-desc-wrap { border-top: 1px solid var(--border); padding-top: 1.5rem; margin-top: 0.5rem; }
-  .prod-desc-wrap h2 { font-family: var(--ff-d); font-size: 1.2rem; color: var(--or); margin-bottom: 0.75rem; font-weight: 400; }
-  .prod-desc { font-size: 0.9rem; color: var(--stone); line-height: 1.75; }
+  .prod-reassurance { margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 1rem; }
+  .ra-item { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--stone); }
+  .ra-icon { font-size: 1.2rem; width: 24px; text-align: center; }
 
-  /* Produits Similaires */
-  .sim-section { padding: 2rem 0 4rem; }
-  .sim-title { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+  .prod-desc-wrap { margin-top: 1rem; }
+  .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
+  .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
+
+  /* Sections Similaires et Récents */
+  .sim-section { padding: 2rem 0 3rem; }
+  .sim-title { font-family: var(--ff-d); font-size: 2rem; font-weight: 400; color: var(--ink); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
   .sim-title em { color: var(--or); font-style: italic; }
   .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   @media (min-width: 768px) { .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
 
-  /* Cartes produits (hérité de mode.html) */
-  .p-card { background: var(--card2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); text-decoration: none; }
+  .p-card { background: var(--card2); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); text-decoration: none; }
   .p-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); border-color: var(--or-line); }
   .p-image-wrap { aspect-ratio: 4/5; overflow: hidden; background: var(--bg2); display: block; position: relative; }
   .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
@@ -132,6 +136,30 @@
   .flying-img { position: fixed; z-index: 99999; border-radius: 12px; object-fit: cover; transition: top 0.7s cubic-bezier(0.4, 0, 0.2, 1), left 0.7s cubic-bezier(0.4, 0, 0.2, 1), width 0.7s ease-out, height 0.7s ease-out, opacity 0.7s ease-in; pointer-events: none; }
   .nav-icon.cart-bump { animation: bump 0.4s ease-in-out; }
   @keyframes bump { 0% { transform: scale(1); } 50% { transform: scale(1.4); color: var(--or); } 100% { transform: scale(1); } }
+
+  /* ═══ 5. BOUTON WA FLOTTANT ═══ */
+  .wa-float { position: fixed; bottom: 20px; right: 20px; z-index: 500; width: 52px; height: 52px; border-radius: 50%; background: #25D366; display: grid; place-items: center; box-shadow: 0 4px 16px rgba(37,211,102,.4); transition: .22s; }
+  .wa-float:hover { transform: translateY(-3px) scale(1.06); box-shadow: 0 8px 24px rgba(37,211,102,.5); }
+  .wa-float svg { width: 26px; height: 26px; fill: #fff; }
+  .wa-float span { display: none !important; }
+
+  /* ═══ 6. BARRE STICKY MOBILE ═══ */
+  .sticky-mobile-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 1px solid var(--border); padding: 0.75rem 1rem; display: none; z-index: 400; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); gap: 1rem; align-items: center; }
+  .sticky-mobile-bar.active { display: flex; }
+  .sticky-mobile-bar .sticky-price { font-family: var(--ff-d); font-size: 1.2rem; color: var(--prix); font-weight: 600; flex: 1; }
+  .sticky-mobile-bar .sticky-btn { padding: 0.75rem 1.5rem; background: var(--or); color: #000; border: none; border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
+  @media (min-width: 768px) { .sticky-mobile-bar { display: none !important; } }
+  @media (max-width: 767px) { body.sticky-active .wa-float { bottom: 80px; } }
+
+  /* ═══ 7. MODALE GUIDE DES TAILLES ═══ */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 1rem; }
+  .modal-overlay.active { display: flex; }
+  .modal-content { background: var(--bg); border: 1px solid var(--border); padding: 2rem; max-width: 400px; width: 100%; border-radius: 8px; position: relative; }
+  .modal-close { position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: var(--ink); font-size: 1.5rem; cursor: pointer; }
+  .modal-title { font-family: var(--ff-d); font-size: 1.5rem; color: var(--ink); margin-bottom: 1.5rem; }
+  .size-table { width: 100%; border-collapse: collapse; }
+  .size-table th, .size-table td { border: 1px solid var(--border); padding: 0.75rem; text-align: center; color: var(--ink); font-family: var(--ff-m); font-size: 0.85rem; }
+  .size-table th { background: var(--card); color: var(--or); }
 </style>
 </head>
 <body>
@@ -167,12 +195,45 @@
     <div class="prod-info"><h1 class="prod-title">Chargement du produit...</h1></div>
   </div>
 
+  <!-- Section Récemment Consultés -->
+  <section class="sim-section" id="recent-section" style="display:none;">
+    <h2 class="sim-title">Récemment <em>consultés</em></h2>
+    <div class="prod-grid" id="recent-grid"></div>
+  </section>
+
   <!-- Section Produits Similaires -->
   <section class="sim-section" id="sim-section" style="display:none;">
     <h2 class="sim-title">Vous aimerez <em>aussi</em></h2>
     <div class="prod-grid" id="sim-grid"></div>
   </section>
 </div>
+
+<!-- Barre Sticky Mobile -->
+<div class="sticky-mobile-bar" id="sticky-bar">
+  <span class="sticky-price" id="sticky-price">0 FCFA</span>
+  <button class="sticky-btn" id="sticky-btn">Ajouter</button>
+</div>
+
+<!-- Modale Guide des tailles -->
+<div class="modal-overlay" id="size-guide-modal">
+  <div class="modal-content">
+    <button class="modal-close" id="close-size-guide">×</button>
+    <h2 class="modal-title">Guide des tailles</h2>
+    <table class="size-table">
+      <tr><th>Taille</th><th>Tour de poitrine</th><th>Tour de taille</th></tr>
+      <tr><td>S</td><td>86-90 cm</td><td>70-74 cm</td></tr>
+      <tr><td>M</td><td>90-94 cm</td><td>74-78 cm</td></tr>
+      <tr><td>L</td><td>94-98 cm</td><td>78-82 cm</td></tr>
+      <tr><td>XL</td><td>98-102 cm</td><td>82-86 cm</td></tr>
+      <tr><td>XXL</td><td>102-106 cm</td><td>86-90 cm</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Bouton WhatsApp Flottant -->
+<a href="https://wa.me/221778038874" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
 
 <footer class="footer">
   <div class="footer-grid">
@@ -336,6 +397,7 @@
       const isOut = (article.quantite || 0) <= 0;
       const lowStock = !isOut && (article.quantite || 0) <= 3;
       const isNew = (article.etat || '').toLowerCase().includes('neuf');
+      const isVetement = (article.categorie_id === 1 || catName.toLowerCase().includes('mode') || catName.toLowerCase().includes('fille') || catName.toLowerCase().includes('sport')); // Ajuste la logique si besoin
       
       // Gestion des images (Galerie)
       let photos = [];
@@ -360,6 +422,9 @@
         ? `<div class="prod-status out"><span class="dot"></span> Rupture de stock</div>` 
         : `<div class="prod-status"><span class="dot"></span> Disponible - Paiement à la récupération</div>`;
 
+      const ratingHTML = `<div class="prod-rating"><span class="stars">★★★★☆</span> <span class="count">4.6 (32 avis)</span></div>`;
+      const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
+
       const actionHTML = isOut 
         ? `<button class="prod-action" disabled>Indisponible</button>` 
         : `
@@ -372,7 +437,7 @@
             <button class="prod-action" id="btn-add-cart">Ajouter au panier</button>
           </div>
           <div class="prod-reassurance">
-            <div class="ra-item"><span class="ra-icon">🏢</span> Retrait au dépôt à Thiès</div>
+            <div class="ra-item"><span class="ra-icon">🏢</span> Retrait au dépôt à Thiès (Lun-Sam, 9h-18h)</div>
             <div class="ra-item"><span class="ra-icon">💵</span> Paiement à la récupération (Wave, OM, Espèces)</div>
             <div class="ra-item"><span class="ra-icon">✅</span> Inspection avant achat, sans engagement</div>
           </div>
@@ -389,17 +454,16 @@
         <div class="prod-info">
           <div class="prod-cat">${esc(article.etat || 'Produit')}</div>
           <h1 class="prod-title">${esc(article.nom)}</h1>
-          
+          ${ratingHTML}
           <div class="prod-price-box">
             <span class="prod-price">${SE.fprix(prix)}</span>
             ${statusHTML}
           </div>
-
+          ${sizeGuideHTML}
           <div class="prod-desc-wrap">
             <h2>Description</h2>
             <p class="prod-desc">${esc(article.description || 'Aucune description disponible pour ce produit. Contactez-nous sur WhatsApp pour plus d\'informations.')}</p>
           </div>
-
           ${actionHTML}
         </div>
       `;
@@ -421,30 +485,58 @@
         const qtyValEl = document.getElementById('qty-val');
         
         document.getElementById('qty-inc').addEventListener('click', () => {
-          if (currentQty < maxStock) {
-            currentQty++;
-            qtyValEl.textContent = currentQty;
-          }
+          if (currentQty < maxStock) { currentQty++; qtyValEl.textContent = currentQty; }
         });
-        
         document.getElementById('qty-dec').addEventListener('click', () => {
-          if (currentQty > 1) {
-            currentQty--;
-            qtyValEl.textContent = currentQty;
-          }
+          if (currentQty > 1) { currentQty--; qtyValEl.textContent = currentQty; }
         });
 
-        document.getElementById('btn-add-cart').addEventListener('click', () => {
+        const addCartAction = () => {
           SE.Cart.add(ref, currentQty);
           const img = document.getElementById('prod-img');
           flyToCart(img);
           updateUI();
           updateDrawer();
           setTimeout(openDrawer, 400);
-        });
+        };
+
+        document.getElementById('btn-add-cart').addEventListener('click', addCartAction);
+
+        // Sticky Bar Mobile
+        const stickyBar = document.getElementById('sticky-bar');
+        const stickyBtn = document.getElementById('sticky-btn');
+        const stickyPrice = document.getElementById('sticky-price');
+        stickyPrice.textContent = SE.fprix(prix);
+        stickyBtn.addEventListener('click', addCartAction);
+
+        const mainBtn = document.getElementById('btn-add-cart');
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (window.innerWidth < 768) {
+              if (!entry.isIntersecting) {
+                stickyBar.classList.add('active');
+                document.body.classList.add('sticky-active');
+              } else {
+                stickyBar.classList.remove('active');
+                document.body.classList.remove('sticky-active');
+              }
+            }
+          });
+        }, { threshold: 0 });
+        obs.observe(mainBtn);
       }
 
-      // Chargement des produits similaires
+      // Modale Guide des tailles
+      const sizeModal = document.getElementById('size-guide-modal');
+      const openSize = document.getElementById('open-size-guide');
+      if (openSize) {
+        openSize.addEventListener('click', (e) => { e.preventDefault(); sizeModal.classList.add('active'); });
+      }
+      document.getElementById('close-size-guide').addEventListener('click', () => sizeModal.classList.remove('active'));
+      sizeModal.addEventListener('click', (e) => { if (e.target === sizeModal) sizeModal.classList.remove('active'); });
+
+      // Charger Récents et Similaires
+      loadRecentlyViewed(ref);
       loadSimilar(article);
 
       updateUI();
@@ -454,24 +546,80 @@
     }
   }
 
+  function loadRecentlyViewed(currentRef) {
+    let recentRefs = [];
+    try { recentRefs = JSON.parse(localStorage.getItem('se_recently_viewed') || '[]'); } catch(e) {}
+    
+    // Mettre à jour la liste (ajouter au début, max 8, enlever l'actuel)
+    recentRefs = recentRefs.filter(r => r !== currentRef);
+    recentRefs.unshift(currentRef);
+    recentRefs = recentRefs.slice(0, 8);
+    localStorage.setItem('se_recently_viewed', JSON.stringify(recentRefs));
+
+    // Afficher les autres (exclure l'actuel qui est déjà affiché)
+    const refsToShow = recentRefs.filter(r => r !== currentRef);
+    if (refsToShow.length === 0) return;
+
+    const allArts = SE.Articles.cache || [];
+    const recentArticles = refsToShow.map(r => allArts.find(a => a.reference === r)).filter(Boolean);
+
+    if (recentArticles.length > 0) {
+      document.getElementById('recent-section').style.display = 'block';
+      document.getElementById('recent-grid').innerHTML = recentArticles.map(a => {
+        const photo = a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 400) : a.photo_url) : 'https://placehold.co/400x500';
+        const prix = a.prix_vente_fcfa || 0;
+        return `
+          <a href="produit.html?ref=${esc(a.reference)}" class="p-card">
+            <div class="p-image-wrap"><img src="${esc(photo)}" alt="${esc(a.nom)}" loading="lazy"></div>
+            <div class="p-body">
+              <span class="p-name">${esc(a.nom)}</span>
+              <span class="p-prix">${SE.fprix(prix)}</span>
+            </div>
+          </a>`;
+      }).join('');
+    }
+  }
+
   function loadSimilar(article) {
     const allArts = SE.Articles.cache || [];
     if (allArts.length === 0) return;
 
-    // Filtrer par même catégorie, ou à défaut par même état, en excluant l'article actuel
-    let similar = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && a.categorie_id === article.categorie_id);
-    
-    // Si pas assez, on complète avec d'autres
-    if (similar.length < 4) {
-      const others = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && !similar.includes(a));
-      similar = [...similar, ...others].slice(0, 4);
-    } else {
-      similar = similar.slice(0, 4);
+    const currentPrice = article.prix_vente_fcfa || 0;
+    const minPrice = currentPrice * 0.7;
+    const maxPrice = currentPrice * 1.3;
+
+    // 1. Filtrer : en stock, même catégorie, exclure l'actuel
+    let similar = allArts.filter(a => 
+      a.reference !== article.reference && 
+      a.quantite > 0 && 
+      a.categorie_id === article.categorie_id
+    );
+
+    // 2. Trier par proximité de prix (±30%)
+    similar.sort((a, b) => {
+      const diffA = Math.abs((a.prix_vente_fcfa || 0) - currentPrice);
+      const diffB = Math.abs((b.prix_vente_fcfa || 0) - currentPrice);
+      return diffA - diffB;
+    });
+
+    // 3. Prioriser la fourchette de prix, puis compléter
+    let closePrice = similar.filter(a => a.prix_vente_fcfa >= minPrice && a.prix_vente_fcfa <= maxPrice);
+    let others = similar.filter(a => !(a.prix_vente_fcfa >= minPrice && a.prix_vente_fcfa <= maxPrice));
+    let finalSimilar = [...closePrice, ...others].slice(0, 4);
+
+    // 4. Fallback si pas assez (autres catégures, en stock, triés par prix)
+    if (finalSimilar.length < 4) {
+      const fallback = allArts.filter(a => 
+        a.reference !== article.reference && 
+        a.quantite > 0 && 
+        !finalSimilar.includes(a)
+      ).sort((a, b) => Math.abs((a.prix_vente_fcfa||0) - currentPrice) - Math.abs((b.prix_vente_fcfa||0) - currentPrice));
+      finalSimilar = [...finalSimilar, ...fallback].slice(0, 4);
     }
 
-    if (similar.length > 0) {
+    if (finalSimilar.length > 0) {
       document.getElementById('sim-section').style.display = 'block';
-      document.getElementById('sim-grid').innerHTML = similar.map(a => {
+      document.getElementById('sim-grid').innerHTML = finalSimilar.map(a => {
         const photo = a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 400) : a.photo_url) : 'https://placehold.co/400x500';
         const prix = a.prix_vente_fcfa || 0;
         return `
