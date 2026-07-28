@@ -54,7 +54,6 @@
   .prod-cat { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); letter-spacing: 0.25em; text-transform: uppercase; }
   .prod-title { font-family: var(--ff-d); font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 300; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
   
-  /* Rating (Avis) */
   .prod-rating { display: flex; align-items: center; gap: 0.5rem; margin-top: -0.5rem; }
   .prod-rating .stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; }
   .prod-rating .count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); cursor: pointer; text-decoration: underline; }
@@ -87,19 +86,38 @@
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
-  /* Section Avis */
+  /* Section Avis (Style Amazon) */
   .prod-reviews-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
   .prod-reviews-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
-  .review-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  
+  .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
+  .reviews-avg-big { font-family: var(--ff-d); font-size: 2.5rem; color: var(--or); font-weight: 600; line-height: 1; }
+  .reviews-avg-stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; margin-top: 0.5rem; }
+  .reviews-avg-count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+  .rating-bars { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 0.3rem; }
+  .rating-bar-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--stone); }
+  .rating-bar-label { width: 20px; font-family: var(--ff-m); }
+  .rating-bar-track { flex: 1; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+  .rating-bar-fill { height: 100%; background: var(--or); border-radius: 3px; transition: width 0.4s ease; }
+  .rating-bar-count { width: 30px; text-align: right; font-family: var(--ff-m); }
+
+  .review-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
   .review-item { padding: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; }
   .review-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
   .review-item-name { font-weight: 600; color: var(--ink); font-size: 0.9rem; }
   .review-item-date { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); }
   .review-item-stars { color: var(--or); letter-spacing: 2px; margin-bottom: 0.5rem; font-size: 0.85rem; }
   .review-item-comment { font-size: 0.85rem; color: var(--stone); line-height: 1.6; }
-  .no-reviews { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-top: 1rem; }
+  .no-reviews { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; }
   
-  .review-form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; margin-top: 1.5rem; }
+  .btn-write-review { margin-bottom: 1.5rem; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .btn-write-review:hover { background: var(--or); color: #000; }
+  .btn-write-review:disabled { border-color: var(--border); color: var(--muted); cursor: not-allowed; background: transparent; }
+
+  .review-form-wrapper { overflow: hidden; max-height: 0; transition: max-height 0.4s ease-out, margin 0.4s ease-out; }
+  .review-form-wrapper.active { max-height: 600px; margin-bottom: 2rem; }
+  
+  .review-form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; padding-top: 1rem; border-top: 1px solid var(--border); }
   .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
   .form-group label { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
   .form-group input, .form-group textarea { width: 100%; padding: 0.75rem 1rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; color: var(--ink); font-family: var(--ff-b); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
@@ -113,7 +131,7 @@
   .review-feedback { margin-top: 0; padding: 0.75rem 1rem; background: var(--card); border-left: 3px solid var(--green); color: var(--green); font-size: 0.85rem; display: none; }
   .review-feedback.error { border-left-color: var(--red); color: var(--red); }
   .review-feedback.active { display: block; }
-  .spam-msg { font-size: 0.85rem; color: var(--or); font-style: italic; margin-top: 1rem; }
+  .spam-msg { font-size: 0.85rem; color: var(--or); font-style: italic; margin-bottom: 2rem; }
 
   /* Sections Similaires et Récents */
   .sim-section { padding: 2rem 0 3rem; }
@@ -408,7 +426,6 @@
         return;
       }
 
-      // Fil d'Ariane Dynamique
       const catName = article.categorie?.nom || 'Catalogue';
       let catLink = 'catalogue.html';
       if (catName.toLowerCase().includes('mode')) catLink = 'mode.html';
@@ -451,16 +468,44 @@
       const { data: reviews, error: reviewError } = await SE.sb.from('avis').select('*').eq('article_reference', ref).eq('statut', 'approuve').order('date_creation', { ascending: false });
       
       let ratingHTML = '';
+      let reviewsSummaryHTML = '';
       let reviewsHTML = '<p class="no-reviews">Soyez le premier à donner votre avis.</p>';
 
       if (!reviewError && reviews && reviews.length > 0) {
-        const avg = reviews.reduce((sum, r) => sum + r.note, 0) / reviews.length;
+        const totalReviews = reviews.length;
+        const avg = reviews.reduce((sum, r) => sum + r.note, 0) / totalReviews;
         const avgRounded = avg.toFixed(1);
         const fullStars = Math.round(avg);
         const starsHTML = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
         
-        ratingHTML = `<div class="prod-rating"><span class="stars">${starsHTML}</span> <span class="count">${avgRounded} (${reviews.length} avis)</span></div>`;
+        // Calcul de la répartition
+        const breakdown = [5, 4, 3, 2, 1].map(star => {
+          const count = reviews.filter(r => r.note === star).length;
+          const pct = (count / totalReviews) * 100;
+          return { star, count, pct };
+        });
+
+        ratingHTML = `<div class="prod-rating"><span class="stars">${starsHTML}</span> <span class="count">${avgRounded} (${totalReviews} avis)</span></div>`;
         
+        reviewsSummaryHTML = `
+          <div class="reviews-summary">
+            <div style="text-align: center;">
+              <div class="reviews-avg-big">${avgRounded}</div>
+              <div class="reviews-avg-stars">${starsHTML}</div>
+              <div class="reviews-avg-count">${totalReviews} avis</div>
+            </div>
+            <div class="rating-bars">
+              ${breakdown.map(b => `
+                <div class="rating-bar-row">
+                  <span class="rating-bar-label">${b.star}★</span>
+                  <div class="rating-bar-track"><div class="rating-bar-fill" style="width: ${b.pct}%"></div></div>
+                  <span class="rating-bar-count">${b.count}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+
         reviewsHTML = reviews.map(r => `
           <div class="review-item">
             <div class="review-item-head">
@@ -475,35 +520,43 @@
 
       const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
 
-      // Vérification Anti-spam 24h
       const lastReviewTime = localStorage.getItem(`se_review_${ref}`);
       const canReview = !lastReviewTime || (Date.now() - parseInt(lastReviewTime) > 24 * 60 * 60 * 1000);
       
-      const formHTML = canReview ? `
-        <form class="review-form" id="review-form">
-          <div class="form-group">
-            <label for="review-name">Votre Nom</label>
-            <input type="text" id="review-name" required maxlength="50" placeholder="Ex: Moussa D.">
+      // Bouton et formulaire dépliable
+      let reviewActionHTML = '';
+      if (canReview) {
+        reviewActionHTML = `
+          <button class="btn-write-review" id="btn-write-review">Écrire un avis</button>
+          <div class="review-form-wrapper" id="review-form-wrapper">
+            <form class="review-form" id="review-form">
+              <div class="form-group">
+                <label for="review-name">Votre Nom</label>
+                <input type="text" id="review-name" required maxlength="50" placeholder="Ex: Moussa D.">
+              </div>
+              <div class="form-group">
+                <label>Note</label>
+                <div class="star-rating" id="star-rating">
+                  <span class="star" data-value="1">★</span>
+                  <span class="star" data-value="2">★</span>
+                  <span class="star" data-value="3">★</span>
+                  <span class="star" data-value="4">★</span>
+                  <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" id="review-note" required>
+              </div>
+              <div class="form-group">
+                <label for="review-comment">Commentaire (Max 500 caractères)</label>
+                <textarea id="review-comment" required maxlength="500" placeholder="Partagez votre expérience..."></textarea>
+              </div>
+              <button type="submit" class="btn-submit-review">Publier mon avis</button>
+              <div class="review-feedback" id="review-feedback"></div>
+            </form>
           </div>
-          <div class="form-group">
-            <label>Note</label>
-            <div class="star-rating" id="star-rating">
-              <span class="star" data-value="1">★</span>
-              <span class="star" data-value="2">★</span>
-              <span class="star" data-value="3">★</span>
-              <span class="star" data-value="4">★</span>
-              <span class="star" data-value="5">★</span>
-            </div>
-            <input type="hidden" id="review-note" required>
-          </div>
-          <div class="form-group">
-            <label for="review-comment">Commentaire (Max 500 caractères)</label>
-            <textarea id="review-comment" required maxlength="500" placeholder="Partagez votre expérience..."></textarea>
-          </div>
-          <button type="submit" class="btn-submit-review">Publier mon avis</button>
-          <div class="review-feedback" id="review-feedback"></div>
-        </form>
-      ` : `<p class="spam-msg">Vous avez déjà laissé un avis récemment pour cet article.</p>`;
+        `;
+      } else {
+        reviewActionHTML = `<p class="spam-msg">Vous avez déjà laissé un avis récemment pour cet article.</p>`;
+      }
 
       const actionHTML = isOut 
         ? `<button class="prod-action" disabled>Indisponible</button>` 
@@ -548,14 +601,13 @@
           
           <div class="prod-reviews-section" id="reviews-section">
             <h2>Avis Clients</h2>
+            ${reviewsSummaryHTML}
             <div class="review-list" id="review-list">${reviewsHTML}</div>
-            <h2 style="margin-top: 2rem;">Donnez votre avis</h2>
-            ${formHTML}
+            ${reviewActionHTML}
           </div>
         </div>
       `;
 
-      // Gestion Galerie
       if (photos.length > 1) {
         document.querySelectorAll('.prod-thumb').forEach(thumb => {
           thumb.addEventListener('click', () => {
@@ -566,7 +618,6 @@
         });
       }
 
-      // Gestion Quantité & Panier
       if (!isOut) {
         const maxStock = article.quantite || 0;
         const qtyValEl = document.getElementById('qty-val');
@@ -612,7 +663,6 @@
         obs.observe(mainBtn);
       }
 
-      // Modale Guide des tailles
       const sizeModal = document.getElementById('size-guide-modal');
       const openSize = document.getElementById('open-size-guide');
       if (openSize) {
@@ -621,8 +671,18 @@
       document.getElementById('close-size-guide').addEventListener('click', () => sizeModal.classList.remove('active'));
       sizeModal.addEventListener('click', (e) => { if (e.target === sizeModal) sizeModal.classList.remove('active'); });
 
-      // Gestion des Avis (Étoiles + Formulaire)
+      // Gestion du formulaire d'avis dépliable
       if (canReview) {
+        const btnWrite = document.getElementById('btn-write-review');
+        const formWrapper = document.getElementById('review-form-wrapper');
+        
+        if (btnWrite) {
+          btnWrite.addEventListener('click', () => {
+            formWrapper.classList.toggle('active');
+            btnWrite.textContent = formWrapper.classList.contains('active') ? 'Annuler' : 'Écrire un avis';
+          });
+        }
+
         let selectedNote = 0;
         document.querySelectorAll('.star-rating .star').forEach(star => {
           star.addEventListener('click', () => {
@@ -647,8 +707,9 @@
           }
 
           try {
+            // Insertion: on utilise le texte brut (name, comment), pas esc() ici !
             const { error } = await SE.sb.from('avis').insert([
-              { article_reference: ref, nom_client: esc(name), note: selectedNote, commentaire: esc(comment), statut: 'en_attente' }
+              { article_reference: ref, nom_client: name, note: selectedNote, commentaire: comment, statut: 'en_attente' }
             ]);
 
             if (error) throw error;
@@ -659,6 +720,13 @@
             document.querySelectorAll('.star-rating .star').forEach(s => s.classList.remove('active'));
             selectedNote = 0;
             localStorage.setItem(`se_review_${ref}`, Date.now().toString());
+            
+            // Masquer le formulaire après envoi
+            setTimeout(() => {
+              formWrapper.classList.remove('active');
+              btnWrite.textContent = 'Écrire un avis';
+            }, 2000);
+
           } catch (err) {
             console.error('Erreur envoi avis:', err);
             feedbackEl.textContent = "Une erreur est survenue. Réessayez plus tard.";
