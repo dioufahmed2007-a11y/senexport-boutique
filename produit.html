@@ -87,7 +87,7 @@
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
   /* Section Avis (Style Amazon) */
-  .prod-reviews-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .prod-reviews-section { margin-top: 0; padding-top: 2rem; border-top: 1px solid var(--border); }
   .prod-reviews-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   
   .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
@@ -250,6 +250,9 @@
     <h2 class="sim-title">Vous aimerez <em>aussi</em></h2>
     <div class="prod-grid" id="sim-grid"></div>
   </section>
+
+  <!-- Section Avis Clients (Déplacée en bas) -->
+  <section class="sim-section" id="reviews-section-container" style="display:none;"></section>
 </div>
 
 <!-- Barre Sticky Mobile -->
@@ -468,8 +471,7 @@
       const { data: reviews, error: reviewError } = await SE.sb.from('avis').select('*').eq('article_reference', ref).eq('statut', 'approuve').order('date_creation', { ascending: false });
       
       let ratingHTML = '';
-      let reviewsSummaryHTML = '';
-      let reviewsHTML = '<p class="no-reviews">Soyez le premier à donner votre avis.</p>';
+      let reviewsSectionHTML = '';
 
       if (!reviewError && reviews && reviews.length > 0) {
         const totalReviews = reviews.length;
@@ -478,7 +480,6 @@
         const fullStars = Math.round(avg);
         const starsHTML = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
         
-        // Calcul de la répartition
         const breakdown = [5, 4, 3, 2, 1].map(star => {
           const count = reviews.filter(r => r.note === star).length;
           const pct = (count / totalReviews) * 100;
@@ -487,26 +488,7 @@
 
         ratingHTML = `<div class="prod-rating"><span class="stars">${starsHTML}</span> <span class="count">${avgRounded} (${totalReviews} avis)</span></div>`;
         
-        reviewsSummaryHTML = `
-          <div class="reviews-summary">
-            <div style="text-align: center;">
-              <div class="reviews-avg-big">${avgRounded}</div>
-              <div class="reviews-avg-stars">${starsHTML}</div>
-              <div class="reviews-avg-count">${totalReviews} avis</div>
-            </div>
-            <div class="rating-bars">
-              ${breakdown.map(b => `
-                <div class="rating-bar-row">
-                  <span class="rating-bar-label">${b.star}★</span>
-                  <div class="rating-bar-track"><div class="rating-bar-fill" style="width: ${b.pct}%"></div></div>
-                  <span class="rating-bar-count">${b.count}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-
-        reviewsHTML = reviews.map(r => `
+        const reviewsHTML = reviews.map(r => `
           <div class="review-item">
             <div class="review-item-head">
               <span class="review-item-name">${esc(r.nom_client)}</span>
@@ -516,6 +498,36 @@
             <p class="review-item-comment">${esc(r.commentaire)}</p>
           </div>
         `).join('');
+
+        reviewsSectionHTML = `
+          <div class="prod-reviews-section">
+            <h2>Avis Clients</h2>
+            <div class="reviews-summary">
+              <div style="text-align: center;">
+                <div class="reviews-avg-big">${avgRounded}</div>
+                <div class="reviews-avg-stars">${starsHTML}</div>
+                <div class="reviews-avg-count">${totalReviews} avis</div>
+              </div>
+              <div class="rating-bars">
+                ${breakdown.map(b => `
+                  <div class="rating-bar-row">
+                    <span class="rating-bar-label">${b.star}★</span>
+                    <div class="rating-bar-track"><div class="rating-bar-fill" style="width: ${b.pct}%"></div></div>
+                    <span class="rating-bar-count">${b.count}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            <div class="review-list">${reviewsHTML}</div>
+          </div>
+        `;
+      } else {
+         reviewsSectionHTML = `
+          <div class="prod-reviews-section">
+            <h2>Avis Clients</h2>
+            <p class="no-reviews">Soyez le premier à donner votre avis.</p>
+          </div>
+        `;
       }
 
       const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
@@ -523,7 +535,6 @@
       const lastReviewTime = localStorage.getItem(`se_review_${ref}`);
       const canReview = !lastReviewTime || (Date.now() - parseInt(lastReviewTime) > 24 * 60 * 60 * 1000);
       
-      // Bouton et formulaire dépliable
       let reviewActionHTML = '';
       if (canReview) {
         reviewActionHTML = `
@@ -558,6 +569,9 @@
         reviewActionHTML = `<p class="spam-msg">Vous avez déjà laissé un avis récemment pour cet article.</p>`;
       }
 
+      // On complète la section Avis avec le bouton et le formulaire
+      reviewsSectionHTML = reviewsSectionHTML.replace('</div>', reviewActionHTML + '</div>');
+
       const actionHTML = isOut 
         ? `<button class="prod-action" disabled>Indisponible</button>` 
         : `
@@ -576,6 +590,7 @@
           </div>
         `;
 
+      // Affichage de la fiche produit (sans les avis)
       document.getElementById('prod-layout').innerHTML = `
         <div class="prod-gallery">
           <div class="prod-main-img">
@@ -598,15 +613,13 @@
             <p class="prod-desc">${esc(article.description || 'Aucune description disponible pour ce produit. Contactez-nous sur WhatsApp pour plus d\'informations.')}</p>
           </div>
           ${actionHTML}
-          
-          <div class="prod-reviews-section" id="reviews-section">
-            <h2>Avis Clients</h2>
-            ${reviewsSummaryHTML}
-            <div class="review-list" id="review-list">${reviewsHTML}</div>
-            ${reviewActionHTML}
-          </div>
         </div>
       `;
+
+      // Affichage des Avis en bas de page
+      const reviewsContainer = document.getElementById('reviews-section-container');
+      reviewsContainer.innerHTML = reviewsSectionHTML;
+      reviewsContainer.style.display = 'block';
 
       if (photos.length > 1) {
         document.querySelectorAll('.prod-thumb').forEach(thumb => {
@@ -707,7 +720,6 @@
           }
 
           try {
-            // Insertion: on utilise le texte brut (name, comment), pas esc() ici !
             const { error } = await SE.sb.from('avis').insert([
               { article_reference: ref, nom_client: name, note: selectedNote, commentaire: comment, statut: 'en_attente' }
             ]);
@@ -721,7 +733,6 @@
             selectedNote = 0;
             localStorage.setItem(`se_review_${ref}`, Date.now().toString());
             
-            // Masquer le formulaire après envoi
             setTimeout(() => {
               formWrapper.classList.remove('active');
               btnWrite.textContent = 'Écrire un avis';
