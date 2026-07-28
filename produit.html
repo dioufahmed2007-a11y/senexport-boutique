@@ -20,7 +20,7 @@
   /* ═══ 1. RESET & BASE ═══ */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; -webkit-text-size-adjust: 100%; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; -webkit-tap-highlight-color: transparent; padding-top: 56px; padding-bottom: 70px; /* Espace pour barre mobile */ }
+  body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; -webkit-tap-highlight-color: transparent; padding-top: 56px; padding-bottom: 70px; }
   img { max-width: 100%; display: block; }
   button { cursor: pointer; -webkit-appearance: none; appearance: none; font-family: inherit; }
   .container { width: 100%; padding: 0 1rem; max-width: 1400px; margin: 0 auto; }
@@ -57,7 +57,7 @@
   /* Rating (Avis) */
   .prod-rating { display: flex; align-items: center; gap: 0.5rem; margin-top: -0.5rem; }
   .prod-rating .stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; }
-  .prod-rating .count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); }
+  .prod-rating .count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); cursor: pointer; text-decoration: underline; }
 
   .prod-price-box { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
   .prod-price { font-family: var(--ff-d); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 600; color: var(--prix); line-height: 1; }
@@ -66,7 +66,6 @@
   .prod-status .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
   @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-  /* Lien Guide des tailles */
   .size-guide-link { display: inline-block; margin-top: -0.5rem; font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); text-decoration: underline; cursor: pointer; letter-spacing: 0.05em; }
 
   .prod-action-group { display: flex; gap: 1rem; align-items: stretch; margin-top: 1rem; }
@@ -88,6 +87,34 @@
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
+  /* Section Avis */
+  .prod-reviews-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+  .prod-reviews-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
+  .review-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .review-item { padding: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; }
+  .review-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+  .review-item-name { font-weight: 600; color: var(--ink); font-size: 0.9rem; }
+  .review-item-date { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); }
+  .review-item-stars { color: var(--or); letter-spacing: 2px; margin-bottom: 0.5rem; font-size: 0.85rem; }
+  .review-item-comment { font-size: 0.85rem; color: var(--stone); line-height: 1.6; }
+  .no-reviews { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-top: 1rem; }
+  
+  .review-form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; margin-top: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group label { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
+  .form-group input, .form-group textarea { width: 100%; padding: 0.75rem 1rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; color: var(--ink); font-family: var(--ff-b); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--or); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .star-rating { display: flex; gap: 0.5rem; font-size: 1.5rem; color: var(--muted); }
+  .star-rating .star { cursor: pointer; transition: color 0.2s; user-select: none; }
+  .star-rating .star:hover, .star-rating .star.active { color: var(--or); }
+  .btn-submit-review { align-self: flex-start; padding: 0.75rem 2rem; background: var(--ink); color: var(--bg); border: none; border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .btn-submit-review:hover { background: var(--or); color: #000; }
+  .review-feedback { margin-top: 0; padding: 0.75rem 1rem; background: var(--card); border-left: 3px solid var(--green); color: var(--green); font-size: 0.85rem; display: none; }
+  .review-feedback.error { border-left-color: var(--red); color: var(--red); }
+  .review-feedback.active { display: block; }
+  .spam-msg { font-size: 0.85rem; color: var(--or); font-style: italic; margin-top: 1rem; }
+
   /* Sections Similaires et Récents */
   .sim-section { padding: 2rem 0 3rem; }
   .sim-title { font-family: var(--ff-d); font-size: 2rem; font-weight: 400; color: var(--ink); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
@@ -104,7 +131,7 @@
   .p-name { font-size: 0.8rem; text-transform: none; letter-spacing: 0.02em; color: var(--ink); font-weight: 500; line-height: 1.4; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.24rem; }
   .p-prix { font-family: var(--ff-d); font-size: 1.3rem; font-weight: 800; color: var(--prix); margin-top: auto; margin-bottom: 8px; }
 
-  /* ═══ 4. PANIER COULISSANT ═══ */
+  /* PANIER COULISSANT */
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; bottom: 0; left: 0; right: 0; height: 85vh; background: var(--bg); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 10000; display: flex; flex-direction: column; padding-bottom: env(safe-area-inset-bottom); }
@@ -137,13 +164,12 @@
   .nav-icon.cart-bump { animation: bump 0.4s ease-in-out; }
   @keyframes bump { 0% { transform: scale(1); } 50% { transform: scale(1.4); color: var(--or); } 100% { transform: scale(1); } }
 
-  /* ═══ 5. BOUTON WA FLOTTANT ═══ */
+  /* WA FLOTTANT & STICKY BAR */
   .wa-float { position: fixed; bottom: 20px; right: 20px; z-index: 500; width: 52px; height: 52px; border-radius: 50%; background: #25D366; display: grid; place-items: center; box-shadow: 0 4px 16px rgba(37,211,102,.4); transition: .22s; }
   .wa-float:hover { transform: translateY(-3px) scale(1.06); box-shadow: 0 8px 24px rgba(37,211,102,.5); }
   .wa-float svg { width: 26px; height: 26px; fill: #fff; }
   .wa-float span { display: none !important; }
 
-  /* ═══ 6. BARRE STICKY MOBILE ═══ */
   .sticky-mobile-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 1px solid var(--border); padding: 0.75rem 1rem; display: none; z-index: 400; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); gap: 1rem; align-items: center; }
   .sticky-mobile-bar.active { display: flex; }
   .sticky-mobile-bar .sticky-price { font-family: var(--ff-d); font-size: 1.2rem; color: var(--prix); font-weight: 600; flex: 1; }
@@ -151,7 +177,7 @@
   @media (min-width: 768px) { .sticky-mobile-bar { display: none !important; } }
   @media (max-width: 767px) { body.sticky-active .wa-float { bottom: 80px; } }
 
-  /* ═══ 7. MODALE GUIDE DES TAILLES ═══ */
+  /* MODALE GUIDE DES TAILLES */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 9998; display: none; align-items: center; justify-content: center; padding: 1rem; }
   .modal-overlay.active { display: flex; }
   .modal-content { background: var(--bg); border: 1px solid var(--border); padding: 2rem; max-width: 400px; width: 100%; border-radius: 8px; position: relative; }
@@ -397,9 +423,8 @@
       const isOut = (article.quantite || 0) <= 0;
       const lowStock = !isOut && (article.quantite || 0) <= 3;
       const isNew = (article.etat || '').toLowerCase().includes('neuf');
-      const isVetement = (article.categorie_id === 1 || catName.toLowerCase().includes('mode') || catName.toLowerCase().includes('fille') || catName.toLowerCase().includes('sport')); // Ajuste la logique si besoin
+      const isVetement = (article.categorie_id === 1 || catName.toLowerCase().includes('mode') || catName.toLowerCase().includes('fille') || catName.toLowerCase().includes('sport'));
       
-      // Gestion des images (Galerie)
       let photos = [];
       if (Array.isArray(article.photos) && article.photos.length > 0) {
         photos = article.photos.map(p => SE.imgUrl ? SE.imgUrl(p, 800) : p);
@@ -422,8 +447,63 @@
         ? `<div class="prod-status out"><span class="dot"></span> Rupture de stock</div>` 
         : `<div class="prod-status"><span class="dot"></span> Disponible - Paiement à la récupération</div>`;
 
-      const ratingHTML = `<div class="prod-rating"><span class="stars">★★★★☆</span> <span class="count">4.6 (32 avis)</span></div>`;
+      // Récupération des avis (approuvés)
+      const { data: reviews, error: reviewError } = await SE.sb.from('avis').select('*').eq('article_reference', ref).eq('statut', 'approuve').order('date_creation', { ascending: false });
+      
+      let ratingHTML = '';
+      let reviewsHTML = '<p class="no-reviews">Soyez le premier à donner votre avis.</p>';
+
+      if (!reviewError && reviews && reviews.length > 0) {
+        const avg = reviews.reduce((sum, r) => sum + r.note, 0) / reviews.length;
+        const avgRounded = avg.toFixed(1);
+        const fullStars = Math.round(avg);
+        const starsHTML = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+        
+        ratingHTML = `<div class="prod-rating"><span class="stars">${starsHTML}</span> <span class="count">${avgRounded} (${reviews.length} avis)</span></div>`;
+        
+        reviewsHTML = reviews.map(r => `
+          <div class="review-item">
+            <div class="review-item-head">
+              <span class="review-item-name">${esc(r.nom_client)}</span>
+              <span class="review-item-date">${new Date(r.date_creation).toLocaleDateString('fr-FR')}</span>
+            </div>
+            <div class="review-item-stars">${'★'.repeat(r.note)}${'☆'.repeat(5 - r.note)}</div>
+            <p class="review-item-comment">${esc(r.commentaire)}</p>
+          </div>
+        `).join('');
+      }
+
       const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
+
+      // Vérification Anti-spam 24h
+      const lastReviewTime = localStorage.getItem(`se_review_${ref}`);
+      const canReview = !lastReviewTime || (Date.now() - parseInt(lastReviewTime) > 24 * 60 * 60 * 1000);
+      
+      const formHTML = canReview ? `
+        <form class="review-form" id="review-form">
+          <div class="form-group">
+            <label for="review-name">Votre Nom</label>
+            <input type="text" id="review-name" required maxlength="50" placeholder="Ex: Moussa D.">
+          </div>
+          <div class="form-group">
+            <label>Note</label>
+            <div class="star-rating" id="star-rating">
+              <span class="star" data-value="1">★</span>
+              <span class="star" data-value="2">★</span>
+              <span class="star" data-value="3">★</span>
+              <span class="star" data-value="4">★</span>
+              <span class="star" data-value="5">★</span>
+            </div>
+            <input type="hidden" id="review-note" required>
+          </div>
+          <div class="form-group">
+            <label for="review-comment">Commentaire (Max 500 caractères)</label>
+            <textarea id="review-comment" required maxlength="500" placeholder="Partagez votre expérience..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit-review">Publier mon avis</button>
+          <div class="review-feedback" id="review-feedback"></div>
+        </form>
+      ` : `<p class="spam-msg">Vous avez déjà laissé un avis récemment pour cet article.</p>`;
 
       const actionHTML = isOut 
         ? `<button class="prod-action" disabled>Indisponible</button>` 
@@ -465,6 +545,13 @@
             <p class="prod-desc">${esc(article.description || 'Aucune description disponible pour ce produit. Contactez-nous sur WhatsApp pour plus d\'informations.')}</p>
           </div>
           ${actionHTML}
+          
+          <div class="prod-reviews-section" id="reviews-section">
+            <h2>Avis Clients</h2>
+            <div class="review-list" id="review-list">${reviewsHTML}</div>
+            <h2 style="margin-top: 2rem;">Donnez votre avis</h2>
+            ${formHTML}
+          </div>
         </div>
       `;
 
@@ -502,7 +589,6 @@
 
         document.getElementById('btn-add-cart').addEventListener('click', addCartAction);
 
-        // Sticky Bar Mobile
         const stickyBar = document.getElementById('sticky-bar');
         const stickyBtn = document.getElementById('sticky-btn');
         const stickyPrice = document.getElementById('sticky-price');
@@ -535,7 +621,52 @@
       document.getElementById('close-size-guide').addEventListener('click', () => sizeModal.classList.remove('active'));
       sizeModal.addEventListener('click', (e) => { if (e.target === sizeModal) sizeModal.classList.remove('active'); });
 
-      // Charger Récents et Similaires
+      // Gestion des Avis (Étoiles + Formulaire)
+      if (canReview) {
+        let selectedNote = 0;
+        document.querySelectorAll('.star-rating .star').forEach(star => {
+          star.addEventListener('click', () => {
+            selectedNote = parseInt(star.dataset.value);
+            document.getElementById('review-note').value = selectedNote;
+            document.querySelectorAll('.star-rating .star').forEach(s => {
+              s.classList.toggle('active', parseInt(s.dataset.value) <= selectedNote);
+            });
+          });
+        });
+
+        document.getElementById('review-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const name = document.getElementById('review-name').value.trim();
+          const comment = document.getElementById('review-comment').value.trim();
+          const feedbackEl = document.getElementById('review-feedback');
+
+          if (!name || !comment || !selectedNote) {
+            feedbackEl.textContent = "Veuillez remplir tous les champs et donner une note.";
+            feedbackEl.className = "review-feedback active error";
+            return;
+          }
+
+          try {
+            const { error } = await SE.sb.from('avis').insert([
+              { article_reference: ref, nom_client: esc(name), note: selectedNote, commentaire: esc(comment), statut: 'en_attente' }
+            ]);
+
+            if (error) throw error;
+
+            feedbackEl.textContent = "Merci ! Votre avis sera visible après validation par notre équipe.";
+            feedbackEl.className = "review-feedback active";
+            document.getElementById('review-form').reset();
+            document.querySelectorAll('.star-rating .star').forEach(s => s.classList.remove('active'));
+            selectedNote = 0;
+            localStorage.setItem(`se_review_${ref}`, Date.now().toString());
+          } catch (err) {
+            console.error('Erreur envoi avis:', err);
+            feedbackEl.textContent = "Une erreur est survenue. Réessayez plus tard.";
+            feedbackEl.className = "review-feedback active error";
+          }
+        });
+      }
+
       loadRecentlyViewed(ref);
       loadSimilar(article);
 
@@ -550,13 +681,11 @@
     let recentRefs = [];
     try { recentRefs = JSON.parse(localStorage.getItem('se_recently_viewed') || '[]'); } catch(e) {}
     
-    // Mettre à jour la liste (ajouter au début, max 8, enlever l'actuel)
     recentRefs = recentRefs.filter(r => r !== currentRef);
     recentRefs.unshift(currentRef);
     recentRefs = recentRefs.slice(0, 8);
     localStorage.setItem('se_recently_viewed', JSON.stringify(recentRefs));
 
-    // Afficher les autres (exclure l'actuel qui est déjà affiché)
     const refsToShow = recentRefs.filter(r => r !== currentRef);
     if (refsToShow.length === 0) return;
 
@@ -588,32 +717,15 @@
     const minPrice = currentPrice * 0.7;
     const maxPrice = currentPrice * 1.3;
 
-    // 1. Filtrer : en stock, même catégorie, exclure l'actuel
-    let similar = allArts.filter(a => 
-      a.reference !== article.reference && 
-      a.quantite > 0 && 
-      a.categorie_id === article.categorie_id
-    );
+    let similar = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && a.categorie_id === article.categorie_id);
+    similar.sort((a, b) => Math.abs((a.prix_vente_fcfa || 0) - currentPrice) - Math.abs((b.prix_vente_fcfa || 0) - currentPrice));
 
-    // 2. Trier par proximité de prix (±30%)
-    similar.sort((a, b) => {
-      const diffA = Math.abs((a.prix_vente_fcfa || 0) - currentPrice);
-      const diffB = Math.abs((b.prix_vente_fcfa || 0) - currentPrice);
-      return diffA - diffB;
-    });
-
-    // 3. Prioriser la fourchette de prix, puis compléter
     let closePrice = similar.filter(a => a.prix_vente_fcfa >= minPrice && a.prix_vente_fcfa <= maxPrice);
     let others = similar.filter(a => !(a.prix_vente_fcfa >= minPrice && a.prix_vente_fcfa <= maxPrice));
     let finalSimilar = [...closePrice, ...others].slice(0, 4);
 
-    // 4. Fallback si pas assez (autres catégures, en stock, triés par prix)
     if (finalSimilar.length < 4) {
-      const fallback = allArts.filter(a => 
-        a.reference !== article.reference && 
-        a.quantite > 0 && 
-        !finalSimilar.includes(a)
-      ).sort((a, b) => Math.abs((a.prix_vente_fcfa||0) - currentPrice) - Math.abs((b.prix_vente_fcfa||0) - currentPrice));
+      const fallback = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && !finalSimilar.includes(a)).sort((a, b) => Math.abs((a.prix_vente_fcfa||0) - currentPrice) - Math.abs((b.prix_vente_fcfa||0) - currentPrice));
       finalSimilar = [...finalSimilar, ...fallback].slice(0, 4);
     }
 
