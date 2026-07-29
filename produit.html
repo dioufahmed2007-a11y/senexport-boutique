@@ -78,16 +78,20 @@
 
   .size-guide-link { display: inline-block; margin-top: -0.5rem; font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); text-decoration: underline; cursor: pointer; letter-spacing: 0.05em; }
 
-  .prod-action-group { display: flex; gap: 1rem; align-items: stretch; margin-top: 1rem; }
-  .prod-qty-controls { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 0; overflow: hidden; }
+  /* BOUTONS D'ACHAT */
+  .prod-action-group { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
+  .prod-qty-controls { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 0; overflow: hidden; align-self: flex-start; }
   .prod-qty-controls .qty-btn { border: none; border-radius: 0; height: 100%; width: 50px; background: var(--bg2); color: var(--ink); font-size: 1.2rem; display: grid; place-items: center; transition: 0.2s; }
   .prod-qty-controls .qty-btn:hover:not(:disabled) { background: var(--or); color: #000; }
   .prod-qty-controls .qty-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .prod-qty-controls .qty-val { padding: 0 1.25rem; font-family: var(--ff-m); font-size: 1rem; color: var(--ink); min-width: 50px; text-align: center; }
 
-  .prod-action { flex: 1; padding: 1.25rem; min-height: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border: none; border-radius: 0; cursor: pointer; transition: all 0.3s ease; background: var(--or); color: #000; }
-  .prod-action:hover { background: var(--ink); color: var(--bg); transform: translateY(-2px); }
-  .prod-action:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; transform: none; }
+  .prod-action { width: 100%; padding: 1.25rem; min-height: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 0; cursor: pointer; transition: all 0.3s ease; }
+  .prod-action.buy-now { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+  .prod-action.buy-now:hover { background: transparent; color: var(--ink); transform: translateY(-2px); }
+  .prod-action.add-cart { background: var(--or); color: #000; border: 1px solid var(--or); }
+  .prod-action.add-cart:hover { background: transparent; color: var(--or); transform: translateY(-2px); }
+  .prod-action:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; transform: none; border-color: var(--border); }
 
   .prod-reassurance { margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 1rem; }
   .ra-item { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--stone); }
@@ -97,11 +101,18 @@
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
-  /* SECTION Q/R */
-  .qa-section { padding: 2rem 0; border-top: 1px solid var(--border); }
-  .qa-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
+  /* SECTION Q/R DÉROULANTE */
+  .qa-collapse { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; background: var(--card); overflow: hidden; }
+  .qa-collapse-header { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: var(--ff-m); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); transition: background 0.2s; }
+  .qa-collapse-header:hover { background: var(--bg2); }
+  .qa-collapse-title { display: flex; align-items: center; gap: 0.75rem; }
+  .qa-collapse-icon { transition: transform 0.3s ease; color: var(--or); }
+  .qa-collapse.open .qa-collapse-icon { transform: rotate(180deg); }
+  .qa-collapse-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+  .qa-collapse.open .qa-collapse-body { max-height: 4000px; transition: max-height 0.8s ease-in; }
+  .qa-collapse-inner { padding: 1.5rem; }
   .qa-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
-  .qa-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+  .qa-item { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
   .qa-question { display: flex; gap: 1rem; margin-bottom: 1rem; }
   .qa-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg2); color: var(--or); display: grid; place-items: center; font-weight: 700; font-family: var(--ff-b); flex-shrink: 0; }
   .qa-text { font-size: 0.95rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.5rem; }
@@ -113,10 +124,9 @@
   .btn-ask-question { margin: 0 auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
   .btn-ask-question:hover { background: var(--or); color: #000; }
 
-  /* Section Avis (Style Amélioré) */
+  /* Section Avis */
   .prod-reviews-section { margin-top: 0; padding-top: 2rem; border-top: 1px solid var(--border); }
   .prod-reviews-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
-  
   .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
   .reviews-avg-big { font-family: var(--ff-d); font-size: 2.5rem; color: var(--or); font-weight: 600; line-height: 1; }
   .reviews-avg-stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; margin-top: 0.5rem; }
@@ -127,7 +137,6 @@
   .rating-bar-track { flex: 1; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
   .rating-bar-fill { height: 100%; background: var(--or); border-radius: 3px; transition: width 0.4s ease; }
   .rating-bar-count { width: 30px; text-align: right; font-family: var(--ff-m); }
-
   .review-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
   .review-item { padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
   .review-item:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); border-color: var(--or-line); }
@@ -139,13 +148,10 @@
   .review-item-stars { color: var(--or); letter-spacing: 2px; font-size: 0.9rem; }
   .review-item-comment { font-size: 0.9rem; color: var(--stone); line-height: 1.7; margin-top: 0.5rem; }
   .no-reviews { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; text-align: center; padding: 2rem 0; }
-  
   .btn-write-review { margin: 2rem auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
   .btn-write-review:hover { background: var(--or); color: #000; }
-
   .review-form-wrapper { overflow: hidden; max-height: 0; transition: max-height 0.4s ease-out, margin 0.4s ease-out; }
   .review-form-wrapper.active { max-height: 600px; margin-bottom: 2rem; }
-  
   .review-form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; margin: 0 auto; padding-top: 1rem; border-top: 1px solid var(--border); }
   .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
   .form-group label { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
@@ -168,7 +174,6 @@
   .sim-title em { color: var(--or); font-style: italic; }
   .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
   @media (min-width: 768px) { .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
-
   .p-card { background: var(--card2); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); text-decoration: none; }
   .p-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); border-color: var(--or-line); }
   .p-image-wrap { aspect-ratio: 4/5; overflow: hidden; background: var(--bg2); display: block; position: relative; }
@@ -220,7 +225,8 @@
   .sticky-mobile-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 1px solid var(--border); padding: 0.75rem 1rem; display: none; z-index: 400; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); gap: 1rem; align-items: center; }
   .sticky-mobile-bar.active { display: flex; }
   .sticky-mobile-bar .sticky-price { font-family: var(--ff-d); font-size: 1.2rem; color: var(--prix); font-weight: 600; flex: 1; }
-  .sticky-mobile-bar .sticky-btn { padding: 0.75rem 1.5rem; background: var(--or); color: #000; border: none; border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; }
+  .sticky-mobile-bar .sticky-btn { padding: 0.75rem 1.5rem; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .sticky-mobile-bar .sticky-btn:hover { background: transparent; color: var(--ink); }
   @media (min-width: 768px) { .sticky-mobile-bar { display: none !important; } }
   @media (max-width: 767px) { body.sticky-active .wa-float { bottom: 80px; } }
 
@@ -274,18 +280,18 @@
     <div class="prod-grid" id="sim-grid"></div>
   </section>
 
-  <!-- Section Avis Clients (Affichée AVANT les Questions) -->
+  <!-- Section Avis Clients -->
   <section class="prod-reviews-section" id="reviews-section-container" style="display:none;"></section>
 
-  <!-- Section Questions/Réponses (Affichée APRÈS les Avis) -->
-  <section class="qa-section" id="qa-section-container" style="display:none;"></section>
+  <!-- Section Questions/Réponses -->
+  <section class="sim-section" id="qa-section-container" style="display:none;"></section>
 
 </div>
 
 <!-- Barre Sticky Mobile -->
 <div class="sticky-mobile-bar" id="sticky-bar">
   <span class="sticky-price" id="sticky-price">0 FCFA</span>
-  <button class="sticky-btn" id="sticky-btn">Ajouter</button>
+  <button class="sticky-btn" id="sticky-btn">Acheter</button>
 </div>
 
 <!-- Modale Guide des tailles -->
@@ -507,7 +513,7 @@
       const lastReviewTime = localStorage.getItem(`se_review_${ref}`);
       const canReview = !lastReviewTime || (Date.now() - parseInt(lastReviewTime) > 24 * 60 * 60 * 1000);
       
-      // Gestion de la notation rapide (utilise la même clé anti-spam que les avis complets)
+      // Gestion de la notation rapide (construite indépendamment)
       let quickRatingHTML = '';
       if (canReview) {
         quickRatingHTML = `
@@ -592,7 +598,6 @@
           </div>
         `;
         
-        // Affichage des avis (gère les avis sans commentaire)
         const reviewsHTML = reviews.map(r => {
           const displayName = r.nom_client ? esc(r.nom_client) : 'Client';
           const displayAvatar = r.nom_client ? esc(r.nom_client.charAt(0)) : 'C';
@@ -638,6 +643,9 @@
           </div>
         `;
       } else {
+        // CORRECTION DU BUG : On affiche la notation rapide même s'il n'y a aucun avis
+        ratingHTML = quickRatingHTML;
+        
          reviewsSectionHTML = `
           <div class="prod-reviews-section">
             <h2>Avis Clients</h2>
@@ -647,8 +655,7 @@
         `;
       }
 
-      // Construction de la section Q/R
-      let questionsSectionHTML = '';
+      // Construction de la section Q/R (Menu déroulant)
       const lastQuestionTime = localStorage.getItem(`se_question_${ref}`);
       const canAsk = !lastQuestionTime || (Date.now() - parseInt(lastQuestionTime) > 24 * 60 * 60 * 1000);
       
@@ -701,11 +708,19 @@
         questionsListHTML = `<p class="no-qa">Aucune question pour ce produit pour le moment.</p>`;
       }
 
-      questionsSectionHTML = `
-        <div class="qa-section">
-          <h2>Questions / Réponses</h2>
-          <div class="qa-list">${questionsListHTML}</div>
-          ${questionActionHTML}
+      const questionsCount = questions ? questions.length : 0;
+      const questionsSectionHTML = `
+        <div class="qa-collapse" id="qa-collapse">
+          <div class="qa-collapse-header" id="qa-header">
+            <span class="qa-collapse-title">Questions / Réponses (${questionsCount})</span>
+            <span class="qa-collapse-icon">▼</span>
+          </div>
+          <div class="qa-collapse-body">
+            <div class="qa-collapse-inner">
+              <div class="qa-list">${questionsListHTML}</div>
+              ${questionActionHTML}
+            </div>
+          </div>
         </div>
       `;
 
@@ -720,7 +735,8 @@
               <span class="qty-val" id="qty-val">1</span>
               <button class="qty-btn" id="qty-inc">+</button>
             </div>
-            <button class="prod-action" id="btn-add-cart">Ajouter au panier</button>
+            <button class="prod-action buy-now" id="btn-buy-now">Acheter maintenant</button>
+            <button class="prod-action add-cart" id="btn-add-cart">Ajouter au panier</button>
           </div>
           <div class="prod-reassurance">
             <div class="ra-item"><span class="ra-icon">🏢</span> Retrait gratuit au dépôt à Thiès (Lun-Sam, 9h-18h)</div>
@@ -765,6 +781,13 @@
       qaContainer.innerHTML = questionsSectionHTML;
       qaContainer.style.display = 'block';
 
+      // Gestion de l'ouverture/fermeture du menu déroulant Q/R
+      const qaCollapse = document.getElementById('qa-collapse');
+      const qaHeader = document.getElementById('qa-header');
+      if (qaHeader) {
+        qaHeader.addEventListener('click', () => qaCollapse.classList.toggle('open'));
+      }
+
       if (photos.length > 1) {
         document.querySelectorAll('.prod-thumb').forEach(thumb => {
           thumb.addEventListener('click', () => {
@@ -786,6 +809,7 @@
           if (currentQty > 1) { currentQty--; qtyValEl.textContent = currentQty; }
         });
 
+        // Action : Ajouter au panier
         const addCartAction = () => {
           SE.Cart.add(ref, currentQty);
           const img = document.getElementById('prod-img');
@@ -795,13 +819,21 @@
           setTimeout(openDrawer, 400);
         };
 
+        // Action : Acheter maintenant
+        const buyNowAction = () => {
+          SE.Cart.add(ref, currentQty);
+          updateUI();
+          window.location.href = 'panier.html'; // Redirige vers le panier
+        };
+
         document.getElementById('btn-add-cart').addEventListener('click', addCartAction);
+        document.getElementById('btn-buy-now').addEventListener('click', buyNowAction);
 
         const stickyBar = document.getElementById('sticky-bar');
         const stickyBtn = document.getElementById('sticky-btn');
         const stickyPrice = document.getElementById('sticky-price');
         stickyPrice.textContent = SE.fprix(prix);
-        stickyBtn.addEventListener('click', addCartAction);
+        stickyBtn.addEventListener('click', buyNowAction);
 
         const mainBtn = document.getElementById('btn-add-cart');
         const obs = new IntersectionObserver((entries) => {
@@ -844,7 +876,7 @@
               localStorage.setItem(`se_review_${ref}`, Date.now().toString());
               
               const qrDiv = document.getElementById('quick-rating');
-              qrDiv.innerHTML = '<span class="qr-feedback active">Merci pour votre note !</span>';
+              if(qrDiv) qrDiv.innerHTML = '<span class="qr-feedback active">Merci pour votre note !</span>';
               
             } catch (err) {
               console.error('Erreur notation rapide:', err);
@@ -904,7 +936,6 @@
             selectedNote = 0;
             localStorage.setItem(`se_review_${ref}`, Date.now().toString());
             
-            // Désactiver la notation rapide puisque l'avis complet a été fait
             const qrDiv = document.getElementById('quick-rating');
             if(qrDiv) {
               qrDiv.innerHTML = '<span class="qr-feedback active">Merci pour votre avis !</span>';
