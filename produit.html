@@ -274,11 +274,12 @@
     <div class="prod-grid" id="sim-grid"></div>
   </section>
 
-  <!-- Section Questions/Réponses -->
+  <!-- Section Avis Clients (Affichée AVANT les Questions) -->
+  <section class="prod-reviews-section" id="reviews-section-container" style="display:none;"></section>
+
+  <!-- Section Questions/Réponses (Affichée APRÈS les Avis) -->
   <section class="qa-section" id="qa-section-container" style="display:none;"></section>
 
-  <!-- Section Avis Clients -->
-  <section class="prod-reviews-section" id="reviews-section-container" style="display:none;"></section>
 </div>
 
 <!-- Barre Sticky Mobile -->
@@ -754,15 +755,15 @@
         </div>
       `;
 
-      // Affichage des Q/R
-      const qaContainer = document.getElementById('qa-section-container');
-      qaContainer.innerHTML = questionsSectionHTML;
-      qaContainer.style.display = 'block';
-
-      // Affichage des Avis
+      // Affichage des Avis (injecté en premier, donc au-dessus)
       const reviewsContainer = document.getElementById('reviews-section-container');
       reviewsContainer.innerHTML = reviewsSectionHTML;
       reviewsContainer.style.display = 'block';
+
+      // Affichage des Q/R (injecté en deuxième, donc en dessous)
+      const qaContainer = document.getElementById('qa-section-container');
+      qaContainer.innerHTML = questionsSectionHTML;
+      qaContainer.style.display = 'block';
 
       if (photos.length > 1) {
         document.querySelectorAll('.prod-thumb').forEach(thumb => {
