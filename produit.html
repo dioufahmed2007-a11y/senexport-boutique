@@ -86,11 +86,11 @@
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
-  /* Section Avis (Style Amazon) */
+  /* Section Avis (Style Amélioré) */
   .prod-reviews-section { margin-top: 0; padding-top: 2rem; border-top: 1px solid var(--border); }
   .prod-reviews-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   
-  .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
+  .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
   .reviews-avg-big { font-family: var(--ff-d); font-size: 2.5rem; color: var(--or); font-weight: 600; line-height: 1; }
   .reviews-avg-stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; margin-top: 0.5rem; }
   .reviews-avg-count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
@@ -102,22 +102,24 @@
   .rating-bar-count { width: 30px; text-align: right; font-family: var(--ff-m); }
 
   .review-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
-  .review-item { padding: 1.25rem; background: var(--card); border: 1px solid var(--border); border-radius: 4px; }
-  .review-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
-  .review-item-name { font-weight: 600; color: var(--ink); font-size: 0.9rem; }
-  .review-item-date { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); }
-  .review-item-stars { color: var(--or); letter-spacing: 2px; margin-bottom: 0.5rem; font-size: 0.85rem; }
-  .review-item-comment { font-size: 0.85rem; color: var(--stone); line-height: 1.6; }
-  .no-reviews { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; }
+  .review-item { padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
+  .review-item:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); border-color: var(--or-line); }
+  .review-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
+  .review-item-author { display: flex; align-items: center; gap: 0.75rem; }
+  .review-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--or); color: #000; display: grid; place-items: center; font-weight: 700; font-family: var(--ff-b); text-transform: uppercase; }
+  .review-item-name { display: block; font-weight: 600; color: var(--ink); font-size: 0.95rem; }
+  .review-item-date { display: block; font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+  .review-item-stars { color: var(--or); letter-spacing: 2px; font-size: 0.9rem; }
+  .review-item-comment { font-size: 0.9rem; color: var(--stone); line-height: 1.7; }
+  .no-reviews { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; text-align: center; padding: 2rem 0; }
   
-  .btn-write-review { margin-bottom: 1.5rem; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .btn-write-review { margin: 2rem auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
   .btn-write-review:hover { background: var(--or); color: #000; }
-  .btn-write-review:disabled { border-color: var(--border); color: var(--muted); cursor: not-allowed; background: transparent; }
 
   .review-form-wrapper { overflow: hidden; max-height: 0; transition: max-height 0.4s ease-out, margin 0.4s ease-out; }
   .review-form-wrapper.active { max-height: 600px; margin-bottom: 2rem; }
   
-  .review-form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .review-form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; margin: 0 auto; padding-top: 1rem; border-top: 1px solid var(--border); }
   .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
   .form-group label { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
   .form-group input, .form-group textarea { width: 100%; padding: 0.75rem 1rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; color: var(--ink); font-family: var(--ff-b); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
@@ -131,7 +133,7 @@
   .review-feedback { margin-top: 0; padding: 0.75rem 1rem; background: var(--card); border-left: 3px solid var(--green); color: var(--green); font-size: 0.85rem; display: none; }
   .review-feedback.error { border-left-color: var(--red); color: var(--red); }
   .review-feedback.active { display: block; }
-  .spam-msg { font-size: 0.85rem; color: var(--or); font-style: italic; margin-bottom: 2rem; }
+  .spam-msg { font-size: 0.85rem; color: var(--or); font-style: italic; margin-bottom: 2rem; text-align: center; }
 
   /* Sections Similaires et Récents */
   .sim-section { padding: 2rem 0 3rem; }
@@ -461,7 +463,8 @@
 
       let badgesHTML = '';
       if (isNew) badgesHTML += `<span class="p-badge neuf">★ Neuf</span>`;
-      if (lowStock) badgesHTML += `<span class="p-badge stock">⚡ Stock limité</span>`;
+      // MARKETING : On affiche le chiffre exact pour forcer l'urgence
+      if (lowStock) badgesHTML += `<span class="p-badge stock">⚡ Plus que ${article.quantite} en stock !</span>`;
 
       const statusHTML = isOut 
         ? `<div class="prod-status out"><span class="dot"></span> Rupture de stock</div>` 
@@ -473,65 +476,7 @@
       let ratingHTML = '';
       let reviewsSectionHTML = '';
 
-      if (!reviewError && reviews && reviews.length > 0) {
-        const totalReviews = reviews.length;
-        const avg = reviews.reduce((sum, r) => sum + r.note, 0) / totalReviews;
-        const avgRounded = avg.toFixed(1);
-        const fullStars = Math.round(avg);
-        const starsHTML = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
-        
-        const breakdown = [5, 4, 3, 2, 1].map(star => {
-          const count = reviews.filter(r => r.note === star).length;
-          const pct = (count / totalReviews) * 100;
-          return { star, count, pct };
-        });
-
-        ratingHTML = `<div class="prod-rating"><span class="stars">${starsHTML}</span> <span class="count">${avgRounded} (${totalReviews} avis)</span></div>`;
-        
-        const reviewsHTML = reviews.map(r => `
-          <div class="review-item">
-            <div class="review-item-head">
-              <span class="review-item-name">${esc(r.nom_client)}</span>
-              <span class="review-item-date">${new Date(r.date_creation).toLocaleDateString('fr-FR')}</span>
-            </div>
-            <div class="review-item-stars">${'★'.repeat(r.note)}${'☆'.repeat(5 - r.note)}</div>
-            <p class="review-item-comment">${esc(r.commentaire)}</p>
-          </div>
-        `).join('');
-
-        reviewsSectionHTML = `
-          <div class="prod-reviews-section">
-            <h2>Avis Clients</h2>
-            <div class="reviews-summary">
-              <div style="text-align: center;">
-                <div class="reviews-avg-big">${avgRounded}</div>
-                <div class="reviews-avg-stars">${starsHTML}</div>
-                <div class="reviews-avg-count">${totalReviews} avis</div>
-              </div>
-              <div class="rating-bars">
-                ${breakdown.map(b => `
-                  <div class="rating-bar-row">
-                    <span class="rating-bar-label">${b.star}★</span>
-                    <div class="rating-bar-track"><div class="rating-bar-fill" style="width: ${b.pct}%"></div></div>
-                    <span class="rating-bar-count">${b.count}</span>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-            <div class="review-list">${reviewsHTML}</div>
-          </div>
-        `;
-      } else {
-         reviewsSectionHTML = `
-          <div class="prod-reviews-section">
-            <h2>Avis Clients</h2>
-            <p class="no-reviews">Soyez le premier à donner votre avis.</p>
-          </div>
-        `;
-      }
-
-      const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
-
+      // Gestion du bouton et formulaire d'avis (sera placé en bas)
       const lastReviewTime = localStorage.getItem(`se_review_${ref}`);
       const canReview = !lastReviewTime || (Date.now() - parseInt(lastReviewTime) > 24 * 60 * 60 * 1000);
       
@@ -569,8 +514,74 @@
         reviewActionHTML = `<p class="spam-msg">Vous avez déjà laissé un avis récemment pour cet article.</p>`;
       }
 
-      // On complète la section Avis avec le bouton et le formulaire
-      reviewsSectionHTML = reviewsSectionHTML.replace('</div>', reviewActionHTML + '</div>');
+      if (!reviewError && reviews && reviews.length > 0) {
+        const totalReviews = reviews.length;
+        const avg = reviews.reduce((sum, r) => sum + r.note, 0) / totalReviews;
+        const avgRounded = avg.toFixed(1);
+        const fullStars = Math.round(avg);
+        const starsHTML = '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+        
+        const breakdown = [5, 4, 3, 2, 1].map(star => {
+          const count = reviews.filter(r => r.note === star).length;
+          const pct = (count / totalReviews) * 100;
+          return { star, count, pct };
+        });
+
+        // 1. La note reste en haut (sous le titre)
+        ratingHTML = `<div class="prod-rating"><span class="stars">${starsHTML}</span> <span class="count">${avgRounded} (${totalReviews} avis)</span></div>`;
+        
+        // 2. Design des avis amélioré (avec avatar)
+        const reviewsHTML = reviews.map(r => `
+          <div class="review-item">
+            <div class="review-item-head">
+              <div class="review-item-author">
+                <span class="review-avatar">${esc(r.nom_client.charAt(0))}</span>
+                <div>
+                  <span class="review-item-name">${esc(r.nom_client)}</span>
+                  <span class="review-item-date">${new Date(r.date_creation).toLocaleDateString('fr-FR')}</span>
+                </div>
+              </div>
+              <div class="review-item-stars">${'★'.repeat(r.note)}${'☆'.repeat(5 - r.note)}</div>
+            </div>
+            <p class="review-item-comment">${esc(r.commentaire)}</p>
+          </div>
+        `).join('');
+
+        // 3. Le bouton d'action est placé TOUT EN BAS de la section
+        reviewsSectionHTML = `
+          <div class="prod-reviews-section">
+            <h2>Avis Clients</h2>
+            <div class="reviews-summary">
+              <div style="text-align: center;">
+                <div class="reviews-avg-big">${avgRounded}</div>
+                <div class="reviews-avg-stars">${starsHTML}</div>
+                <div class="reviews-avg-count">${totalReviews} avis</div>
+              </div>
+              <div class="rating-bars">
+                ${breakdown.map(b => `
+                  <div class="rating-bar-row">
+                    <span class="rating-bar-label">${b.star}★</span>
+                    <div class="rating-bar-track"><div class="rating-bar-fill" style="width: ${b.pct}%"></div></div>
+                    <span class="rating-bar-count">${b.count}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+            <div class="review-list">${reviewsHTML}</div>
+            ${reviewActionHTML}
+          </div>
+        `;
+      } else {
+         reviewsSectionHTML = `
+          <div class="prod-reviews-section">
+            <h2>Avis Clients</h2>
+            <p class="no-reviews">Soyez le premier à donner votre avis sur ce produit.</p>
+            ${reviewActionHTML}
+          </div>
+        `;
+      }
+
+      const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
 
       const actionHTML = isOut 
         ? `<button class="prod-action" disabled>Indisponible</button>` 
@@ -584,13 +595,13 @@
             <button class="prod-action" id="btn-add-cart">Ajouter au panier</button>
           </div>
           <div class="prod-reassurance">
-            <div class="ra-item"><span class="ra-icon">🏢</span> Retrait au dépôt à Thiès (Lun-Sam, 9h-18h)</div>
+            <div class="ra-item"><span class="ra-icon">🏢</span> Retrait gratuit au dépôt à Thiès (Lun-Sam, 9h-18h)</div>
             <div class="ra-item"><span class="ra-icon">💵</span> Paiement à la récupération (Wave, OM, Espèces)</div>
             <div class="ra-item"><span class="ra-icon">✅</span> Inspection avant achat, sans engagement</div>
           </div>
         `;
 
-      // Affichage de la fiche produit (sans les avis)
+      // Affichage de la fiche produit
       document.getElementById('prod-layout').innerHTML = `
         <div class="prod-gallery">
           <div class="prod-main-img">
