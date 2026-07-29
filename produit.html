@@ -54,9 +54,20 @@
   .prod-cat { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); letter-spacing: 0.25em; text-transform: uppercase; }
   .prod-title { font-family: var(--ff-d); font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 300; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
   
-  .prod-rating { display: flex; align-items: center; gap: 0.5rem; margin-top: -0.5rem; }
+  .prod-rating-row { display: flex; align-items: center; gap: 1.5rem; margin-top: -0.5rem; flex-wrap: wrap; }
+  .prod-rating { display: flex; align-items: center; gap: 0.5rem; }
   .prod-rating .stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; }
   .prod-rating .count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); cursor: pointer; text-decoration: underline; }
+
+  /* NOTATION RAPIDE */
+  .quick-rating { display: flex; align-items: center; gap: 0.5rem; padding-left: 1.5rem; border-left: 1px solid var(--border); }
+  .qr-label { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .star-rating-quick { display: flex; gap: 0.2rem; font-size: 1.2rem; color: var(--muted); }
+  .star-quick { cursor: pointer; transition: color 0.2s, transform 0.2s; user-select: none; }
+  .star-quick:hover { color: var(--or); transform: scale(1.1); }
+  .star-rating-quick.disabled .star-quick { color: var(--border); cursor: not-allowed; pointer-events: none; }
+  .qr-feedback { font-family: var(--ff-m); font-size: 0.75rem; color: var(--green); display: none; }
+  .qr-feedback.active { display: block; }
 
   .prod-price-box { display: flex; flex-direction: column; gap: 0.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
   .prod-price { font-family: var(--ff-d); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 600; color: var(--prix); line-height: 1; }
@@ -86,6 +97,22 @@
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
+  /* SECTION Q/R */
+  .qa-section { padding: 2rem 0; border-top: 1px solid var(--border); }
+  .qa-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
+  .qa-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+  .qa-item { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+  .qa-question { display: flex; gap: 1rem; margin-bottom: 1rem; }
+  .qa-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg2); color: var(--or); display: grid; place-items: center; font-weight: 700; font-family: var(--ff-b); flex-shrink: 0; }
+  .qa-text { font-size: 0.95rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.5rem; }
+  .qa-meta { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); }
+  .qa-answer { display: flex; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .qa-icon.ans { background: var(--or); color: #000; }
+  .qa-pending { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; padding-left: 3rem; }
+  .no-qa { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; text-align: center; padding: 1rem 0; }
+  .btn-ask-question { margin: 0 auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .btn-ask-question:hover { background: var(--or); color: #000; }
+
   /* Section Avis (Style Amélioré) */
   .prod-reviews-section { margin-top: 0; padding-top: 2rem; border-top: 1px solid var(--border); }
   .prod-reviews-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
@@ -110,7 +137,7 @@
   .review-item-name { display: block; font-weight: 600; color: var(--ink); font-size: 0.95rem; }
   .review-item-date { display: block; font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
   .review-item-stars { color: var(--or); letter-spacing: 2px; font-size: 0.9rem; }
-  .review-item-comment { font-size: 0.9rem; color: var(--stone); line-height: 1.7; }
+  .review-item-comment { font-size: 0.9rem; color: var(--stone); line-height: 1.7; margin-top: 0.5rem; }
   .no-reviews { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; text-align: center; padding: 2rem 0; }
   
   .btn-write-review { margin: 2rem auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
@@ -135,7 +162,7 @@
   .review-feedback.active { display: block; }
   .spam-msg { font-size: 0.85rem; color: var(--or); font-style: italic; margin-bottom: 2rem; text-align: center; }
 
-  /* Sections Similaires et Récents */
+  /* Sections Similaires */
   .sim-section { padding: 2rem 0 3rem; }
   .sim-title { font-family: var(--ff-d); font-size: 2rem; font-weight: 400; color: var(--ink); margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
   .sim-title em { color: var(--or); font-style: italic; }
@@ -241,20 +268,17 @@
     <div class="prod-info"><h1 class="prod-title">Chargement du produit...</h1></div>
   </div>
 
-  <!-- Section Récemment Consultés -->
-  <section class="sim-section" id="recent-section" style="display:none;">
-    <h2 class="sim-title">Récemment <em>consultés</em></h2>
-    <div class="prod-grid" id="recent-grid"></div>
-  </section>
-
   <!-- Section Produits Similaires -->
   <section class="sim-section" id="sim-section" style="display:none;">
     <h2 class="sim-title">Vous aimerez <em>aussi</em></h2>
     <div class="prod-grid" id="sim-grid"></div>
   </section>
 
-  <!-- Section Avis Clients (Déplacée en bas) -->
-  <section class="sim-section" id="reviews-section-container" style="display:none;"></section>
+  <!-- Section Questions/Réponses -->
+  <section class="qa-section" id="qa-section-container" style="display:none;"></section>
+
+  <!-- Section Avis Clients -->
+  <section class="prod-reviews-section" id="reviews-section-container" style="display:none;"></section>
 </div>
 
 <!-- Barre Sticky Mobile -->
@@ -463,7 +487,6 @@
 
       let badgesHTML = '';
       if (isNew) badgesHTML += `<span class="p-badge neuf">★ Neuf</span>`;
-      // MARKETING : On affiche le chiffre exact pour forcer l'urgence
       if (lowStock) badgesHTML += `<span class="p-badge stock">⚡ Plus que ${article.quantite} en stock !</span>`;
 
       const statusHTML = isOut 
@@ -473,17 +496,47 @@
       // Récupération des avis (approuvés)
       const { data: reviews, error: reviewError } = await SE.sb.from('avis').select('*').eq('article_reference', ref).eq('statut', 'approuve').order('date_creation', { ascending: false });
       
+      // Récupération des questions (publiées)
+      const { data: questions, error: questionError } = await SE.sb.from('questions_produits').select('*').eq('article_reference', ref).eq('statut', 'publie').order('date_question', { ascending: false });
+      
       let ratingHTML = '';
       let reviewsSectionHTML = '';
 
-      // Gestion du bouton et formulaire d'avis (sera placé en bas)
+      // Gestion du bouton et formulaire d'avis complet
       const lastReviewTime = localStorage.getItem(`se_review_${ref}`);
       const canReview = !lastReviewTime || (Date.now() - parseInt(lastReviewTime) > 24 * 60 * 60 * 1000);
       
+      // Gestion de la notation rapide (utilise la même clé anti-spam que les avis complets)
+      let quickRatingHTML = '';
+      if (canReview) {
+        quickRatingHTML = `
+          <div class="quick-rating" id="quick-rating">
+            <span class="qr-label">Noter :</span>
+            <div class="star-rating-quick" id="star-rating-quick">
+              <span class="star-quick" data-value="1">★</span>
+              <span class="star-quick" data-value="2">★</span>
+              <span class="star-quick" data-value="3">★</span>
+              <span class="star-quick" data-value="4">★</span>
+              <span class="star-quick" data-value="5">★</span>
+            </div>
+            <span class="qr-feedback" id="qr-feedback"></span>
+          </div>
+        `;
+      } else {
+        quickRatingHTML = `
+          <div class="quick-rating">
+            <div class="star-rating-quick disabled">
+              <span class="star-quick">★</span><span class="star-quick">★</span><span class="star-quick">★</span><span class="star-quick">★</span><span class="star-quick">★</span>
+            </div>
+            <span class="qr-feedback active">Merci pour votre note !</span>
+          </div>
+        `;
+      }
+
       let reviewActionHTML = '';
       if (canReview) {
         reviewActionHTML = `
-          <button class="btn-write-review" id="btn-write-review">Écrire un avis</button>
+          <button class="btn-write-review" id="btn-write-review">Écrire un avis complet</button>
           <div class="review-form-wrapper" id="review-form-wrapper">
             <form class="review-form" id="review-form">
               <div class="form-group">
@@ -511,7 +564,7 @@
           </div>
         `;
       } else {
-        reviewActionHTML = `<p class="spam-msg">Vous avez déjà laissé un avis récemment pour cet article.</p>`;
+        reviewActionHTML = `<p class="spam-msg">Vous avez déjà donné votre avis sur cet article récemment.</p>`;
       }
 
       if (!reviewError && reviews && reviews.length > 0) {
@@ -527,27 +580,39 @@
           return { star, count, pct };
         });
 
-        // 1. La note reste en haut (sous le titre)
-        ratingHTML = `<div class="prod-rating"><span class="stars">${starsHTML}</span> <span class="count">${avgRounded} (${totalReviews} avis)</span></div>`;
-        
-        // 2. Design des avis amélioré (avec avatar)
-        const reviewsHTML = reviews.map(r => `
-          <div class="review-item">
-            <div class="review-item-head">
-              <div class="review-item-author">
-                <span class="review-avatar">${esc(r.nom_client.charAt(0))}</span>
-                <div>
-                  <span class="review-item-name">${esc(r.nom_client)}</span>
-                  <span class="review-item-date">${new Date(r.date_creation).toLocaleDateString('fr-FR')}</span>
-                </div>
-              </div>
-              <div class="review-item-stars">${'★'.repeat(r.note)}${'☆'.repeat(5 - r.note)}</div>
+        // La note en haut + la notation rapide
+        ratingHTML = `
+          <div class="prod-rating-row">
+            <div class="prod-rating">
+              <span class="stars">${starsHTML}</span> 
+              <span class="count">${avgRounded} (${totalReviews} avis)</span>
             </div>
-            <p class="review-item-comment">${esc(r.commentaire)}</p>
+            ${quickRatingHTML}
           </div>
-        `).join('');
+        `;
+        
+        // Affichage des avis (gère les avis sans commentaire)
+        const reviewsHTML = reviews.map(r => {
+          const displayName = r.nom_client ? esc(r.nom_client) : 'Client';
+          const displayAvatar = r.nom_client ? esc(r.nom_client.charAt(0)) : 'C';
+          const commentHTML = r.commentaire ? `<p class="review-item-comment">${esc(r.commentaire)}</p>` : '';
+          return `
+            <div class="review-item">
+              <div class="review-item-head">
+                <div class="review-item-author">
+                  <span class="review-avatar">${displayAvatar}</span>
+                  <div>
+                    <span class="review-item-name">${displayName}</span>
+                    <span class="review-item-date">${new Date(r.date_creation).toLocaleDateString('fr-FR')}</span>
+                  </div>
+                </div>
+                <div class="review-item-stars">${'★'.repeat(r.note)}${'☆'.repeat(5 - r.note)}</div>
+              </div>
+              ${commentHTML}
+            </div>
+          `;
+        }).join('');
 
-        // 3. Le bouton d'action est placé TOUT EN BAS de la section
         reviewsSectionHTML = `
           <div class="prod-reviews-section">
             <h2>Avis Clients</h2>
@@ -580,6 +645,68 @@
           </div>
         `;
       }
+
+      // Construction de la section Q/R
+      let questionsSectionHTML = '';
+      const lastQuestionTime = localStorage.getItem(`se_question_${ref}`);
+      const canAsk = !lastQuestionTime || (Date.now() - parseInt(lastQuestionTime) > 24 * 60 * 60 * 1000);
+      
+      let questionActionHTML = '';
+      if (canAsk) {
+        questionActionHTML = `
+          <button class="btn-ask-question" id="btn-ask-question">Poser une question</button>
+          <div class="review-form-wrapper" id="question-form-wrapper">
+            <form class="review-form" id="question-form">
+              <div class="form-group">
+                <label for="question-name">Votre Nom (Optionnel)</label>
+                <input type="text" id="question-name" maxlength="50" placeholder="Ex: Awa D.">
+              </div>
+              <div class="form-group">
+                <label for="question-text">Votre Question</label>
+                <textarea id="question-text" required maxlength="500" placeholder="Ex: Quelle est la taille exacte ?"></textarea>
+              </div>
+              <button type="submit" class="btn-submit-review">Envoyer la question</button>
+              <div class="review-feedback" id="question-feedback"></div>
+            </form>
+          </div>
+        `;
+      } else {
+        questionActionHTML = `<p class="spam-msg">Vous avez déjà posé une question récemment pour cet article.</p>`;
+      }
+
+      let questionsListHTML = '';
+      if (!questionError && questions && questions.length > 0) {
+        questionsListHTML = questions.map(q => `
+          <div class="qa-item">
+            <div class="qa-question">
+              <span class="qa-icon">Q</span>
+              <div>
+                <p class="qa-text">${esc(q.question)}</p>
+                <span class="qa-meta">Par ${esc(q.nom_client || 'Anonyme')} - ${new Date(q.date_question).toLocaleDateString('fr-FR')}</span>
+              </div>
+            </div>
+            ${q.reponse ? `
+              <div class="qa-answer">
+                <span class="qa-icon ans">R</span>
+                <div>
+                  <p class="qa-text">${esc(q.reponse)}</p>
+                  <span class="qa-meta">SenExport - ${q.date_reponse ? new Date(q.date_reponse).toLocaleDateString('fr-FR') : ''}</span>
+                </div>
+              </div>
+            ` : `<div class="qa-pending">En attente de réponse de SenExport</div>`}
+          </div>
+        `).join('');
+      } else {
+        questionsListHTML = `<p class="no-qa">Aucune question pour ce produit pour le moment.</p>`;
+      }
+
+      questionsSectionHTML = `
+        <div class="qa-section">
+          <h2>Questions / Réponses</h2>
+          <div class="qa-list">${questionsListHTML}</div>
+          ${questionActionHTML}
+        </div>
+      `;
 
       const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
 
@@ -627,7 +754,12 @@
         </div>
       `;
 
-      // Affichage des Avis en bas de page
+      // Affichage des Q/R
+      const qaContainer = document.getElementById('qa-section-container');
+      qaContainer.innerHTML = questionsSectionHTML;
+      qaContainer.style.display = 'block';
+
+      // Affichage des Avis
       const reviewsContainer = document.getElementById('reviews-section-container');
       reviewsContainer.innerHTML = reviewsSectionHTML;
       reviewsContainer.style.display = 'block';
@@ -695,7 +827,34 @@
       document.getElementById('close-size-guide').addEventListener('click', () => sizeModal.classList.remove('active'));
       sizeModal.addEventListener('click', (e) => { if (e.target === sizeModal) sizeModal.classList.remove('active'); });
 
-      // Gestion du formulaire d'avis dépliable
+      // === GESTION DES ÉVÉNEMENTS AVIS / QUESTIONS ===
+
+      // 1. Notation rapide
+      if (canReview) {
+        document.querySelectorAll('.star-quick').forEach(star => {
+          star.addEventListener('click', async () => {
+            const val = parseInt(star.dataset.value);
+            try {
+              const { error } = await SE.sb.from('avis').insert([
+                { article_reference: ref, note: val, statut: 'en_attente' }
+              ]);
+              if (error) throw error;
+              
+              localStorage.setItem(`se_review_${ref}`, Date.now().toString());
+              
+              const qrDiv = document.getElementById('quick-rating');
+              qrDiv.innerHTML = '<span class="qr-feedback active">Merci pour votre note !</span>';
+              
+            } catch (err) {
+              console.error('Erreur notation rapide:', err);
+              const fb = document.getElementById('qr-feedback');
+              if(fb) { fb.textContent = "Erreur"; fb.classList.add('active'); }
+            }
+          });
+        });
+      }
+
+      // 2. Formulaire d'avis complet
       if (canReview) {
         const btnWrite = document.getElementById('btn-write-review');
         const formWrapper = document.getElementById('review-form-wrapper');
@@ -703,7 +862,7 @@
         if (btnWrite) {
           btnWrite.addEventListener('click', () => {
             formWrapper.classList.toggle('active');
-            btnWrite.textContent = formWrapper.classList.contains('active') ? 'Annuler' : 'Écrire un avis';
+            btnWrite.textContent = formWrapper.classList.contains('active') ? 'Annuler' : 'Écrire un avis complet';
           });
         }
 
@@ -744,9 +903,15 @@
             selectedNote = 0;
             localStorage.setItem(`se_review_${ref}`, Date.now().toString());
             
+            // Désactiver la notation rapide puisque l'avis complet a été fait
+            const qrDiv = document.getElementById('quick-rating');
+            if(qrDiv) {
+              qrDiv.innerHTML = '<span class="qr-feedback active">Merci pour votre avis !</span>';
+            }
+            
             setTimeout(() => {
               formWrapper.classList.remove('active');
-              btnWrite.textContent = 'Écrire un avis';
+              btnWrite.textContent = 'Écrire un avis complet';
             }, 2000);
 
           } catch (err) {
@@ -757,6 +922,56 @@
         });
       }
 
+      // 3. Formulaire de Question
+      if (canAsk) {
+        const btnAsk = document.getElementById('btn-ask-question');
+        const qFormWrapper = document.getElementById('question-form-wrapper');
+        
+        if (btnAsk) {
+          btnAsk.addEventListener('click', () => {
+            qFormWrapper.classList.toggle('active');
+            btnAsk.textContent = qFormWrapper.classList.contains('active') ? 'Annuler' : 'Poser une question';
+          });
+        }
+
+        document.getElementById('question-form').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const name = document.getElementById('question-name').value.trim() || 'Anonyme';
+          const questionText = document.getElementById('question-text').value.trim();
+          const qFeedbackEl = document.getElementById('question-feedback');
+
+          if (!questionText) {
+            qFeedbackEl.textContent = "Veuillez écrire votre question.";
+            qFeedbackEl.className = "review-feedback active error";
+            return;
+          }
+
+          try {
+            const { error } = await SE.sb.from('questions_produits').insert([
+              { article_reference: ref, nom_client: name, question: questionText, statut: 'en_attente' }
+            ]);
+
+            if (error) throw error;
+
+            qFeedbackEl.textContent = "Merci ! Votre question sera visible après réponse de notre équipe.";
+            qFeedbackEl.className = "review-feedback active";
+            document.getElementById('question-form').reset();
+            localStorage.setItem(`se_question_${ref}`, Date.now().toString());
+            
+            setTimeout(() => {
+              qFormWrapper.classList.remove('active');
+              btnAsk.textContent = 'Poser une question';
+            }, 2000);
+
+          } catch (err) {
+            console.error('Erreur envoi question:', err);
+            qFeedbackEl.textContent = "Une erreur est survenue. Réessayez plus tard.";
+            qFeedbackEl.className = "review-feedback active error";
+          }
+        });
+      }
+
+      // Enregistrement dans l'historique de consultation (silencieux)
       loadRecentlyViewed(ref);
       loadSimilar(article);
 
@@ -767,6 +982,7 @@
     }
   }
 
+  // Garde uniquement la sauvegarde en localStorage, n'affiche plus rien sur la page
   function loadRecentlyViewed(currentRef) {
     let recentRefs = [];
     try { recentRefs = JSON.parse(localStorage.getItem('se_recently_viewed') || '[]'); } catch(e) {}
@@ -775,28 +991,6 @@
     recentRefs.unshift(currentRef);
     recentRefs = recentRefs.slice(0, 8);
     localStorage.setItem('se_recently_viewed', JSON.stringify(recentRefs));
-
-    const refsToShow = recentRefs.filter(r => r !== currentRef);
-    if (refsToShow.length === 0) return;
-
-    const allArts = SE.Articles.cache || [];
-    const recentArticles = refsToShow.map(r => allArts.find(a => a.reference === r)).filter(Boolean);
-
-    if (recentArticles.length > 0) {
-      document.getElementById('recent-section').style.display = 'block';
-      document.getElementById('recent-grid').innerHTML = recentArticles.map(a => {
-        const photo = a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 400) : a.photo_url) : 'https://placehold.co/400x500';
-        const prix = a.prix_vente_fcfa || 0;
-        return `
-          <a href="produit.html?ref=${esc(a.reference)}" class="p-card">
-            <div class="p-image-wrap"><img src="${esc(photo)}" alt="${esc(a.nom)}" loading="lazy"></div>
-            <div class="p-body">
-              <span class="p-name">${esc(a.nom)}</span>
-              <span class="p-prix">${SE.fprix(prix)}</span>
-            </div>
-          </a>`;
-      }).join('');
-    }
   }
 
   function loadSimilar(article) {
