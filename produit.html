@@ -78,6 +78,20 @@
 
   .size-guide-link { display: inline-block; margin-top: -0.5rem; font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); text-decoration: underline; cursor: pointer; letter-spacing: 0.05em; }
 
+  /* VARIANTES (Tailles/Couleurs) */
+  .prod-variants { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
+  .variant-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .variant-header { display: flex; justify-content: space-between; align-items: center; }
+  .variant-label { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
+  .variant-selected { font-family: var(--ff-b); font-size: 0.85rem; color: var(--ink); font-weight: 600; }
+  .variant-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .variant-btn { min-width: 48px; padding: 0.6rem 1rem; background: var(--bg2); border: 1px solid var(--border); color: var(--ink); font-family: var(--ff-b); font-size: 0.85rem; font-weight: 500; border-radius: 4px; transition: all 0.2s; position: relative; }
+  .variant-btn:hover:not(.disabled) { border-color: var(--or); color: var(--or); }
+  .variant-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .variant-btn.disabled { opacity: 0.4; text-decoration: line-through; cursor: not-allowed; }
+  .variant-error { font-family: var(--ff-m); font-size: 0.75rem; color: var(--red); display: none; margin-top: 0.25rem; }
+  .variant-error.active { display: block; }
+
   /* BOUTONS D'ACHAT */
   .prod-action-group { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
   .prod-qty-controls { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 0; overflow: hidden; align-self: flex-start; }
@@ -88,9 +102,9 @@
 
   .prod-action { width: 100%; padding: 1.25rem; min-height: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 0; cursor: pointer; transition: all 0.3s ease; }
   .prod-action.buy-now { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
-  .prod-action.buy-now:hover { background: transparent; color: var(--ink); transform: translateY(-2px); }
+  .prod-action.buy-now:hover:not(:disabled) { background: transparent; color: var(--ink); transform: translateY(-2px); }
   .prod-action.add-cart { background: var(--or); color: #000; border: 1px solid var(--or); }
-  .prod-action.add-cart:hover { background: transparent; color: var(--or); transform: translateY(-2px); }
+  .prod-action.add-cart:hover:not(:disabled) { background: transparent; color: var(--or); transform: translateY(-2px); }
   .prod-action:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; transform: none; border-color: var(--border); }
 
   .prod-reassurance { margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 1rem; }
@@ -100,6 +114,25 @@
   .prod-desc-wrap { margin-top: 1rem; }
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
+
+  /* SECTION ACHETÉ ENSEMBLE (Bundle) */
+  .bundle-section { padding: 2rem 0; border-top: 1px solid var(--border); }
+  .bundle-section h2 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; }
+  .bundle-section h2 em { color: var(--or); font-style: italic; }
+  .bundle-container { display: flex; flex-direction: column; gap: 1.5rem; background: var(--card); padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; }
+  .bundle-items { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .bundle-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center; flex: 1; min-width: 100px; }
+  .bundle-item img { width: 80px; height: 100px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }
+  .bundle-item p { font-size: 0.8rem; color: var(--ink); font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .bundle-item .b-price { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); font-weight: 600; }
+  .bundle-plus { font-size: 1.5rem; color: var(--muted); font-weight: 300; }
+  
+  .bundle-total { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1rem; flex-wrap: wrap; gap: 1rem; }
+  .bundle-total-info { display: flex; flex-direction: column; gap: 0.25rem; }
+  .bundle-total-label { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .bundle-total-price { font-family: var(--ff-d); font-size: 1.5rem; color: var(--prix); font-weight: 600; }
+  .bundle-btn { padding: 0.75rem 1.5rem; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .bundle-btn:hover { background: transparent; color: var(--ink); }
 
   /* SECTION Q/R DÉROULANTE */
   .qa-collapse { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; background: var(--card); overflow: hidden; }
@@ -274,6 +307,9 @@
     <div class="prod-info"><h1 class="prod-title">Chargement du produit...</h1></div>
   </div>
 
+  <!-- Section Acheté Ensemble (Bundle) -->
+  <section class="bundle-section" id="bundle-section" style="display:none;"></section>
+
   <!-- Section Produits Similaires -->
   <section class="sim-section" id="sim-section" style="display:none;">
     <h2 class="sim-title">Vous aimerez <em>aussi</em></h2>
@@ -361,8 +397,13 @@
       } else {
         let total = 0;
         body.innerHTML = rawItems.map(i => {
-          const a = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === i.ref) : null;
-          const nom = a ? a.nom : i.ref;
+          // Gestion des variantes : si l'ID contient un '_', on sépare la réf de la taille
+          const baseRef = i.ref.includes('_') ? i.ref.split('_')[0] : i.ref;
+          const size = i.ref.includes('_') ? i.ref.split('_')[1] : null;
+          
+          const a = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === baseRef) : null;
+          const nom = a ? a.nom : baseRef;
+          const displayName = size ? `${nom} (Taille : ${size})` : nom;
           const prix = a ? (a.prix_vente_fcfa || 0) : 0;
           const stock = a ? (a.quantite || 0) : 0;
           const photo = a && a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 100) : a.photo_url) : 'https://placehold.co/100x100';
@@ -372,7 +413,7 @@
             <div class="drawer-item">
               <img src="${esc(photo)}" alt="${esc(nom)}">
               <div class="drawer-item-info">
-                <h4>${esc(nom)}</h4>
+                <h4>${esc(displayName)}</h4>
                 <p>${SE.fprix(prix)} FCFA</p>
                 <div class="drawer-qty-controls">
                   <button class="qty-btn" data-action="dec" data-ref="${esc(i.ref)}">−</button>
@@ -392,10 +433,12 @@
   document.getElementById('drawer-body').addEventListener('click', e => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
-    const ref = btn.dataset.ref;
+    const ref = btn.dataset.ref; // Ici la réf contient déjà la taille si applicable
     const action = btn.dataset.action;
     const item = SE.Cart.all().find(i => i.ref === ref);
-    const article = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === ref) : null;
+    
+    const baseRef = ref.includes('_') ? ref.split('_')[0] : ref;
+    const article = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === baseRef) : null;
     const stock = article ? (article.quantite || 0) : 0;
     
     if (action === 'inc' && item && item.qte < stock) SE.Cart.setQte(ref, item.qte + 1);
@@ -443,6 +486,7 @@
 
   // 2. CHARGEMENT DU PRODUIT
   let currentQty = 1;
+  let selectedSize = null;
 
   async function loadProduct() {
     const params = new URLSearchParams(window.location.search);
@@ -478,6 +522,17 @@
       const isNew = (article.etat || '').toLowerCase().includes('neuf');
       const isVetement = (article.categorie_id === 1 || catName.toLowerCase().includes('mode') || catName.toLowerCase().includes('fille') || catName.toLowerCase().includes('sport'));
       
+      // Extraction des tailles (gère les formats string "S,M,L" ou array ["S","M"])
+      let sizes = [];
+      if (article.tailles) {
+        sizes = typeof article.tailles === 'string' ? article.tailles.split(',').map(s => s.trim()) : article.tailles;
+      } else if (article.pointures) {
+        sizes = typeof article.pointures === 'string' ? article.pointures.split(',').map(s => s.trim()) : article.pointures;
+      } else if (isVetement) {
+        // Fallback par défaut si c'est un vêtement mais qu'on n'a pas la donnée en BDD
+        sizes = ['S', 'M', 'L', 'XL'];
+      }
+
       let photos = [];
       if (Array.isArray(article.photos) && article.photos.length > 0) {
         photos = article.photos.map(p => SE.imgUrl ? SE.imgUrl(p, 800) : p);
@@ -500,20 +555,16 @@
         ? `<div class="prod-status out"><span class="dot"></span> Rupture de stock</div>` 
         : `<div class="prod-status"><span class="dot"></span> Disponible - Paiement à la récupération</div>`;
 
-      // Récupération des avis (approuvés)
+      // Récupération des avis et questions
       const { data: reviews, error: reviewError } = await SE.sb.from('avis').select('*').eq('article_reference', ref).eq('statut', 'approuve').order('date_creation', { ascending: false });
-      
-      // Récupération des questions (publiées)
       const { data: questions, error: questionError } = await SE.sb.from('questions_produits').select('*').eq('article_reference', ref).eq('statut', 'publie').order('date_question', { ascending: false });
       
       let ratingHTML = '';
       let reviewsSectionHTML = '';
 
-      // Gestion du bouton et formulaire d'avis complet
       const lastReviewTime = localStorage.getItem(`se_review_${ref}`);
       const canReview = !lastReviewTime || (Date.now() - parseInt(lastReviewTime) > 24 * 60 * 60 * 1000);
       
-      // Gestion de la notation rapide (construite indépendamment)
       let quickRatingHTML = '';
       if (canReview) {
         quickRatingHTML = `
@@ -587,7 +638,6 @@
           return { star, count, pct };
         });
 
-        // La note en haut + la notation rapide
         ratingHTML = `
           <div class="prod-rating-row">
             <div class="prod-rating">
@@ -643,9 +693,7 @@
           </div>
         `;
       } else {
-        // CORRECTION DU BUG : On affiche la notation rapide même s'il n'y a aucun avis
         ratingHTML = quickRatingHTML;
-        
          reviewsSectionHTML = `
           <div class="prod-reviews-section">
             <h2>Avis Clients</h2>
@@ -655,7 +703,7 @@
         `;
       }
 
-      // Construction de la section Q/R (Menu déroulant)
+      // Construction section Q/R
       const lastQuestionTime = localStorage.getItem(`se_question_${ref}`);
       const canAsk = !lastQuestionTime || (Date.now() - parseInt(lastQuestionTime) > 24 * 60 * 60 * 1000);
       
@@ -726,17 +774,42 @@
 
       const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
 
+      // HTML pour le choix de la variante (Taille)
+      let variantsHTML = '';
+      if (sizes.length > 0) {
+        variantsHTML = `
+          <div class="prod-variants">
+            <div class="variant-group">
+              <div class="variant-header">
+                <span class="variant-label">Taille :</span>
+                <span class="variant-selected" id="variant-selected">Veuillez sélectionner</span>
+              </div>
+              <div class="variant-options" id="size-options">
+                ${sizes.map(s => `<button type="button" class="variant-btn" data-size="${esc(s)}">${esc(s)}</button>`).join('')}
+              </div>
+              <span class="variant-error" id="variant-error">Veuillez choisir une taille pour continuer.</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // Si on a des tailles, les boutons sont désactivés par défaut
+      const buttonsDisabled = sizes.length > 0 ? 'disabled' : '';
+      const buyNowText = sizes.length > 0 ? 'Choisir une taille' : 'Acheter maintenant';
+      const addCartText = sizes.length > 0 ? 'Choisir une taille' : 'Ajouter au panier';
+
       const actionHTML = isOut 
         ? `<button class="prod-action" disabled>Indisponible</button>` 
         : `
+          ${variantsHTML}
           <div class="prod-action-group">
             <div class="prod-qty-controls">
               <button class="qty-btn" id="qty-dec">−</button>
               <span class="qty-val" id="qty-val">1</span>
               <button class="qty-btn" id="qty-inc">+</button>
             </div>
-            <button class="prod-action buy-now" id="btn-buy-now">Acheter maintenant</button>
-            <button class="prod-action add-cart" id="btn-add-cart">Ajouter au panier</button>
+            <button class="prod-action buy-now" id="btn-buy-now" ${buttonsDisabled}>${buyNowText}</button>
+            <button class="prod-action add-cart" id="btn-add-cart" ${buttonsDisabled}>${addCartText}</button>
           </div>
           <div class="prod-reassurance">
             <div class="ra-item"><span class="ra-icon">🏢</span> Retrait gratuit au dépôt à Thiès (Lun-Sam, 9h-18h)</div>
@@ -771,17 +844,16 @@
         </div>
       `;
 
-      // Affichage des Avis (injecté en premier, donc au-dessus)
+      // Affichage des Avis
       const reviewsContainer = document.getElementById('reviews-section-container');
       reviewsContainer.innerHTML = reviewsSectionHTML;
       reviewsContainer.style.display = 'block';
 
-      // Affichage des Q/R (injecté en deuxième, donc en dessous)
+      // Affichage des Q/R
       const qaContainer = document.getElementById('qa-section-container');
       qaContainer.innerHTML = questionsSectionHTML;
       qaContainer.style.display = 'block';
 
-      // Gestion de l'ouverture/fermeture du menu déroulant Q/R
       const qaCollapse = document.getElementById('qa-collapse');
       const qaHeader = document.getElementById('qa-header');
       if (qaHeader) {
@@ -798,6 +870,27 @@
         });
       }
 
+      // === GESTION DES VARIANTES ===
+      if (sizes.length > 0) {
+        document.querySelectorAll('.variant-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedSize = btn.dataset.size;
+            document.getElementById('variant-selected').textContent = selectedSize;
+            document.getElementById('variant-error').classList.remove('active');
+            
+            // Réactiver les boutons
+            const buyBtn = document.getElementById('btn-buy-now');
+            const addBtn = document.getElementById('btn-add-cart');
+            buyBtn.disabled = false;
+            addBtn.disabled = false;
+            buyBtn.textContent = 'Acheter maintenant';
+            addBtn.textContent = 'Ajouter au panier';
+          });
+        });
+      }
+
       if (!isOut) {
         const maxStock = article.quantite || 0;
         const qtyValEl = document.getElementById('qty-val');
@@ -809,9 +902,16 @@
           if (currentQty > 1) { currentQty--; qtyValEl.textContent = currentQty; }
         });
 
-        // Action : Ajouter au panier
+        const getCartRef = () => {
+          return selectedSize ? `${ref}_${selectedSize}` : ref;
+        };
+
         const addCartAction = () => {
-          SE.Cart.add(ref, currentQty);
+          if (sizes.length > 0 && !selectedSize) {
+            document.getElementById('variant-error').classList.add('active');
+            return;
+          }
+          SE.Cart.add(getCartRef(), currentQty);
           const img = document.getElementById('prod-img');
           flyToCart(img);
           updateUI();
@@ -819,11 +919,14 @@
           setTimeout(openDrawer, 400);
         };
 
-        // Action : Acheter maintenant
         const buyNowAction = () => {
-          SE.Cart.add(ref, currentQty);
+          if (sizes.length > 0 && !selectedSize) {
+            document.getElementById('variant-error').classList.add('active');
+            return;
+          }
+          SE.Cart.add(getCartRef(), currentQty);
           updateUI();
-          window.location.href = 'panier.html'; // Redirige vers le panier
+          window.location.href = 'panier.html';
         };
 
         document.getElementById('btn-add-cart').addEventListener('click', addCartAction);
@@ -860,24 +963,17 @@
       document.getElementById('close-size-guide').addEventListener('click', () => sizeModal.classList.remove('active'));
       sizeModal.addEventListener('click', (e) => { if (e.target === sizeModal) sizeModal.classList.remove('active'); });
 
-      // === GESTION DES ÉVÉNEMENTS AVIS / QUESTIONS ===
-
-      // 1. Notation rapide
+      // === GESTION AVIS / QUESTIONS ===
       if (canReview) {
         document.querySelectorAll('.star-quick').forEach(star => {
           star.addEventListener('click', async () => {
             const val = parseInt(star.dataset.value);
             try {
-              const { error } = await SE.sb.from('avis').insert([
-                { article_reference: ref, note: val, statut: 'en_attente' }
-              ]);
+              const { error } = await SE.sb.from('avis').insert([{ article_reference: ref, note: val, statut: 'en_attente' }]);
               if (error) throw error;
-              
               localStorage.setItem(`se_review_${ref}`, Date.now().toString());
-              
               const qrDiv = document.getElementById('quick-rating');
               if(qrDiv) qrDiv.innerHTML = '<span class="qr-feedback active">Merci pour votre note !</span>';
-              
             } catch (err) {
               console.error('Erreur notation rapide:', err);
               const fb = document.getElementById('qr-feedback');
@@ -885,13 +981,9 @@
             }
           });
         });
-      }
 
-      // 2. Formulaire d'avis complet
-      if (canReview) {
         const btnWrite = document.getElementById('btn-write-review');
         const formWrapper = document.getElementById('review-form-wrapper');
-        
         if (btnWrite) {
           btnWrite.addEventListener('click', () => {
             formWrapper.classList.toggle('active');
@@ -904,9 +996,7 @@
           star.addEventListener('click', () => {
             selectedNote = parseInt(star.dataset.value);
             document.getElementById('review-note').value = selectedNote;
-            document.querySelectorAll('.star-rating .star').forEach(s => {
-              s.classList.toggle('active', parseInt(s.dataset.value) <= selectedNote);
-            });
+            document.querySelectorAll('.star-rating .star').forEach(s => s.classList.toggle('active', parseInt(s.dataset.value) <= selectedNote));
           });
         });
 
@@ -915,37 +1005,23 @@
           const name = document.getElementById('review-name').value.trim();
           const comment = document.getElementById('review-comment').value.trim();
           const feedbackEl = document.getElementById('review-feedback');
-
           if (!name || !comment || !selectedNote) {
             feedbackEl.textContent = "Veuillez remplir tous les champs et donner une note.";
             feedbackEl.className = "review-feedback active error";
             return;
           }
-
           try {
-            const { error } = await SE.sb.from('avis').insert([
-              { article_reference: ref, nom_client: name, note: selectedNote, commentaire: comment, statut: 'en_attente' }
-            ]);
-
+            const { error } = await SE.sb.from('avis').insert([{ article_reference: ref, nom_client: name, note: selectedNote, commentaire: comment, statut: 'en_attente' }]);
             if (error) throw error;
-
             feedbackEl.textContent = "Merci ! Votre avis sera visible après validation par notre équipe.";
             feedbackEl.className = "review-feedback active";
             document.getElementById('review-form').reset();
             document.querySelectorAll('.star-rating .star').forEach(s => s.classList.remove('active'));
             selectedNote = 0;
             localStorage.setItem(`se_review_${ref}`, Date.now().toString());
-            
             const qrDiv = document.getElementById('quick-rating');
-            if(qrDiv) {
-              qrDiv.innerHTML = '<span class="qr-feedback active">Merci pour votre avis !</span>';
-            }
-            
-            setTimeout(() => {
-              formWrapper.classList.remove('active');
-              btnWrite.textContent = 'Écrire un avis complet';
-            }, 2000);
-
+            if(qrDiv) qrDiv.innerHTML = '<span class="qr-feedback active">Merci pour votre avis !</span>';
+            setTimeout(() => { formWrapper.classList.remove('active'); btnWrite.textContent = 'Écrire un avis complet'; }, 2000);
           } catch (err) {
             console.error('Erreur envoi avis:', err);
             feedbackEl.textContent = "Une erreur est survenue. Réessayez plus tard.";
@@ -954,47 +1030,33 @@
         });
       }
 
-      // 3. Formulaire de Question
       if (canAsk) {
         const btnAsk = document.getElementById('btn-ask-question');
         const qFormWrapper = document.getElementById('question-form-wrapper');
-        
         if (btnAsk) {
           btnAsk.addEventListener('click', () => {
             qFormWrapper.classList.toggle('active');
             btnAsk.textContent = qFormWrapper.classList.contains('active') ? 'Annuler' : 'Poser une question';
           });
         }
-
         document.getElementById('question-form').addEventListener('submit', async (e) => {
           e.preventDefault();
           const name = document.getElementById('question-name').value.trim() || 'Anonyme';
           const questionText = document.getElementById('question-text').value.trim();
           const qFeedbackEl = document.getElementById('question-feedback');
-
           if (!questionText) {
             qFeedbackEl.textContent = "Veuillez écrire votre question.";
             qFeedbackEl.className = "review-feedback active error";
             return;
           }
-
           try {
-            const { error } = await SE.sb.from('questions_produits').insert([
-              { article_reference: ref, nom_client: name, question: questionText, statut: 'en_attente' }
-            ]);
-
+            const { error } = await SE.sb.from('questions_produits').insert([{ article_reference: ref, nom_client: name, question: questionText, statut: 'en_attente' }]);
             if (error) throw error;
-
             qFeedbackEl.textContent = "Merci ! Votre question sera visible après réponse de notre équipe.";
             qFeedbackEl.className = "review-feedback active";
             document.getElementById('question-form').reset();
             localStorage.setItem(`se_question_${ref}`, Date.now().toString());
-            
-            setTimeout(() => {
-              qFormWrapper.classList.remove('active');
-              btnAsk.textContent = 'Poser une question';
-            }, 2000);
-
+            setTimeout(() => { qFormWrapper.classList.remove('active'); btnAsk.textContent = 'Poser une question'; }, 2000);
           } catch (err) {
             console.error('Erreur envoi question:', err);
             qFeedbackEl.textContent = "Une erreur est survenue. Réessayez plus tard.";
@@ -1003,7 +1065,8 @@
         });
       }
 
-      // Enregistrement dans l'historique de consultation (silencieux)
+      // === CHARGEMENT DES SECTIONS BUNDLE ET SIMILAIRES ===
+      loadBundle(article);
       loadRecentlyViewed(ref);
       loadSimilar(article);
 
@@ -1014,11 +1077,62 @@
     }
   }
 
-  // Garde uniquement la sauvegarde en localStorage, n'affiche plus rien sur la page
+  // NOUVELLE FONCTION : ACHETÉ ENSEMBLE
+  function loadBundle(mainArticle) {
+    const allArts = SE.Articles.cache || [];
+    if (allArts.length < 3) return;
+
+    // Prend 2 produits aléatoires différents du produit actuel et en stock
+    let others = allArts.filter(a => a.reference !== mainArticle.reference && a.quantite > 0);
+    if (others.length < 2) return;
+
+    // Mélange et prend les 2 premiers
+    others.sort(() => 0.5 - Math.random());
+    let bundle = [mainArticle, others[0], others[1]];
+
+    let total = bundle.reduce((sum, a) => sum + (a.prix_vente_fcfa || 0), 0);
+    
+    const bundleHTML = `
+      <h2>Achetés <em>ensemble</em></h2>
+      <div class="bundle-container">
+        <div class="bundle-items">
+          ${bundle.map((a, i) => `
+            <div class="bundle-item">
+              <img src="${a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 100) : a.photo_url) : 'https://placehold.co/80x100'}" alt="${esc(a.nom)}">
+              <p>${esc(a.nom)}</p>
+              <span class="b-price">${SE.fprix(a.prix_vente_fcfa || 0)} FCFA</span>
+            </div>
+            ${i < bundle.length - 1 ? '<span class="bundle-plus">+</span>' : ''}
+          `).join('')}
+        </div>
+        <div class="bundle-total">
+          <div class="bundle-total-info">
+            <span class="bundle-total-label">Total pour 3 articles :</span>
+            <span class="bundle-total-price">${SE.fprix(total)} FCFA</span>
+          </div>
+          <button class="bundle-btn" id="bundle-btn">Ajouter les 3 au panier</button>
+        </div>
+      </div>
+    `;
+
+    const bundleSection = document.getElementById('bundle-section');
+    bundleSection.innerHTML = bundleHTML;
+    bundleSection.style.display = 'block';
+
+    document.getElementById('bundle-btn').addEventListener('click', () => {
+      bundle.forEach(a => {
+        // Pour le bundle, on ajoute sans variante forcée (ou taille par défaut si besoin)
+        SE.Cart.add(a.reference, 1);
+      });
+      updateUI();
+      updateDrawer();
+      setTimeout(openDrawer, 400);
+    });
+  }
+
   function loadRecentlyViewed(currentRef) {
     let recentRefs = [];
     try { recentRefs = JSON.parse(localStorage.getItem('se_recently_viewed') || '[]'); } catch(e) {}
-    
     recentRefs = recentRefs.filter(r => r !== currentRef);
     recentRefs.unshift(currentRef);
     recentRefs = recentRefs.slice(0, 8);
@@ -1029,19 +1143,12 @@
     const allArts = SE.Articles.cache || [];
     if (allArts.length === 0) return;
 
-    const currentPrice = article.prix_vente_fcfa || 0;
-    const minPrice = currentPrice * 0.7;
-    const maxPrice = currentPrice * 1.3;
-
     let similar = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && a.categorie_id === article.categorie_id);
-    similar.sort((a, b) => Math.abs((a.prix_vente_fcfa || 0) - currentPrice) - Math.abs((b.prix_vente_fcfa || 0) - currentPrice));
-
-    let closePrice = similar.filter(a => a.prix_vente_fcfa >= minPrice && a.prix_vente_fcfa <= maxPrice);
-    let others = similar.filter(a => !(a.prix_vente_fcfa >= minPrice && a.prix_vente_fcfa <= maxPrice));
-    let finalSimilar = [...closePrice, ...others].slice(0, 4);
+    similar.sort((a, b) => Math.abs((a.prix_vente_fcfa || 0) - (article.prix_vente_fcfa || 0)) - Math.abs((b.prix_vente_fcfa || 0) - (article.prix_vente_fcfa || 0)));
+    let finalSimilar = similar.slice(0, 4);
 
     if (finalSimilar.length < 4) {
-      const fallback = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && !finalSimilar.includes(a)).sort((a, b) => Math.abs((a.prix_vente_fcfa||0) - currentPrice) - Math.abs((b.prix_vente_fcfa||0) - currentPrice));
+      const fallback = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && !finalSimilar.includes(a)).sort(() => 0.5 - Math.random());
       finalSimilar = [...finalSimilar, ...fallback].slice(0, 4);
     }
 
