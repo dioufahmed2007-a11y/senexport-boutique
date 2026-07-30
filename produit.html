@@ -19,7 +19,7 @@
 <style>
   /* ═══ 1. RESET & BASE ═══ */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+  html { font-size: 16px; -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; -webkit-tap-highlight-color: transparent; padding-top: 56px; padding-bottom: 70px; }
   img { max-width: 100%; display: block; }
   button { cursor: pointer; -webkit-appearance: none; appearance: none; font-family: inherit; }
@@ -78,17 +78,16 @@
 
   .size-guide-link { display: inline-block; margin-top: -0.5rem; font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); text-decoration: underline; cursor: pointer; letter-spacing: 0.05em; }
 
-  /* VARIANTES (Tailles/Couleurs) */
+  /* VARIANTES (Tailles) */
   .prod-variants { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem; }
   .variant-group { display: flex; flex-direction: column; gap: 0.5rem; }
   .variant-header { display: flex; justify-content: space-between; align-items: center; }
   .variant-label { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
   .variant-selected { font-family: var(--ff-b); font-size: 0.85rem; color: var(--ink); font-weight: 600; }
   .variant-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .variant-btn { min-width: 48px; padding: 0.6rem 1rem; background: var(--bg2); border: 1px solid var(--border); color: var(--ink); font-family: var(--ff-b); font-size: 0.85rem; font-weight: 500; border-radius: 4px; transition: all 0.2s; position: relative; }
+  .variant-btn { min-width: 48px; padding: 0.6rem 1rem; background: var(--bg2); border: 1px solid var(--border); color: var(--ink); font-family: var(--ff-b); font-size: 0.85rem; font-weight: 500; border-radius: 4px; transition: all 0.2s; }
   .variant-btn:hover:not(.disabled) { border-color: var(--or); color: var(--or); }
   .variant-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .variant-btn.disabled { opacity: 0.4; text-decoration: line-through; cursor: not-allowed; }
   .variant-error { font-family: var(--ff-m); font-size: 0.75rem; color: var(--red); display: none; margin-top: 0.25rem; }
   .variant-error.active { display: block; }
 
@@ -120,10 +119,12 @@
   .bundle-section h2 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; }
   .bundle-section h2 em { color: var(--or); font-style: italic; }
   .bundle-container { display: flex; flex-direction: column; gap: 1.5rem; background: var(--card); padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; }
-  .bundle-items { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+  .bundle-items { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
   .bundle-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center; flex: 1; min-width: 100px; }
-  .bundle-item img { width: 80px; height: 100px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); }
-  .bundle-item p { font-size: 0.8rem; color: var(--ink); font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .bundle-item a { text-decoration: none; color: var(--ink); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .bundle-item img { width: 100px; height: 125px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s; }
+  .bundle-item a:hover img { transform: scale(1.05); border-color: var(--or); }
+  .bundle-item p { font-size: 0.8rem; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .bundle-item .b-price { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); font-weight: 600; }
   .bundle-plus { font-size: 1.5rem; color: var(--muted); font-weight: 300; }
   
@@ -134,44 +135,32 @@
   .bundle-btn { padding: 0.75rem 1.5rem; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
   .bundle-btn:hover { background: transparent; color: var(--ink); }
 
-  /* SECTION Q/R DÉROULANTE */
-  .qa-collapse { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; background: var(--card); overflow: hidden; }
-  .qa-collapse-header { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: var(--ff-m); font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink); transition: background 0.2s; }
-  .qa-collapse-header:hover { background: var(--bg2); }
-  .qa-collapse-title { display: flex; align-items: center; gap: 0.75rem; }
-  .qa-collapse-icon { transition: transform 0.3s ease; color: var(--or); }
-  .qa-collapse.open .qa-collapse-icon { transform: rotate(180deg); }
-  .qa-collapse-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
-  .qa-collapse.open .qa-collapse-body { max-height: 4000px; transition: max-height 0.8s ease-in; }
-  .qa-collapse-inner { padding: 1.5rem; }
-  .qa-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
-  .qa-item { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
-  .qa-question { display: flex; gap: 1rem; margin-bottom: 1rem; }
-  .qa-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg2); color: var(--or); display: grid; place-items: center; font-weight: 700; font-family: var(--ff-b); flex-shrink: 0; }
-  .qa-text { font-size: 0.95rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.5rem; }
-  .qa-meta { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); }
-  .qa-answer { display: flex; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-  .qa-icon.ans { background: var(--or); color: #000; }
-  .qa-pending { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; padding-left: 3rem; }
-  .no-qa { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; text-align: center; padding: 1rem 0; }
-  .btn-ask-question { margin: 0 auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
-  .btn-ask-question:hover { background: var(--or); color: #000; }
+  /* MENUS DÉROULANTS (Avis & Q/R) - DESIGN AMÉLIORÉ */
+  .collapse-section { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1.5rem; background: var(--card); overflow: hidden; transition: box-shadow 0.3s; }
+  .collapse-section:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  .collapse-header { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
+  .collapse-header:hover { background: var(--bg2); }
+  .collapse-title { font-family: var(--ff-d); font-size: 1.25rem; font-weight: 400; color: var(--ink); }
+  .collapse-title em { color: var(--or); font-style: italic; }
+  .collapse-icon { transition: transform 0.3s ease; color: var(--or); font-size: 0.9rem; opacity: 0.8; }
+  .collapse-section.open .collapse-icon { transform: rotate(180deg); }
+  .collapse-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-in-out; }
+  .collapse-section.open .collapse-body { max-height: 5000px; transition: max-height 1s ease-in-out; }
+  .collapse-inner { padding: 0 1.5rem 1.5rem; }
 
-  /* Section Avis */
-  .prod-reviews-section { margin-top: 0; padding-top: 2rem; border-top: 1px solid var(--border); }
-  .prod-reviews-section h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
-  .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
+  /* Contenu Avis */
+  .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
   .reviews-avg-big { font-family: var(--ff-d); font-size: 2.5rem; color: var(--or); font-weight: 600; line-height: 1; }
   .reviews-avg-stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; margin-top: 0.5rem; }
   .reviews-avg-count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
   .rating-bars { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 0.3rem; }
   .rating-bar-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--stone); }
   .rating-bar-label { width: 20px; font-family: var(--ff-m); }
-  .rating-bar-track { flex: 1; height: 6px; background: var(--bg2); border-radius: 3px; overflow: hidden; }
+  .rating-bar-track { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
   .rating-bar-fill { height: 100%; background: var(--or); border-radius: 3px; transition: width 0.4s ease; }
   .rating-bar-count { width: 30px; text-align: right; font-family: var(--ff-m); }
   .review-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
-  .review-item { padding: 1.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
+  .review-item { padding: 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; }
   .review-item:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); border-color: var(--or-line); }
   .review-item-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
   .review-item-author { display: flex; align-items: center; gap: 0.75rem; }
@@ -188,7 +177,7 @@
   .review-form { display: flex; flex-direction: column; gap: 1.25rem; max-width: 500px; margin: 0 auto; padding-top: 1rem; border-top: 1px solid var(--border); }
   .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
   .form-group label { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
-  .form-group input, .form-group textarea { width: 100%; padding: 0.75rem 1rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; color: var(--ink); font-family: var(--ff-b); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+  .form-group input, .form-group textarea { width: 100%; padding: 0.75rem 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: 4px; color: var(--ink); font-family: var(--ff-b); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
   .form-group input:focus, .form-group textarea:focus { border-color: var(--or); }
   .form-group textarea { resize: vertical; min-height: 80px; }
   .star-rating { display: flex; gap: 0.5rem; font-size: 1.5rem; color: var(--muted); }
@@ -196,10 +185,24 @@
   .star-rating .star:hover, .star-rating .star.active { color: var(--or); }
   .btn-submit-review { align-self: flex-start; padding: 0.75rem 2rem; background: var(--ink); color: var(--bg); border: none; border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
   .btn-submit-review:hover { background: var(--or); color: #000; }
-  .review-feedback { margin-top: 0; padding: 0.75rem 1rem; background: var(--card); border-left: 3px solid var(--green); color: var(--green); font-size: 0.85rem; display: none; }
+  .review-feedback { margin-top: 0; padding: 0.75rem 1rem; background: var(--bg2); border-left: 3px solid var(--green); color: var(--green); font-size: 0.85rem; display: none; }
   .review-feedback.error { border-left-color: var(--red); color: var(--red); }
   .review-feedback.active { display: block; }
   .spam-msg { font-size: 0.85rem; color: var(--or); font-style: italic; margin-bottom: 2rem; text-align: center; }
+
+  /* Contenu Q/R */
+  .qa-list { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2rem; }
+  .qa-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+  .qa-question { display: flex; gap: 1rem; margin-bottom: 1rem; }
+  .qa-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); color: var(--or); display: grid; place-items: center; font-weight: 700; font-family: var(--ff-b); flex-shrink: 0; }
+  .qa-text { font-size: 0.95rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.5rem; }
+  .qa-meta { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); }
+  .qa-answer { display: flex; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+  .qa-icon.ans { background: var(--or); color: #000; }
+  .qa-pending { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; padding-left: 3rem; }
+  .no-qa { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; text-align: center; padding: 1rem 0; }
+  .btn-ask-question { margin: 0 auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .btn-ask-question:hover { background: var(--or); color: #000; }
 
   /* Sections Similaires */
   .sim-section { padding: 2rem 0 3rem; }
@@ -317,7 +320,7 @@
   </section>
 
   <!-- Section Avis Clients -->
-  <section class="prod-reviews-section" id="reviews-section-container" style="display:none;"></section>
+  <section class="sim-section" id="reviews-section-container" style="display:none;"></section>
 
   <!-- Section Questions/Réponses -->
   <section class="sim-section" id="qa-section-container" style="display:none;"></section>
@@ -397,7 +400,6 @@
       } else {
         let total = 0;
         body.innerHTML = rawItems.map(i => {
-          // Gestion des variantes : si l'ID contient un '_', on sépare la réf de la taille
           const baseRef = i.ref.includes('_') ? i.ref.split('_')[0] : i.ref;
           const size = i.ref.includes('_') ? i.ref.split('_')[1] : null;
           
@@ -433,7 +435,7 @@
   document.getElementById('drawer-body').addEventListener('click', e => {
     const btn = e.target.closest('[data-action]');
     if (!btn) return;
-    const ref = btn.dataset.ref; // Ici la réf contient déjà la taille si applicable
+    const ref = btn.dataset.ref; 
     const action = btn.dataset.action;
     const item = SE.Cart.all().find(i => i.ref === ref);
     
@@ -522,14 +524,12 @@
       const isNew = (article.etat || '').toLowerCase().includes('neuf');
       const isVetement = (article.categorie_id === 1 || catName.toLowerCase().includes('mode') || catName.toLowerCase().includes('fille') || catName.toLowerCase().includes('sport'));
       
-      // Extraction des tailles (gère les formats string "S,M,L" ou array ["S","M"])
       let sizes = [];
       if (article.tailles) {
         sizes = typeof article.tailles === 'string' ? article.tailles.split(',').map(s => s.trim()) : article.tailles;
       } else if (article.pointures) {
         sizes = typeof article.pointures === 'string' ? article.pointures.split(',').map(s => s.trim()) : article.pointures;
       } else if (isVetement) {
-        // Fallback par défaut si c'est un vêtement mais qu'on n'a pas la donnée en BDD
         sizes = ['S', 'M', 'L', 'XL'];
       }
 
@@ -555,12 +555,11 @@
         ? `<div class="prod-status out"><span class="dot"></span> Rupture de stock</div>` 
         : `<div class="prod-status"><span class="dot"></span> Disponible - Paiement à la récupération</div>`;
 
-      // Récupération des avis et questions
       const { data: reviews, error: reviewError } = await SE.sb.from('avis').select('*').eq('article_reference', ref).eq('statut', 'approuve').order('date_creation', { ascending: false });
       const { data: questions, error: questionError } = await SE.sb.from('questions_produits').select('*').eq('article_reference', ref).eq('statut', 'publie').order('date_question', { ascending: false });
       
       let ratingHTML = '';
-      let reviewsSectionHTML = '';
+      let reviewsContentHTML = '';
 
       const lastReviewTime = localStorage.getItem(`se_review_${ref}`);
       const canReview = !lastReviewTime || (Date.now() - parseInt(lastReviewTime) > 24 * 60 * 60 * 1000);
@@ -669,38 +668,29 @@
           `;
         }).join('');
 
-        reviewsSectionHTML = `
-          <div class="prod-reviews-section">
-            <h2>Avis Clients</h2>
-            <div class="reviews-summary">
-              <div style="text-align: center;">
-                <div class="reviews-avg-big">${avgRounded}</div>
-                <div class="reviews-avg-stars">${starsHTML}</div>
-                <div class="reviews-avg-count">${totalReviews} avis</div>
-              </div>
-              <div class="rating-bars">
-                ${breakdown.map(b => `
-                  <div class="rating-bar-row">
-                    <span class="rating-bar-label">${b.star}★</span>
-                    <div class="rating-bar-track"><div class="rating-bar-fill" style="width: ${b.pct}%"></div></div>
-                    <span class="rating-bar-count">${b.count}</span>
-                  </div>
-                `).join('')}
-              </div>
+        reviewsContentHTML = `
+          <div class="reviews-summary">
+            <div style="text-align: center;">
+              <div class="reviews-avg-big">${avgRounded}</div>
+              <div class="reviews-avg-stars">${starsHTML}</div>
+              <div class="reviews-avg-count">${totalReviews} avis</div>
             </div>
-            <div class="review-list">${reviewsHTML}</div>
-            ${reviewActionHTML}
+            <div class="rating-bars">
+              ${breakdown.map(b => `
+                <div class="rating-bar-row">
+                  <span class="rating-bar-label">${b.star}★</span>
+                  <div class="rating-bar-track"><div class="rating-bar-fill" style="width: ${b.pct}%"></div></div>
+                  <span class="rating-bar-count">${b.count}</span>
+                </div>
+              `).join('')}
+            </div>
           </div>
+          <div class="review-list">${reviewsHTML}</div>
+          ${reviewActionHTML}
         `;
       } else {
         ratingHTML = quickRatingHTML;
-         reviewsSectionHTML = `
-          <div class="prod-reviews-section">
-            <h2>Avis Clients</h2>
-            <p class="no-reviews">Soyez le premier à donner votre avis sur ce produit.</p>
-            ${reviewActionHTML}
-          </div>
-        `;
+        reviewsContentHTML = `<p class="no-reviews">Soyez le premier à donner votre avis sur ce produit.</p>${reviewActionHTML}`;
       }
 
       // Construction section Q/R
@@ -757,14 +747,30 @@
       }
 
       const questionsCount = questions ? questions.length : 0;
-      const questionsSectionHTML = `
-        <div class="qa-collapse" id="qa-collapse">
-          <div class="qa-collapse-header" id="qa-header">
-            <span class="qa-collapse-title">Questions / Réponses (${questionsCount})</span>
-            <span class="qa-collapse-icon">▼</span>
+      
+      // Construction des MENUS DÉROULANTS
+      const reviewsSectionHTML = `
+        <div class="collapse-section open" id="reviews-collapse">
+          <div class="collapse-header" id="reviews-header">
+            <span class="collapse-title">Avis <em>Clients</em></span>
+            <span class="collapse-icon">▼</span>
           </div>
-          <div class="qa-collapse-body">
-            <div class="qa-collapse-inner">
+          <div class="collapse-body">
+            <div class="collapse-inner">
+              ${reviewsContentHTML}
+            </div>
+          </div>
+        </div>
+      `;
+
+      const questionsSectionHTML = `
+        <div class="collapse-section" id="qa-collapse">
+          <div class="collapse-header" id="qa-header">
+            <span class="collapse-title">Questions / <em>Réponses</em> (${questionsCount})</span>
+            <span class="collapse-icon">▼</span>
+          </div>
+          <div class="collapse-body">
+            <div class="collapse-inner">
               <div class="qa-list">${questionsListHTML}</div>
               ${questionActionHTML}
             </div>
@@ -774,7 +780,6 @@
 
       const sizeGuideHTML = isVetement ? `<a href="#" class="size-guide-link" id="open-size-guide">Guide des tailles</a>` : '';
 
-      // HTML pour le choix de la variante (Taille)
       let variantsHTML = '';
       if (sizes.length > 0) {
         variantsHTML = `
@@ -793,7 +798,6 @@
         `;
       }
 
-      // Si on a des tailles, les boutons sont désactivés par défaut
       const buttonsDisabled = sizes.length > 0 ? 'disabled' : '';
       const buyNowText = sizes.length > 0 ? 'Choisir une taille' : 'Acheter maintenant';
       const addCartText = sizes.length > 0 ? 'Choisir une taille' : 'Ajouter au panier';
@@ -818,7 +822,6 @@
           </div>
         `;
 
-      // Affichage de la fiche produit
       document.getElementById('prod-layout').innerHTML = `
         <div class="prod-gallery">
           <div class="prod-main-img">
@@ -844,21 +847,23 @@
         </div>
       `;
 
-      // Affichage des Avis
+      // Affichage des Avis et Q/R
       const reviewsContainer = document.getElementById('reviews-section-container');
       reviewsContainer.innerHTML = reviewsSectionHTML;
       reviewsContainer.style.display = 'block';
 
-      // Affichage des Q/R
       const qaContainer = document.getElementById('qa-section-container');
       qaContainer.innerHTML = questionsSectionHTML;
       qaContainer.style.display = 'block';
 
+      // Gestion des ouvrtures/fermetures
+      const reviewsCollapse = document.getElementById('reviews-collapse');
+      const reviewsHeader = document.getElementById('reviews-header');
+      if (reviewsHeader) reviewsHeader.addEventListener('click', () => reviewsCollapse.classList.toggle('open'));
+
       const qaCollapse = document.getElementById('qa-collapse');
       const qaHeader = document.getElementById('qa-header');
-      if (qaHeader) {
-        qaHeader.addEventListener('click', () => qaCollapse.classList.toggle('open'));
-      }
+      if (qaHeader) qaHeader.addEventListener('click', () => qaCollapse.classList.toggle('open'));
 
       if (photos.length > 1) {
         document.querySelectorAll('.prod-thumb').forEach(thumb => {
@@ -870,7 +875,6 @@
         });
       }
 
-      // === GESTION DES VARIANTES ===
       if (sizes.length > 0) {
         document.querySelectorAll('.variant-btn').forEach(btn => {
           btn.addEventListener('click', () => {
@@ -880,7 +884,6 @@
             document.getElementById('variant-selected').textContent = selectedSize;
             document.getElementById('variant-error').classList.remove('active');
             
-            // Réactiver les boutons
             const buyBtn = document.getElementById('btn-buy-now');
             const addBtn = document.getElementById('btn-add-cart');
             buyBtn.disabled = false;
@@ -895,35 +898,21 @@
         const maxStock = article.quantite || 0;
         const qtyValEl = document.getElementById('qty-val');
         
-        document.getElementById('qty-inc').addEventListener('click', () => {
-          if (currentQty < maxStock) { currentQty++; qtyValEl.textContent = currentQty; }
-        });
-        document.getElementById('qty-dec').addEventListener('click', () => {
-          if (currentQty > 1) { currentQty--; qtyValEl.textContent = currentQty; }
-        });
+        document.getElementById('qty-inc').addEventListener('click', () => { if (currentQty < maxStock) { currentQty++; qtyValEl.textContent = currentQty; } });
+        document.getElementById('qty-dec').addEventListener('click', () => { if (currentQty > 1) { currentQty--; qtyValEl.textContent = currentQty; } });
 
-        const getCartRef = () => {
-          return selectedSize ? `${ref}_${selectedSize}` : ref;
-        };
+        const getCartRef = () => selectedSize ? `${ref}_${selectedSize}` : ref;
 
         const addCartAction = () => {
-          if (sizes.length > 0 && !selectedSize) {
-            document.getElementById('variant-error').classList.add('active');
-            return;
-          }
+          if (sizes.length > 0 && !selectedSize) { document.getElementById('variant-error').classList.add('active'); return; }
           SE.Cart.add(getCartRef(), currentQty);
-          const img = document.getElementById('prod-img');
-          flyToCart(img);
-          updateUI();
-          updateDrawer();
+          flyToCart(document.getElementById('prod-img'));
+          updateUI(); updateDrawer();
           setTimeout(openDrawer, 400);
         };
 
         const buyNowAction = () => {
-          if (sizes.length > 0 && !selectedSize) {
-            document.getElementById('variant-error').classList.add('active');
-            return;
-          }
+          if (sizes.length > 0 && !selectedSize) { document.getElementById('variant-error').classList.add('active'); return; }
           SE.Cart.add(getCartRef(), currentQty);
           updateUI();
           window.location.href = 'panier.html';
@@ -942,13 +931,8 @@
         const obs = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (window.innerWidth < 768) {
-              if (!entry.isIntersecting) {
-                stickyBar.classList.add('active');
-                document.body.classList.add('sticky-active');
-              } else {
-                stickyBar.classList.remove('active');
-                document.body.classList.remove('sticky-active');
-              }
+              if (!entry.isIntersecting) { stickyBar.classList.add('active'); document.body.classList.add('sticky-active'); } 
+              else { stickyBar.classList.remove('active'); document.body.classList.remove('sticky-active'); }
             }
           });
         }, { threshold: 0 });
@@ -957,13 +941,10 @@
 
       const sizeModal = document.getElementById('size-guide-modal');
       const openSize = document.getElementById('open-size-guide');
-      if (openSize) {
-        openSize.addEventListener('click', (e) => { e.preventDefault(); sizeModal.classList.add('active'); });
-      }
+      if (openSize) openSize.addEventListener('click', (e) => { e.preventDefault(); sizeModal.classList.add('active'); });
       document.getElementById('close-size-guide').addEventListener('click', () => sizeModal.classList.remove('active'));
       sizeModal.addEventListener('click', (e) => { if (e.target === sizeModal) sizeModal.classList.remove('active'); });
 
-      // === GESTION AVIS / QUESTIONS ===
       if (canReview) {
         document.querySelectorAll('.star-quick').forEach(star => {
           star.addEventListener('click', async () => {
@@ -984,12 +965,7 @@
 
         const btnWrite = document.getElementById('btn-write-review');
         const formWrapper = document.getElementById('review-form-wrapper');
-        if (btnWrite) {
-          btnWrite.addEventListener('click', () => {
-            formWrapper.classList.toggle('active');
-            btnWrite.textContent = formWrapper.classList.contains('active') ? 'Annuler' : 'Écrire un avis complet';
-          });
-        }
+        if (btnWrite) btnWrite.addEventListener('click', () => { formWrapper.classList.toggle('active'); btnWrite.textContent = formWrapper.classList.contains('active') ? 'Annuler' : 'Écrire un avis complet'; });
 
         let selectedNote = 0;
         document.querySelectorAll('.star-rating .star').forEach(star => {
@@ -1005,11 +981,7 @@
           const name = document.getElementById('review-name').value.trim();
           const comment = document.getElementById('review-comment').value.trim();
           const feedbackEl = document.getElementById('review-feedback');
-          if (!name || !comment || !selectedNote) {
-            feedbackEl.textContent = "Veuillez remplir tous les champs et donner une note.";
-            feedbackEl.className = "review-feedback active error";
-            return;
-          }
+          if (!name || !comment || !selectedNote) { feedbackEl.textContent = "Veuillez remplir tous les champs et donner une note."; feedbackEl.className = "review-feedback active error"; return; }
           try {
             const { error } = await SE.sb.from('avis').insert([{ article_reference: ref, nom_client: name, note: selectedNote, commentaire: comment, statut: 'en_attente' }]);
             if (error) throw error;
@@ -1033,22 +1005,14 @@
       if (canAsk) {
         const btnAsk = document.getElementById('btn-ask-question');
         const qFormWrapper = document.getElementById('question-form-wrapper');
-        if (btnAsk) {
-          btnAsk.addEventListener('click', () => {
-            qFormWrapper.classList.toggle('active');
-            btnAsk.textContent = qFormWrapper.classList.contains('active') ? 'Annuler' : 'Poser une question';
-          });
-        }
+        if (btnAsk) btnAsk.addEventListener('click', () => { qFormWrapper.classList.toggle('active'); btnAsk.textContent = qFormWrapper.classList.contains('active') ? 'Annuler' : 'Poser une question'; });
+
         document.getElementById('question-form').addEventListener('submit', async (e) => {
           e.preventDefault();
           const name = document.getElementById('question-name').value.trim() || 'Anonyme';
           const questionText = document.getElementById('question-text').value.trim();
           const qFeedbackEl = document.getElementById('question-feedback');
-          if (!questionText) {
-            qFeedbackEl.textContent = "Veuillez écrire votre question.";
-            qFeedbackEl.className = "review-feedback active error";
-            return;
-          }
+          if (!questionText) { qFeedbackEl.textContent = "Veuillez écrire votre question."; qFeedbackEl.className = "review-feedback active error"; return; }
           try {
             const { error } = await SE.sb.from('questions_produits').insert([{ article_reference: ref, nom_client: name, question: questionText, statut: 'en_attente' }]);
             if (error) throw error;
@@ -1066,9 +1030,9 @@
       }
 
       // === CHARGEMENT DES SECTIONS BUNDLE ET SIMILAIRES ===
-      loadBundle(article);
+      const bundleRefs = loadBundle(article);
       loadRecentlyViewed(ref);
-      loadSimilar(article);
+      loadSimilar(article, bundleRefs); // On passe les refs du bundle pour les exclure
 
       updateUI();
     } catch (e) {
@@ -1077,16 +1041,14 @@
     }
   }
 
-  // NOUVELLE FONCTION : ACHETÉ ENSEMBLE
+  // ACHETÉ ENSEMBLE (Retourne les références utilisées pour les exclure plus tard)
   function loadBundle(mainArticle) {
     const allArts = SE.Articles.cache || [];
-    if (allArts.length < 3) return;
+    if (allArts.length < 3) return [];
 
-    // Prend 2 produits aléatoires différents du produit actuel et en stock
     let others = allArts.filter(a => a.reference !== mainArticle.reference && a.quantite > 0);
-    if (others.length < 2) return;
+    if (others.length < 2) return [];
 
-    // Mélange et prend les 2 premiers
     others.sort(() => 0.5 - Math.random());
     let bundle = [mainArticle, others[0], others[1]];
 
@@ -1098,8 +1060,10 @@
         <div class="bundle-items">
           ${bundle.map((a, i) => `
             <div class="bundle-item">
-              <img src="${a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 100) : a.photo_url) : 'https://placehold.co/80x100'}" alt="${esc(a.nom)}">
-              <p>${esc(a.nom)}</p>
+              <a href="produit.html?ref=${esc(a.reference)}">
+                <img src="${a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 150) : a.photo_url) : 'https://placehold.co/100x125'}" alt="${esc(a.nom)}">
+                <p>${esc(a.nom)}</p>
+              </a>
               <span class="b-price">${SE.fprix(a.prix_vente_fcfa || 0)} FCFA</span>
             </div>
             ${i < bundle.length - 1 ? '<span class="bundle-plus">+</span>' : ''}
@@ -1120,14 +1084,13 @@
     bundleSection.style.display = 'block';
 
     document.getElementById('bundle-btn').addEventListener('click', () => {
-      bundle.forEach(a => {
-        // Pour le bundle, on ajoute sans variante forcée (ou taille par défaut si besoin)
-        SE.Cart.add(a.reference, 1);
-      });
-      updateUI();
-      updateDrawer();
+      bundle.forEach(a => SE.Cart.add(a.reference, 1));
+      updateUI(); updateDrawer();
       setTimeout(openDrawer, 400);
     });
+
+    // Retourne la liste des références pour ne pas les réafficher dans "Vous aimerez aussi"
+    return bundle.map(a => a.reference);
   }
 
   function loadRecentlyViewed(currentRef) {
@@ -1139,16 +1102,17 @@
     localStorage.setItem('se_recently_viewed', JSON.stringify(recentRefs));
   }
 
-  function loadSimilar(article) {
+  // Exclut les refs du bundle pour éviter les doublons
+  function loadSimilar(article, excludeRefs = []) {
     const allArts = SE.Articles.cache || [];
     if (allArts.length === 0) return;
 
-    let similar = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && a.categorie_id === article.categorie_id);
+    let similar = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && a.categorie_id === article.categorie_id && !excludeRefs.includes(a.reference));
     similar.sort((a, b) => Math.abs((a.prix_vente_fcfa || 0) - (article.prix_vente_fcfa || 0)) - Math.abs((b.prix_vente_fcfa || 0) - (article.prix_vente_fcfa || 0)));
     let finalSimilar = similar.slice(0, 4);
 
     if (finalSimilar.length < 4) {
-      const fallback = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && !finalSimilar.includes(a)).sort(() => 0.5 - Math.random());
+      const fallback = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && !finalSimilar.includes(a) && !excludeRefs.includes(a.reference)).sort(() => 0.5 - Math.random());
       finalSimilar = [...finalSimilar, ...fallback].slice(0, 4);
     }
 
