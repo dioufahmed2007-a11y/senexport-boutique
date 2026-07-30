@@ -122,7 +122,7 @@
   .bundle-items { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
   .bundle-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center; flex: 1; min-width: 100px; }
   .bundle-item a { text-decoration: none; color: var(--ink); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-  .bundle-item img { width: 100px; height: 125px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s; }
+  .bundle-item img { width: 140px; height: 175px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s; }
   .bundle-item a:hover img { transform: scale(1.05); border-color: var(--or); }
   .bundle-item p { font-size: 0.8rem; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .bundle-item .b-price { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); font-weight: 600; }
@@ -135,8 +135,8 @@
   .bundle-btn { padding: 0.75rem 1.5rem; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
   .bundle-btn:hover { background: transparent; color: var(--ink); }
 
-  /* MENUS DÉROULANTS (Avis & Q/R) - DESIGN AMÉLIORÉ */
-  .collapse-section { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1.5rem; background: var(--card); overflow: hidden; transition: box-shadow 0.3s; }
+  /* MENUS DÉROULANTS (Avis & Q/R) */
+  .collapse-section { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; background: var(--card); overflow: hidden; transition: box-shadow 0.3s; }
   .collapse-section:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
   .collapse-header { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
   .collapse-header:hover { background: var(--bg2); }
@@ -148,13 +148,13 @@
   .collapse-section.open .collapse-body { max-height: 5000px; transition: max-height 1s ease-in-out; }
   .collapse-inner { padding: 0 1.5rem 1.5rem; }
 
-  /* Contenu Avis */
+  /* Contenu Avis - CORRECTION CONTRASTE */
   .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
   .reviews-avg-big { font-family: var(--ff-d); font-size: 2.5rem; color: var(--or); font-weight: 600; line-height: 1; }
   .reviews-avg-stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; margin-top: 0.5rem; }
-  .reviews-avg-count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); margin-top: 0.25rem; }
+  .reviews-avg-count { font-family: var(--ff-m); font-size: 0.75rem; color: var(--ink); opacity: 0.7; margin-top: 0.25rem; }
   .rating-bars { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 0.3rem; }
-  .rating-bar-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--stone); }
+  .rating-bar-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--ink); opacity: 0.8; }
   .rating-bar-label { width: 20px; font-family: var(--ff-m); }
   .rating-bar-track { flex: 1; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
   .rating-bar-fill { height: 100%; background: var(--or); border-radius: 3px; transition: width 0.4s ease; }
@@ -166,10 +166,10 @@
   .review-item-author { display: flex; align-items: center; gap: 0.75rem; }
   .review-avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--or); color: #000; display: grid; place-items: center; font-weight: 700; font-family: var(--ff-b); text-transform: uppercase; }
   .review-item-name { display: block; font-weight: 600; color: var(--ink); font-size: 0.95rem; }
-  .review-item-date { display: block; font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+  .review-item-date { display: block; font-family: var(--ff-m); font-size: 0.7rem; color: var(--ink); opacity: 0.6; margin-top: 2px; }
   .review-item-stars { color: var(--or); letter-spacing: 2px; font-size: 0.9rem; }
-  .review-item-comment { font-size: 0.9rem; color: var(--stone); line-height: 1.7; margin-top: 0.5rem; }
-  .no-reviews { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; text-align: center; padding: 2rem 0; }
+  .review-item-comment { font-size: 0.9rem; color: var(--ink); opacity: 0.8; line-height: 1.7; margin-top: 0.5rem; }
+  .no-reviews { font-size: 0.9rem; color: var(--ink); opacity: 0.6; font-style: italic; margin-bottom: 2rem; text-align: center; padding: 2rem 0; }
   .btn-write-review { margin: 2rem auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
   .btn-write-review:hover { background: var(--or); color: #000; }
   .review-form-wrapper { overflow: hidden; max-height: 0; transition: max-height 0.4s ease-out, margin 0.4s ease-out; }
@@ -196,11 +196,11 @@
   .qa-question { display: flex; gap: 1rem; margin-bottom: 1rem; }
   .qa-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--bg); color: var(--or); display: grid; place-items: center; font-weight: 700; font-family: var(--ff-b); flex-shrink: 0; }
   .qa-text { font-size: 0.95rem; color: var(--ink); line-height: 1.5; margin-bottom: 0.5rem; }
-  .qa-meta { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); }
+  .qa-meta { font-family: var(--ff-m); font-size: 0.7rem; color: var(--ink); opacity: 0.6; }
   .qa-answer { display: flex; gap: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
   .qa-icon.ans { background: var(--or); color: #000; }
-  .qa-pending { font-size: 0.85rem; color: var(--muted); font-style: italic; margin-top: 0.5rem; padding-left: 3rem; }
-  .no-qa { font-size: 0.9rem; color: var(--muted); font-style: italic; margin-bottom: 2rem; text-align: center; padding: 1rem 0; }
+  .qa-pending { font-size: 0.85rem; color: var(--ink); opacity: 0.5; font-style: italic; margin-top: 0.5rem; padding-left: 3rem; }
+  .no-qa { font-size: 0.9rem; color: var(--ink); opacity: 0.6; font-style: italic; margin-bottom: 2rem; text-align: center; padding: 1rem 0; }
   .btn-ask-question { margin: 0 auto 1.5rem; display: block; padding: 0.75rem 2rem; background: transparent; color: var(--or); border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
   .btn-ask-question:hover { background: var(--or); color: #000; }
 
@@ -693,7 +693,6 @@
         reviewsContentHTML = `<p class="no-reviews">Soyez le premier à donner votre avis sur ce produit.</p>${reviewActionHTML}`;
       }
 
-      // Construction section Q/R
       const lastQuestionTime = localStorage.getItem(`se_question_${ref}`);
       const canAsk = !lastQuestionTime || (Date.now() - parseInt(lastQuestionTime) > 24 * 60 * 60 * 1000);
       
@@ -748,7 +747,6 @@
 
       const questionsCount = questions ? questions.length : 0;
       
-      // Construction des MENUS DÉROULANTS
       const reviewsSectionHTML = `
         <div class="collapse-section open" id="reviews-collapse">
           <div class="collapse-header" id="reviews-header">
@@ -847,7 +845,6 @@
         </div>
       `;
 
-      // Affichage des Avis et Q/R
       const reviewsContainer = document.getElementById('reviews-section-container');
       reviewsContainer.innerHTML = reviewsSectionHTML;
       reviewsContainer.style.display = 'block';
@@ -856,7 +853,6 @@
       qaContainer.innerHTML = questionsSectionHTML;
       qaContainer.style.display = 'block';
 
-      // Gestion des ouvrtures/fermetures
       const reviewsCollapse = document.getElementById('reviews-collapse');
       const reviewsHeader = document.getElementById('reviews-header');
       if (reviewsHeader) reviewsHeader.addEventListener('click', () => reviewsCollapse.classList.toggle('open'));
@@ -1029,10 +1025,9 @@
         });
       }
 
-      // === CHARGEMENT DES SECTIONS BUNDLE ET SIMILAIRES ===
       const bundleRefs = loadBundle(article);
       loadRecentlyViewed(ref);
-      loadSimilar(article, bundleRefs); // On passe les refs du bundle pour les exclure
+      loadSimilar(article, bundleRefs); 
 
       updateUI();
     } catch (e) {
@@ -1041,7 +1036,6 @@
     }
   }
 
-  // ACHETÉ ENSEMBLE (Retourne les références utilisées pour les exclure plus tard)
   function loadBundle(mainArticle) {
     const allArts = SE.Articles.cache || [];
     if (allArts.length < 3) return [];
@@ -1061,7 +1055,7 @@
           ${bundle.map((a, i) => `
             <div class="bundle-item">
               <a href="produit.html?ref=${esc(a.reference)}">
-                <img src="${a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 150) : a.photo_url) : 'https://placehold.co/100x125'}" alt="${esc(a.nom)}">
+                <img src="${a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 300) : a.photo_url) : 'https://placehold.co/140x175'}" alt="${esc(a.nom)}">
                 <p>${esc(a.nom)}</p>
               </a>
               <span class="b-price">${SE.fprix(a.prix_vente_fcfa || 0)} FCFA</span>
@@ -1089,7 +1083,6 @@
       setTimeout(openDrawer, 400);
     });
 
-    // Retourne la liste des références pour ne pas les réafficher dans "Vous aimerez aussi"
     return bundle.map(a => a.reference);
   }
 
@@ -1102,7 +1095,6 @@
     localStorage.setItem('se_recently_viewed', JSON.stringify(recentRefs));
   }
 
-  // Exclut les refs du bundle pour éviter les doublons
   function loadSimilar(article, excludeRefs = []) {
     const allArts = SE.Articles.cache || [];
     if (allArts.length === 0) return;
