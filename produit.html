@@ -114,26 +114,32 @@
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
-  /* SECTION ACHETÉ ENSEMBLE (Bundle) */
+  /* SECTION ACHETÉ ENSEMBLE (Bundle) - FAÇON AMAZON */
   .bundle-section { padding: 2rem 0; border-top: 1px solid var(--border); }
   .bundle-section h2 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; }
   .bundle-section h2 em { color: var(--or); font-style: italic; }
   .bundle-container { display: flex; flex-direction: column; gap: 1.5rem; background: var(--card); padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; }
-  .bundle-items { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-  .bundle-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center; flex: 1; min-width: 100px; }
+  .bundle-items { display: flex; align-items: flex-start; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  .bundle-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center; flex: 1; min-width: 100px; position: relative; }
+  .bundle-checkbox-wrap { position: absolute; top: -5px; right: -5px; z-index: 2; }
+  .bundle-check { display: none; }
+  .bundle-check + label { width: 24px; height: 24px; border: 2px solid var(--border); border-radius: 4px; background: var(--bg); cursor: pointer; display: grid; place-items: center; transition: 0.2s; }
+  .bundle-check:checked + label { background: var(--or); border-color: var(--or); }
+  .bundle-check:checked + label::after { content: '✓'; color: #000; font-weight: bold; font-size: 16px; line-height: 1; }
   .bundle-item a { text-decoration: none; color: var(--ink); display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
   .bundle-item img { width: 140px; height: 175px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); transition: transform 0.3s, border-color 0.3s; }
   .bundle-item a:hover img { transform: scale(1.05); border-color: var(--or); }
   .bundle-item p { font-size: 0.8rem; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .bundle-item .b-price { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); font-weight: 600; }
-  .bundle-plus { font-size: 1.5rem; color: var(--muted); font-weight: 300; }
+  .bundle-plus { font-size: 1.5rem; color: var(--muted); font-weight: 300; margin-top: 70px; /* Aligne le + avec le milieu de l'image */ }
   
   .bundle-total { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1rem; flex-wrap: wrap; gap: 1rem; }
   .bundle-total-info { display: flex; flex-direction: column; gap: 0.25rem; }
   .bundle-total-label { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
-  .bundle-total-price { font-family: var(--ff-d); font-size: 1.5rem; color: var(--prix); font-weight: 600; }
+  .bundle-total-price { font-family: var(--ff-d); font-size: 1.5rem; color: var(--prix); font-weight: 600; transition: color 0.2s; }
   .bundle-btn { padding: 0.75rem 1.5rem; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
-  .bundle-btn:hover { background: transparent; color: var(--ink); }
+  .bundle-btn:hover:not(:disabled) { background: transparent; color: var(--ink); }
+  .bundle-btn:disabled { opacity: 0.3; cursor: not-allowed; border-color: var(--border); color: var(--muted); background: transparent; }
 
   /* MENUS DÉROULANTS (Avis & Q/R) */
   .collapse-section { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; background: var(--card); overflow: hidden; transition: box-shadow 0.3s; }
@@ -148,7 +154,7 @@
   .collapse-section.open .collapse-body { max-height: 5000px; transition: max-height 1s ease-in-out; }
   .collapse-inner { padding: 0 1.5rem 1.5rem; }
 
-  /* Contenu Avis - CORRECTION CONTRASTE */
+  /* Contenu Avis - Contraste corrigé */
   .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
   .reviews-avg-big { font-family: var(--ff-d); font-size: 2.5rem; color: var(--or); font-weight: 600; line-height: 1; }
   .reviews-avg-stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; margin-top: 0.5rem; }
@@ -1036,6 +1042,7 @@
     }
   }
 
+  // NOUVELLE FONCTION BUNDLE AVEC CASES À COCHER (FAÇON AMAZON)
   function loadBundle(mainArticle) {
     const allArts = SE.Articles.cache || [];
     if (allArts.length < 3) return [];
@@ -1046,14 +1053,16 @@
     others.sort(() => 0.5 - Math.random());
     let bundle = [mainArticle, others[0], others[1]];
 
-    let total = bundle.reduce((sum, a) => sum + (a.prix_vente_fcfa || 0), 0);
-    
     const bundleHTML = `
       <h2>Achetés <em>ensemble</em></h2>
       <div class="bundle-container">
         <div class="bundle-items">
           ${bundle.map((a, i) => `
-            <div class="bundle-item">
+            <div class="bundle-item" data-price="${a.prix_vente_fcfa || 0}" data-ref="${esc(a.reference)}">
+              <div class="bundle-checkbox-wrap">
+                <input type="checkbox" id="b-check-${i}" class="bundle-check" checked>
+                <label for="b-check-${i}"></label>
+              </div>
               <a href="produit.html?ref=${esc(a.reference)}">
                 <img src="${a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 300) : a.photo_url) : 'https://placehold.co/140x175'}" alt="${esc(a.nom)}">
                 <p>${esc(a.nom)}</p>
@@ -1065,8 +1074,8 @@
         </div>
         <div class="bundle-total">
           <div class="bundle-total-info">
-            <span class="bundle-total-label">Total pour 3 articles :</span>
-            <span class="bundle-total-price">${SE.fprix(total)} FCFA</span>
+            <span class="bundle-total-label" id="bundle-total-label">Total pour 3 articles :</span>
+            <span class="bundle-total-price" id="bundle-total-price">0 FCFA</span>
           </div>
           <button class="bundle-btn" id="bundle-btn">Ajouter les 3 au panier</button>
         </div>
@@ -1077,8 +1086,47 @@
     bundleSection.innerHTML = bundleHTML;
     bundleSection.style.display = 'block';
 
+    // Logique de calcul dynamique (façon Amazon)
+    const updateBundleTotal = () => {
+      let total = 0;
+      let checkedCount = 0;
+      document.querySelectorAll('.bundle-item').forEach(item => {
+        const checkbox = item.querySelector('.bundle-check');
+        if (checkbox.checked) {
+          total += parseInt(item.dataset.price);
+          checkedCount++;
+        }
+      });
+      
+      document.getElementById('bundle-total-price').textContent = SE.fprix(total) + ' FCFA';
+      document.getElementById('bundle-total-label').textContent = `Total pour ${checkedCount} article${checkedCount > 1 ? 's' : ''} :`;
+      
+      const btn = document.getElementById('bundle-btn');
+      if (checkedCount > 0) {
+        btn.disabled = false;
+        btn.textContent = `Ajouter (${checkedCount}) au panier`;
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Aucun article sélectionné";
+      }
+    };
+
+    // Initialiser le prix au chargement
+    updateBundleTotal();
+
+    // Écouteurs d'événements sur les checkboxes
+    document.querySelectorAll('.bundle-check').forEach(check => {
+      check.addEventListener('change', updateBundleTotal);
+    });
+
+    // Bouton d'ajout au panier (n'ajoute que les cochés)
     document.getElementById('bundle-btn').addEventListener('click', () => {
-      bundle.forEach(a => SE.Cart.add(a.reference, 1));
+      document.querySelectorAll('.bundle-item').forEach(item => {
+        const checkbox = item.querySelector('.bundle-check');
+        if (checkbox.checked) {
+          SE.Cart.add(item.dataset.ref, 1);
+        }
+      });
       updateUI(); updateDrawer();
       setTimeout(openDrawer, 400);
     });
