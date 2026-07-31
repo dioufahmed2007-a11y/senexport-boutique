@@ -91,7 +91,7 @@
   .variant-error { font-family: var(--ff-m); font-size: 0.75rem; color: var(--red); display: none; margin-top: 0.25rem; }
   .variant-error.active { display: block; }
 
-  /* BOUTONS D'ACHAT */
+  /* BOUTONS D'ACHAT - COULEURS INVERSÉES POUR MEILLEUR CONTRASTE */
   .prod-action-group { display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem; }
   .prod-qty-controls { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 0; overflow: hidden; align-self: flex-start; }
   .prod-qty-controls .qty-btn { border: none; border-radius: 0; height: 100%; width: 50px; background: var(--bg2); color: var(--ink); font-size: 1.2rem; display: grid; place-items: center; transition: 0.2s; }
@@ -100,10 +100,15 @@
   .prod-qty-controls .qty-val { padding: 0 1.25rem; font-family: var(--ff-m); font-size: 1rem; color: var(--ink); min-width: 50px; text-align: center; }
 
   .prod-action { width: 100%; padding: 1.25rem; min-height: 50px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; border-radius: 0; cursor: pointer; transition: all 0.3s ease; }
-  .prod-action.buy-now { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
-  .prod-action.buy-now:hover:not(:disabled) { background: transparent; color: var(--ink); transform: translateY(-2px); }
-  .prod-action.add-cart { background: var(--or); color: #000; border: 1px solid var(--or); }
-  .prod-action.add-cart:hover:not(:disabled) { background: transparent; color: var(--or); transform: translateY(-2px); }
+  
+  /* Bouton Acheter Maintenant (Principal - Doré) */
+  .prod-action.buy-now { background: var(--or); color: #000; border: 1px solid var(--or); }
+  .prod-action.buy-now:hover:not(:disabled) { background: transparent; color: var(--or); transform: translateY(-2px); }
+  
+  /* Bouton Ajouter au panier (Secondaire - Sombre) */
+  .prod-action.add-cart { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+  .prod-action.add-cart:hover:not(:disabled) { background: transparent; color: var(--ink); transform: translateY(-2px); }
+  
   .prod-action:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; transform: none; border-color: var(--border); }
 
   .prod-reassurance { margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 1rem; }
@@ -114,7 +119,7 @@
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
-  /* SECTION ACHETÉ ENSEMBLE (Bundle) - STRUCTURE ROBUSTE */
+  /* SECTION ACHETÉ ENSEMBLE (Bundle) */
   .bundle-section { padding: 2rem 0; border-top: 1px solid var(--border); }
   .bundle-section h2 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; }
   .bundle-section h2 em { color: var(--or); font-style: italic; }
@@ -143,12 +148,12 @@
   .bundle-total-info { display: flex; flex-direction: column; gap: 0.25rem; }
   .bundle-total-label { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
   .bundle-total-price { font-family: var(--ff-d); font-size: 1.5rem; color: var(--prix); font-weight: 600; transition: color 0.2s; }
-  .bundle-btn { padding: 0.75rem 1.5rem; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
-  .bundle-btn:hover:not(:disabled) { background: transparent; color: var(--ink); }
+  .bundle-btn { padding: 0.75rem 1.5rem; background: var(--or); color: #000; border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .bundle-btn:hover:not(:disabled) { background: transparent; color: var(--or); }
   .bundle-btn:disabled { opacity: 0.3; cursor: not-allowed; border-color: var(--border); color: var(--muted); background: transparent; }
 
   /* MENUS DÉROULANTS (Avis & Q/R) */
-  .collapse-wrap { padding: 1rem 0; } /* Remplace sim-section pour éviter le grand padding */
+  .collapse-wrap { padding: 1rem 0; }
   .collapse-section { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; background: var(--card); overflow: hidden; transition: box-shadow 0.3s; }
   .collapse-section:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
   .collapse-header { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
@@ -274,8 +279,9 @@
   .sticky-mobile-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg); border-top: 1px solid var(--border); padding: 0.75rem 1rem; display: none; z-index: 400; box-shadow: 0 -4px 12px rgba(0,0,0,0.1); gap: 1rem; align-items: center; }
   .sticky-mobile-bar.active { display: flex; }
   .sticky-mobile-bar .sticky-price { font-family: var(--ff-d); font-size: 1.2rem; color: var(--prix); font-weight: 600; flex: 1; }
-  .sticky-mobile-bar .sticky-btn { padding: 0.75rem 1.5rem; background: var(--ink); color: var(--bg); border: 1px solid var(--ink); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
-  .sticky-mobile-bar .sticky-btn:hover { background: transparent; color: var(--ink); }
+  /* Bouton sticky assorti au bouton Acheter Maintenant (Doré) */
+  .sticky-mobile-bar .sticky-btn { padding: 0.75rem 1.5rem; background: var(--or); color: #000; border: 1px solid var(--or); border-radius: 0; font-family: var(--ff-b); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: 0.2s; }
+  .sticky-mobile-bar .sticky-btn:hover { background: transparent; color: var(--or); }
   @media (min-width: 768px) { .sticky-mobile-bar { display: none !important; } }
   @media (max-width: 767px) { body.sticky-active .wa-float { bottom: 80px; } }
 
@@ -1049,6 +1055,7 @@
     }
   }
 
+  // ACHETÉ ENSEMBLE (Logique Aléatoire)
   function loadBundle(mainArticle) {
     const allArts = SE.Articles.cache || [];
     if (allArts.length < 3) return [];
@@ -1056,6 +1063,7 @@
     let others = allArts.filter(a => a.reference !== mainArticle.reference && a.quantite > 0);
     if (others.length < 2) return [];
 
+    // Mélange aléatoire pour simuler l'algorithme d'achat groupé
     others.sort(() => 0.5 - Math.random());
     let bundle = [mainArticle, others[0], others[1]];
 
@@ -1136,6 +1144,7 @@
     return bundle.map(a => a.reference);
   }
 
+  // VOUS AIMEREZ AUSSI (Logique Même Catégorie + Prix Proche)
   function loadRecentlyViewed(currentRef) {
     let recentRefs = [];
     try { recentRefs = JSON.parse(localStorage.getItem('se_recently_viewed') || '[]'); } catch(e) {}
@@ -1149,10 +1158,16 @@
     const allArts = SE.Articles.cache || [];
     if (allArts.length === 0) return;
 
+    // 1. Filtre par catégorie et exclut le produit actuel + ceux du bundle
     let similar = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && a.categorie_id === article.categorie_id && !excludeRefs.includes(a.reference));
+    
+    // 2. Trie par prix similaire (du moins cher au plus cher par rapport au produit actuel)
     similar.sort((a, b) => Math.abs((a.prix_vente_fcfa || 0) - (article.prix_vente_fcfa || 0)) - Math.abs((b.prix_vente_fcfa || 0) - (article.prix_vente_fcfa || 0)));
+    
+    // 3. Prend les 4 premiers
     let finalSimilar = similar.slice(0, 4);
 
+    // 4. Si manque de produits dans la même catégorie, complète avec d'autres au hasard
     if (finalSimilar.length < 4) {
       const fallback = allArts.filter(a => a.reference !== article.reference && a.quantite > 0 && !finalSimilar.includes(a) && !excludeRefs.includes(a.reference)).sort(() => 0.5 - Math.random());
       finalSimilar = [...finalSimilar, ...fallback].slice(0, 4);
