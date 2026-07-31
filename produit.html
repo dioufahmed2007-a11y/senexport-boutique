@@ -114,12 +114,17 @@
   .prod-desc-wrap h2 { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; }
   .prod-desc { font-size: 1rem; color: var(--stone); line-height: 1.8; font-weight: 300; }
 
-  /* SECTION ACHETÉ ENSEMBLE (Bundle) - FAÇON AMAZON */
+  /* SECTION ACHETÉ ENSEMBLE (Bundle) - STRUCTURE ROBUSTE */
   .bundle-section { padding: 2rem 0; border-top: 1px solid var(--border); }
   .bundle-section h2 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; }
   .bundle-section h2 em { color: var(--or); font-style: italic; }
   .bundle-container { display: flex; flex-direction: column; gap: 1.5rem; background: var(--card); padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; }
-  .bundle-items { display: flex; align-items: flex-start; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+  
+  .bundle-items { display: flex; align-items: center; gap: 1rem; justify-content: center; }
+  @media (max-width: 767px) {
+    .bundle-items { flex-direction: column; }
+  }
+  
   .bundle-item { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; text-align: center; flex: 1; min-width: 100px; position: relative; }
   .bundle-checkbox-wrap { position: absolute; top: -5px; right: -5px; z-index: 2; }
   .bundle-check { display: none; }
@@ -131,7 +136,8 @@
   .bundle-item a:hover img { transform: scale(1.05); border-color: var(--or); }
   .bundle-item p { font-size: 0.8rem; font-weight: 500; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .bundle-item .b-price { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); font-weight: 600; }
-  .bundle-plus { font-size: 1.5rem; color: var(--muted); font-weight: 300; margin-top: 70px; /* Aligne le + avec le milieu de l'image */ }
+  
+  .bundle-plus { font-size: 1.5rem; color: var(--muted); font-weight: 300; flex-shrink: 0; }
   
   .bundle-total { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 1rem; flex-wrap: wrap; gap: 1rem; }
   .bundle-total-info { display: flex; flex-direction: column; gap: 0.25rem; }
@@ -142,6 +148,7 @@
   .bundle-btn:disabled { opacity: 0.3; cursor: not-allowed; border-color: var(--border); color: var(--muted); background: transparent; }
 
   /* MENUS DÉROULANTS (Avis & Q/R) */
+  .collapse-wrap { padding: 1rem 0; } /* Remplace sim-section pour éviter le grand padding */
   .collapse-section { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; background: var(--card); overflow: hidden; transition: box-shadow 0.3s; }
   .collapse-section:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
   .collapse-header { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.2s; }
@@ -154,7 +161,7 @@
   .collapse-section.open .collapse-body { max-height: 5000px; transition: max-height 1s ease-in-out; }
   .collapse-inner { padding: 0 1.5rem 1.5rem; }
 
-  /* Contenu Avis - Contraste corrigé */
+  /* Contenu Avis */
   .reviews-summary { display: flex; gap: 2rem; padding: 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 2rem; flex-wrap: wrap; align-items: center; }
   .reviews-avg-big { font-family: var(--ff-d); font-size: 2.5rem; color: var(--or); font-weight: 600; line-height: 1; }
   .reviews-avg-stars { color: var(--or); letter-spacing: 2px; font-size: 1rem; margin-top: 0.5rem; }
@@ -326,10 +333,10 @@
   </section>
 
   <!-- Section Avis Clients -->
-  <section class="sim-section" id="reviews-section-container" style="display:none;"></section>
+  <section class="collapse-wrap" id="reviews-section-container" style="display:none;"></section>
 
   <!-- Section Questions/Réponses -->
-  <section class="sim-section" id="qa-section-container" style="display:none;"></section>
+  <section class="collapse-wrap" id="qa-section-container" style="display:none;"></section>
 
 </div>
 
@@ -1042,7 +1049,6 @@
     }
   }
 
-  // NOUVELLE FONCTION BUNDLE AVEC CASES À COCHER (FAÇON AMAZON)
   function loadBundle(mainArticle) {
     const allArts = SE.Articles.cache || [];
     if (allArts.length < 3) return [];
@@ -1086,7 +1092,6 @@
     bundleSection.innerHTML = bundleHTML;
     bundleSection.style.display = 'block';
 
-    // Logique de calcul dynamique (façon Amazon)
     const updateBundleTotal = () => {
       let total = 0;
       let checkedCount = 0;
@@ -1111,15 +1116,12 @@
       }
     };
 
-    // Initialiser le prix au chargement
     updateBundleTotal();
 
-    // Écouteurs d'événements sur les checkboxes
     document.querySelectorAll('.bundle-check').forEach(check => {
       check.addEventListener('change', updateBundleTotal);
     });
 
-    // Bouton d'ajout au panier (n'ajoute que les cochés)
     document.getElementById('bundle-btn').addEventListener('click', () => {
       document.querySelectorAll('.bundle-item').forEach(item => {
         const checkbox = item.querySelector('.bundle-check');
