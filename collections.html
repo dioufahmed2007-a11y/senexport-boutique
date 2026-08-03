@@ -38,7 +38,7 @@
   .hero-cta { display: inline-block; margin-top: 2rem; background: var(--or); color: #000; text-decoration: none; padding: 1rem 2.5rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; transition: 0.3s; border: 1px solid var(--or); }
   .hero-cta:hover { background: transparent; color: var(--or); }
 
-  /* AMBIANT (Snow) */
+  /* AMBIANT (Neige) */
   .ambient-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
   .snowflake { position: absolute; top: -10px; background: #fff; border-radius: 50%; opacity: 0.8; animation: fall linear infinite; }
   @keyframes fall { 0% { transform: translateY(-10vh) translateX(0); opacity: 0; } 20% { opacity: 0.8; } 100% { transform: translateY(100vh) translateX(50px); opacity: 0; } }
@@ -165,19 +165,18 @@
   /* 
     ==========================================
     CONFIGURATION DES GUIDES DE STYLE ("Comment le porter")
-    Facile à modifier : modifie les références ici.
     ==========================================
   */
   const STYLE_GUIDES = [
     {
       img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop',
       titre: 'Le total look <em>Streetwear</em>',
-      refs: ['SW-001', 'SW-002', 'SW-003'] // Remplace par tes vraies références
+      refs: ['SW-001', 'SW-002', 'SW-003'] 
     },
     {
       img: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?q=80&w=1200&auto=format&fit=crop',
       titre: 'Élégance <em>au quotidien</em>',
-      refs: ['SW-004', 'SW-005'] // Remplace par tes vraies références
+      refs: ['SW-004', 'SW-005'] 
     }
   ];
 
@@ -189,6 +188,7 @@
   // 1. Effet Visuel (Neige)
   function generateAmbient(type) {
     const layer = document.getElementById('ambient-layer');
+    if (!layer) return;
     layer.innerHTML = '';
     if (type === 'snow') {
       for (let i = 0; i < 40; i++) {
@@ -234,7 +234,7 @@
 
       return `<div class="teaser-carousel">${slidesHTML}</div>`;
     }
-    return ''; // Si rien n'est configuré
+    return ''; 
   }
 
   // 3. Grille Produits
@@ -366,60 +366,61 @@
     // CAS COLLECTION NORMALE
     if (!colId) { location.href = 'mode.html'; return; }
 
-    // 1. Charger la collection
-    const { data: cols, error: colErr } = await SE.sb.from('collections').select('*').eq('id', colId).limit(1);
-    if (colErr || !cols || cols.length === 0) { location.href = 'mode.html'; return; }
-    const col = cols[0];
+    try {
+      // 1. Charger la collection
+      const { data: cols, error: colErr } = await SE.sb.from('collections').select('*').eq('id', colId).limit(1);
+      if (colErr || !cols || cols.length === 0) { location.href = 'mode.html'; return; }
+      const col = cols[0];
 
-    document.title = `${esc(col.nom)} — SenExport Boutique`;
+      document.title = `${esc(col.nom)} — SenExport Boutique`;
 
-    // 2. Charger les liaisons
-    const { data: liens, error: lienErr } = await SE.sb.from('collection_articles').select('article_ref').eq('collection_id', col.id);
-    let collectionArticles = [];
-    if (!lienErr && liens && liens.length > 0) {
-      const refs = liens.map(l => l.article_ref);
-      const { data: arts, error: artErr } = await SE.sb.from('articles').select('*').in('reference', refs);
-      if (!artErr && arts) collectionArticles = arts;
-    }
-
-    // 3. Remplir le Hero
-    document.getElementById('col-hero-bg').style.backgroundImage = `url('${esc(col.image_url || 'https://placehold.co/1600x900/08090E/D4AF37?text=SenExport')}')`;
-    document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? '● Disponible Maintenant' : 'Collection';
-    document.getElementById('col-title').innerHTML = esc(col.nom).replace(/(\d{4})/, '<em>$1</em>'); // Met l'année en doré
-    document.getElementById('col-desc').textContent = col.description || '';
-    
-    if (col.statut === 'passee') document.getElementById('col-hero').classList.add('past');
-
-    // 4. Effet visuel
-    generateAmbient(col.theme_visuel);
-
-    // 5. Construire la page
-    if (col.statut === 'a_venir') {
-      document.getElementById('hero-cta').style.display = 'none';
-      renderTeasing(col);
-    } else {
-      // Filtrer les produits
-      let productsToShow = collectionArticles;
-      if (col.statut === 'passee') {
-        productsToShow = collectionArticles.filter(a => (a.quantite || 0) > 0);
-      } else {
-        // en_cours : on montre tout (même en rupture pour montrer la collection)
-        productsToShow = collectionArticles; 
+      // 2. Charger les liaisons
+      const { data: liens, error: lienErr } = await SE.sb.from('collection_articles').select('article_ref').eq('collection_id', col.id);
+      let collectionArticles = [];
+      if (!lienErr && liens && liens.length > 0) {
+        const refs = liens.map(l => l.article_ref);
+        const { data: arts, error: artErr } = await SE.sb.from('articles').select('*').in('reference', refs);
+        if (!artErr && arts) collectionArticles = arts;
       }
 
-      let html = '';
-      html += renderTeaser(col);
-      html += renderProducts(productsToShow);
-      html += renderGuides(allArts); // On passe tous les articles pour pouvoir chercher les refs des guides
+      // 3. Remplir le Hero
+      document.getElementById('col-hero-bg').style.backgroundImage = `url('${esc(col.image_url || 'https://placehold.co/1600x900/08090E/D4AF37?text=SenExport')}')`;
+      document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? '● Disponible Maintenant' : 'Collection';
+      document.getElementById('col-title').innerHTML = esc(col.nom).replace(/(\d{4})/, '<em>$1</em>'); 
+      document.getElementById('col-desc').textContent = col.description || '';
       
-      html += `
-        <div class="final-cta">
-          <h3>Envie de voir <em>plus</em> ?</h3>
-          <a href="mode.html" class="final-btn">Retour à la Mode</a>
-        </div>
-      `;
+      if (col.statut === 'passee') document.getElementById('col-hero').classList.add('past');
 
-      dynamicContent.innerHTML = html;
+      // 4. Effet visuel
+      generateAmbient(col.theme_visuel);
+
+      // 5. Construire la page
+      if (col.statut === 'a_venir') {
+        document.getElementById('hero-cta').style.display = 'none';
+        renderTeasing(col);
+      } else {
+        let productsToShow = collectionArticles;
+        if (col.statut === 'passee') {
+          productsToShow = collectionArticles.filter(a => (a.quantite || 0) > 0);
+        }
+
+        let html = '';
+        html += renderTeaser(col);
+        html += renderProducts(productsToShow);
+        html += renderGuides(allArts); 
+        
+        html += `
+          <div class="final-cta">
+            <h3>Envie de voir <em>plus</em> ?</h3>
+            <a href="mode.html" class="final-btn">Retour à la Mode</a>
+          </div>
+        `;
+
+        dynamicContent.innerHTML = html;
+      }
+    } catch (e) {
+      console.error('[Collection] Erreur:', e);
+      dynamicContent.innerHTML = `<div class="empty-state"><h3>Erreur de chargement</h3><p>Veuillez réessayer plus tard.</p></div>`;
     }
   }
 
