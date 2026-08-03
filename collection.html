@@ -24,7 +24,7 @@
   button { cursor: pointer; -webkit-appearance: none; appearance: none; font-family: inherit; }
   .container { width: 100%; padding: 0 1rem; max-width: 1400px; margin: 0 auto; }
 
-  /* ═══ 1. HERO IMMERSIF ═══ */
+  /* HERO */
   .col-hero { height: 80vh; min-height: 550px; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; margin-top: -56px; }
   .col-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: grayscale(20%) contrast(1.1); z-index: 0; transition: filter 0.5s ease; }
   .col-hero.past .col-hero-bg { filter: grayscale(80%) brightness(0.5); }
@@ -38,31 +38,26 @@
   .hero-cta { display: inline-block; margin-top: 2rem; background: var(--or); color: #000; text-decoration: none; padding: 1rem 2.5rem; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 8px; transition: 0.3s; border: 1px solid var(--or); }
   .hero-cta:hover { background: transparent; color: var(--or); }
 
-  /* EFFET AMBIANT (Flocons) */
+  /* AMBIANT (Neige) */
   .ambient-layer { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
-  .snowflake { position: absolute; top: -10px; color: #fff; background: #fff; border-radius: 50%; opacity: 0.8; animation: fall linear infinite; }
-  @keyframes fall {
-    0% { transform: translateY(-10vh) translateX(0); opacity: 0; }
-    20% { opacity: 0.8; }
-    100% { transform: translateY(100vh) translateX(50px); opacity: 0; }
-  }
+  .snowflake { position: absolute; top: -10px; background: #fff; border-radius: 50%; opacity: 0.8; animation: fall linear infinite; }
+  @keyframes fall { 0% { transform: translateY(-10vh) translateX(0); opacity: 0; } 20% { opacity: 0.8; } 100% { transform: translateY(100vh) translateX(50px); opacity: 0; } }
 
-  /* ═══ 2. BLOC TEASER (Carrousel) ═══ */
+  /* TEASER */
   .teaser-carousel { position: relative; height: 400px; overflow: hidden; margin-bottom: 4rem; }
   .teaser-slide { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; display: flex; align-items: center; justify-content: center; }
   .teaser-slide.active { opacity: 1; }
-  .teaser-caption { font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 3rem); color: #fff; text-transform: uppercase; text-align: center; text-shadow: 0 2px 10px rgba(0,0,0,0.8); padding: 2rem; z-index: 2; }
+  .teaser-video { width: 100%; height: 100%; object-fit: cover; }
+  .teaser-caption { font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 3rem); color: #fff; text-transform: uppercase; text-align: center; text-shadow: 0 2px 10px rgba(0,0,0,0.8); padding: 2rem; z-index: 2; position: absolute; }
   .teaser-caption em { color: var(--or); font-style: italic; }
 
-  /* ═══ 3. GRILLE PRODUITS ═══ */
-  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; padding-bottom: 1rem; padding-top: 0; border-bottom: 1px solid var(--or-line); }
+  /* GRILLE */
+  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--or-line); }
   .section-head h2 { font-family: var(--ff-d); font-size: 1.8rem; font-weight: 400; color: var(--ink); margin: 0; }
   .section-head h2 em { color: var(--or); font-style: italic; }
   .section-head .meta { font-family: var(--ff-m); font-size: 0.7rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
-
   .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 1rem 0 3rem; margin: 0; }
   @media (min-width: 768px) { .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
-
   .p-card { background: var(--card2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); text-decoration: none; }
   .p-card:hover { transform: translateY(-5px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); border-color: var(--or-line); }
   .p-image-wrap { aspect-ratio: 4/5; overflow: hidden; background: var(--bg2); display: block; position: relative; }
@@ -72,7 +67,7 @@
   .p-name { font-size: 0.8rem; color: var(--ink); font-weight: 500; line-height: 1.4; text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 2.24rem; }
   .p-prix { font-family: var(--ff-d); font-size: 1.3rem; font-weight: 800; color: var(--prix); margin-top: auto; margin-bottom: 8px; }
 
-  /* ═══ 4. SECTION "COMMENT PORTER" ═══ */
+  /* GUIDES */
   .guide-section { padding: 2rem 0 4rem; }
   .guide-card { display: grid; grid-template-columns: 1fr; margin-bottom: 2rem; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--card); }
   @media (min-width: 768px) { .guide-card { grid-template-columns: 1fr 1fr; } .guide-card.reverse .guide-img { order: 2; } }
@@ -86,14 +81,14 @@
   .guide-link span { font-size: 0.85rem; font-weight: 500; }
   .guide-link strong { font-family: var(--ff-m); font-size: 0.8rem; color: var(--prix); }
 
-  /* ═══ 5. CTA FINAL ═══ */
+  /* CTA */
   .final-cta { text-align: center; padding: 4rem 1rem; border-top: 1px solid var(--border); margin-top: 2rem; }
   .final-cta h3 { font-family: var(--ff-d); font-size: 2rem; color: var(--ink); margin-bottom: 1.5rem; font-weight: 400; }
   .final-cta h3 em { color: var(--or); font-style: italic; }
   .final-btn { display: inline-block; background: var(--ink); color: var(--bg); padding: 1rem 2.5rem; text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; border-radius: 8px; transition: 0.3s; border: 1px solid var(--ink); }
   .final-btn:hover { background: transparent; color: var(--ink); }
 
-  /* TEASING (A venir) */
+  /* TEASING */
   .teasing-section { padding: 5rem 1rem; text-align: center; }
   .teasing-title { font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3rem); color: var(--ink); margin-bottom: 1rem; }
   .teasing-title em { color: var(--or); font-style: italic; }
@@ -104,13 +99,11 @@
   .chrono-lbl { font-family: var(--ff-m); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin-top: 0.5rem; display: block; }
   .teasing-cta { display: inline-block; padding: 1rem 2rem; background: #25D366; color: #fff; text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.1em; border-radius: 8px; transition: 0.2s; }
   .teasing-cta:hover { background: #1ebe57; transform: translateY(-2px); }
-  
   .empty-state { text-align: center; padding: 5rem 1rem; color: var(--stone); }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav" id="nav">
   <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
   <ul class="nav-links"><li><a href="index.html">Accueil</a></li><li><a href="mode.html">Mode</a></li><li><a href="catalogue.html">Catalogue</a></li><li><a href="maison.html">Maison</a></li></ul>
@@ -120,7 +113,6 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="col-hero" id="col-hero">
   <div class="col-hero-bg" id="col-hero-bg"></div>
   <div class="col-hero-overlay"></div>
@@ -133,7 +125,6 @@
   </div>
 </div>
 
-<!-- CONTENU DYNAMIQUE -->
 <div class="container">
   <div id="dynamic-content">
     <div class="empty-state"><p>Chargement de la collection...</p></div>
@@ -164,48 +155,34 @@
     return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
-  /* 
-    ==========================================
-    CONFIGURATION DES COLLECTIONS (Facile à modifier)
-    ==========================================
-  */
-  const COLLECTIONS_CONFIG = {
-    'hiver-2026': {
-      titre: 'Drop Hiver <em>2026</em>',
-      badge: '● Disponible Maintenant',
-      desc: 'La sélection parfaite pour affronter l\'hiver avec style. Importé de France.',
-      img: 'https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=2000&auto=format&fit=crop',
-      ambient: 'snow', // Effet visuel
-      carousel: [
-        { img: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1600&auto=format&fit=crop', caption: 'L\'hiver ne fait que <em>commencer</em>' },
-        { img: 'https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=1600&auto=format&fit=crop', caption: 'Reste <em>chic</em>, reste au chaud' },
-        { img: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=1600&auto=format&fit=crop', caption: 'Importé de <em>France</em>' }
-      ],
-      guides: [
-        { img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop', titre: 'Le total look <em>Streetwear</em>', refs: ['SW-001', 'SW-002', 'SW-003'] },
-        { img: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?q=80&w=1200&auto=format&fit=crop', titre: 'Élégance <em>au quotidien</em>', refs: ['SW-004', 'SW-005'] }
-      ]
+  function fprix(n) { return Math.round(n||0).toLocaleString('fr-FR') + ' FCFA'; }
+  function imgUrl(u) {
+    if (!u) return 'https://placehold.co/600x800/08090E/D4AF37?text=SenExport';
+    if (u.startsWith('http')) return u;
+    return `https://axgpohmhzmdgozndlntj.supabase.co/storage/v1/object/public/photos/${u}`;
+  }
+
+  const STYLE_GUIDES = [
+    {
+      img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop',
+      titre: 'Le total look <em>Streetwear</em>',
+      refs: ['SW-001', 'SW-002', 'SW-003'] 
     },
-    'archives-2025': {
-      titre: 'Archives <em>2025</em>',
-      badge: 'Pièces limitées',
-      desc: 'Les toutes dernières pièces disponibles de nos collections précédentes. Une fois épuisées, elles ne reviendront pas.',
-      img: 'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?q=80&w=2000&auto=format&fit=crop',
-      ambient: 'none',
-      carousel: [],
-      guides: []
+    {
+      img: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?q=80&w=1200&auto=format&fit=crop',
+      titre: 'Élégance <em>au quotidien</em>',
+      refs: ['SW-004', 'SW-005'] 
     }
-  };
+  ];
 
   const params = new URLSearchParams(window.location.search);
   const colId = params.get('id');
   const status = params.get('status');
-
   const dynamicContent = document.getElementById('dynamic-content');
 
-  // 1. Générateur d'effet visuel (Flocons)
   function generateAmbient(type) {
     const layer = document.getElementById('ambient-layer');
+    if (!layer) return;
     layer.innerHTML = '';
     if (type === 'snow') {
       for (let i = 0; i < 40; i++) {
@@ -213,7 +190,7 @@
         flake.className = 'snowflake';
         const size = Math.random() * 4 + 2 + 'px';
         flake.style.width = size;
-        flflake.style.height = size;
+        flake.style.height = size;
         flake.style.left = Math.random() * 100 + '%';
         flake.style.animationDuration = (Math.random() * 5 + 5) + 's';
         flake.style.animationDelay = (Math.random() * 5) + 's';
@@ -223,29 +200,36 @@
     }
   }
 
-  // 2. Carrousel d'ambiance
-  function renderCarousel(slides) {
-    if (slides.length === 0) return '';
-    let slidesHTML = slides.map((s, i) => `
-      <div class="teaser-slide ${i === 0 ? 'active' : ''}" style="background-image:url('${s.img}')">
-        <div class="teaser-caption">${s.caption}</div>
-      </div>
-    `).join('');
-    
-    // Logique de défilement
-    let current = 0;
-    setInterval(() => {
-      const allSlides = document.querySelectorAll('.teaser-slide');
-      if (allSlides.length === 0) return;
-      allSlides[current].classList.remove('active');
-      current = (current + 1) % allSlides.length;
-      allSlides[current].classList.add('active');
-    }, 4000);
+  function renderTeaser(col) {
+    if (col.video_url) {
+      return `
+        <div class="teaser-carousel">
+          <video class="teaser-video" autoplay muted loop playsinline>
+            <source src="${esc(col.video_url)}" type="video/mp4">
+          </video>
+        </div>
+      `;
+    } else if (col.teaser_images && col.teaser_images.length > 0) {
+      let slidesHTML = col.teaser_images.map((img, i) => `
+        <div class="teaser-slide ${i === 0 ? 'active' : ''}" style="background-image:url('${esc(img)}')">
+          <div class="teaser-caption">${i === 0 ? 'L\'hiver ne fait que <em>commencer</em>' : ''}</div>
+        </div>
+      `).join('');
 
-    return `<div class="teaser-carousel">${slidesHTML}</div>`;
+      let current = 0;
+      setInterval(() => {
+        const allSlides = document.querySelectorAll('.teaser-slide');
+        if (allSlides.length === 0) return;
+        allSlides[current].classList.remove('active');
+        current = (current + 1) % allSlides.length;
+        allSlides[current].classList.add('active');
+      }, 4000);
+
+      return `<div class="teaser-carousel">${slidesHTML}</div>`;
+    }
+    return ''; 
   }
 
-  // 3. Grille de produits (Filtrage par collection_id)
   function renderProducts(articles) {
     if (articles.length === 0) {
       return `
@@ -266,13 +250,13 @@
 
     articles.forEach(a => {
       const prix = a.prix_vente_fcfa || 0;
-      const photo = a.photo_url ? (SE.imgUrl ? SE.imgUrl(a.photo_url, 400) : a.photo_url) : 'https://placehold.co/400x500';
+      const photo = imgUrl(a.photo_url);
       gridHTML += `
         <a href="produit.html?ref=${esc(a.reference)}" class="p-card">
           <div class="p-image-wrap"><img src="${esc(photo)}" alt="${esc(a.nom)}" loading="lazy"></div>
           <div class="p-body">
             <span class="p-name">${esc(a.nom)}</span>
-            <span class="p-prix">${SE.fprix(prix)}</span>
+            <span class="p-prix">${fprix(prix)}</span>
           </div>
         </a>`;
     });
@@ -281,13 +265,12 @@
     return gridHTML;
   }
 
-  // 4. Guide de style ("Comment porter")
-  function renderGuides(guides, allArts) {
-    if (guides.length === 0) return '';
+  function renderGuides(allArts) {
+    if (STYLE_GUIDES.length === 0) return '';
     
     let guidesHTML = `<div class="section-head"><h2>Comment le <em>porter</em></h2></div><div class="guide-section">`;
     
-    guides.forEach((g, i) => {
+    STYLE_GUIDES.forEach((g, i) => {
       let linksHTML = '';
       g.refs.forEach(ref => {
         const art = allArts.find(a => a.reference === ref);
@@ -295,14 +278,14 @@
           linksHTML += `
             <a href="produit.html?ref=${esc(art.reference)}" class="guide-link">
               <span>${esc(art.nom)}</span>
-              <strong>${SE.fprix(art.prix_vente_fcfa || 0)}</strong>
+              <strong>${fprix(art.prix_vente_fcfa || 0)}</strong>
             </a>`;
         }
       });
 
       guidesHTML += `
         <div class="guide-card ${i % 2 !== 0 ? 'reverse' : ''}">
-          <div class="guide-img" style="background-image:url('${g.img}')"></div>
+          <div class="guide-img" style="background-image:url('${esc(g.img)}')"></div>
           <div class="guide-content">
             <h3 class="guide-title">${g.titre}</h3>
             <div class="guide-links">${linksHTML}</div>
@@ -315,12 +298,11 @@
     return guidesHTML;
   }
 
-  // 5. Teasing (A venir)
-  function renderTeasing() {
+  function renderTeasing(col) {
     dynamicContent.innerHTML = `
       <div class="teasing-section">
         <h2 class="teasing-title">Arrivage <em>Bientôt</em></h2>
-        <p class="teasing-text">Préparez-vous. Le prochain drop arrive très bientôt. Soyez le premier à être informé.</p>
+        <p class="teasing-text">${esc(col.description || 'Préparez-vous. Le prochain drop arrive très bientôt. Soyez le premier à être informé.')}</p>
         <div class="chrono-big" id="chrono">
           <div class="chrono-unit"><span class="chrono-val" id="cd-j">00</span><span class="chrono-lbl">Jours</span></div>
           <div class="chrono-unit"><span class="chrono-val" id="cd-h">00</span><span class="chrono-lbl">Heures</span></div>
@@ -331,25 +313,25 @@
       </div>
     `;
 
-    const DROP_DATE = new Date('2026-12-15T00:00:00').getTime();
-    function tickChrono() {
-      const now = new Date().getTime();
-      const diff = DROP_DATE - now;
-      if (diff <= 0) return;
-      document.getElementById('cd-j').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
-      document.getElementById('cd-h').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
-      document.getElementById('cd-m').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-      document.getElementById('cd-s').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+    if (col.date_lancement) {
+      const DROP_DATE = new Date(col.date_lancement).getTime();
+      function tickChrono() {
+        const now = new Date().getTime();
+        const diff = DROP_DATE - now;
+        if (diff <= 0) return;
+        document.getElementById('cd-j').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
+        document.getElementById('cd-h').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2, '0');
+        document.getElementById('cd-m').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+        document.getElementById('cd-s').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+      }
+      tickChrono(); setInterval(tickChrono, 1000);
     }
-    tickChrono(); setInterval(tickChrono, 1000);
   }
 
-  // LOGIQUE PRINCIPALE
   async function init() {
     await SE.Articles.load();
     const allArts = SE.Articles.cache || [];
 
-    // CAS A VENIR
     if (status === 'upcoming') {
       const heroBg = document.getElementById('col-hero-bg');
       const hero = document.getElementById('col-hero');
@@ -365,43 +347,63 @@
       desc.textContent = 'Une collection futuriste inspirée de la rue parisienne. En préparation.';
       cta.style.display = 'none';
       
-      renderTeasing();
+      renderTeasing({ date_lancement: '2026-12-15T00:00:00', description: '' });
       return;
     }
 
-    // CAS COLLECTION NORMALE OU ARCHIVES
-    const config = COLLECTIONS_CONFIG[colId] || COLLECTIONS_CONFIG['hiver-2026']; // Fallback
+    if (!colId) { location.href = 'mode.html'; return; }
 
-    // 1. Remplir le Hero
-    document.getElementById('col-hero-bg').style.backgroundImage = `url('${config.img}')`;
-    document.getElementById('col-badge').textContent = config.badge;
-    document.getElementById('col-title').innerHTML = config.titre;
-    document.getElementById('col-desc').textContent = config.desc;
-    
-    if (colId === 'archives-2025') document.getElementById('col-hero').classList.add('past');
+    try {
+      const { data: cols, error: colErr } = await SE.sb.from('collections').select('*').eq('id', colId).limit(1);
+      if (colErr || !cols || cols.length === 0) { location.href = 'mode.html'; return; }
+      const col = cols[0];
 
-    // 2. Effet visuel
-    generateAmbient(config.ambient);
+      document.title = `${esc(col.nom)} — SenExport Boutique`;
 
-    // 3. Récupérer les VRAIS produits de la collection
-    // On filtre par collection_id en supposant que tu as ajouté ce champ dans Supabase
-    const collectionProducts = allArts.filter(a => a.collection_id === colId && (a.quantite || 0) > 0);
+      const { data: liens, error: lienErr } = await SE.sb.from('collection_articles').select('article_ref').eq('collection_id', col.id);
+      let collectionArticles = [];
+      if (!lienErr && liens && liens.length > 0) {
+        const refs = liens.map(l => l.article_ref);
+        const { data: arts, error: artErr } = await SE.sb.from('articles').select('*').in('reference', refs);
+        if (!artErr && arts) collectionArticles = arts;
+      }
 
-    // 4. Construire la page
-    let html = '';
-    html += renderCarousel(config.carousel);
-    html += renderProducts(collectionProducts);
-    html += renderGuides(config.guides, allArts);
-    
-    // 5. CTA Final
-    html += `
-      <div class="final-cta">
-        <h3>Envie de voir <em>plus</em> ?</h3>
-        <a href="mode.html" class="final-btn">Retour à la Mode</a>
-      </div>
-    `;
+      document.getElementById('col-hero-bg').style.backgroundImage = `url('${esc(col.image_url || 'https://placehold.co/1600x900/08090E/D4AF37?text=SenExport')}')`;
+      document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? '● Disponible Maintenant' : 'Collection';
+      document.getElementById('col-title').innerHTML = esc(col.nom).replace(/(\d{4})/, '<em>$1</em>'); 
+      document.getElementById('col-desc').textContent = col.description || '';
+      
+      if (col.statut === 'passee') document.getElementById('col-hero').classList.add('past');
 
-    dynamicContent.innerHTML = html;
+      generateAmbient(col.theme_visuel);
+
+      if (col.statut === 'a_venir') {
+        document.getElementById('hero-cta').style.display = 'none';
+        renderTeasing(col);
+      } else {
+        let productsToShow = collectionArticles;
+        if (col.statut === 'passee') {
+          productsToShow = collectionArticles.filter(a => (a.quantite || 0) > 0);
+        }
+
+        let html = '';
+        html += renderTeaser(col);
+        html += renderProducts(productsToShow);
+        html += renderGuides(allArts); 
+        
+        html += `
+          <div class="final-cta">
+            <h3>Envie de voir <em>plus</em> ?</h3>
+            <a href="mode.html" class="final-btn">Retour à la Mode</a>
+          </div>
+        `;
+
+        dynamicContent.innerHTML = html;
+      }
+    } catch (e) {
+      console.error('[Collection] Erreur:', e);
+      dynamicContent.innerHTML = `<div class="empty-state"><h3>Erreur de chargement</h3><p>Veuillez réessayer plus tard.</p></div>`;
+    }
   }
 
   if (document.readyState === 'complete') init();
