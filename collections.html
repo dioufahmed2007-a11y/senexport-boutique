@@ -162,11 +162,6 @@
     return `https://axgpohmhzmdgozndlntj.supabase.co/storage/v1/object/public/photos/${u}`;
   }
 
-  /* 
-    ==========================================
-    CONFIGURATION DES GUIDES DE STYLE ("Comment le porter")
-    ==========================================
-  */
   const STYLE_GUIDES = [
     {
       img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop',
@@ -185,7 +180,6 @@
   const status = params.get('status');
   const dynamicContent = document.getElementById('dynamic-content');
 
-  // 1. Effet Visuel (Neige)
   function generateAmbient(type) {
     const layer = document.getElementById('ambient-layer');
     if (!layer) return;
@@ -206,7 +200,6 @@
     }
   }
 
-  // 2. Teaser (Vidéo ou Carrousel)
   function renderTeaser(col) {
     if (col.video_url) {
       return `
@@ -237,7 +230,6 @@
     return ''; 
   }
 
-  // 3. Grille Produits
   function renderProducts(articles) {
     if (articles.length === 0) {
       return `
@@ -273,7 +265,6 @@
     return gridHTML;
   }
 
-  // 4. Guides de style
   function renderGuides(allArts) {
     if (STYLE_GUIDES.length === 0) return '';
     
@@ -307,7 +298,6 @@
     return guidesHTML;
   }
 
-  // 5. Teasing (A venir)
   function renderTeasing(col) {
     dynamicContent.innerHTML = `
       <div class="teasing-section">
@@ -338,12 +328,10 @@
     }
   }
 
-  // LOGIQUE PRINCIPALE
   async function init() {
     await SE.Articles.load();
     const allArts = SE.Articles.cache || [];
 
-    // CAS A VENIR (sans ID de collection, juste le statut)
     if (status === 'upcoming') {
       const heroBg = document.getElementById('col-hero-bg');
       const hero = document.getElementById('col-hero');
@@ -363,18 +351,15 @@
       return;
     }
 
-    // CAS COLLECTION NORMALE
     if (!colId) { location.href = 'mode.html'; return; }
 
     try {
-      // 1. Charger la collection
       const { data: cols, error: colErr } = await SE.sb.from('collections').select('*').eq('id', colId).limit(1);
       if (colErr || !cols || cols.length === 0) { location.href = 'mode.html'; return; }
       const col = cols[0];
 
       document.title = `${esc(col.nom)} — SenExport Boutique`;
 
-      // 2. Charger les liaisons
       const { data: liens, error: lienErr } = await SE.sb.from('collection_articles').select('article_ref').eq('collection_id', col.id);
       let collectionArticles = [];
       if (!lienErr && liens && liens.length > 0) {
@@ -383,7 +368,6 @@
         if (!artErr && arts) collectionArticles = arts;
       }
 
-      // 3. Remplir le Hero
       document.getElementById('col-hero-bg').style.backgroundImage = `url('${esc(col.image_url || 'https://placehold.co/1600x900/08090E/D4AF37?text=SenExport')}')`;
       document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? '● Disponible Maintenant' : 'Collection';
       document.getElementById('col-title').innerHTML = esc(col.nom).replace(/(\d{4})/, '<em>$1</em>'); 
@@ -391,10 +375,8 @@
       
       if (col.statut === 'passee') document.getElementById('col-hero').classList.add('past');
 
-      // 4. Effet visuel
       generateAmbient(col.theme_visuel);
 
-      // 5. Construire la page
       if (col.statut === 'a_venir') {
         document.getElementById('hero-cta').style.display = 'none';
         renderTeasing(col);
