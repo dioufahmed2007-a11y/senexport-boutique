@@ -247,14 +247,14 @@
   </div>
 </div>
 
-<!-- 2. COLLECTIONS (LIENS MIS A JOUR AVEC LE VRAI UUID) -->
+<!-- 2. COLLECTIONS (LIENS MIS A JOUR AVEC LES VRAIS UUIDS) -->
 <div class="container">
   <div class="section-head">
     <h2>Les <em>Arrivages</em></h2>
     <span class="meta">Drops & Archives</span>
   </div>
 
-  <a href="collection.html?id=c6362321-7eec-4aa2-ad5f-e90d82b7564d" class="col-banner current">
+  <a href="collection.html?id=00000000-0000-0000-0000-000000000001" class="col-banner current">
     <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=1200&auto=format&fit=crop');"></div>
     <div class="col-content">
       <span class="col-badge">● Disponible Maintenant</span>
@@ -276,11 +276,11 @@
     </div>
   </a>
 
-  <a href="collection.html?id=archives-2025" class="col-banner past">
+  <a href="collection.html?id=00000000-0000-0000-0000-000000000003" class="col-banner past">
     <div class="col-bg" style="background-image: url('https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?q=80&w=1200&auto=format&fit=crop');"></div>
     <div class="col-content">
       <span class="col-badge">Archives</span>
-      <h3 class="col-title">Drop Printemps <em>2025</em></h3>
+      <h3 class="col-title">Archives <em>2025</em></h3>
     </div>
   </a>
 </div>
@@ -363,12 +363,9 @@
 (() => {
   'use strict';
 
-  // 0. FONCTION DE SÉCURITÉ
   function esc(s) {
     if (s === null || s === undefined) return '';
-    return String(s).replace(/[&<>"']/g, c => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
+    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   }
 
   // 1. COMPTE À REBOURS
@@ -446,9 +443,7 @@
     const stock = article ? (article.quantite || 0) : 0;
     
     if (action === 'inc' && item) {
-      if (item.qte < stock) {
-        SE.Cart.setQte(ref, item.qte + 1);
-      }
+      if (item.qte < stock) SE.Cart.setQte(ref, item.qte + 1);
     } else if (action === 'dec' && item) {
       if (item.qte > 1) SE.Cart.setQte(ref, item.qte - 1);
       else SE.Cart.remove(ref);
@@ -522,13 +517,8 @@
     
     if (articles.length === 0 && gridId === 'product-grid') { 
       grid.innerHTML = `<div style="grid-column:1/-1;padding:4rem 1rem;text-align:center">
-        <p style="font-family:var(--ff-d);font-size:1.8rem;color:var(--stone);margin-bottom:1rem">
-          Aucune pièce disponible
-        </p>
-        <a href="demande-speciale.html" 
-          style="font-family:var(--ff-m);font-size:.75rem;color:var(--or);text-transform:uppercase;letter-spacing:.12em;text-decoration:none;border-bottom:1px solid var(--or);padding-bottom:.2rem">
-          Faire une demande spéciale →
-        </a>
+        <p style="font-family:var(--ff-d);font-size:1.8rem;color:var(--stone);margin-bottom:1rem">Aucune pièce disponible</p>
+        <a href="demande-speciale.html" style="font-family:var(--ff-m);font-size:.75rem;color:var(--or);text-transform:uppercase;letter-spacing:.12em;text-decoration:none;border-bottom:1px solid var(--or);padding-bottom:.2rem">Faire une demande spéciale →</a>
       </div>`; 
       return; 
     }
@@ -575,7 +565,6 @@
     const card = button.closest('.p-card');
     const img = card.querySelector('.p-image-wrap img');
     const cartIcon = document.getElementById('nav-cart-icon');
-    
     if (!img || !cartIcon) return;
 
     const imgRect = img.getBoundingClientRect();
