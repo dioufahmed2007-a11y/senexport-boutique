@@ -24,55 +24,76 @@
   img { max-width: 100%; display: block; }
   button { cursor: pointer; background: none; border: none; font-family: inherit; color: inherit; }
   a { color: inherit; text-decoration: none; }
-  .container { width: 100%; padding: 0 2rem; max-width: 1600px; margin: 0 auto; }
+  .container { width: 100%; padding: 0 2rem; max-width: 1400px; margin: 0 auto; }
   @media (max-width: 640px) { .container { padding: 0 1.25rem; } }
 
-  /* 1. HERO */
-  .col-hero { height: 100vh; display: flex; align-items: flex-end; position: relative; overflow: hidden; }
-  .col-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: grayscale(40%) contrast(1.1); z-index: 0; animation: slowZoom 20s infinite alternate ease-in-out; }
-  @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.5) 100%); z-index: 1; }
-  .col-hero-content { position: relative; z-index: 2; padding: 0 2rem 5rem; width: 100%; max-width: 1600px; margin: 0 auto; }
-  @media (max-width: 640px) { .col-hero-content { padding: 0 1.25rem 3.5rem; } }
-  .col-badge { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
-  .col-title { font-family: var(--ff-d); font-size: clamp(3rem, 10vw, 8rem); font-weight: 300; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.02em; }
-  .col-title em { color: var(--or); font-style: italic; font-weight: 400; }
+  /* Repère de chapitre */
+  .chapter-mark { display: flex; align-items: center; gap: 1rem; margin: 0 auto 2rem; max-width: 1400px; padding: 0 2rem; }
+  @media (max-width: 640px) { .chapter-mark { padding: 0 1.25rem; } }
+  .chapter-mark .num { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.1em; }
+  .chapter-mark .line { flex: 1; height: 1px; background: var(--or-line); }
+  .chapter-mark .lbl { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
 
-  /* 2. MANIFESTE */
-  .manifesto { padding: 12rem 2rem; text-align: center; }
-  @media (max-width: 640px) { .manifesto { padding: 6rem 1.25rem; } }
-  .manifesto-text { font-family: var(--ff-d); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 300; line-height: 1.3; color: var(--ink); max-width: 900px; margin: 0 auto; }
+  /* Navigation latérale */
+  .side-nav { position: fixed; right: 2rem; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 1.5rem; mix-blend-mode: difference; }
+  @media (max-width: 900px) { .side-nav { display: none; } }
+  .side-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s var(--ease-lux); position: relative; display: block; }
+  .side-dot.active { background: var(--or); transform: scale(1.4); }
+  .side-dot span { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-family: var(--ff-m); font-size: 0.65rem; color: #fff; opacity: 0; transition: opacity 0.2s; pointer-events: none; white-space: nowrap; }
+  .side-dot:hover span { opacity: 1; }
+
+  /* 1. HERO */
+  .col-hero { height: 92vh; min-height: 600px; display: flex; align-items: flex-end; position: relative; overflow: hidden; }
+  .col-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: grayscale(25%) contrast(1.08) saturate(.9); z-index: 0; transform: scale(1.03); }
+  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,9,14,.15) 0%, rgba(8,9,14,.35) 45%, rgba(8,9,14,.92) 100%); z-index: 1; }
+  .col-hero-content { position: relative; z-index: 3; padding: 2rem; max-width: 1400px; margin: 0 auto; padding-bottom: 4rem; }
+  @media (max-width: 640px) { .col-hero-content { padding: 1.25rem; padding-bottom: 3rem; } }
+  .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+  .col-title { font-family: var(--ff-d); font-size: clamp(3rem, 10vw, 6rem); color: #fff; font-weight: 300; line-height: 0.9; text-transform: uppercase; }
+  .col-title em { color: var(--or); font-style: italic; font-weight: 700; }
+
+  /* 2. MANIFESTE avec texture */
+  .manifesto { position: relative; padding: 6rem 2rem; text-align: center; border-bottom: 1px solid var(--border); overflow: hidden; isolation: isolate; }
+  @media (max-width: 640px) { .manifesto { padding: 4rem 1.25rem; } }
+  .manifesto::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(circle at 50% 0%, var(--bg2) 0%, transparent 70%); }
+  .manifesto::after { content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0.08; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .manifesto-text { font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 300; line-height: 1.4; color: var(--ink); max-width: 800px; margin: 0 auto; }
   .manifesto-text em { color: var(--or); font-style: italic; }
 
   /* 3. PIÈCE HÉROÏNE */
-  .hero-piece { display: grid; grid-template-columns: 1fr; min-height: 100vh; border-top: 1px solid var(--border); }
-  @media (min-width: 900px) { .hero-piece { grid-template-columns: 1.3fr 1fr; } }
-  .hero-piece-img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; }
-  @media (min-width: 900px) { .hero-piece-img { aspect-ratio: auto; } }
-  .hero-piece-content { padding: 6rem 4rem; display: flex; flex-direction: column; justify-content: center; }
-  @media (max-width: 899px) { .hero-piece-content { padding: 4rem 1.25rem; } }
-  .hero-piece-label { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or); margin-bottom: 2rem; }
-  .hero-piece-name { font-family: var(--ff-d); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; line-height: 1; margin-bottom: 2rem; }
-  .hero-piece-desc { font-size: 1.1rem; color: var(--stone); line-height: 1.6; margin-bottom: 3rem; max-width: 450px; }
-  .hero-piece-footer { display: flex; align-items: center; gap: 3rem; margin-top: auto; flex-wrap: wrap; }
-  .hero-piece-prix-block { display: flex; flex-direction: column; gap: .35rem; }
-  .hero-piece-prix { font-family: var(--ff-d); font-size: 2rem; color: var(--ink); }
-  .hero-piece-rare { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.08em; opacity: .85; }
-  .btn-hero-piece { display: inline-block; border-bottom: 1px solid var(--or); color: var(--or); padding-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s var(--ease-lux); }
-  .btn-hero-piece:hover { letter-spacing: 0.2em; color: var(--ink); border-color: var(--ink); }
+  .hero-piece-section { padding: 5rem 0 6rem; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; }
+  .hero-piece { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; padding: 0 2rem; gap: 2rem; align-items: stretch; }
+  @media (min-width: 900px) { .hero-piece { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  @media (max-width: 899px) { .hero-piece { padding: 0 1.25rem; } }
+
+  .hero-piece-img-wrap { position: relative; overflow: hidden; aspect-ratio: 4/5; }
+  @media (min-width: 900px) { .hero-piece-img-wrap { aspect-ratio: auto; height: 100%; min-height: 600px; } }
+  .hero-piece-img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease; }
+  .hero-piece:hover .hero-piece-img { transform: scale(1.04); }
+
+  .hero-piece-content { display: flex; flex-direction: column; justify-content: center; }
+  .hero-piece-label { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or); margin-bottom: 1rem; }
+  .hero-piece-name { font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3rem); font-weight: 300; line-height: 1.1; margin-bottom: 1.5rem; color: var(--ink); }
+  .hero-piece-desc { font-size: 1rem; color: var(--stone); line-height: 1.75; margin-bottom: 2rem; max-width: 450px; }
+  .hero-piece-footer { display: flex; align-items: center; gap: 1.5rem; margin-top: auto; flex-wrap: wrap; }
+  .hero-piece-prix-block { display: flex; flex-direction: column; gap: 0.25rem; }
+  .hero-piece-prix { font-family: var(--ff-d); font-size: 1.6rem; color: var(--ink); }
+  .hero-piece-rare { font-family: var(--ff-m); font-size: 0.65rem; color: var(--or); letter-spacing: 0.08em; opacity: 0.85; text-transform: uppercase; }
+  .btn-hero-piece { background: var(--ink); color: var(--bg); padding: 0.9rem 1.8rem; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; border-radius: 2px; transition: 0.3s var(--ease-lux); border: 1px solid var(--ink); }
+  .btn-hero-piece:hover { background: transparent; color: var(--ink); }
 
   /* 4. GRILLE ASYMÉTRIQUE */
-  .section-head { padding: 8rem 2rem 4rem; max-width: 1600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; }
-  @media (max-width: 640px) { .section-head { padding: 4rem 1.25rem 2rem; flex-wrap: wrap; gap: .5rem; } }
-  .section-head h2 { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 300; }
+  .section-head { padding: 4rem 2rem 2rem; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--or-line); }
+  @media (max-width: 640px) { .section-head { padding: 3rem 1.25rem 1.5rem; flex-wrap: wrap; gap: 0.5rem; } }
+  .section-head h2 { font-family: var(--ff-d); font-size: 2rem; font-weight: 400; color: var(--ink); }
   .section-head h2 em { color: var(--or); font-style: italic; }
-  .section-head .meta { font-family: var(--ff-m); font-size: 0.8rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
+  .section-head .meta { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
 
-  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; padding: 0 2rem 8rem; max-width: 1600px; margin: 0 auto; }
-  @media (max-width: 640px) { .prod-grid { padding: 0 1.25rem 5rem; } }
-  @media (min-width: 900px) { .prod-grid { grid-template-columns: repeat(12, 1fr); gap: 4px; } }
+  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 2rem 2rem 6rem; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 640px) { .prod-grid { padding: 1.5rem 1.25rem 4rem; gap: 8px; } }
+  @media (min-width: 900px) { .prod-grid { grid-template-columns: repeat(12, 1fr); } }
 
-  .p-card { position: relative; overflow: hidden; background: var(--bg2); aspect-ratio: 3/4; }
+  .p-card { position: relative; overflow: hidden; background: var(--bg2); aspect-ratio: 3/4; border-radius: 4px; }
   @media (min-width: 900px) {
     .p-card:nth-child(6n+1) { grid-column: span 5; }
     .p-card:nth-child(6n+2) { grid-column: span 4; }
@@ -82,57 +103,66 @@
     .p-card:nth-child(6n+6) { grid-column: span 3; }
   }
 
+  /* Etat Sold Out */
+  .p-card.sold-out { opacity: 0.5; filter: grayscale(100%); }
+  .p-sold-out-tag { position: absolute; top: 1rem; left: 1rem; z-index: 4; font-family: var(--ff-m); font-size: 0.65rem; color: var(--red); border: 1px solid var(--red); padding: 3px 8px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.1em; }
+
   .p-card-link { position: absolute; inset: 0; z-index: 1; }
   .p-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-lux); filter: grayscale(20%); }
   .p-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
-  .p-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
-  @media (max-width: 640px) { .p-body { padding: 1.1rem; } }
-  .p-info-text h3 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.25rem; }
-  .p-info-text span { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; }
-  .p-info-text .p-rare { display: block; font-size: 0.7rem; color: var(--or); text-transform: none; letter-spacing: .02em; margin-top: .2rem; }
-  .p-prix { font-family: var(--ff-d); font-size: 1.2rem; color: var(--or); }
-  .p-quick-add { position: absolute; top: 1rem; right: 1rem; z-index: 3; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.5); color: #fff; background: rgba(0,0,0,.25); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 300; opacity: 0; transform: translateY(-4px); transition: .3s var(--ease-lux); }
+  .p-card.sold-out:hover img { transform: none; filter: grayscale(100%); }
+  
+  .p-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
+  @media (max-width: 640px) { .p-body { padding: 1rem; } }
+  .p-info-text h3 { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.25rem; color: #fff; }
+  .p-info-text span { font-family: var(--ff-m); font-size: 0.7rem; color: rgba(255,255,255,0.7); text-transform: uppercase; }
+  .p-info-text .p-rare { display: block; font-size: 0.65rem; color: var(--or); text-transform: none; letter-spacing: 0.02em; margin-top: 0.2rem; }
+  .p-prix { font-family: var(--ff-d); font-size: 1.1rem; color: var(--or); font-weight: 600; }
+  
+  .p-quick-add { position: absolute; top: 1rem; right: 1rem; z-index: 3; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); color: #fff; background: rgba(0,0,0,0.25); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 300; opacity: 0; transform: translateY(-4px); transition: 0.3s var(--ease-lux); }
   .p-card:hover .p-quick-add { opacity: 1; transform: translateY(0); }
   .p-quick-add:hover { background: var(--or); border-color: var(--or); color: #000; }
+  .p-quick-add.disabled { background: rgba(0,0,0,0.5); border-color: var(--border); color: var(--muted); cursor: not-allowed; }
+  .p-quick-add.disabled:hover { background: rgba(0,0,0,0.5); border-color: var(--border); color: var(--muted); }
   @media (hover: none) { .p-quick-add { opacity: 1; transform: none; } }
 
   /* 5. LOOKBOOK */
-  .lookbook-section { padding: 8rem 2rem; background: var(--bg); }
-  @media (max-width: 640px) { .lookbook-section { padding: 4rem 1.25rem; } }
-  .look-card { display: grid; grid-template-columns: 1fr; max-width: 1600px; margin: 0 auto; border: 1px solid var(--border); overflow: hidden; }
+  .lookbook-section { padding: 6rem 0; background: var(--bg); border-top: 1px solid var(--border); }
+  @media (max-width: 640px) { .lookbook-section { padding: 4rem 0; } }
+  .look-card { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; border: 1px solid var(--border); overflow: hidden; background: var(--card); }
   @media (min-width: 900px) { .look-card { grid-template-columns: 1fr 1fr; } }
-  .look-img { height: 600px; background-size: cover; background-position: center; }
-  @media (max-width: 640px) { .look-img { height: 360px; } }
-  .look-content { padding: 6rem 4rem; display: flex; flex-direction: column; justify-content: center; }
+  .look-img { height: 500px; background-size: cover; background-position: center; }
+  @media (max-width: 640px) { .look-img { height: 350px; } }
+  .look-content { padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
   @media (max-width: 640px) { .look-content { padding: 2.5rem 1.5rem; } }
-  .look-title { font-family: var(--ff-d); font-size: 3rem; font-weight: 300; margin-bottom: 3rem; line-height: 1; }
-  @media (max-width: 640px) { .look-title { font-size: 2rem; margin-bottom: 2rem; } }
+  .look-title { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 300; margin-bottom: 2rem; line-height: 1; color: var(--ink); }
+  @media (max-width: 640px) { .look-title { font-size: 1.8rem; margin-bottom: 1.5rem; } }
   .look-title em { color: var(--or); font-style: italic; }
-  .look-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem; }
+  .look-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
   .look-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border); transition: 0.2s; }
-  .look-item:hover { padding-left: 1rem; border-color: var(--or); }
-  .look-item span { font-size: 1rem; color: var(--ink); }
+  .look-item:hover { padding-left: 0.5rem; border-color: var(--or); }
+  .look-item span { font-size: 1rem; }
   .look-item strong { font-family: var(--ff-m); font-size: 0.9rem; color: var(--or); }
-  .look-total { display: flex; justify-content: space-between; font-family: var(--ff-d); font-size: 1.5rem; margin-bottom: 2rem; }
-  .btn-buy-look { width: 100%; padding: 1.5rem; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; transition: 0.3s var(--ease-lux); background: var(--ink); color: var(--bg); }
-  .btn-buy-look:hover { background: var(--or); color: #000; letter-spacing: 0.3em; }
+  .look-total { display: flex; justify-content: space-between; font-family: var(--ff-d); font-size: 1.3rem; margin-bottom: 2rem; color: var(--ink); }
+  .btn-buy-look { width: 100%; padding: 1.2rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; transition: 0.3s var(--ease-lux); background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+  .btn-buy-look:hover { background: var(--or); color: #000; border-color: var(--or); }
 
   /* 6. PROCHAIN CHAPITRE */
-  .next-chapter { min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; position: relative; border-top: 1px solid var(--border); }
-  .next-chapter h2 { font-family: var(--ff-d); font-size: clamp(2.4rem, 8vw, 6rem); font-weight: 300; margin-bottom: 1rem; line-height: 0.9; }
+  .next-chapter { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); }
+  @media (max-width: 640px) { .next-chapter { padding: 4rem 1.25rem; } }
+  .next-chapter h2 { font-family: var(--ff-d); font-size: clamp(2rem, 6vw, 4rem); font-weight: 300; margin-bottom: 1rem; line-height: 0.9; color: var(--ink); }
   .next-chapter h2 em { color: var(--or); font-style: italic; }
-  .next-chapter p { color: var(--stone); max-width: 500px; margin: 0 auto 2rem; font-size: 1.1rem; }
-  .btn-next { font-family: var(--ff-m); color: var(--or); border: 1px solid var(--or); padding: 1rem 3rem; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; transition: 0.3s var(--ease-lux); display: inline-block; }
+  .next-chapter p { color: var(--stone); max-width: 500px; margin: 0 auto 2rem; font-size: 1.05rem; line-height: 1.6; }
+  .btn-next { font-family: var(--ff-m); color: var(--or); border: 1px solid var(--or); padding: 1rem 3rem; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; transition: 0.3s var(--ease-lux); display: inline-block; }
   .btn-next:hover { background: var(--or); color: #000; }
-  .btn-next-ghost { font-family: var(--ff-m); color: var(--stone); border: 1px solid var(--border); padding: 1rem 3rem; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; transition: 0.3s var(--ease-lux); display: inline-block; margin-top: 1rem; }
+  .btn-next-ghost { font-family: var(--ff-m); color: var(--stone); border: 1px solid var(--border); padding: 1rem 3rem; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; transition: 0.3s var(--ease-lux); display: inline-block; margin-top: 1rem; }
   .btn-next-ghost:hover { border-color: var(--ink); color: var(--ink); }
 
-  /* FOOTER */
   footer.col-footer { border-top: 1px solid var(--border); padding: 3rem 2rem; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; align-items: center; }
   @media (max-width: 640px) { footer.col-footer { padding: 2rem 1.25rem; flex-direction: column; text-align: center; } }
-  footer.col-footer .f-brand { font-family: var(--ff-d); font-size: 1.1rem; }
+  footer.col-footer .f-brand { font-family: var(--ff-d); font-size: 1.1rem; color: var(--ink); }
   footer.col-footer .f-brand em { color: var(--or); font-style: italic; }
-  footer.col-footer .f-links { display: flex; gap: 1.5rem; font-family: var(--ff-m); font-size: 0.75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--stone); }
+  footer.col-footer .f-links { display: flex; gap: 1.5rem; font-family: var(--ff-m); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--stone); }
   footer.col-footer .f-links a:hover { color: var(--or); }
 
   /* PANIER */
@@ -141,26 +171,27 @@
   .cart-drawer { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; background: var(--bg); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform 0.5s var(--ease-lux); z-index: 10000; display: flex; flex-direction: column; }
   @media (min-width: 640px) { .cart-drawer { width: 450px; } }
   .cart-drawer.open { transform: translateX(0); }
-  .drawer-head { padding: 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  @media (max-width: 640px) { .drawer-head { padding: 1.25rem; } }
-  .drawer-head h3 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; }
+  .drawer-head { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .drawer-head h3 { font-family: var(--ff-d); font-size: 1.4rem; font-weight: 400; color: var(--ink); }
   .drawer-close { font-size: 1.5rem; color: var(--stone); transition: 0.2s; }
   .drawer-close:hover { color: var(--or); transform: rotate(90deg); }
-  .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 2rem; }
-  @media (max-width: 640px) { .cart-drawer-inner { padding: 1.25rem; } }
-  .drawer-item { display: flex; gap: 1.5rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 1.5rem; }
+  .drawer-item { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
   .drawer-item img { width: 80px; height: 100px; object-fit: cover; }
+  .drawer-item-info { flex: 1; }
   .drawer-item-info h4 { font-size: 0.9rem; color: var(--ink); margin-bottom: 0.5rem; font-weight: 400; }
   .drawer-item-info p { font-family: var(--ff-m); font-size: 0.8rem; color: var(--or); }
-  .drawer-footer { padding: 2rem; border-top: 1px solid var(--border); }
-  @media (max-width: 640px) { .drawer-footer { padding: 1.25rem; } }
-  .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.5rem; }
-  .drawer-btn { display: block; width: 100%; padding: 1.2rem; background: var(--or); color: #000; text-align: center; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; transition: 0.2s; }
-  .drawer-btn:hover { background: transparent; color: var(--or); border: 1px solid var(--or); }
+  .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+  .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.3rem; color: var(--ink); }
+  .drawer-btn { display: block; width: 100%; padding: 1.2rem; background: var(--or); color: #000; text-align: center; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; transition: 0.2s; border: 1px solid var(--or); }
+  .drawer-btn:hover { background: transparent; color: var(--or); }
   .drawer-empty { text-align: center; color: var(--stone); padding: 4rem 1rem; font-style: italic; }
 </style>
 </head>
 <body>
+
+<!-- Navigation latérale -->
+<div class="side-nav" id="sideNav"></div>
 
 <div class="drawer-overlay" id="drawer-overlay"></div>
 <div class="cart-drawer" id="cart-drawer">
@@ -182,7 +213,7 @@
   </div>
 </nav>
 
-<div class="col-hero" id="col-hero">
+<div class="col-hero" id="chapter-hero">
   <div class="col-hero-bg" id="col-hero-bg"></div>
   <div class="col-hero-overlay"></div>
   <div class="col-hero-content">
@@ -225,7 +256,7 @@
   }
 
   const OUTFITS = [
-    { img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600&auto=format&fit=crop', titre: 'Le total look <em>Streetwear</em>', refs: ['SW-001', 'SW-002'] }
+    { img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop', titre: 'Le total look <em>Streetwear</em>', refs: ['SW-001', 'SW-002'] }
   ];
 
   const params = new URLSearchParams(window.location.search);
@@ -267,20 +298,28 @@
     try { const n = SE?.Cart?.count?.() ?? 0; const b = document.getElementById('cart-count'); if (b) { b.textContent = n; b.style.display = n > 0 ? 'flex' : 'none'; } } catch(e) {}
   }
 
+  function chapterMark(num, label, id) { 
+    return `<div class="chapter-mark" id="${id}"><span class="num">${num}</span><span class="line"></span><span class="lbl">${esc(label)}</span></div>`; 
+  }
+
   function renderNextChapter(nextCol) {
     if (nextCol) {
-      return `<div class="next-chapter">
-        <h2>Le prochain <em>chapitre</em></h2>
-        <p>${esc(nextCol.description || "Une nouvelle histoire est en cours d'écriture.")}</p>
-        <a href="https://wa.me/221778038874?text=${encodeURIComponent('Je veux être informé du drop ' + (nextCol.nom || ''))}" class="btn-next" target="_blank">Être averti</a>
-      </div>`;
+      return `
+        <div class="next-chapter" id="chapter-5">
+          ${chapterMark('05', 'Le prochain chapitre', 'ch-5')}
+          <h2>Une nouvelle <em>histoire</em> arrive</h2>
+          <p>${esc(nextCol.description || "Une nouvelle histoire est en cours d'écriture.")}</p>
+          <a href="https://wa.me/221778038874?text=${encodeURIComponent('Je veux être informé du drop ' + (nextCol.nom || ''))}" class="btn-next" target="_blank">Être averti en avant-première</a>
+        </div>`;
     }
-    return `<div class="next-chapter">
-      <h2>L'aventure <em>continue</em></h2>
-      <p>Cette histoire s'arrête ici pour l'instant. Le prochain chapitre est déjà en préparation.</p>
-      <a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti sur WhatsApp</a>
-      <a href="mode.html" class="btn-next-ghost">Retour à la Mode</a>
-    </div>`;
+    return `
+      <div class="next-chapter" id="chapter-5">
+        ${chapterMark('05', 'La suite', 'ch-5')}
+        <h2>L'aventure <em>continue</em></h2>
+        <p>Cette histoire s'arrête ici pour l'instant. Le prochain chapitre est déjà en préparation.</p>
+        <a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti sur WhatsApp</a>
+        <a href="mode.html" class="btn-next-ghost">Retour à la Mode</a>
+      </div>`;
   }
 
   async function init() {
@@ -291,7 +330,7 @@
       document.getElementById('col-hero-bg').style.backgroundImage = `url('https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=2000&auto=format&fit=crop')`;
       document.getElementById('col-badge').textContent = 'Prochainement';
       document.getElementById('col-title').innerHTML = 'Prochain <em>Chapitre</em>';
-      dynamicContent.innerHTML = `<div class="next-chapter"><h2>Arrivage <em>Bientôt</em></h2><p>Préparez-vous. Le prochain drop arrive.</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti</a></div>`;
+      dynamicContent.innerHTML = `<div class="next-chapter" id="chapter-1"><h2>Arrivage <em>Bientôt</em></h2><p>Préparez-vous. Le prochain drop arrive.</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti</a></div>`;
       return;
     }
 
@@ -323,55 +362,67 @@
 
       let html = '';
 
+      // 2. MANIFESTE
       if (col.story_text) {
-        html += `<div class="manifesto"><p class="manifesto-text">${esc(col.story_text)}</p></div>`;
+        html += `
+          <div class="manifesto" id="chapter-1">
+            ${chapterMark('01', 'Le manifeste', 'ch-1')}
+            <p class="manifesto-text">${esc(col.story_text)}</p>
+          </div>`;
       }
 
+      // 3. PIÈCE HÉROÏNE
       if (heroArt) {
         const qte = heroArt.quantite || 0;
         const rareNote = qte > 0 && qte <= 3 ? `<span class="hero-piece-rare">Il n'en reste que ${qte}</span>` : '';
         html += `
-          <div class="hero-piece">
-            <img src="${esc(imgUrl(heroArt.photo_url))}" class="hero-piece-img" alt="${esc(heroArt.nom)}">
-            <div class="hero-piece-content">
-              <span class="hero-piece-label">La pièce maîtresse</span>
-              <h2 class="hero-piece-name">${esc(heroArt.nom)}</h2>
-              <p class="hero-piece-desc">${esc(heroArt.description || 'Une pièce centrale de cette collection.')}</p>
-              <div class="hero-piece-footer">
-                <div class="hero-piece-prix-block">
-                  <span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>
-                  ${rareNote}
+          <div class="hero-piece-section" id="chapter-2">
+            ${chapterMark('02', 'La pièce maîtresse', 'ch-2')}
+            <div class="hero-piece">
+              <div class="hero-piece-img-wrap"><img src="${esc(imgUrl(heroArt.photo_url))}" class="hero-piece-img" alt="${esc(heroArt.nom)}"></div>
+              <div class="hero-piece-content">
+                <span class="hero-piece-label">Édition limitée — réf. ${esc(heroArt.reference)}</span>
+                <h2 class="hero-piece-name">${esc(heroArt.nom)}</h2>
+                <p class="hero-piece-desc">${esc(heroArt.description || 'Une pièce centrale de cette collection, pensée dans les moindres détails.')}</p>
+                <div class="hero-piece-footer">
+                  <div class="hero-piece-prix-block">
+                    <span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>
+                    ${rareNote}
+                  </div>
+                  <a href="produit.html?ref=${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir la pièce</a>
                 </div>
-                <a href="produit.html?ref=${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir</a>
               </div>
             </div>
-          </div>
-        `;
+          </div>`;
       }
 
+      // 4. GRILLE D'EXPLORATION
       if (gridArticles.length > 0) {
-        html += `<div class="section-head"><h2>Le reste du <em>casting</em></h2><span class="meta">${gridArticles.length} pièces</span></div>`;
+        html += `<div id="chapter-3">${chapterMark('03', 'Le reste du casting', 'ch-3')}</div>`;
+        html += `<div class="section-head"><h2>À <em>explorer</em></h2><span class="meta">${gridArticles.length} pièces</span></div>`;
         html += `<div class="prod-grid">`;
         gridArticles.forEach(a => {
           const qte = a.quantite || 0;
+          const isOut = qte <= 0;
           const rareNote = qte > 0 && qte <= 3 ? `<span class="p-rare">Dernières pièces</span>` : '';
+          const soldOutTag = isOut ? `<div class="p-sold-out-tag">Sold Out</div>` : '';
+          const quickAddHTML = isOut 
+            ? `<button class="p-quick-add disabled" disabled aria-label="Indisponible">×</button>` 
+            : `<button class="p-quick-add" data-cart-add="${esc(a.reference)}" aria-label="Ajouter au panier">+</button>`;
+          
           html += `
-            <div class="p-card">
+            <div class="p-card ${isOut ? 'sold-out' : ''}">
               <a href="produit.html?ref=${esc(a.reference)}" class="p-card-link" aria-label="${esc(a.nom)}"></a>
+              ${soldOutTag}
               <img src="${esc(imgUrl(a.photo_url))}" alt="${esc(a.nom)}" loading="lazy">
-              <div class="p-body">
-                <div class="p-info-text">
-                  <h3>${esc(a.nom)}</h3>
-                  <span>Voir l'article${rareNote}</span>
-                </div>
-                <span class="p-prix">${fprix(a.prix_vente_fcfa)}</span>
-              </div>
-              <button class="p-quick-add" data-cart-add="${esc(a.reference)}" aria-label="Ajouter au panier">+</button>
+              <div class="p-body"><div class="p-info-text"><h3>${esc(a.nom)}</h3><span>Voir l'article${rareNote}</span></div><span class="p-prix">${fprix(a.prix_vente_fcfa)}</span></div>
+              ${quickAddHTML}
             </div>`;
         });
         html += `</div>`;
       }
 
+      // 5. LOOKBOOK
       let totalPrix = 0, itemsHTML = '', validItems = 0;
       OUTFITS[0].refs.forEach(ref => {
         const art = allArts.find(a => a.reference === ref);
@@ -382,29 +433,55 @@
         }
       });
       if (validItems > 0) {
-        html += `<div class="lookbook-section"><div class="look-card"><div class="look-img" style="background-image:url('${esc(OUTFITS[0].img)}')"></div><div class="look-content"><h3 class="look-title">${OUTFITS[0].titre}</h3><div class="look-items">${itemsHTML}</div><div class="look-total"><span>Total Look</span><b>${fprix(totalPrix)}</b></div><button class="btn-buy-look" data-refs="${OUTFITS[0].refs.join(',')}">Acheter le look</button></div></div></div>`;
+        html += `
+          <div class="lookbook-section" id="chapter-4">
+            <div class="container">${chapterMark('04', 'Comment le porter', 'ch-4')}</div>
+            <div class="look-card">
+              <div class="look-img" style="background-image:url('${esc(OUTFITS[0].img)}')"></div>
+              <div class="look-content">
+                <h3 class="look-title">${OUTFITS[0].titre}</h3>
+                <div class="look-items">${itemsHTML}</div>
+                <div class="look-total"><span>Total Look</span><b>${fprix(totalPrix)}</b></div>
+                <button class="btn-buy-look" data-refs="${OUTFITS[0].refs.join(',')}">Acheter le look</button>
+              </div>
+            </div>
+          </div>`;
       }
 
+      // 6. PROCHAIN CHAPITRE
       const { data: nextDrops } = await SE.sb.from('collections').select('*').eq('statut', 'a_venir').limit(1);
       html += renderNextChapter(nextDrops && nextDrops.length > 0 ? nextDrops[0] : null);
 
       dynamicContent.innerHTML = html;
 
-      document.querySelectorAll('[data-cart-add]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const ref = btn.dataset.cartAdd;
-          SE.Cart.add(ref);
-          btn.textContent = '✓';
-          setTimeout(() => { btn.textContent = '+'; }, 1200);
-          updateUI(); updateDrawer(); setTimeout(openDrawer, 350);
-        });
-      });
+      // Activation des boutons
+      document.querySelectorAll('[data-cart-add]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); SE.Cart.add(btn.dataset.cartAdd); btn.textContent='✓'; setTimeout(()=>btn.textContent='+',1200); updateUI(); updateDrawer(); setTimeout(openDrawer,350); }));
+      document.querySelectorAll('.btn-buy-look').forEach(btn => btn.addEventListener('click', () => { btn.dataset.refs.split(',').forEach(r=>SE.Cart.add(r,1)); updateUI(); updateDrawer(); setTimeout(openDrawer,400); }));
 
-      document.querySelectorAll('.btn-buy-look').forEach(btn => {
-        btn.addEventListener('click', () => {
-          btn.dataset.refs.split(',').forEach(r => SE.Cart.add(r, 1));
-          updateUI(); updateDrawer(); setTimeout(openDrawer, 400);
+      // Gestion de la navigation latérale
+      const sections = document.querySelectorAll('[id^="chapter-"]');
+      const sideNav = document.getElementById('sideNav');
+      let navHTML = '';
+      sections.forEach((sec, i) => {
+        const label = sec.querySelector('.lbl') ? sec.querySelector('.lbl').textContent : 'Héro';
+        navHTML += `<a href="#${sec.id}" class="side-dot" data-target="${sec.id}"><span>${label}</span></a>`;
+      });
+      sideNav.innerHTML = navHTML;
+      const dots = document.querySelectorAll('.side-dot');
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 200;
+          if (window.scrollY >= sectionTop) {
+            current = section.getAttribute('id');
+          }
+        });
+        dots.forEach(dot => {
+          dot.classList.remove('active');
+          if (dot.dataset.target === current) {
+            dot.classList.add('active');
+          }
         });
       });
 
