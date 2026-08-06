@@ -16,101 +16,148 @@
 <link rel="stylesheet" href="styles-dark.css">
 
 <style>
+  :root { --ease-lux: cubic-bezier(0.22, 1, 0.36, 1); }
+
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; scroll-behavior: smooth; }
-  body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; padding-top: 56px; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; }
   img { max-width: 100%; display: block; }
-  button { cursor: pointer; -webkit-appearance: none; appearance: none; font-family: inherit; }
-  .container { width: 100%; padding: 0 1rem; max-width: 1400px; margin: 0 auto; }
+  button { cursor: pointer; background: none; border: none; font-family: inherit; color: inherit; }
+  a { color: inherit; text-decoration: none; }
+  .container { width: 100%; padding: 0 2rem; max-width: 1600px; margin: 0 auto; }
+  @media (max-width: 640px) { .container { padding: 0 1.25rem; } }
 
-  /* 1. L'OUVERTURE (HERO) */
-  .col-hero { height: 90vh; min-height: 600px; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden; margin-top: -56px; }
-  .col-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: grayscale(30%) contrast(1.1); z-index: 0; }
-  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.8)); z-index: 1; }
-  .col-hero-content { position: relative; z-index: 3; padding: 2rem; max-width: 800px; }
-  .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: #000; background: var(--or); padding: 0.4rem 1.2rem; border-radius: 99px; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 700; margin-bottom: 1.5rem; display: inline-block; }
-  .col-title { font-family: var(--ff-d); font-size: clamp(3rem, 12vw, 6rem); color: #fff; font-weight: 300; line-height: 0.9; text-transform: uppercase; margin-bottom: 1.5rem; text-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-  .col-title em { color: var(--or); font-style: italic; font-weight: 700; }
+  /* 1. HERO */
+  .col-hero { height: 100vh; display: flex; align-items: flex-end; position: relative; overflow: hidden; }
+  .col-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: grayscale(40%) contrast(1.1); z-index: 0; animation: slowZoom 20s infinite alternate ease-in-out; }
+  @keyframes slowZoom { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg) 0%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.5) 100%); z-index: 1; }
+  .col-hero-content { position: relative; z-index: 2; padding: 0 2rem 5rem; width: 100%; max-width: 1600px; margin: 0 auto; }
+  @media (max-width: 640px) { .col-hero-content { padding: 0 1.25rem 3.5rem; } }
+  .col-badge { font-family: var(--ff-m); font-size: 0.75rem; color: var(--or); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+  .col-title { font-family: var(--ff-d); font-size: clamp(3rem, 10vw, 8rem); font-weight: 300; line-height: 0.85; text-transform: uppercase; letter-spacing: -0.02em; }
+  .col-title em { color: var(--or); font-style: italic; font-weight: 400; }
 
-  /* 2. LA TENSION (MANIFESTE) */
-  .manifesto { padding: 6rem 1rem; text-align: center; border-bottom: 1px solid var(--border); }
-  .manifesto-text { font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 300; line-height: 1.4; color: var(--ink); max-width: 800px; margin: 0 auto; }
+  /* 2. MANIFESTE */
+  .manifesto { padding: 12rem 2rem; text-align: center; }
+  @media (max-width: 640px) { .manifesto { padding: 6rem 1.25rem; } }
+  .manifesto-text { font-family: var(--ff-d); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 300; line-height: 1.3; color: var(--ink); max-width: 900px; margin: 0 auto; }
   .manifesto-text em { color: var(--or); font-style: italic; }
 
-  /* 3. LA RÉVÉLATION (PIÈCE HÉROÏNE) */
-  .hero-piece { display: grid; grid-template-columns: 1fr; margin: 0; border-bottom: 1px solid var(--border); }
-  @media (min-width: 768px) { .hero-piece { grid-template-columns: 1.2fr 1fr; min-height: 80vh; } }
+  /* 3. PIÈCE HÉROÏNE */
+  .hero-piece { display: grid; grid-template-columns: 1fr; min-height: 100vh; border-top: 1px solid var(--border); }
+  @media (min-width: 900px) { .hero-piece { grid-template-columns: 1.3fr 1fr; } }
   .hero-piece-img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4/5; }
-  @media (min-width: 768px) { .hero-piece-img { aspect-ratio: auto; } }
-  .hero-piece-content { padding: 4rem 2rem; display: flex; flex-direction: column; justify-content: center; background: var(--bg); }
-  .hero-piece-label { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or); margin-bottom: 1rem; }
-  .hero-piece-name { font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3rem); font-weight: 400; line-height: 1.1; margin-bottom: 1.5rem; }
-  .hero-piece-desc { font-size: 1rem; color: var(--stone); line-height: 1.7; margin-bottom: 2rem; max-width: 450px; }
-  .hero-piece-footer { display: flex; align-items: center; gap: 2rem; margin-top: auto; flex-wrap: wrap; }
-  .hero-piece-prix { font-family: var(--ff-d); font-size: 1.8rem; color: var(--ink); }
-  .btn-hero-piece { background: var(--ink); color: var(--bg); padding: 1rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; border-radius: 4px; transition: 0.2s; border: 1px solid var(--ink); }
-  .btn-hero-piece:hover { background: transparent; color: var(--ink); }
+  @media (min-width: 900px) { .hero-piece-img { aspect-ratio: auto; } }
+  .hero-piece-content { padding: 6rem 4rem; display: flex; flex-direction: column; justify-content: center; }
+  @media (max-width: 899px) { .hero-piece-content { padding: 4rem 1.25rem; } }
+  .hero-piece-label { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or); margin-bottom: 2rem; }
+  .hero-piece-name { font-family: var(--ff-d); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 300; line-height: 1; margin-bottom: 2rem; }
+  .hero-piece-desc { font-size: 1.1rem; color: var(--stone); line-height: 1.6; margin-bottom: 3rem; max-width: 450px; }
+  .hero-piece-footer { display: flex; align-items: center; gap: 3rem; margin-top: auto; flex-wrap: wrap; }
+  .hero-piece-prix-block { display: flex; flex-direction: column; gap: .35rem; }
+  .hero-piece-prix { font-family: var(--ff-d); font-size: 2rem; color: var(--ink); }
+  .hero-piece-rare { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.08em; opacity: .85; }
+  .btn-hero-piece { display: inline-block; border-bottom: 1px solid var(--or); color: var(--or); padding-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; transition: 0.3s var(--ease-lux); }
+  .btn-hero-piece:hover { letter-spacing: 0.2em; color: var(--ink); border-color: var(--ink); }
 
-  /* 4. L'EXPLORATION (GRILLE) */
-  .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin: 4rem auto 2rem; padding: 0 1rem 1rem; border-bottom: 1px solid var(--or-line); max-width: 1400px; }
-  .section-head h2 { font-family: var(--ff-d); font-size: 1.8rem; font-weight: 400; color: var(--ink); margin: 0; }
+  /* 4. GRILLE ASYMÉTRIQUE */
+  .section-head { padding: 8rem 2rem 4rem; max-width: 1600px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; }
+  @media (max-width: 640px) { .section-head { padding: 4rem 1.25rem 2rem; flex-wrap: wrap; gap: .5rem; } }
+  .section-head h2 { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 300; }
   .section-head h2 em { color: var(--or); font-style: italic; }
-  .section-head .meta { font-family: var(--ff-m); font-size: 0.7rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
+  .section-head .meta { font-family: var(--ff-m); font-size: 0.8rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
 
-  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 1rem 4rem; max-width: 1400px; margin: 0 auto; }
-  @media (min-width: 768px) { .prod-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; } }
-  .p-card { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; position: relative; text-decoration: none; transition: transform 0.3s var(--ease); }
-  .p-card:hover { transform: translateY(-5px); }
-  .p-image-wrap { aspect-ratio: 4/5; overflow: hidden; background: var(--bg2); display: block; position: relative; }
-  .p-image-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-  .p-card:hover .p-image-wrap img { transform: scale(1.05); }
-  .p-body { padding: 12px; display: flex; flex-direction: column; gap: 6px; flex: 1; background: var(--card2); }
-  .p-name { font-size: 0.85rem; color: var(--ink); font-weight: 500; line-height: 1.4; text-decoration: none; }
-  .p-prix { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 600; color: var(--or); margin-top: auto; }
+  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; padding: 0 2rem 8rem; max-width: 1600px; margin: 0 auto; }
+  @media (max-width: 640px) { .prod-grid { padding: 0 1.25rem 5rem; } }
+  @media (min-width: 900px) { .prod-grid { grid-template-columns: repeat(12, 1fr); gap: 4px; } }
 
-  /* 5. L'INSPIRATION (LOOKBOOK) */
-  .look-card { display: grid; grid-template-columns: 1fr; margin: 0 1rem 2rem; max-width: 1400px; margin-left: auto; margin-right: auto; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--card); }
-  @media (min-width: 768px) { .look-card { grid-template-columns: 1fr 1fr; } .look-card.reverse .look-img { order: 2; } }
-  .look-img { height: 400px; background-size: cover; background-position: center; }
-  .look-content { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
-  .look-title { font-family: var(--ff-d); font-size: 2rem; color: var(--ink); margin-bottom: 1.5rem; font-weight: 400; }
+  .p-card { position: relative; overflow: hidden; background: var(--bg2); aspect-ratio: 3/4; }
+  @media (min-width: 900px) {
+    .p-card:nth-child(6n+1) { grid-column: span 5; }
+    .p-card:nth-child(6n+2) { grid-column: span 4; }
+    .p-card:nth-child(6n+3) { grid-column: span 3; }
+    .p-card:nth-child(6n+4) { grid-column: span 4; }
+    .p-card:nth-child(6n+5) { grid-column: span 5; aspect-ratio: 16/9; }
+    .p-card:nth-child(6n+6) { grid-column: span 3; }
+  }
+
+  .p-card-link { position: absolute; inset: 0; z-index: 1; }
+  .p-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-lux); filter: grayscale(20%); }
+  .p-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
+  .p-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 2rem; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
+  @media (max-width: 640px) { .p-body { padding: 1.1rem; } }
+  .p-info-text h3 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; margin-bottom: 0.25rem; }
+  .p-info-text span { font-family: var(--ff-m); font-size: 0.75rem; color: var(--muted); text-transform: uppercase; }
+  .p-info-text .p-rare { display: block; font-size: 0.7rem; color: var(--or); text-transform: none; letter-spacing: .02em; margin-top: .2rem; }
+  .p-prix { font-family: var(--ff-d); font-size: 1.2rem; color: var(--or); }
+  .p-quick-add { position: absolute; top: 1rem; right: 1rem; z-index: 3; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(255,255,255,.5); color: #fff; background: rgba(0,0,0,.25); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 300; opacity: 0; transform: translateY(-4px); transition: .3s var(--ease-lux); }
+  .p-card:hover .p-quick-add { opacity: 1; transform: translateY(0); }
+  .p-quick-add:hover { background: var(--or); border-color: var(--or); color: #000; }
+  @media (hover: none) { .p-quick-add { opacity: 1; transform: none; } }
+
+  /* 5. LOOKBOOK */
+  .lookbook-section { padding: 8rem 2rem; background: var(--bg); }
+  @media (max-width: 640px) { .lookbook-section { padding: 4rem 1.25rem; } }
+  .look-card { display: grid; grid-template-columns: 1fr; max-width: 1600px; margin: 0 auto; border: 1px solid var(--border); overflow: hidden; }
+  @media (min-width: 900px) { .look-card { grid-template-columns: 1fr 1fr; } }
+  .look-img { height: 600px; background-size: cover; background-position: center; }
+  @media (max-width: 640px) { .look-img { height: 360px; } }
+  .look-content { padding: 6rem 4rem; display: flex; flex-direction: column; justify-content: center; }
+  @media (max-width: 640px) { .look-content { padding: 2.5rem 1.5rem; } }
+  .look-title { font-family: var(--ff-d); font-size: 3rem; font-weight: 300; margin-bottom: 3rem; line-height: 1; }
+  @media (max-width: 640px) { .look-title { font-size: 2rem; margin-bottom: 2rem; } }
   .look-title em { color: var(--or); font-style: italic; }
-  .look-items { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
-  .look-item { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: var(--bg2); border-radius: 4px; text-decoration: none; color: var(--ink); border: 1px solid transparent; }
-  .look-item:hover { border-color: var(--or); }
-  .look-item span { font-size: 0.9rem; }
-  .look-item strong { font-family: var(--ff-m); font-size: 0.8rem; color: var(--or); }
-  .look-total { display: flex; justify-content: space-between; font-family: var(--ff-d); font-size: 1.2rem; margin-bottom: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem; }
-  .btn-buy-look { width: 100%; padding: 1.2rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 4px; cursor: pointer; transition: 0.2s; background: var(--or); color: #000; border: 1px solid var(--or); }
-  .btn-buy-look:hover { background: transparent; color: var(--or); }
+  .look-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem; }
+  .look-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border); transition: 0.2s; }
+  .look-item:hover { padding-left: 1rem; border-color: var(--or); }
+  .look-item span { font-size: 1rem; color: var(--ink); }
+  .look-item strong { font-family: var(--ff-m); font-size: 0.9rem; color: var(--or); }
+  .look-total { display: flex; justify-content: space-between; font-family: var(--ff-d); font-size: 1.5rem; margin-bottom: 2rem; }
+  .btn-buy-look { width: 100%; padding: 1.5rem; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.2em; transition: 0.3s var(--ease-lux); background: var(--ink); color: var(--bg); }
+  .btn-buy-look:hover { background: var(--or); color: #000; letter-spacing: 0.3em; }
 
-  /* 6. LA SUITE (PROCHAIN CHAPITRE) */
-  .next-chapter { padding: 6rem 1rem; text-align: center; background: var(--bg2); border-top: 1px solid var(--border); margin-top: 4rem; }
-  .next-chapter h2 { font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3rem); color: var(--ink); margin-bottom: 1rem; font-weight: 400; }
+  /* 6. PROCHAIN CHAPITRE */
+  .next-chapter { min-height: 70vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 4rem 2rem; position: relative; border-top: 1px solid var(--border); }
+  .next-chapter h2 { font-family: var(--ff-d); font-size: clamp(2.4rem, 8vw, 6rem); font-weight: 300; margin-bottom: 1rem; line-height: 0.9; }
   .next-chapter h2 em { color: var(--or); font-style: italic; }
-  .next-chapter p { color: var(--stone); max-width: 500px; margin: 0 auto 2rem; }
-  .next-chapter-date { font-family: var(--ff-m); color: var(--or); font-size: 0.8rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 2rem; display: block; }
-  .btn-next { display: inline-block; background: #25D366; color: #fff; padding: 1rem 2rem; text-decoration: none; font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 0.1em; border-radius: 4px; transition: 0.2s; }
-  .btn-next:hover { background: #1ebe57; transform: translateY(-2px); }
+  .next-chapter p { color: var(--stone); max-width: 500px; margin: 0 auto 2rem; font-size: 1.1rem; }
+  .btn-next { font-family: var(--ff-m); color: var(--or); border: 1px solid var(--or); padding: 1rem 3rem; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; transition: 0.3s var(--ease-lux); display: inline-block; }
+  .btn-next:hover { background: var(--or); color: #000; }
+  .btn-next-ghost { font-family: var(--ff-m); color: var(--stone); border: 1px solid var(--border); padding: 1rem 3rem; font-size: 0.8rem; letter-spacing: 0.2em; text-transform: uppercase; transition: 0.3s var(--ease-lux); display: inline-block; margin-top: 1rem; }
+  .btn-next-ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+  /* FOOTER */
+  footer.col-footer { border-top: 1px solid var(--border); padding: 3rem 2rem; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; align-items: center; }
+  @media (max-width: 640px) { footer.col-footer { padding: 2rem 1.25rem; flex-direction: column; text-align: center; } }
+  footer.col-footer .f-brand { font-family: var(--ff-d); font-size: 1.1rem; }
+  footer.col-footer .f-brand em { color: var(--or); font-style: italic; }
+  footer.col-footer .f-links { display: flex; gap: 1.5rem; font-family: var(--ff-m); font-size: 0.75rem; letter-spacing: .06em; text-transform: uppercase; color: var(--stone); }
+  footer.col-footer .f-links a:hover { color: var(--or); }
 
   /* PANIER */
-  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
-  .cart-drawer { position: fixed; bottom: 0; left: 0; right: 0; height: 85vh; background: var(--bg); border-radius: 20px 20px 0 0; border-top: 1px solid var(--border); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 10000; display: flex; flex-direction: column; }
-  .cart-drawer.open { transform: translateY(0); }
-  .drawer-head { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-  .drawer-head h3 { font-family: var(--ff-d); font-size: 1.4rem; color: var(--ink); }
-  .drawer-close { background: none; border: none; color: var(--stone); font-size: 1.5rem; cursor: pointer; }
-  .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 1.25rem; }
-  .drawer-item { display: flex; gap: 1rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-  .drawer-item img { width: 70px; height: 90px; object-fit: cover; border-radius: 8px; }
-  .drawer-item-info { flex: 1; }
-  .drawer-item-info h4 { font-size: 0.9rem; color: var(--ink); margin-bottom: 0.25rem; }
-  .drawer-item-info p { font-family: var(--ff-m); font-size: 0.85rem; color: var(--or); }
-  .drawer-footer { padding: 1.25rem; border-top: 1px solid var(--border); }
-  .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.3rem; color: var(--ink); }
-  .drawer-btn { display: block; width: 100%; padding: 1rem; background: var(--or); color: #000; text-align: center; text-decoration: none; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; border-radius: 8px; }
-  .drawer-empty { text-align: center; color: var(--stone); padding: 3rem 1rem; }
+  .cart-drawer { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; background: var(--bg); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform 0.5s var(--ease-lux); z-index: 10000; display: flex; flex-direction: column; }
+  @media (min-width: 640px) { .cart-drawer { width: 450px; } }
+  .cart-drawer.open { transform: translateX(0); }
+  .drawer-head { padding: 2rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  @media (max-width: 640px) { .drawer-head { padding: 1.25rem; } }
+  .drawer-head h3 { font-family: var(--ff-d); font-size: 1.5rem; font-weight: 400; }
+  .drawer-close { font-size: 1.5rem; color: var(--stone); transition: 0.2s; }
+  .drawer-close:hover { color: var(--or); transform: rotate(90deg); }
+  .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 2rem; }
+  @media (max-width: 640px) { .cart-drawer-inner { padding: 1.25rem; } }
+  .drawer-item { display: flex; gap: 1.5rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .drawer-item img { width: 80px; height: 100px; object-fit: cover; }
+  .drawer-item-info h4 { font-size: 0.9rem; color: var(--ink); margin-bottom: 0.5rem; font-weight: 400; }
+  .drawer-item-info p { font-family: var(--ff-m); font-size: 0.8rem; color: var(--or); }
+  .drawer-footer { padding: 2rem; border-top: 1px solid var(--border); }
+  @media (max-width: 640px) { .drawer-footer { padding: 1.25rem; } }
+  .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.5rem; }
+  .drawer-btn { display: block; width: 100%; padding: 1.2rem; background: var(--or); color: #000; text-align: center; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; transition: 0.2s; }
+  .drawer-btn:hover { background: transparent; color: var(--or); border: 1px solid var(--or); }
+  .drawer-empty { text-align: center; color: var(--stone); padding: 4rem 1rem; font-style: italic; }
 </style>
 </head>
 <body>
@@ -119,18 +166,22 @@
 <div class="cart-drawer" id="cart-drawer">
   <div class="drawer-head"><h3>Panier</h3><button class="drawer-close" id="drawer-close">×</button></div>
   <div class="cart-drawer-inner" id="drawer-body"><div class="drawer-empty">Votre panier est vide.</div></div>
-  <div class="drawer-footer" id="drawer-footer" style="display: none;"><div class="drawer-total"><span>Total</span><span id="drawer-total-val">0 FCFA</span></div><a href="panier.html" class="drawer-btn">Voir le panier</a></div>
+  <div class="drawer-footer" id="drawer-footer" style="display: none;">
+    <div class="drawer-total"><span>Total</span><span id="drawer-total-val">0 FCFA</span></div>
+    <a href="panier.html" class="drawer-btn">Commander</a>
+  </div>
 </div>
 
-<nav class="nav" id="nav">
-  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
-  <ul class="nav-links"><li><a href="index.html">Accueil</a></li><li><a href="mode.html">Mode</a></li><li><a href="catalogue.html">Catalogue</a></li></ul>
-  <div class="nav-right">
-    <a href="panier.html" class="nav-icon" id="nav-cart-icon" aria-label="Panier"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-badge" id="cart-count"></span></a>
+<nav class="nav" style="position:fixed; top:0; left:0; right:0; z-index:100; padding: 1.5rem 2rem; display:flex; justify-content:space-between; align-items:center; mix-blend-mode: difference;">
+  <a href="index.html" style="font-family: var(--ff-d); font-size: 1.2rem; color: #fff;">Sen·Export <em style="color: var(--or); font-style: italic;">Boutique</em></a>
+  <div style="display:flex; gap: 1.5rem; align-items:center;">
+    <a href="panier.html" id="nav-cart-icon" style="color: #fff; position: relative;">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span id="cart-count" style="position:absolute; top:-5px; right:-5px; background:var(--or); color:#000; font-size:0.6rem; width:15px; height:15px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-weight:bold;"></span>
+    </a>
   </div>
 </nav>
 
-<!-- 1. HERO -->
 <div class="col-hero" id="col-hero">
   <div class="col-hero-bg" id="col-hero-bg"></div>
   <div class="col-hero-overlay"></div>
@@ -140,16 +191,16 @@
   </div>
 </div>
 
-<!-- Contenu dynamique -->
 <div id="dynamic-content"></div>
 
-<footer class="footer" style="margin-top: 4rem;">
-  <div class="footer-grid">
-    <div class="footer-brand"><div>Sen·Export <em style="color:var(--or); font-style:italic; font-weight:300;">Boutique</em></div><p>Les meilleurs produits sélectionnés pour vous.</p></div>
-    <nav class="footer-col"><h4>Boutique</h4><ul><li><a href="mode.html">Mode</a></li></ul></nav>
-    <nav class="footer-col"><h4>Contact</h4><ul><li><a href="https://wa.me/221778038874" target="_blank">WhatsApp</a></li></ul></nav>
+<footer class="col-footer">
+  <div class="f-brand">Sen·Export <em>Boutique</em></div>
+  <div class="f-links">
+    <a href="mode.html">Mode</a>
+    <a href="catalogue.html">Catalogue</a>
+    <a href="https://wa.me/221778038874" target="_blank">WhatsApp</a>
   </div>
-  <div class="footer-bottom"><p>© 2026 SenExport Boutique</p></div>
+  <div style="font-family:var(--ff-m); font-size:.7rem; color:var(--muted);">© 2026 SenExport</div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -174,7 +225,7 @@
   }
 
   const OUTFITS = [
-    { img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop', titre: 'Le total look <em>Streetwear</em>', refs: ['SW-001', 'SW-002'] }
+    { img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1600&auto=format&fit=crop', titre: 'Le total look <em>Streetwear</em>', refs: ['SW-001', 'SW-002'] }
   ];
 
   const params = new URLSearchParams(window.location.search);
@@ -195,7 +246,7 @@
       const body = document.getElementById('drawer-body');
       const footer = document.getElementById('drawer-footer');
       const totalEl = document.getElementById('drawer-total-val');
-      if (!rawItems || rawItems.length === 0) { body.innerHTML = '<div class="drawer-empty">Votre panier est vide.</div>'; footer.style.display = 'none'; } 
+      if (!rawItems || rawItems.length === 0) { body.innerHTML = '<div class="drawer-empty">Votre panier est vide.</div>'; footer.style.display = 'none'; }
       else {
         let total = 0;
         body.innerHTML = rawItems.map(i => {
@@ -213,7 +264,23 @@
   }
 
   function updateUI() {
-    try { const n = SE?.Cart?.count?.() ?? 0; const b = document.getElementById('cart-count'); if (b) { b.textContent = n; b.classList.toggle('show', n > 0); } } catch(e) {}
+    try { const n = SE?.Cart?.count?.() ?? 0; const b = document.getElementById('cart-count'); if (b) { b.textContent = n; b.style.display = n > 0 ? 'flex' : 'none'; } } catch(e) {}
+  }
+
+  function renderNextChapter(nextCol) {
+    if (nextCol) {
+      return `<div class="next-chapter">
+        <h2>Le prochain <em>chapitre</em></h2>
+        <p>${esc(nextCol.description || "Une nouvelle histoire est en cours d'écriture.")}</p>
+        <a href="https://wa.me/221778038874?text=${encodeURIComponent('Je veux être informé du drop ' + (nextCol.nom || ''))}" class="btn-next" target="_blank">Être averti</a>
+      </div>`;
+    }
+    return `<div class="next-chapter">
+      <h2>L'aventure <em>continue</em></h2>
+      <p>Cette histoire s'arrête ici pour l'instant. Le prochain chapitre est déjà en préparation.</p>
+      <a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti sur WhatsApp</a>
+      <a href="mode.html" class="btn-next-ghost">Retour à la Mode</a>
+    </div>`;
   }
 
   async function init() {
@@ -222,9 +289,9 @@
 
     if (status === 'upcoming') {
       document.getElementById('col-hero-bg').style.backgroundImage = `url('https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=2000&auto=format&fit=crop')`;
-      document.getElementById('col-badge').textContent = '✦ Prochain Arrivage';
+      document.getElementById('col-badge').textContent = 'Prochainement';
       document.getElementById('col-title').innerHTML = 'Prochain <em>Chapitre</em>';
-      dynamicContent.innerHTML = `<div class="next-chapter"><h2>Arrivage <em>Bientôt</em></h2><p>Préparez-vous. Le prochain drop arrive.</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Notifiez-moi sur WhatsApp</a></div>`;
+      dynamicContent.innerHTML = `<div class="next-chapter"><h2>Arrivage <em>Bientôt</em></h2><p>Préparez-vous. Le prochain drop arrive.</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti</a></div>`;
       return;
     }
 
@@ -235,10 +302,10 @@
       if (!cols || cols.length === 0) { location.href = 'mode.html'; return; }
       const col = cols[0];
 
-      document.title = `${esc(col.nom)} — SenExport Boutique`;
+      document.title = `${esc(col.nom)} — SenExport`;
       document.getElementById('col-hero-bg').style.backgroundImage = `url('${esc(col.image_url || 'https://placehold.co/1600x900/08090E/D4AF37?text=SenExport')}')`;
-      document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? '● Disponible Maintenant' : 'Collection';
-      document.getElementById('col-title').innerHTML = esc(col.nom).replace(/(\d{4})/, '<em>$1</em>'); 
+      document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? 'Disponible Maintenant' : 'Archives';
+      document.getElementById('col-title').innerHTML = esc(col.nom).replace(/(\d{4})/, '<em>$1</em>');
 
       const { data: liens } = await SE.sb.from('collection_articles').select('article_ref').eq('collection_id', col.id);
       let collectionArticles = [];
@@ -248,95 +315,92 @@
         if (arts) collectionArticles = arts;
       }
 
-      // Filtrer les produits pour la grille
       let gridArticles = collectionArticles;
       if (col.statut === 'passee') gridArticles = collectionArticles.filter(a => (a.quantite || 0) > 0);
 
-      // Identifier la pièce héroïne
       const heroArt = col.hero_piece_ref ? collectionArticles.find(a => a.reference === col.hero_piece_ref) : gridArticles[0];
-      // Retirer la pièce héroïne de la grille pour éviter la répétition
       if (heroArt) gridArticles = gridArticles.filter(a => a.reference !== heroArt.reference);
 
       let html = '';
 
-      // 2. LE MANIFESTE
       if (col.story_text) {
         html += `<div class="manifesto"><p class="manifesto-text">${esc(col.story_text)}</p></div>`;
       }
 
-      // 3. LA PIÈCE HÉROÏNE
       if (heroArt) {
+        const qte = heroArt.quantite || 0;
+        const rareNote = qte > 0 && qte <= 3 ? `<span class="hero-piece-rare">Il n'en reste que ${qte}</span>` : '';
         html += `
           <div class="hero-piece">
             <img src="${esc(imgUrl(heroArt.photo_url))}" class="hero-piece-img" alt="${esc(heroArt.nom)}">
             <div class="hero-piece-content">
               <span class="hero-piece-label">La pièce maîtresse</span>
               <h2 class="hero-piece-name">${esc(heroArt.nom)}</h2>
-              <p class="hero-piece-desc">${esc(heroArt.description || 'Une pièce centrale de cette collection, pensée dans les moindres détails.')}</p>
+              <p class="hero-piece-desc">${esc(heroArt.description || 'Une pièce centrale de cette collection.')}</p>
               <div class="hero-piece-footer">
-                <span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>
-                <a href="produit.html?ref=${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir la pièce</a>
+                <div class="hero-piece-prix-block">
+                  <span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>
+                  ${rareNote}
+                </div>
+                <a href="produit.html?ref=${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir</a>
               </div>
             </div>
           </div>
         `;
       }
 
-      // 4. LA GRILLE D'EXPLORATION
       if (gridArticles.length > 0) {
         html += `<div class="section-head"><h2>Le reste du <em>casting</em></h2><span class="meta">${gridArticles.length} pièces</span></div>`;
         html += `<div class="prod-grid">`;
         gridArticles.forEach(a => {
-          const prix = a.prix_vente_fcfa || 0;
-          const photo = imgUrl(a.photo_url);
-          html += `<a href="produit.html?ref=${esc(a.reference)}" class="p-card"><div class="p-image-wrap"><img src="${esc(photo)}" alt="${esc(a.nom)}" loading="lazy"></div><div class="p-body"><span class="p-name">${esc(a.nom)}</span><span class="p-prix">${fprix(prix)}</span></div></a>`;
+          const qte = a.quantite || 0;
+          const rareNote = qte > 0 && qte <= 3 ? `<span class="p-rare">Dernières pièces</span>` : '';
+          html += `
+            <div class="p-card">
+              <a href="produit.html?ref=${esc(a.reference)}" class="p-card-link" aria-label="${esc(a.nom)}"></a>
+              <img src="${esc(imgUrl(a.photo_url))}" alt="${esc(a.nom)}" loading="lazy">
+              <div class="p-body">
+                <div class="p-info-text">
+                  <h3>${esc(a.nom)}</h3>
+                  <span>Voir l'article${rareNote}</span>
+                </div>
+                <span class="p-prix">${fprix(a.prix_vente_fcfa)}</span>
+              </div>
+              <button class="p-quick-add" data-cart-add="${esc(a.reference)}" aria-label="Ajouter au panier">+</button>
+            </div>`;
         });
         html += `</div>`;
       }
 
-      // 5. LE LOOKBOOK
-      let lookHTML = `<div class="section-head"><h2>Acheter le <em>look</em></h2></div>`;
-      let validOutfits = 0;
-      OUTFITS.forEach(o => {
-        let itemsHTML = '';
-        let totalPrix = 0;
-        let validItems = 0;
-        o.refs.forEach(ref => {
-          const art = allArts.find(a => a.reference === ref);
-          if (art) {
-            validItems++;
-            const prix = art.prix_vente_fcfa || 0;
-            totalPrix += prix;
-            itemsHTML += `<a href="produit.html?ref=${esc(art.reference)}" class="look-item"><span>${esc(art.nom)}</span><strong>${fprix(prix)}</strong></a>`;
-          }
-        });
-        if (validItems > 0) {
-          validOutfits++;
-          lookHTML += `<div class="look-card"><div class="look-img" style="background-image:url('${esc(o.img)}')"></div><div class="look-content"><h3 class="look-title">${o.titre}</h3><div class="look-items">${itemsHTML}</div><div class="look-total"><span>Total Look</span><b>${fprix(totalPrix)}</b></div><button class="btn-buy-look" data-refs="${o.refs.join(',')}">Acheter le look complet</button></div></div>`;
+      let totalPrix = 0, itemsHTML = '', validItems = 0;
+      OUTFITS[0].refs.forEach(ref => {
+        const art = allArts.find(a => a.reference === ref);
+        if (art) {
+          validItems++;
+          totalPrix += art.prix_vente_fcfa || 0;
+          itemsHTML += `<a href="produit.html?ref=${esc(art.reference)}" class="look-item"><span>${esc(art.nom)}</span><strong>${fprix(art.prix_vente_fcfa)}</strong></a>`;
         }
       });
-      if (validOutfits > 0) html += lookHTML;
-
-      // 6. LE PROCHAIN CHAPITRE
-      const { data: nextDrops } = await SE.sb.from('collections').select('*').eq('statut', 'a_venir').limit(1);
-      if (nextDrops && nextDrops.length > 0) {
-        const nextCol = nextDrops[0];
-        const dateStr = nextCol.date_lancement ? new Date(nextCol.date_lancement).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }) : 'Prochainement';
-        html += `
-          <div class="next-chapter">
-            <h2>Le prochain <em>chapitre</em> arrive</h2>
-            <span class="next-chapter-date">${esc(nextCol.nom)} — ${dateStr}</span>
-            <p>${esc(nextCol.description || "Une nouvelle histoire est en cours d'écriture.")}</p>
-            <a href="https://wa.me/221778038874?text=Je%20veux%20etre%20informé%20du%20drop%20${encodeURIComponent(nextCol.nom)}" class="btn-next" target="_blank">Être averti·e en avant-première</a>
-          </div>
-        `;
-      } else {
-        html += `<div class="next-chapter"><h2>L'aventure <em>continue</em></h2><a href="mode.html" class="btn-next">Retour à la Mode</a></div>`;
+      if (validItems > 0) {
+        html += `<div class="lookbook-section"><div class="look-card"><div class="look-img" style="background-image:url('${esc(OUTFITS[0].img)}')"></div><div class="look-content"><h3 class="look-title">${OUTFITS[0].titre}</h3><div class="look-items">${itemsHTML}</div><div class="look-total"><span>Total Look</span><b>${fprix(totalPrix)}</b></div><button class="btn-buy-look" data-refs="${OUTFITS[0].refs.join(',')}">Acheter le look</button></div></div></div>`;
       }
+
+      const { data: nextDrops } = await SE.sb.from('collections').select('*').eq('statut', 'a_venir').limit(1);
+      html += renderNextChapter(nextDrops && nextDrops.length > 0 ? nextDrops[0] : null);
 
       dynamicContent.innerHTML = html;
 
-      // Listeners
+      document.querySelectorAll('[data-cart-add]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const ref = btn.dataset.cartAdd;
+          SE.Cart.add(ref);
+          btn.textContent = '✓';
+          setTimeout(() => { btn.textContent = '+'; }, 1200);
+          updateUI(); updateDrawer(); setTimeout(openDrawer, 350);
+        });
+      });
+
       document.querySelectorAll('.btn-buy-look').forEach(btn => {
         btn.addEventListener('click', () => {
           btn.dataset.refs.split(',').forEach(r => SE.Cart.add(r, 1));
@@ -344,7 +408,10 @@
         });
       });
 
-    } catch (e) { console.error('[Collection] Erreur:', e); }
+    } catch (e) {
+      console.error('[Collection] Erreur:', e);
+      dynamicContent.innerHTML = renderNextChapter(null);
+    }
   }
 
   if (document.readyState === 'complete') init();
