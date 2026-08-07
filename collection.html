@@ -16,7 +16,14 @@
 <link rel="stylesheet" href="styles-dark.css">
 
 <style>
-  :root { --ease-lux: cubic-bezier(0.22, 1, 0.36, 1); }
+  :root {
+    --bg:#08090E; --bg2:#101218; --card:#14151C;
+    --ink:#F3EFE6; --stone:#9C968A; --muted:#67635C;
+    --or:#D4AF37; --or-line:rgba(212,175,55,.28);
+    --border:rgba(243,239,230,.1); --red:#E05B4E;
+    --ff-d:'Cormorant Garamond', serif; --ff-b:'DM Sans', sans-serif; --ff-m:'JetBrains Mono', monospace;
+    --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
+  }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; scroll-behavior: smooth; }
@@ -27,20 +34,29 @@
   .container { width: 100%; padding: 0 2rem; max-width: 1400px; margin: 0 auto; }
   @media (max-width: 640px) { .container { padding: 0 1.25rem; } }
 
-  /* Repère de chapitre */
-  .chapter-mark { display: flex; align-items: center; gap: 1rem; margin: 0 auto 2rem; max-width: 1400px; padding: 0 2rem; }
+  .chapter-mark { display: flex; align-items: center; gap: 1rem; margin: 0 auto 2rem; max-width: 1400px; padding: 0 2rem; opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }
+  .chapter-mark.visible { opacity: 1; transform: none; }
   @media (max-width: 640px) { .chapter-mark { padding: 0 1.25rem; } }
   .chapter-mark .num { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.1em; }
   .chapter-mark .line { flex: 1; height: 1px; background: var(--or-line); }
   .chapter-mark .lbl { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
 
-  /* Navigation latérale */
-  .side-nav { position: fixed; right: 2rem; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 1.5rem; mix-blend-mode: difference; }
-  @media (max-width: 900px) { .side-nav { display: none; } }
-  .side-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); transition: all 0.3s var(--ease-lux); position: relative; display: block; }
-  .side-dot.active { background: var(--or); transform: scale(1.4); }
-  .side-dot span { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-family: var(--ff-m); font-size: 0.65rem; color: #fff; opacity: 0; transition: opacity 0.2s; pointer-events: none; white-space: nowrap; }
-  .side-dot:hover span { opacity: 1; }
+  .chapter-dots { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 200; display: none; flex-direction: column; gap: 1rem; }
+  @media (min-width: 1100px) { .chapter-dots { display: flex; } }
+  .chapter-dots a { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: .3s var(--ease-lux); position: relative; }
+  .chapter-dots a.active { background: var(--or); transform: scale(1.8); }
+  .chapter-dots a::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-family: var(--ff-m); font-size: .62rem; letter-spacing: .05em; text-transform: uppercase; color: var(--stone); white-space: nowrap; opacity: 0; transition: .2s; pointer-events: none; }
+  .chapter-dots a:hover::before, .chapter-dots a.active::before { opacity: 1; color: var(--or); }
+
+  /* NAV */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 300; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; mix-blend-mode: difference; background: transparent; transition: background .35s ease, backdrop-filter .35s ease, padding .35s ease; }
+  .nav a, .nav svg { color: #fff; }
+  .nav.scrolled { mix-blend-mode: normal; background: rgba(8,9,14,.82); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 1.1rem 2rem; }
+  .nav.scrolled a, .nav.scrolled svg { color: var(--ink); }
+  .nav-logo { font-family: var(--ff-d); font-size: 1.2rem; }
+  .nav-logo em { color: var(--or); font-style: italic; }
+  .nav-cart { position: relative; }
+  .nav-cart-count { position: absolute; top: -5px; right: -5px; background: var(--or); color: #000; font-size: .6rem; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; }
 
   /* 1. HERO */
   .col-hero { height: 92vh; min-height: 600px; display: flex; align-items: flex-end; position: relative; overflow: hidden; }
@@ -52,34 +68,39 @@
   .col-title { font-family: var(--ff-d); font-size: clamp(3rem, 10vw, 6rem); color: #fff; font-weight: 300; line-height: 0.9; text-transform: uppercase; }
   .col-title em { color: var(--or); font-style: italic; font-weight: 700; }
 
-  /* 2. MANIFESTE avec texture */
-  .manifesto { position: relative; padding: 6rem 2rem; text-align: center; border-bottom: 1px solid var(--border); overflow: hidden; isolation: isolate; }
+  /* 2. MANIFESTE */
+  .manifesto { position: relative; padding: 6rem 2rem; text-align: center; border-bottom: 1px solid var(--border); overflow: hidden; }
   @media (max-width: 640px) { .manifesto { padding: 4rem 1.25rem; } }
-  .manifesto::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(circle at 50% 0%, var(--bg2) 0%, transparent 70%); }
-  .manifesto::after { content: ''; position: absolute; inset: 0; z-index: -1; opacity: 0.08; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
-  .manifesto-text { font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 300; line-height: 1.4; color: var(--ink); max-width: 800px; margin: 0 auto; }
+  .manifesto-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .14; filter: grayscale(50%); }
+  .manifesto-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, var(--bg) 0%, rgba(8,9,14,.7) 45%, var(--bg) 100%); }
+  .manifesto-text { position: relative; z-index: 2; font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 300; line-height: 1.4; color: var(--ink); max-width: 800px; margin: 0 auto; }
   .manifesto-text em { color: var(--or); font-style: italic; }
 
   /* 3. PIÈCE HÉROÏNE */
-  .hero-piece-section { padding: 5rem 0 6rem; min-height: 85vh; display: flex; flex-direction: column; justify-content: center; }
-  .hero-piece { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; padding: 0 2rem; gap: 2rem; align-items: stretch; }
-  @media (min-width: 900px) { .hero-piece { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .hero-piece-section { position: relative; padding: 6rem 0 7rem; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; background: radial-gradient(ellipse at 25% 50%, rgba(212,175,55,.06), transparent 60%); }
+  .hero-piece { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; padding: 0 2rem; gap: 2rem; align-items: center; }
+  @media (min-width: 900px) { .hero-piece { grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: stretch; min-height: 68vh; } }
   @media (max-width: 899px) { .hero-piece { padding: 0 1.25rem; } }
 
   .hero-piece-img-wrap { position: relative; overflow: hidden; aspect-ratio: 4/5; }
-  @media (min-width: 900px) { .hero-piece-img-wrap { aspect-ratio: auto; height: 100%; min-height: 600px; } }
+  @media (min-width: 900px) { .hero-piece-img-wrap { aspect-ratio: auto; height: 100%; } }
+  .hero-piece-img-wrap::before, .hero-piece-img-wrap::after { content: ''; position: absolute; width: 32px; height: 32px; z-index: 2; pointer-events: none; }
+  .hero-piece-img-wrap::before { top: 16px; left: 16px; border-top: 2px solid var(--or); border-left: 2px solid var(--or); }
+  .hero-piece-img-wrap::after { bottom: 16px; right: 16px; border-bottom: 2px solid var(--or); border-right: 2px solid var(--or); }
   .hero-piece-img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease; }
   .hero-piece:hover .hero-piece-img { transform: scale(1.04); }
 
   .hero-piece-content { display: flex; flex-direction: column; justify-content: center; }
-  .hero-piece-label { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--or); margin-bottom: 1rem; }
-  .hero-piece-name { font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3rem); font-weight: 300; line-height: 1.1; margin-bottom: 1.5rem; color: var(--ink); }
-  .hero-piece-desc { font-size: 1rem; color: var(--stone); line-height: 1.75; margin-bottom: 2rem; max-width: 450px; }
+  .hero-piece-badge { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--ff-m); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--or); border: 1px solid var(--or-line); padding: .5rem 1rem; border-radius: 99px; margin-bottom: 1.5rem; width: fit-content; }
+  .hero-piece-badge::before { content: '✦'; }
+  .hero-piece-label { font-family: var(--ff-m); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--stone); margin-bottom: .8rem; }
+  .hero-piece-name { font-family: var(--ff-d); font-size: clamp(2.4rem, 6vw, 4.4rem); font-weight: 300; line-height: 1; margin-bottom: 1.8rem; color: var(--ink); }
+  .hero-piece-desc { font-size: 1.05rem; color: var(--stone); line-height: 1.8; margin-bottom: 2.2rem; max-width: 460px; }
   .hero-piece-footer { display: flex; align-items: center; gap: 1.5rem; margin-top: auto; flex-wrap: wrap; }
-  .hero-piece-prix-block { display: flex; flex-direction: column; gap: 0.25rem; }
-  .hero-piece-prix { font-family: var(--ff-d); font-size: 1.6rem; color: var(--ink); }
-  .hero-piece-rare { font-family: var(--ff-m); font-size: 0.65rem; color: var(--or); letter-spacing: 0.08em; opacity: 0.85; text-transform: uppercase; }
-  .btn-hero-piece { background: var(--ink); color: var(--bg); padding: 0.9rem 1.8rem; font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.1em; border-radius: 2px; transition: 0.3s var(--ease-lux); border: 1px solid var(--ink); }
+  .hero-piece-prix-block { display: flex; flex-direction: column; gap: 0.3rem; }
+  .hero-piece-prix { font-family: var(--ff-d); font-size: 1.9rem; color: var(--ink); }
+  .hero-piece-rare { font-family: var(--ff-m); font-size: 0.68rem; color: var(--or); letter-spacing: 0.08em; opacity: 0.9; text-transform: uppercase; }
+  .btn-hero-piece { background: var(--ink); color: var(--bg); padding: 1rem 2.1rem; font-weight: 700; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.1em; border-radius: 2px; transition: 0.3s var(--ease-lux); border: 1px solid var(--ink); }
   .btn-hero-piece:hover { background: transparent; color: var(--ink); }
 
   /* 4. GRILLE ASYMÉTRIQUE */
@@ -89,9 +110,9 @@
   .section-head h2 em { color: var(--or); font-style: italic; }
   .section-head .meta { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
 
-  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px; padding: 2rem 2rem 6rem; max-width: 1400px; margin: 0 auto; }
+  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 2rem 2rem 6rem; max-width: 1400px; margin: 0 auto; }
   @media (max-width: 640px) { .prod-grid { padding: 1.5rem 1.25rem 4rem; gap: 8px; } }
-  @media (min-width: 900px) { .prod-grid { grid-template-columns: repeat(12, 1fr); } }
+  @media (min-width: 900px) { .prod-grid { grid-template-columns: repeat(12, 1fr); gap: 10px; } }
 
   .p-card { position: relative; overflow: hidden; background: var(--bg2); aspect-ratio: 3/4; border-radius: 4px; }
   @media (min-width: 900px) {
@@ -103,36 +124,45 @@
     .p-card:nth-child(6n+6) { grid-column: span 3; }
   }
 
-  /* Etat Sold Out */
-  .p-card.sold-out { opacity: 0.5; filter: grayscale(100%); }
-  .p-sold-out-tag { position: absolute; top: 1rem; left: 1rem; z-index: 4; font-family: var(--ff-m); font-size: 0.65rem; color: var(--red); border: 1px solid var(--red); padding: 3px 8px; border-radius: 2px; text-transform: uppercase; letter-spacing: 0.1em; }
-
   .p-card-link { position: absolute; inset: 0; z-index: 1; }
-  .p-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-lux); filter: grayscale(20%); }
+  .p-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-lux), filter 0.5s ease; filter: grayscale(20%); }
   .p-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
-  .p-card.sold-out:hover img { transform: none; filter: grayscale(100%); }
-  
-  .p-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
-  @media (max-width: 640px) { .p-body { padding: 1rem; } }
+  .p-card--out img { filter: grayscale(75%) brightness(.55) !important; transform: none !important; }
+  .p-out { position: absolute; top: 1rem; left: 1rem; z-index: 3; font-family: var(--ff-m); font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; color: #fff; border: 1px solid rgba(255,255,255,.4); padding: 4px 10px; border-radius: 2px; background: rgba(0,0,0,.45); backdrop-filter: blur(4px); }
+  .p-index { position: absolute; top: 1rem; left: 1rem; z-index: 3; font-family: var(--ff-m); font-size: 0.65rem; color: rgba(255,255,255,.65); letter-spacing: .04em; }
+  .p-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.92), transparent); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; transform: translateY(65%); transition: transform .45s var(--ease-lux); }
+  .p-card:hover .p-body { transform: translateY(0); }
+  @media (hover: none) { .p-body { transform: translateY(0); } }
+  @media (max-width: 640px) { .p-body { padding: 1rem; transform: translateY(0); } }
   .p-info-text h3 { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.25rem; color: #fff; }
-  .p-info-text span { font-family: var(--ff-m); font-size: 0.7rem; color: rgba(255,255,255,0.7); text-transform: uppercase; }
+  .p-info-text span { font-family: var(--ff-m); font-size: 0.7rem; color: rgba(255,255,255,0.85); text-transform: uppercase; }
   .p-info-text .p-rare { display: block; font-size: 0.65rem; color: var(--or); text-transform: none; letter-spacing: 0.02em; margin-top: 0.2rem; }
   .p-prix { font-family: var(--ff-d); font-size: 1.1rem; color: var(--or); font-weight: 600; }
-  
   .p-quick-add { position: absolute; top: 1rem; right: 1rem; z-index: 3; width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.3); color: #fff; background: rgba(0,0,0,0.25); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 300; opacity: 0; transform: translateY(-4px); transition: 0.3s var(--ease-lux); }
   .p-card:hover .p-quick-add { opacity: 1; transform: translateY(0); }
   .p-quick-add:hover { background: var(--or); border-color: var(--or); color: #000; }
-  .p-quick-add.disabled { background: rgba(0,0,0,0.5); border-color: var(--border); color: var(--muted); cursor: not-allowed; }
-  .p-quick-add.disabled:hover { background: rgba(0,0,0,0.5); border-color: var(--border); color: var(--muted); }
   @media (hover: none) { .p-quick-add { opacity: 1; transform: none; } }
 
-  /* 5. LOOKBOOK */
+  /* 5. L'ENGAGEMENT */
+  .engagement { padding: 6rem 2rem; border-top: 1px solid var(--border); }
+  @media (max-width: 640px) { .engagement { padding: 4rem 1.25rem; } }
+  .engagement-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 3rem; }
+  @media (min-width: 900px) { .engagement-grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .engagement-item .eng-label { font-family: var(--ff-m); font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--or); margin-bottom: 1rem; display: block; }
+  .engagement-item p { font-family: var(--ff-d); font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 300; line-height: 1.65; color: var(--ink); }
+  .engagement-item p em { color: var(--or); font-style: italic; }
+
+  /* 6. LOOKBOOK — collage adaptatif : 1 ou 2 colonnes selon le nombre de photos disponibles */
   .lookbook-section { padding: 6rem 0; background: var(--bg); border-top: 1px solid var(--border); }
   @media (max-width: 640px) { .lookbook-section { padding: 4rem 0; } }
   .look-card { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; border: 1px solid var(--border); overflow: hidden; background: var(--card); }
   @media (min-width: 900px) { .look-card { grid-template-columns: 1fr 1fr; } }
-  .look-img { height: 500px; background-size: cover; background-position: center; }
-  @media (max-width: 640px) { .look-img { height: 350px; } }
+  .look-collage { position: relative; height: 500px; overflow: hidden; background: var(--bg2); display: grid; }
+  @media (max-width: 640px) { .look-collage { height: 380px; } }
+  .look-collage img { width: 100%; height: 100%; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,.5); }
+  .look-collage .lc-left { grid-column: 1; }
+  .look-collage .lc-right { grid-column: 2; border-left: 5px solid var(--bg); }
+
   .look-content { padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
   @media (max-width: 640px) { .look-content { padding: 2.5rem 1.5rem; } }
   .look-title { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 300; margin-bottom: 2rem; line-height: 1; color: var(--ink); }
@@ -147,7 +177,7 @@
   .btn-buy-look { width: 100%; padding: 1.2rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; transition: 0.3s var(--ease-lux); background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
   .btn-buy-look:hover { background: var(--or); color: #000; border-color: var(--or); }
 
-  /* 6. PROCHAIN CHAPITRE */
+  /* 7. PROCHAIN CHAPITRE */
   .next-chapter { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 6rem 2rem; border-top: 1px solid var(--border); background: var(--bg2); }
   @media (max-width: 640px) { .next-chapter { padding: 4rem 1.25rem; } }
   .next-chapter h2 { font-family: var(--ff-d); font-size: clamp(2rem, 6vw, 4rem); font-weight: 300; margin-bottom: 1rem; line-height: 0.9; color: var(--ink); }
@@ -155,8 +185,6 @@
   .next-chapter p { color: var(--stone); max-width: 500px; margin: 0 auto 2rem; font-size: 1.05rem; line-height: 1.6; }
   .btn-next { font-family: var(--ff-m); color: var(--or); border: 1px solid var(--or); padding: 1rem 3rem; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; transition: 0.3s var(--ease-lux); display: inline-block; }
   .btn-next:hover { background: var(--or); color: #000; }
-  .btn-next-ghost { font-family: var(--ff-m); color: var(--stone); border: 1px solid var(--border); padding: 1rem 3rem; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; transition: 0.3s var(--ease-lux); display: inline-block; margin-top: 1rem; }
-  .btn-next-ghost:hover { border-color: var(--ink); color: var(--ink); }
 
   footer.col-footer { border-top: 1px solid var(--border); padding: 3rem 2rem; display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: space-between; align-items: center; }
   @media (max-width: 640px) { footer.col-footer { padding: 2rem 1.25rem; flex-direction: column; text-align: center; } }
@@ -165,7 +193,10 @@
   footer.col-footer .f-links { display: flex; gap: 1.5rem; font-family: var(--ff-m); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--stone); }
   footer.col-footer .f-links a:hover { color: var(--or); }
 
-  /* PANIER */
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; background: var(--bg); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform 0.5s var(--ease-lux); z-index: 10000; display: flex; flex-direction: column; }
@@ -176,9 +207,8 @@
   .drawer-close { font-size: 1.5rem; color: var(--stone); transition: 0.2s; }
   .drawer-close:hover { color: var(--or); transform: rotate(90deg); }
   .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 1.5rem; }
-  .drawer-item { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .drawer-item { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); animation: slideIn 0.4s var(--ease-lux); }
   .drawer-item img { width: 80px; height: 100px; object-fit: cover; }
-  .drawer-item-info { flex: 1; }
   .drawer-item-info h4 { font-size: 0.9rem; color: var(--ink); margin-bottom: 0.5rem; font-weight: 400; }
   .drawer-item-info p { font-family: var(--ff-m); font-size: 0.8rem; color: var(--or); }
   .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
@@ -190,8 +220,9 @@
 </head>
 <body>
 
-<!-- Navigation latérale -->
-<div class="side-nav" id="sideNav"></div>
+<!-- AJOUT : le contenu de cette nav n'est plus écrit en dur — il est reconstruit en JS
+     à partir des chapitres réellement rendus, pour ne jamais pointer vers une section absente -->
+<nav class="chapter-dots" id="chapter-dots" aria-label="Chapitres de la page"></nav>
 
 <div class="drawer-overlay" id="drawer-overlay"></div>
 <div class="cart-drawer" id="cart-drawer">
@@ -203,17 +234,15 @@
   </div>
 </div>
 
-<nav class="nav" style="position:fixed; top:0; left:0; right:0; z-index:100; padding: 1.5rem 2rem; display:flex; justify-content:space-between; align-items:center; mix-blend-mode: difference;">
-  <a href="index.html" style="font-family: var(--ff-d); font-size: 1.2rem; color: #fff;">Sen·Export <em style="color: var(--or); font-style: italic;">Boutique</em></a>
-  <div style="display:flex; gap: 1.5rem; align-items:center;">
-    <a href="panier.html" id="nav-cart-icon" style="color: #fff; position: relative;">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-      <span id="cart-count" style="position:absolute; top:-5px; right:-5px; background:var(--or); color:#000; font-size:0.6rem; width:15px; height:15px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-weight:bold;"></span>
-    </a>
-  </div>
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <a href="panier.html" class="nav-cart" id="nav-cart-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <span class="nav-cart-count" id="cart-count"></span>
+  </a>
 </nav>
 
-<div class="col-hero" id="chapter-hero">
+<div class="col-hero">
   <div class="col-hero-bg" id="col-hero-bg"></div>
   <div class="col-hero-overlay"></div>
   <div class="col-hero-content">
@@ -226,11 +255,7 @@
 
 <footer class="col-footer">
   <div class="f-brand">Sen·Export <em>Boutique</em></div>
-  <div class="f-links">
-    <a href="mode.html">Mode</a>
-    <a href="catalogue.html">Catalogue</a>
-    <a href="https://wa.me/221778038874" target="_blank">WhatsApp</a>
-  </div>
+  <div class="f-links"><a href="mode.html">Mode</a><a href="catalogue.html">Catalogue</a><a href="https://wa.me/221778038874" target="_blank">WhatsApp</a></div>
   <div style="font-family:var(--ff-m); font-size:.7rem; color:var(--muted);">© 2026 SenExport</div>
 </footer>
 
@@ -243,26 +268,31 @@
 (() => {
   'use strict';
 
-  function esc(s) {
-    if (s === null || s === undefined) return '';
-    return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  }
+  function esc(s) { if (s == null) return ''; return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
   function fprix(n) { return Math.round(n||0).toLocaleString('fr-FR') + ' FCFA'; }
-  function imgUrl(u) {
-    if (!u) return 'https://placehold.co/600x800/08090E/D4AF37?text=SenExport';
-    if (u.startsWith('http')) return u;
-    if (u.startsWith('photo-')) return `https://images.unsplash.com/${u}`;
+
+  function imgUrl(u, w = 800) {
+    if (!u) return `https://placehold.co/${w}x${Math.round(w*1.25)}/08090E/D4AF37?text=SenExport`;
+    if (u.startsWith('http')) {
+      if (u.includes('unsplash.com')) {
+        const separator = u.includes('?') ? '&' : '?';
+        return `${u}${separator}w=${w}&auto=format&fit=crop`;
+      }
+      return u;
+    }
+    if (u.startsWith('photo-')) return `https://images.unsplash.com/${u}?w=${w}&auto=format&fit=crop`;
     return `https://axgpohmhzmdgozndlntj.supabase.co/storage/v1/object/public/photos/${u}`;
   }
 
   const OUTFITS = [
-    { img: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200&auto=format&fit=crop', titre: 'Le total look <em>Streetwear</em>', refs: ['SW-001', 'SW-002'] }
+    { titre: 'Le total look <em>Streetwear</em>', refs: ['SW-001', 'SW-002'] }
   ];
 
   const params = new URLSearchParams(window.location.search);
   const colId = params.get('id');
   const status = params.get('status');
   const dynamicContent = document.getElementById('dynamic-content');
+  const chapterDotsNav = document.getElementById('chapter-dots');
 
   const drawer = document.getElementById('cart-drawer');
   const overlay = document.getElementById('drawer-overlay');
@@ -270,6 +300,17 @@
   const closeDrawer = () => { drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow = ''; };
   overlay.addEventListener('click', closeDrawer);
   document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+
+  // correctif : seuil basé sur la vraie hauteur du hero plutôt qu'un chiffre fixe (100px déclenchait
+  // le fond plein trop tôt, avant même d'avoir quitté visuellement l'image du hero)
+  const mainNav = document.getElementById('main-nav');
+  function updateNav() {
+    const heroEl = document.querySelector('.col-hero');
+    const heroH = heroEl ? heroEl.offsetHeight : 600;
+    mainNav.classList.toggle('scrolled', window.scrollY > heroH - 90);
+  }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
 
   function updateDrawer() {
     try {
@@ -284,9 +325,9 @@
           const a = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === i.ref) : null;
           const nom = a ? a.nom : i.ref;
           const prix = a ? (a.prix_vente_fcfa || 0) : 0;
-          const photo = imgUrl(a && a.photo_url ? a.photo_url : null);
+          const photo = imgUrl(a && a.photo_url ? a.photo_url : null, 100);
           total += prix * (i.qte || 1);
-          return `<div class="drawer-item"><img src="${esc(photo)}" alt="${esc(nom)}"><div class="drawer-item-info"><h4>${esc(nom)}</h4><p>${fprix(prix)}</p></div></div>`;
+          return `<div class="drawer-item"><img src="${esc(photo)}" alt="${esc(nom)}"><div class="drawer-item-info"><h4>${esc(nom)}</h4><p>${fprix(prix)} · qté ${i.qte}</p></div></div>`;
         }).join('');
         totalEl.textContent = fprix(total);
         footer.style.display = 'block';
@@ -295,31 +336,14 @@
   }
 
   function updateUI() {
-    try { const n = SE?.Cart?.count?.() ?? 0; const b = document.getElementById('cart-count'); if (b) { b.textContent = n; b.style.display = n > 0 ? 'flex' : 'none'; } } catch(e) {}
+    try { const n = SE?.Cart?.count?.() ?? 0; const b = document.getElementById('cart-count'); b.textContent = n; b.style.display = n>0?'flex':'none'; } catch(e) {}
   }
 
-  function chapterMark(num, label, id) { 
-    return `<div class="chapter-mark" id="${id}"><span class="num">${num}</span><span class="line"></span><span class="lbl">${esc(label)}</span></div>`; 
-  }
+  function chapterMark(num, label) { return `<div class="chapter-mark"><span class="num">${num}</span><span class="line"></span><span class="lbl">${esc(label)}</span></div>`; }
 
-  function renderNextChapter(nextCol) {
-    if (nextCol) {
-      return `
-        <div class="next-chapter" id="chapter-5">
-          ${chapterMark('05', 'Le prochain chapitre', 'ch-5')}
-          <h2>Une nouvelle <em>histoire</em> arrive</h2>
-          <p>${esc(nextCol.description || "Une nouvelle histoire est en cours d'écriture.")}</p>
-          <a href="https://wa.me/221778038874?text=${encodeURIComponent('Je veux être informé du drop ' + (nextCol.nom || ''))}" class="btn-next" target="_blank">Être averti en avant-première</a>
-        </div>`;
-    }
-    return `
-      <div class="next-chapter" id="chapter-5">
-        ${chapterMark('05', 'La suite', 'ch-5')}
-        <h2>L'aventure <em>continue</em></h2>
-        <p>Cette histoire s'arrête ici pour l'instant. Le prochain chapitre est déjà en préparation.</p>
-        <a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti sur WhatsApp</a>
-        <a href="mode.html" class="btn-next-ghost">Retour à la Mode</a>
-      </div>`;
+  function renderNextChapter(nextCol, num) {
+    if (nextCol) return `<div id="chapter-${num}" class="next-chapter">${chapterMark(num,'Le prochain chapitre')}<h2>Une nouvelle <em>histoire</em> arrive</h2><p>${esc(nextCol.description)}</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti en avant-première</a></div>`;
+    return `<div id="chapter-${num}" class="next-chapter">${chapterMark(num,'La suite')}<h2>L'aventure <em>continue</em></h2><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti sur WhatsApp</a></div>`;
   }
 
   async function init() {
@@ -327,10 +351,10 @@
     const allArts = SE.Articles.cache || [];
 
     if (status === 'upcoming') {
-      document.getElementById('col-hero-bg').style.backgroundImage = `url('https://images.unsplash.com/photo-1549298916-b41d501d3772?q=80&w=2000&auto=format&fit=crop')`;
+      document.getElementById('col-hero-bg').style.backgroundImage = `url('${imgUrl("https://images.unsplash.com/photo-1549298916-b41d501d3772", 1600)}')`;
       document.getElementById('col-badge').textContent = 'Prochainement';
       document.getElementById('col-title').innerHTML = 'Prochain <em>Chapitre</em>';
-      dynamicContent.innerHTML = `<div class="next-chapter" id="chapter-1"><h2>Arrivage <em>Bientôt</em></h2><p>Préparez-vous. Le prochain drop arrive.</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti</a></div>`;
+      dynamicContent.innerHTML = `<div id="chapter-01" class="next-chapter"><h2>Arrivage <em>Bientôt</em></h2><p>Préparez-vous. Le prochain drop arrive.</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti</a></div>`;
       return;
     }
 
@@ -342,7 +366,7 @@
       const col = cols[0];
 
       document.title = `${esc(col.nom)} — SenExport`;
-      document.getElementById('col-hero-bg').style.backgroundImage = `url('${esc(col.image_url || 'https://placehold.co/1600x900/08090E/D4AF37?text=SenExport')}')`;
+      document.getElementById('col-hero-bg').style.backgroundImage = `url('${imgUrl(col.image_url, 1600)}')`;
       document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? 'Disponible Maintenant' : 'Archives';
       document.getElementById('col-title').innerHTML = esc(col.nom).replace(/(\d{4})/, '<em>$1</em>');
 
@@ -360,134 +384,155 @@
       const heroArt = col.hero_piece_ref ? collectionArticles.find(a => a.reference === col.hero_piece_ref) : gridArticles[0];
       if (heroArt) gridArticles = gridArticles.filter(a => a.reference !== heroArt.reference);
 
-      let html = '';
+      const outfitArts = OUTFITS[0].refs.map(ref => allArts.find(a => a.reference === ref)).filter(Boolean);
 
-      // 2. MANIFESTE
+      const { data: nextDrops } = await SE.sb.from('collections').select('*').eq('statut', 'a_venir').limit(1);
+      const nextCol = nextDrops && nextDrops.length > 0 ? nextDrops[0] : null;
+
+      // AJOUT : liste ordonnée des chapitres — un chapitre n'entre dans la liste que s'il a du contenu réel.
+      // Les numéros et la nav latérale sont dérivés de cette liste, jamais écrits en dur.
+      const chapters = [];
+
+      // correctif : le manifeste ne s'affiche plus si col.story_text est vide (évite un bloc de 6rem de padding sans texte)
       if (col.story_text) {
-        html += `
-          <div class="manifesto" id="chapter-1">
-            ${chapterMark('01', 'Le manifeste', 'ch-1')}
-            <p class="manifesto-text">${esc(col.story_text)}</p>
-          </div>`;
+        chapters.push({
+          label: 'Le manifeste',
+          render: (num) => `<div id="chapter-${num}" class="manifesto"><div class="manifesto-bg" style="background-image:url('${imgUrl(col.image_url, 1000)}')"></div>${chapterMark(num,'Le manifeste')}<p class="manifesto-text">${esc(col.story_text)}</p></div>`
+        });
       }
 
-      // 3. PIÈCE HÉROÏNE
       if (heroArt) {
         const qte = heroArt.quantite || 0;
         const rareNote = qte > 0 && qte <= 3 ? `<span class="hero-piece-rare">Il n'en reste que ${qte}</span>` : '';
-        html += `
-          <div class="hero-piece-section" id="chapter-2">
-            ${chapterMark('02', 'La pièce maîtresse', 'ch-2')}
-            <div class="hero-piece">
-              <div class="hero-piece-img-wrap"><img src="${esc(imgUrl(heroArt.photo_url))}" class="hero-piece-img" alt="${esc(heroArt.nom)}"></div>
-              <div class="hero-piece-content">
-                <span class="hero-piece-label">Édition limitée — réf. ${esc(heroArt.reference)}</span>
-                <h2 class="hero-piece-name">${esc(heroArt.nom)}</h2>
-                <p class="hero-piece-desc">${esc(heroArt.description || 'Une pièce centrale de cette collection, pensée dans les moindres détails.')}</p>
-                <div class="hero-piece-footer">
-                  <div class="hero-piece-prix-block">
-                    <span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>
-                    ${rareNote}
+        chapters.push({
+          label: 'La pièce maîtresse',
+          render: (num) => `
+            <div id="chapter-${num}" class="hero-piece-section">
+              ${chapterMark(num, 'La pièce maîtresse')}
+              <div class="hero-piece">
+                <div class="hero-piece-img-wrap"><img src="${imgUrl(heroArt.photo_url, 800)}" class="hero-piece-img" alt="${esc(heroArt.nom)}"></div>
+                <div class="hero-piece-content">
+                  <span class="hero-piece-badge">Pièce maîtresse</span>
+                  <span class="hero-piece-label">Édition limitée — réf. ${esc(heroArt.reference)}</span>
+                  <h2 class="hero-piece-name">${esc(heroArt.nom)}</h2>
+                  <p class="hero-piece-desc">${esc(heroArt.description || 'Une pièce centrale de cette collection.')}</p>
+                  <div class="hero-piece-footer">
+                    <div class="hero-piece-prix-block"><span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>${rareNote}</div>
+                    <a href="produit.html?ref=${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir la pièce</a>
                   </div>
-                  <a href="produit.html?ref=${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir la pièce</a>
                 </div>
               </div>
-            </div>
-          </div>`;
-      }
-
-      // 4. GRILLE D'EXPLORATION
-      if (gridArticles.length > 0) {
-        html += `<div id="chapter-3">${chapterMark('03', 'Le reste du casting', 'ch-3')}</div>`;
-        html += `<div class="section-head"><h2>À <em>explorer</em></h2><span class="meta">${gridArticles.length} pièces</span></div>`;
-        html += `<div class="prod-grid">`;
-        gridArticles.forEach(a => {
-          const qte = a.quantite || 0;
-          const isOut = qte <= 0;
-          const rareNote = qte > 0 && qte <= 3 ? `<span class="p-rare">Dernières pièces</span>` : '';
-          const soldOutTag = isOut ? `<div class="p-sold-out-tag">Sold Out</div>` : '';
-          const quickAddHTML = isOut 
-            ? `<button class="p-quick-add disabled" disabled aria-label="Indisponible">×</button>` 
-            : `<button class="p-quick-add" data-cart-add="${esc(a.reference)}" aria-label="Ajouter au panier">+</button>`;
-          
-          html += `
-            <div class="p-card ${isOut ? 'sold-out' : ''}">
-              <a href="produit.html?ref=${esc(a.reference)}" class="p-card-link" aria-label="${esc(a.nom)}"></a>
-              ${soldOutTag}
-              <img src="${esc(imgUrl(a.photo_url))}" alt="${esc(a.nom)}" loading="lazy">
-              <div class="p-body"><div class="p-info-text"><h3>${esc(a.nom)}</h3><span>Voir l'article${rareNote}</span></div><span class="p-prix">${fprix(a.prix_vente_fcfa)}</span></div>
-              ${quickAddHTML}
-            </div>`;
+            </div>`
         });
-        html += `</div>`;
       }
 
-      // 5. LOOKBOOK
-      let totalPrix = 0, itemsHTML = '', validItems = 0;
-      OUTFITS[0].refs.forEach(ref => {
-        const art = allArts.find(a => a.reference === ref);
-        if (art) {
-          validItems++;
-          totalPrix += art.prix_vente_fcfa || 0;
-          itemsHTML += `<a href="produit.html?ref=${esc(art.reference)}" class="look-item"><span>${esc(art.nom)}</span><strong>${fprix(art.prix_vente_fcfa)}</strong></a>`;
-        }
-      });
-      if (validItems > 0) {
-        html += `
-          <div class="lookbook-section" id="chapter-4">
-            <div class="container">${chapterMark('04', 'Comment le porter', 'ch-4')}</div>
-            <div class="look-card">
-              <div class="look-img" style="background-image:url('${esc(OUTFITS[0].img)}')"></div>
-              <div class="look-content">
-                <h3 class="look-title">${OUTFITS[0].titre}</h3>
-                <div class="look-items">${itemsHTML}</div>
-                <div class="look-total"><span>Total Look</span><b>${fprix(totalPrix)}</b></div>
-                <button class="btn-buy-look" data-refs="${OUTFITS[0].refs.join(',')}">Acheter le look</button>
+      // correctif : le chapitre "casting" n'apparaît plus s'il n'y a aucun article à montrer
+      if (gridArticles.length > 0) {
+        chapters.push({
+          label: 'Le reste du casting',
+          render: (num) => {
+            let gridHTML = `<div id="chapter-${num}">${chapterMark(num,'Le reste du casting')}<div class="section-head"><h2>À <em>explorer</em></h2><span class="meta">${gridArticles.length} pièces</span></div><div class="prod-grid">`;
+            gridArticles.forEach((a, i) => {
+              const qte = a.quantite || 0;
+              const isOut = qte <= 0;
+              const rareNote = !isOut && qte <= 3 ? `<span class="p-rare">Dernières pièces</span>` : '';
+              const cornerTag = isOut ? `<span class="p-out">Épuisé</span>` : `<span class="p-index">N°${String(i+1).padStart(2,'0')}</span>`;
+              const quickAdd = isOut ? '' : `<button class="p-quick-add" data-cart-add="${esc(a.reference)}" aria-label="Ajouter au panier">+</button>`;
+              gridHTML += `
+                <div class="p-card ${isOut ? 'p-card--out' : ''}">
+                  <a href="produit.html?ref=${esc(a.reference)}" class="p-card-link" aria-label="${esc(a.nom)}"></a>
+                  <img src="${imgUrl(a.photo_url, 400)}" alt="${esc(a.nom)}" loading="lazy">
+                  ${cornerTag}
+                  <div class="p-body"><div class="p-info-text"><h3>${esc(a.nom)}</h3><span>Voir l'article${rareNote}</span></div><span class="p-prix">${fprix(a.prix_vente_fcfa)}</span></div>
+                  ${quickAdd}
+                </div>`;
+            });
+            gridHTML += `</div></div>`;
+            return gridHTML;
+          }
+        });
+      }
+
+      chapters.push({
+        label: "L'engagement",
+        render: (num) => `
+          <div id="chapter-${num}" class="engagement">
+            ${chapterMark(num, "L'engagement")}
+            <div class="engagement-grid">
+              <div class="engagement-item">
+                <span class="eng-label">Vérifié à la main</span>
+                <p>Chaque pièce est contrôlée avant l'envoi. Ce que vous voyez ici est <em>exactement</em> ce que vous recevrez — pas de retouche trompeuse, pas de surprise à l'ouverture.</p>
+              </div>
+              <div class="engagement-item">
+                <span class="eng-label">Paiement à la réception</span>
+                <p>Vous ne payez rien à la commande. Wave, Orange Money ou espèces, uniquement au moment où vous avez la pièce entre les mains à Thiès.</p>
               </div>
             </div>
-          </div>`;
+          </div>`
+      });
+
+      if (outfitArts.length > 0) {
+        chapters.push({
+          label: 'Comment le porter',
+          render: (num) => {
+            let totalPrix = 0, itemsHTML = '';
+            outfitArts.forEach(art => { totalPrix += art.prix_vente_fcfa; itemsHTML += `<a href="produit.html?ref=${esc(art.reference)}" class="look-item"><span>${esc(art.nom)}</span><strong>${fprix(art.prix_vente_fcfa)}</strong></a>`; });
+
+            // correctif : collage à une seule colonne si un seul article valide, au lieu de réserver
+            // une colonne vide à droite
+            const twoCols = !!outfitArts[1];
+            const collageHTML = `<div class="look-collage" style="grid-template-columns:${twoCols ? '1.5fr 1fr' : '1fr'}">
+              <img class="lc-left" src="${imgUrl(outfitArts[0].photo_url, 600)}" alt="${esc(outfitArts[0].nom)}">
+              ${twoCols ? `<img class="lc-right" src="${imgUrl(outfitArts[1].photo_url, 400)}" alt="${esc(outfitArts[1].nom)}">` : ''}
+            </div>`;
+
+            return `<div id="chapter-${num}" class="lookbook-section"><div class="container">${chapterMark(num,'Comment le porter')}</div><div class="look-card">${collageHTML}<div class="look-content"><h3 class="look-title">${OUTFITS[0].titre}</h3><div class="look-items">${itemsHTML}</div><div class="look-total"><span>Total Look</span><b>${fprix(totalPrix)}</b></div><button class="btn-buy-look" data-refs="${OUTFITS[0].refs.join(',')}">Acheter le look</button></div></div></div>`;
+          }
+        });
       }
 
-      // 6. PROCHAIN CHAPITRE
-      const { data: nextDrops } = await SE.sb.from('collections').select('*').eq('statut', 'a_venir').limit(1);
-      html += renderNextChapter(nextDrops && nextDrops.length > 0 ? nextDrops[0] : null);
+      chapters.push({
+        label: nextCol ? 'Le prochain chapitre' : 'La suite',
+        render: (num) => renderNextChapter(nextCol, num)
+      });
+
+      // Rendu final : contenu + nav latérale générés ensemble à partir de la même liste,
+      // donc toujours synchronisés quel que soit le nombre de chapitres présents
+      let html = '';
+      let dotsHTML = '';
+      chapters.forEach((ch, i) => {
+        const num = String(i + 1).padStart(2, '0');
+        html += ch.render(num);
+        dotsHTML += `<a href="#chapter-${num}" data-label="${esc(ch.label)}"></a>`;
+      });
 
       dynamicContent.innerHTML = html;
+      chapterDotsNav.innerHTML = dotsHTML;
 
-      // Activation des boutons
       document.querySelectorAll('[data-cart-add]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); SE.Cart.add(btn.dataset.cartAdd); btn.textContent='✓'; setTimeout(()=>btn.textContent='+',1200); updateUI(); updateDrawer(); setTimeout(openDrawer,350); }));
       document.querySelectorAll('.btn-buy-look').forEach(btn => btn.addEventListener('click', () => { btn.dataset.refs.split(',').forEach(r=>SE.Cart.add(r,1)); updateUI(); updateDrawer(); setTimeout(openDrawer,400); }));
 
-      // Gestion de la navigation latérale
-      const sections = document.querySelectorAll('[id^="chapter-"]');
-      const sideNav = document.getElementById('sideNav');
-      let navHTML = '';
-      sections.forEach((sec, i) => {
-        const label = sec.querySelector('.lbl') ? sec.querySelector('.lbl').textContent : 'Héro';
-        navHTML += `<a href="#${sec.id}" class="side-dot" data-target="${sec.id}"><span>${label}</span></a>`;
-      });
-      sideNav.innerHTML = navHTML;
-      const dots = document.querySelectorAll('.side-dot');
-
-      window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-          const sectionTop = section.offsetTop - 200;
-          if (window.scrollY >= sectionTop) {
-            current = section.getAttribute('id');
-          }
-        });
-        dots.forEach(dot => {
-          dot.classList.remove('active');
-          if (dot.dataset.target === current) {
+      const dotLinks = document.querySelectorAll('.chapter-dots a');
+      const dotObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          const dot = document.querySelector(`.chapter-dots a[href="#${entry.target.id}"]`);
+          if (dot && entry.isIntersecting) {
+            dotLinks.forEach(d => { d.classList.remove('active'); d.removeAttribute('aria-current'); });
             dot.classList.add('active');
+            dot.setAttribute('aria-current', 'true');
           }
         });
-      });
+      }, { threshold: 0.35 });
+      document.querySelectorAll('[id^="chapter-"]').forEach(el => dotObserver.observe(el));
+
+      const markObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('.chapter-mark').forEach(el => markObserver.observe(el));
 
     } catch (e) {
       console.error('[Collection] Erreur:', e);
-      dynamicContent.innerHTML = renderNextChapter(null);
+      dynamicContent.innerHTML = renderNextChapter(null, '01');
     }
   }
 
