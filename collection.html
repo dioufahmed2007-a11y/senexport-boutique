@@ -6,6 +6,7 @@
 <title>Collection — SenExport Boutique</title>
 <meta name="theme-color" content="var(--bg)">
 <link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,14 +17,7 @@
 <link rel="stylesheet" href="styles-dark.css">
 
 <style>
-  :root {
-    --bg:#08090E; --bg2:#101218; --card:#14151C;
-    --ink:#F3EFE6; --stone:#9C968A; --muted:#67635C;
-    --or:#D4AF37; --or-line:rgba(212,175,55,.28);
-    --border:rgba(243,239,230,.1); --red:#E05B4E;
-    --ff-d:'Cormorant Garamond', serif; --ff-b:'DM Sans', sans-serif; --ff-m:'JetBrains Mono', monospace;
-    --ease-lux: cubic-bezier(0.22, 1, 0.36, 1);
-  }
+  :root { --ease-lux: cubic-bezier(0.22, 1, 0.36, 1); }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html { font-size: 16px; scroll-behavior: smooth; }
@@ -41,7 +35,7 @@
   .chapter-mark .line { flex: 1; height: 1px; background: var(--or-line); }
   .chapter-mark .lbl { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
 
-  /* NAV LATERALE (Disparait après 2.5s) */
+  /* NAV LATERALE */
   .chapter-dots { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 200; display: none; flex-direction: column; gap: 1rem; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
   .chapter-dots.show-nav { opacity: 1; pointer-events: auto; }
   @media (min-width: 1100px) { .chapter-dots { display: flex; } }
@@ -50,20 +44,25 @@
   .chapter-dots a::before { content: attr(data-label); position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-family: var(--ff-m); font-size: .62rem; letter-spacing: .05em; text-transform: uppercase; color: var(--stone); white-space: nowrap; opacity: 0; transition: .2s; pointer-events: none; }
   .chapter-dots a:hover::before, .chapter-dots a.active::before { opacity: 1; color: var(--or); }
 
-  /* NAV */
+  /* NAV PRINCIPALE */
   .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 300; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; mix-blend-mode: difference; background: transparent; transition: background .35s ease, backdrop-filter .35s ease, padding .35s ease; }
   .nav a, .nav svg { color: #fff; }
-  .nav.scrolled { mix-blend-mode: normal; background: rgba(8,9,14,.82); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 1.1rem 2rem; }
+  .nav.scrolled { mix-blend-mode: normal; background: var(--bg); border-bottom: 1px solid var(--border); padding: 1.1rem 2rem; backdrop-filter: blur(12px); }
   .nav.scrolled a, .nav.scrolled svg { color: var(--ink); }
   .nav-logo { font-family: var(--ff-d); font-size: 1.2rem; }
   .nav-logo em { color: var(--or); font-style: italic; }
-  .nav-cart { position: relative; }
-  .nav-cart-count { position: absolute; top: -5px; right: -5px; background: var(--or); color: #000; font-size: .6rem; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; }
+  .nav-links { display: none; list-style: none; gap: 2rem; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; }
+  .nav-links a { color: var(--stone); transition: .2s; }
+  .nav-links a:hover { color: var(--or); }
+  @media (min-width: 860px) { .nav-links { display: flex; } }
+  .nav-right { display: flex; gap: 1rem; align-items: center; }
+  .nav-icon { color: var(--ink); position: relative; }
+  .nav-badge { position: absolute; top: -5px; right: -5px; background: var(--or); color: #000; font-size: .6rem; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; }
 
   /* 1. HERO */
   .col-hero { height: 92vh; min-height: 600px; display: flex; align-items: flex-end; position: relative; overflow: hidden; }
   .col-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: grayscale(25%) contrast(1.08) saturate(.9); z-index: 0; transform: scale(1.03); }
-  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(8,9,14,.15) 0%, rgba(8,9,14,.35) 45%, rgba(8,9,14,.92) 100%); z-index: 1; }
+  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 45%, var(--bg) 100%); z-index: 1; }
   .col-hero-content { position: relative; z-index: 3; padding: 2rem; max-width: 1400px; margin: 0 auto; padding-bottom: 4rem; }
   @media (max-width: 640px) { .col-hero-content { padding: 1.25rem; padding-bottom: 3rem; } }
   .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
@@ -74,12 +73,12 @@
   .manifesto { position: relative; padding: 6rem 2rem; text-align: center; border-bottom: 1px solid var(--border); overflow: hidden; }
   @media (max-width: 640px) { .manifesto { padding: 4rem 1.25rem; } }
   .manifesto-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .14; filter: grayscale(50%); }
-  .manifesto-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, var(--bg) 0%, rgba(8,9,14,.7) 45%, var(--bg) 100%); }
+  .manifesto-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, var(--bg) 0%, rgba(0,0,0,0.6) 45%, var(--bg) 100%); }
   .manifesto-text { position: relative; z-index: 2; font-family: var(--ff-d); font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 300; line-height: 1.4; color: var(--ink); max-width: 800px; margin: 0 auto; }
   .manifesto-text em { color: var(--or); font-style: italic; }
 
   /* 3. PIÈCE HÉROÏNE */
-  .hero-piece-section { position: relative; padding: 6rem 0 7rem; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; background: radial-gradient(ellipse at 25% 50%, rgba(212,175,55,.06), transparent 60%); }
+  .hero-piece-section { position: relative; padding: 6rem 0 7rem; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; }
   .hero-piece { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; padding: 0 2rem; gap: 2rem; align-items: center; }
   @media (min-width: 900px) { .hero-piece { grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: stretch; min-height: 68vh; } }
   @media (max-width: 899px) { .hero-piece { padding: 0 1.25rem; } }
@@ -91,6 +90,7 @@
   .hero-piece-img-wrap::after { bottom: 16px; right: 16px; border-bottom: 2px solid var(--or); border-right: 2px solid var(--or); }
   .hero-piece-img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease; }
   .hero-piece:hover .hero-piece-img { transform: scale(1.04); }
+  .hero-piece-img-wrap.is-out .hero-piece-img { filter: grayscale(100%) brightness(0.6); }
 
   .hero-piece-content { display: flex; flex-direction: column; justify-content: center; }
   .hero-piece-badge { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--ff-m); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--or); border: 1px solid var(--or-line); padding: .5rem 1rem; border-radius: 99px; margin-bottom: 1.5rem; width: fit-content; }
@@ -102,8 +102,9 @@
   .hero-piece-prix-block { display: flex; flex-direction: column; gap: 0.3rem; }
   .hero-piece-prix { font-family: var(--ff-d); font-size: 1.9rem; color: var(--ink); }
   .hero-piece-rare { font-family: var(--ff-m); font-size: 0.68rem; color: var(--or); letter-spacing: 0.08em; opacity: 0.9; text-transform: uppercase; }
-  .btn-hero-piece { background: var(--ink); color: var(--bg); padding: 1rem 2.1rem; font-weight: 700; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.1em; border-radius: 2px; transition: 0.3s var(--ease-lux); border: 1px solid var(--ink); }
+  .btn-hero-piece { background: var(--ink); color: var(--bg); padding: 1rem 2.1rem; font-weight: 700; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.1em; border-radius: 2px; transition: 0.3s var(--ease-lux); border: 1px solid var(--ink); text-align: center; }
   .btn-hero-piece:hover { background: transparent; color: var(--ink); }
+  .btn-hero-piece.disabled { background: transparent; color: var(--muted); border-color: var(--border); cursor: not-allowed; }
 
   /* 4. GRILLE ASYMÉTRIQUE */
   .section-head { padding: 4rem 2rem 2rem; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--or-line); }
@@ -145,7 +146,7 @@
   .p-quick-add:hover { background: var(--or); border-color: var(--or); color: #000; }
   @media (hover: none) { .p-quick-add { opacity: 1; transform: none; } }
 
-  /* 5. L'ENGAGEMENT - Texte empilé (une seule colonne) */
+  /* 5. L'ENGAGEMENT */
   .engagement { padding: 6rem 2rem; border-top: 1px solid var(--border); }
   @media (max-width: 640px) { .engagement { padding: 4rem 1.25rem; } }
   .engagement-grid { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 4rem; }
@@ -194,10 +195,8 @@
   footer.col-footer .f-links { display: flex; gap: 1.5rem; font-family: var(--ff-m); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--stone); }
   footer.col-footer .f-links a:hover { color: var(--or); }
 
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
+  /* PANIER */
+  @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
   .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
   .drawer-overlay.open { opacity: 1; pointer-events: auto; }
   .cart-drawer { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; background: var(--bg); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform 0.5s var(--ease-lux); z-index: 10000; display: flex; flex-direction: column; }
@@ -210,8 +209,16 @@
   .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 1.5rem; }
   .drawer-item { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); animation: slideIn 0.4s var(--ease-lux); }
   .drawer-item img { width: 80px; height: 100px; object-fit: cover; }
+  .drawer-item-info { flex: 1; }
   .drawer-item-info h4 { font-size: 0.9rem; color: var(--ink); margin-bottom: 0.5rem; font-weight: 400; }
   .drawer-item-info p { font-family: var(--ff-m); font-size: 0.8rem; color: var(--or); }
+  .drawer-qty-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .qty-btn { background: var(--card2); border: 1px solid var(--border); color: var(--ink); width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; }
+  .qty-btn:hover:not(:disabled) { background: var(--or); color: var(--bg); border-color: var(--or); }
+  .qty-btn:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; border-color: var(--border); }
+  .qty-val { font-family: var(--ff-m); font-size: 0.85rem; color: var(--ink); min-width: 20px; text-align: center; }
+  .remove-btn { background: none; border: none; color: var(--red); font-size: 0.65rem; cursor: pointer; margin-left: auto; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px; }
+  .remove-btn:hover { text-decoration: underline; }
   .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
   .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.3rem; color: var(--ink); }
   .drawer-btn { display: block; width: 100%; padding: 1.2rem; background: var(--or); color: #000; text-align: center; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; transition: 0.2s; border: 1px solid var(--or); }
@@ -235,10 +242,17 @@
 
 <nav class="nav" id="main-nav">
   <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
-  <a href="panier.html" class="nav-cart" id="nav-cart-icon">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-    <span class="nav-cart-count" id="cart-count"></span>
-  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="mode.html">Mode</a></li>
+    <li><a href="catalogue.html">Catalogue</a></li>
+    <li><a href="maison.html">Maison</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="favoris.html" class="nav-icon" aria-label="Favoris"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></a>
+    <a href="panier.html" class="nav-icon" id="nav-cart-icon" aria-label="Panier"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-badge" id="cart-count"></span></a>
+    <a href="compte.html" class="nav-icon" aria-label="Compte"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+  </div>
 </nav>
 
 <div class="col-hero">
@@ -262,6 +276,7 @@
 <script src="images.js"></script>
 <script src="app.js"></script>
 <script src="theme.js"></script>
+<script src="animations.js"></script>
 
 <script>
 (() => {
@@ -289,7 +304,6 @@
 
   const params = new URLSearchParams(window.location.search);
   const colId = params.get('id');
-  const status = params.get('status');
   const dynamicContent = document.getElementById('dynamic-content');
   const chapterDotsNav = document.getElementById('chapter-dots');
 
@@ -322,15 +336,50 @@
           const a = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === i.ref) : null;
           const nom = a ? a.nom : i.ref;
           const prix = a ? (a.prix_vente_fcfa || 0) : 0;
+          const stock = a ? (a.quantite || 0) : 0;
           const photo = imgUrl(a && a.photo_url ? a.photo_url : null, 100);
           total += prix * (i.qte || 1);
-          return `<div class="drawer-item"><img src="${esc(photo)}" alt="${esc(nom)}"><div class="drawer-item-info"><h4>${esc(nom)}</h4><p>${fprix(prix)} · qté ${i.qte}</p></div></div>`;
+          const isMax = (i.qte || 1) >= stock;
+          return `
+            <div class="drawer-item">
+              <img src="${esc(photo)}" alt="${esc(nom)}">
+              <div class="drawer-item-info">
+                <h4>${esc(nom)}</h4>
+                <p>${fprix(prix)} FCFA</p>
+                <div class="drawer-qty-controls">
+                  <button class="qty-btn" data-action="dec" data-ref="${esc(i.ref)}">−</button>
+                  <span class="qty-val">${i.qte || 1}</span>
+                  <button class="qty-btn" data-action="inc" data-ref="${esc(i.ref)}" ${isMax ? 'disabled' : ''}>+</button>
+                  <button class="remove-btn" data-action="rm" data-ref="${esc(i.ref)}">Retirer</button>
+                </div>
+              </div>
+            </div>`;
         }).join('');
         totalEl.textContent = fprix(total);
         footer.style.display = 'block';
       }
     } catch(e) { console.warn('Drawer err', e); }
   }
+
+  document.getElementById('drawer-body').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const ref = btn.dataset.ref;
+    const action = btn.dataset.action;
+    const item = SE.Cart.all().find(i => i.ref === ref);
+    if (action === 'inc' && item) {
+      const article = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === ref) : null;
+      const stock = article ? (article.quantite || 0) : 0;
+      if (item.qte < stock) SE.Cart.setQte(ref, item.qte + 1);
+    } else if (action === 'dec' && item) {
+      if (item.qte > 1) SE.Cart.setQte(ref, item.qte - 1);
+      else SE.Cart.remove(ref);
+    } else if (action === 'rm' && item) {
+      SE.Cart.remove(ref);
+    }
+    updateUI();
+    updateDrawer();
+  });
 
   function updateUI() {
     try { const n = SE?.Cart?.count?.() ?? 0; const b = document.getElementById('cart-count'); b.textContent = n; b.style.display = n>0?'flex':'none'; } catch(e) {}
@@ -347,14 +396,6 @@
     await SE.Articles.load();
     const allArts = SE.Articles.cache || [];
 
-    if (status === 'upcoming') {
-      document.getElementById('col-hero-bg').style.backgroundImage = `url('${imgUrl("https://images.unsplash.com/photo-1549298916-b41d501d3772", 1600)}')`;
-      document.getElementById('col-badge').textContent = 'Prochainement';
-      document.getElementById('col-title').innerHTML = 'Prochain <em>Chapitre</em>';
-      dynamicContent.innerHTML = `<div id="chapter-01" class="next-chapter"><h2>Arrivage <em>Bientôt</em></h2><p>Préparez-vous. Le prochain drop arrive.</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti</a></div>`;
-      return;
-    }
-
     if (!colId) { location.href = 'mode.html'; return; }
 
     try {
@@ -364,8 +405,24 @@
 
       document.title = `${esc(col.nom)} — SenExport`;
       document.getElementById('col-hero-bg').style.backgroundImage = `url('${imgUrl(col.image_url, 1600)}')`;
-      document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? 'Disponible Maintenant' : 'Archives';
       document.getElementById('col-title').innerHTML = esc(col.nom).replace(/(\d{4})/, '<em>$1</em>');
+
+      // GESTION DES 4 STATUTS DE COLLECTION
+      if (col.statut === 'a_venir') {
+        document.getElementById('col-hero-bg').style.filter = 'blur(8px) brightness(0.4)';
+        document.getElementById('col-badge').textContent = '✦ Prochain Arrivage';
+        dynamicContent.innerHTML = `<div class="next-chapter"><h2>Arrivage <em>Bientôt</em></h2><p>${esc(col.description || 'Préparez-vous. Le prochain drop arrive.')}</p><a href="https://wa.me/221778038874" class="btn-next" target="_blank">Être averti en avant-première</a></div>`;
+        return;
+      }
+
+      if (col.statut === 'epuisee') {
+        document.getElementById('col-hero-bg').style.filter = 'grayscale(100%) brightness(0.4)';
+        document.getElementById('col-badge').textContent = 'Archives Épuisées';
+        dynamicContent.innerHTML = `<div class="next-chapter"><h2>Cette histoire est <em>terminée</em></h2><p>Toutes les pièces de cette collection ont trouvé preneur. Le prochain chapitre est déjà en préparation.</p></div>`;
+        return;
+      }
+
+      document.getElementById('col-badge').textContent = col.statut === 'en_cours' ? 'Disponible Maintenant' : 'Archives';
 
       const { data: liens } = await SE.sb.from('collection_articles').select('article_ref').eq('collection_id', col.id);
       let collectionArticles = [];
@@ -397,22 +454,29 @@
 
       if (heroArt) {
         const qte = heroArt.quantite || 0;
-        const rareNote = qte > 0 && qte <= 3 ? `<span class="hero-piece-rare">Il n'en reste que ${qte}</span>` : '';
+        const isHeroOut = qte <= 0;
+        const heroBtn = isHeroOut 
+          ? `<span class="btn-hero-piece disabled">Indisponible</span>` 
+          : `<a href="produit.html?ref="${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir la pièce</a>`;
+        const heroNote = isHeroOut 
+          ? `<span class="hero-piece-rare" style="color:var(--red)">Épuisé</span>` 
+          : (qte <= 3 ? `<span class="hero-piece-rare">Il n'en reste que ${qte}</span>` : '');
+
         chapters.push({
           label: 'La pièce maîtresse',
           render: (num) => `
             <div id="chapter-${num}" class="hero-piece-section">
               ${chapterMark(num, 'La pièce maîtresse')}
               <div class="hero-piece">
-                <div class="hero-piece-img-wrap"><img src="${imgUrl(heroArt.photo_url, 800)}" class="hero-piece-img" alt="${esc(heroArt.nom)}"></div>
+                <div class="hero-piece-img-wrap ${isHeroOut ? 'is-out' : ''}"><img src="${imgUrl(heroArt.photo_url, 800)}" class="hero-piece-img" alt="${esc(heroArt.nom)}"></div>
                 <div class="hero-piece-content">
                   <span class="hero-piece-badge">Pièce maîtresse</span>
                   <span class="hero-piece-label">Édition limitée — réf. ${esc(heroArt.reference)}</span>
                   <h2 class="hero-piece-name">${esc(heroArt.nom)}</h2>
                   <p class="hero-piece-desc">${esc(heroArt.description || 'Une pièce centrale de cette collection.')}</p>
                   <div class="hero-piece-footer">
-                    <div class="hero-piece-prix-block"><span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>${rareNote}</div>
-                    <a href="produit.html?ref=${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir la pièce</a>
+                    <div class="hero-piece-prix-block"><span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>${heroNote}</div>
+                    ${heroBtn}
                   </div>
                 </div>
               </div>
@@ -501,7 +565,6 @@
       document.querySelectorAll('[data-cart-add]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); SE.Cart.add(btn.dataset.cartAdd); btn.textContent='✓'; setTimeout(()=>btn.textContent='+',1200); updateUI(); updateDrawer(); setTimeout(openDrawer,350); }));
       document.querySelectorAll('.btn-buy-look').forEach(btn => btn.addEventListener('click', () => { btn.dataset.refs.split(',').forEach(r=>SE.Cart.add(r,1)); updateUI(); updateDrawer(); setTimeout(openDrawer,400); }));
 
-      // Gestion de la navigation latérale (apparaît puis disparaît)
       const dotLinks = document.querySelectorAll('.chapter-dots a');
       let navTimeout;
       
@@ -513,7 +576,6 @@
             dot.classList.add('active'); 
             dot.setAttribute('aria-current', 'true');
             
-            // Afficher la nav et la cacher après 2.5 secondes
             chapterDotsNav.classList.add('show-nav');
             clearTimeout(navTimeout);
             navTimeout = setTimeout(() => {
@@ -524,7 +586,6 @@
       }, { threshold: 0.35 });
       document.querySelectorAll('[id^="chapter-"]').forEach(el => dotObserver.observe(el));
       
-      // Garder la nav visible si on la survole
       chapterDotsNav.addEventListener('mouseenter', () => {
         clearTimeout(navTimeout);
         chapterDotsNav.classList.add('show-nav');
