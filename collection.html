@@ -41,7 +41,9 @@
   .chapter-mark .line { flex: 1; height: 1px; background: var(--or-line); }
   .chapter-mark .lbl { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
 
-  .chapter-dots { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 200; display: none; flex-direction: column; gap: 1rem; }
+  /* NAV LATERALE (Disparait après 2.5s) */
+  .chapter-dots { position: fixed; right: 1.5rem; top: 50%; transform: translateY(-50%); z-index: 200; display: none; flex-direction: column; gap: 1rem; opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }
+  .chapter-dots.show-nav { opacity: 1; pointer-events: auto; }
   @media (min-width: 1100px) { .chapter-dots { display: flex; } }
   .chapter-dots a { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: .3s var(--ease-lux); position: relative; }
   .chapter-dots a.active { background: var(--or); transform: scale(1.8); }
@@ -143,16 +145,15 @@
   .p-quick-add:hover { background: var(--or); border-color: var(--or); color: #000; }
   @media (hover: none) { .p-quick-add { opacity: 1; transform: none; } }
 
-  /* 5. L'ENGAGEMENT */
+  /* 5. L'ENGAGEMENT - Texte empilé (une seule colonne) */
   .engagement { padding: 6rem 2rem; border-top: 1px solid var(--border); }
   @media (max-width: 640px) { .engagement { padding: 4rem 1.25rem; } }
-  .engagement-grid { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 3rem; }
-  @media (min-width: 900px) { .engagement-grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .engagement-grid { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 4rem; }
   .engagement-item .eng-label { font-family: var(--ff-m); font-size: .7rem; letter-spacing: .15em; text-transform: uppercase; color: var(--or); margin-bottom: 1rem; display: block; }
   .engagement-item p { font-family: var(--ff-d); font-size: clamp(1.15rem, 2vw, 1.4rem); font-weight: 300; line-height: 1.65; color: var(--ink); }
   .engagement-item p em { color: var(--or); font-style: italic; }
 
-  /* 6. LOOKBOOK — collage adaptatif : 1 ou 2 colonnes selon le nombre de photos disponibles */
+  /* 6. LOOKBOOK */
   .lookbook-section { padding: 6rem 0; background: var(--bg); border-top: 1px solid var(--border); }
   @media (max-width: 640px) { .lookbook-section { padding: 4rem 0; } }
   .look-card { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; border: 1px solid var(--border); overflow: hidden; background: var(--card); }
@@ -220,8 +221,6 @@
 </head>
 <body>
 
-<!-- AJOUT : le contenu de cette nav n'est plus écrit en dur — il est reconstruit en JS
-     à partir des chapitres réellement rendus, pour ne jamais pointer vers une section absente -->
 <nav class="chapter-dots" id="chapter-dots" aria-label="Chapitres de la page"></nav>
 
 <div class="drawer-overlay" id="drawer-overlay"></div>
@@ -301,8 +300,6 @@
   overlay.addEventListener('click', closeDrawer);
   document.getElementById('drawer-close').addEventListener('click', closeDrawer);
 
-  // correctif : seuil basé sur la vraie hauteur du hero plutôt qu'un chiffre fixe (100px déclenchait
-  // le fond plein trop tôt, avant même d'avoir quitté visuellement l'image du hero)
   const mainNav = document.getElementById('main-nav');
   function updateNav() {
     const heroEl = document.querySelector('.col-hero');
@@ -389,15 +386,12 @@
       const { data: nextDrops } = await SE.sb.from('collections').select('*').eq('statut', 'a_venir').limit(1);
       const nextCol = nextDrops && nextDrops.length > 0 ? nextDrops[0] : null;
 
-      // AJOUT : liste ordonnée des chapitres — un chapitre n'entre dans la liste que s'il a du contenu réel.
-      // Les numéros et la nav latérale sont dérivés de cette liste, jamais écrits en dur.
       const chapters = [];
 
-      // correctif : le manifeste ne s'affiche plus si col.story_text est vide (évite un bloc de 6rem de padding sans texte)
       if (col.story_text) {
         chapters.push({
           label: 'Le manifeste',
-          render: (num) => `<div id="chapter-${num}" class="manifesto"><div class="manifesto-bg" style="background-image:url('${imgUrl(col.image_url, 1000)}')"></div>${chapterMark(num,'Le manifeste')}<p class="manifesto-text">${esc(col.story_text)}</p></div>`
+          render: (num) => `<div id="chapter-${num}" class="manifesto"><div class="manifesto-bg" style="background-image:url('${imgUrl(col.image_url, 1000)}')"></div>${chapterMark(num,'Le manifeste')}<p class="manifesto-text">${col.story_text}</p></div>`
         });
       }
 
@@ -426,7 +420,6 @@
         });
       }
 
-      // correctif : le chapitre "casting" n'apparaît plus s'il n'y a aucun article à montrer
       if (gridArticles.length > 0) {
         chapters.push({
           label: 'Le reste du casting',
@@ -478,8 +471,6 @@
             let totalPrix = 0, itemsHTML = '';
             outfitArts.forEach(art => { totalPrix += art.prix_vente_fcfa; itemsHTML += `<a href="produit.html?ref=${esc(art.reference)}" class="look-item"><span>${esc(art.nom)}</span><strong>${fprix(art.prix_vente_fcfa)}</strong></a>`; });
 
-            // correctif : collage à une seule colonne si un seul article valide, au lieu de réserver
-            // une colonne vide à droite
             const twoCols = !!outfitArts[1];
             const collageHTML = `<div class="look-collage" style="grid-template-columns:${twoCols ? '1.5fr 1fr' : '1fr'}">
               <img class="lc-left" src="${imgUrl(outfitArts[0].photo_url, 600)}" alt="${esc(outfitArts[0].nom)}">
@@ -496,8 +487,6 @@
         render: (num) => renderNextChapter(nextCol, num)
       });
 
-      // Rendu final : contenu + nav latérale générés ensemble à partir de la même liste,
-      // donc toujours synchronisés quel que soit le nombre de chapitres présents
       let html = '';
       let dotsHTML = '';
       chapters.forEach((ch, i) => {
@@ -512,18 +501,39 @@
       document.querySelectorAll('[data-cart-add]').forEach(btn => btn.addEventListener('click', e => { e.preventDefault(); SE.Cart.add(btn.dataset.cartAdd); btn.textContent='✓'; setTimeout(()=>btn.textContent='+',1200); updateUI(); updateDrawer(); setTimeout(openDrawer,350); }));
       document.querySelectorAll('.btn-buy-look').forEach(btn => btn.addEventListener('click', () => { btn.dataset.refs.split(',').forEach(r=>SE.Cart.add(r,1)); updateUI(); updateDrawer(); setTimeout(openDrawer,400); }));
 
+      // Gestion de la navigation latérale (apparaît puis disparaît)
       const dotLinks = document.querySelectorAll('.chapter-dots a');
+      let navTimeout;
+      
       const dotObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           const dot = document.querySelector(`.chapter-dots a[href="#${entry.target.id}"]`);
           if (dot && entry.isIntersecting) {
             dotLinks.forEach(d => { d.classList.remove('active'); d.removeAttribute('aria-current'); });
-            dot.classList.add('active');
+            dot.classList.add('active'); 
             dot.setAttribute('aria-current', 'true');
+            
+            // Afficher la nav et la cacher après 2.5 secondes
+            chapterDotsNav.classList.add('show-nav');
+            clearTimeout(navTimeout);
+            navTimeout = setTimeout(() => {
+              chapterDotsNav.classList.remove('show-nav');
+            }, 2500);
           }
         });
       }, { threshold: 0.35 });
       document.querySelectorAll('[id^="chapter-"]').forEach(el => dotObserver.observe(el));
+      
+      // Garder la nav visible si on la survole
+      chapterDotsNav.addEventListener('mouseenter', () => {
+        clearTimeout(navTimeout);
+        chapterDotsNav.classList.add('show-nav');
+      });
+      chapterDotsNav.addEventListener('mouseleave', () => {
+        navTimeout = setTimeout(() => {
+          chapterDotsNav.classList.remove('show-nav');
+        }, 1000);
+      });
 
       const markObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
