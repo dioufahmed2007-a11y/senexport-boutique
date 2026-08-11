@@ -42,10 +42,10 @@
   .nav-icon { color: var(--ink); position: relative; }
   .nav-badge { position: absolute; top: -5px; right: -5px; background: var(--or); color: #000; font-size: .6rem; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; }
 
-  /* HERO */
+  /* HERO ARCHIVES (Entrepôt poussiéreux) */
   .col-hero { height: 60vh; min-height: 400px; display: flex; align-items: flex-end; position: relative; overflow: hidden; }
-  .col-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: grayscale(100%) brightness(0.4); z-index: 0; transform: scale(1.03); }
-  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 45%, var(--bg) 100%); z-index: 1; }
+  .col-hero-bg { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?q=80&w=2000&auto=format&fit=crop'); background-size: cover; background-position: center; filter: sepia(0.5) contrast(1.1) brightness(0.5) saturate(0.8); z-index: 0; transform: scale(1.03); }
+  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 45%, var(--bg) 100%); z-index: 1; }
   .col-hero-content { position: relative; z-index: 3; padding: 2rem; max-width: 1400px; margin: 0 auto; padding-bottom: 3rem; }
   .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
   .col-title { font-family: var(--ff-d); font-size: clamp(2.5rem, 8vw, 5rem); color: #fff; font-weight: 300; line-height: 0.9; text-transform: uppercase; }
@@ -59,7 +59,7 @@
   .chapter-mark .line { flex: 1; height: 1px; background: var(--or-line); }
   .chapter-mark .lbl { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
 
-  /* PIÈCE HÉROÏNE */
+  /* PIÈCE HÉROÏNE ARCHIVES (Mur patiné) */
   .hero-piece-section { position: relative; padding: 4rem 0 5rem; display: flex; flex-direction: column; justify-content: center; }
   .hero-piece { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; padding: 0 2rem; gap: 2rem; align-items: center; }
   @media (min-width: 900px) { .hero-piece { grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: stretch; min-height: 50vh; } }
@@ -69,8 +69,8 @@
   .hero-piece-img-wrap::before, .hero-piece-img-wrap::after { content: ''; position: absolute; width: 32px; height: 32px; z-index: 2; pointer-events: none; }
   .hero-piece-img-wrap::before { top: 16px; left: 16px; border-top: 2px solid var(--or); border-left: 2px solid var(--or); }
   .hero-piece-img-wrap::after { bottom: 16px; right: 16px; border-bottom: 2px solid var(--or); border-right: 2px solid var(--or); }
-  .hero-piece-img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease; }
-  .hero-piece:hover .hero-piece-img { transform: scale(1.04); }
+  .hero-piece-img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease, filter 0.5s ease; filter: sepia(0.3) saturate(0.7) contrast(0.9) brightness(0.9); }
+  .hero-piece:hover .hero-piece-img { transform: scale(1.04); filter: sepia(0) saturate(1) contrast(1) brightness(1); }
   .hero-piece-content { display: flex; flex-direction: column; justify-content: center; }
   .hero-piece-badge { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--ff-m); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--or); border: 1px solid var(--or-line); padding: .5rem 1rem; border-radius: 99px; margin-bottom: 1.5rem; width: fit-content; }
   .hero-piece-label { font-family: var(--ff-m); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--stone); margin-bottom: .8rem; }
@@ -81,7 +81,7 @@
   .btn-hero-piece { background: var(--ink); color: var(--bg); padding: 1rem 2.1rem; font-weight: 700; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.1em; border-radius: 2px; transition: 0.3s var(--ease-lux); border: 1px solid var(--ink); text-align: center; }
   .btn-hero-piece:hover { background: transparent; color: var(--ink); }
 
-  /* GRILLE */
+  /* GRILLE ARCHIVES (Patine sépia) */
   .section-head { padding: 4rem 2rem 2rem; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--or-line); }
   @media (max-width: 640px) { .section-head { padding: 3rem 1.25rem 1.5rem; flex-wrap: wrap; gap: 0.5rem; } }
   .section-head h2 { font-family: var(--ff-d); font-size: 2rem; font-weight: 400; color: var(--ink); }
@@ -100,8 +100,8 @@
     .p-card:nth-child(6n+6) { grid-column: span 3; }
   }
   .p-card-link { position: absolute; inset: 0; z-index: 1; }
-  .p-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-lux), filter 0.5s ease; filter: grayscale(20%); }
-  .p-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
+  .p-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-lux), filter 0.5s ease; filter: sepia(0.25) saturate(0.7) contrast(0.9) brightness(0.95); }
+  .p-card:hover img { transform: scale(1.05); filter: sepia(0) saturate(1) contrast(1) brightness(1); }
   .p-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.92), transparent); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
   @media (max-width: 640px) { .p-body { padding: 1rem; } }
   .p-info-text h3 { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.25rem; color: #fff; }
@@ -109,14 +109,14 @@
   .p-prix { font-family: var(--ff-d); font-size: 1.1rem; color: var(--or); font-weight: 600; }
   .p-index { position: absolute; top: 1rem; left: 1rem; z-index: 3; font-family: var(--ff-m); font-size: 0.65rem; color: rgba(255,255,255,.65); letter-spacing: .04em; }
 
-  /* LOOKBOOK */
+  /* LOOKBOOK ARCHIVES (Polaroid) */
   .lookbook-section { padding: 6rem 0; background: var(--bg); border-top: 1px solid var(--border); }
   @media (max-width: 640px) { .lookbook-section { padding: 4rem 0; } }
   .look-card { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; border: 1px solid var(--border); overflow: hidden; background: var(--card); }
   @media (min-width: 900px) { .look-card { grid-template-columns: 1fr 1fr; } }
   .look-collage { position: relative; height: 500px; overflow: hidden; background: var(--bg2); display: grid; grid-template-columns: 1.5fr 1fr; }
   @media (max-width: 640px) { .look-collage { height: 380px; } }
-  .look-collage img { width: 100%; height: 100%; object-fit: cover; }
+  .look-collage img { width: 100%; height: 100%; object-fit: cover; box-shadow: 0 25px 50px rgba(0,0,0,.6); filter: sepia(0.25) saturate(0.7) contrast(0.9) brightness(0.95); }
   .look-collage .lc-right { border-left: 5px solid var(--bg); }
   .look-content { padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
   @media (max-width: 640px) { .look-content { padding: 2.5rem 1.5rem; } }
@@ -183,7 +183,7 @@
 </nav>
 
 <div class="col-hero">
-  <div class="col-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2000&auto=format&fit=crop')"></div>
+  <div class="col-hero-bg"></div>
   <div class="col-hero-overlay"></div>
   <div class="col-hero-content">
     <span class="col-badge">Pièces Limitées</span>
@@ -341,7 +341,7 @@
           </div>`;
       }
 
-      // 4. Grille Déstockage (CORRECTION DE L'APOSTROPHE ICI)
+      // 4. Grille Déstockage
       if (uniqueGridArticles.length > 0) {
         html += `${chapterMark('02', 'Le vestiaire d\'archives')}`;
         html += `<div class="section-head"><h2>Tout <em>déstocker</em></h2><span class="meta">${uniqueGridArticles.length} pièces restantes</span></div>`;
