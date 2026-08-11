@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archives & Déstockage — SenExport Boutique</title>
+<meta name="theme-color" content="var(--bg)">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="manifest" href="manifest.json">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="styles-dark.css">
+
+<style>
+  :root { --ease-lux: cubic-bezier(0.22, 1, 0.36, 1); }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--ff-b); overflow-x: hidden; }
+  img { max-width: 100%; display: block; }
+  button { cursor: pointer; background: none; border: none; font-family: inherit; color: inherit; }
+  a { color: inherit; text-decoration: none; }
+  .container { width: 100%; padding: 0 2rem; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 640px) { .container { padding: 0 1.25rem; } }
+
+  /* NAV */
+  .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 300; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; mix-blend-mode: difference; background: transparent; transition: background .35s ease, backdrop-filter .35s ease, padding .35s ease; }
+  .nav a, .nav svg { color: #fff; }
+  .nav.scrolled { mix-blend-mode: normal; background: var(--bg); border-bottom: 1px solid var(--border); padding: 1.1rem 2rem; backdrop-filter: blur(12px); }
+  .nav.scrolled a, .nav.scrolled svg { color: var(--ink); }
+  .nav-logo { font-family: var(--ff-d); font-size: 1.2rem; }
+  .nav-logo em { color: var(--or); font-style: italic; }
+  .nav-links { display: none; list-style: none; gap: 2rem; font-size: .8rem; letter-spacing: .04em; text-transform: uppercase; }
+  .nav-links a { color: var(--stone); transition: .2s; }
+  .nav-links a:hover { color: var(--or); }
+  @media (min-width: 860px) { .nav-links { display: flex; } }
+  .nav-right { display: flex; gap: 1rem; align-items: center; }
+  .nav-icon { color: var(--ink); position: relative; }
+  .nav-badge { position: absolute; top: -5px; right: -5px; background: var(--or); color: #000; font-size: .6rem; width: 15px; height: 15px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; }
+
+  /* HERO */
+  .col-hero { height: 60vh; min-height: 400px; display: flex; align-items: flex-end; position: relative; overflow: hidden; }
+  .col-hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: grayscale(100%) brightness(0.4); z-index: 0; transform: scale(1.03); }
+  .col-hero-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 45%, var(--bg) 100%); z-index: 1; }
+  .col-hero-content { position: relative; z-index: 3; padding: 2rem; max-width: 1400px; margin: 0 auto; padding-bottom: 3rem; }
+  .col-badge { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem; display: block; }
+  .col-title { font-family: var(--ff-d); font-size: clamp(2.5rem, 8vw, 5rem); color: #fff; font-weight: 300; line-height: 0.9; text-transform: uppercase; }
+  .col-title em { color: var(--or); font-style: italic; font-weight: 700; }
+
+  /* CHAPITRES */
+  .chapter-mark { display: flex; align-items: center; gap: 1rem; margin: 0 auto 2rem; max-width: 1400px; padding: 0 2rem; opacity: 0; transform: translateY(10px); transition: opacity .6s ease, transform .6s ease; }
+  .chapter-mark.visible { opacity: 1; transform: none; }
+  @media (max-width: 640px) { .chapter-mark { padding: 0 1.25rem; } }
+  .chapter-mark .num { font-family: var(--ff-m); font-size: 0.7rem; color: var(--or); letter-spacing: 0.1em; }
+  .chapter-mark .line { flex: 1; height: 1px; background: var(--or-line); }
+  .chapter-mark .lbl { font-family: var(--ff-m); font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone); }
+
+  /* PIÈCE HÉROÏNE */
+  .hero-piece-section { position: relative; padding: 4rem 0 5rem; display: flex; flex-direction: column; justify-content: center; }
+  .hero-piece { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; padding: 0 2rem; gap: 2rem; align-items: center; }
+  @media (min-width: 900px) { .hero-piece { grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: stretch; min-height: 50vh; } }
+  @media (max-width: 899px) { .hero-piece { padding: 0 1.25rem; } }
+  .hero-piece-img-wrap { position: relative; overflow: hidden; aspect-ratio: 4/5; }
+  @media (min-width: 900px) { .hero-piece-img-wrap { aspect-ratio: auto; height: 100%; } }
+  .hero-piece-img-wrap::before, .hero-piece-img-wrap::after { content: ''; position: absolute; width: 32px; height: 32px; z-index: 2; pointer-events: none; }
+  .hero-piece-img-wrap::before { top: 16px; left: 16px; border-top: 2px solid var(--or); border-left: 2px solid var(--or); }
+  .hero-piece-img-wrap::after { bottom: 16px; right: 16px; border-bottom: 2px solid var(--or); border-right: 2px solid var(--or); }
+  .hero-piece-img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease; }
+  .hero-piece:hover .hero-piece-img { transform: scale(1.04); }
+  .hero-piece-content { display: flex; flex-direction: column; justify-content: center; }
+  .hero-piece-badge { display: inline-flex; align-items: center; gap: .5rem; font-family: var(--ff-m); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--or); border: 1px solid var(--or-line); padding: .5rem 1rem; border-radius: 99px; margin-bottom: 1.5rem; width: fit-content; }
+  .hero-piece-label { font-family: var(--ff-m); font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--stone); margin-bottom: .8rem; }
+  .hero-piece-name { font-family: var(--ff-d); font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 300; line-height: 1; margin-bottom: 1.8rem; color: var(--ink); }
+  .hero-piece-desc { font-size: 1.05rem; color: var(--stone); line-height: 1.8; margin-bottom: 2.2rem; max-width: 460px; }
+  .hero-piece-footer { display: flex; align-items: center; gap: 1.5rem; margin-top: auto; flex-wrap: wrap; }
+  .hero-piece-prix { font-family: var(--ff-d); font-size: 1.6rem; color: var(--ink); }
+  .btn-hero-piece { background: var(--ink); color: var(--bg); padding: 1rem 2.1rem; font-weight: 700; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.1em; border-radius: 2px; transition: 0.3s var(--ease-lux); border: 1px solid var(--ink); text-align: center; }
+  .btn-hero-piece:hover { background: transparent; color: var(--ink); }
+
+  /* GRILLE */
+  .section-head { padding: 4rem 2rem 2rem; max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--or-line); }
+  @media (max-width: 640px) { .section-head { padding: 3rem 1.25rem 1.5rem; flex-wrap: wrap; gap: 0.5rem; } }
+  .section-head h2 { font-family: var(--ff-d); font-size: 2rem; font-weight: 400; color: var(--ink); }
+  .section-head h2 em { color: var(--or); font-style: italic; }
+  .section-head .meta { font-family: var(--ff-m); font-size: 0.75rem; color: var(--stone); text-transform: uppercase; letter-spacing: 0.1em; }
+  .prod-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 2rem 2rem 6rem; max-width: 1400px; margin: 0 auto; }
+  @media (max-width: 640px) { .prod-grid { padding: 1.5rem 1.25rem 4rem; gap: 8px; } }
+  @media (min-width: 900px) { .prod-grid { grid-template-columns: repeat(12, 1fr); gap: 10px; } }
+  .p-card { position: relative; overflow: hidden; background: var(--bg2); aspect-ratio: 3/4; border-radius: 4px; }
+  @media (min-width: 900px) {
+    .p-card:nth-child(6n+1) { grid-column: span 5; }
+    .p-card:nth-child(6n+2) { grid-column: span 4; }
+    .p-card:nth-child(6n+3) { grid-column: span 3; }
+    .p-card:nth-child(6n+4) { grid-column: span 4; }
+    .p-card:nth-child(6n+5) { grid-column: span 5; aspect-ratio: 16/9; }
+    .p-card:nth-child(6n+6) { grid-column: span 3; }
+  }
+  .p-card-link { position: absolute; inset: 0; z-index: 1; }
+  .p-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-lux), filter 0.5s ease; filter: grayscale(20%); }
+  .p-card:hover img { transform: scale(1.05); filter: grayscale(0%); }
+  .p-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 1.5rem; background: linear-gradient(to top, rgba(0,0,0,0.92), transparent); z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; pointer-events: none; }
+  @media (max-width: 640px) { .p-body { padding: 1rem; } }
+  .p-info-text h3 { font-family: var(--ff-d); font-size: 1.2rem; font-weight: 400; margin-bottom: 0.25rem; color: #fff; }
+  .p-info-text span { font-family: var(--ff-m); font-size: 0.7rem; color: rgba(255,255,255,0.85); text-transform: uppercase; }
+  .p-prix { font-family: var(--ff-d); font-size: 1.1rem; color: var(--or); font-weight: 600; }
+  .p-index { position: absolute; top: 1rem; left: 1rem; z-index: 3; font-family: var(--ff-m); font-size: 0.65rem; color: rgba(255,255,255,.65); letter-spacing: .04em; }
+
+  /* LOOKBOOK */
+  .lookbook-section { padding: 6rem 0; background: var(--bg); border-top: 1px solid var(--border); }
+  @media (max-width: 640px) { .lookbook-section { padding: 4rem 0; } }
+  .look-card { display: grid; grid-template-columns: 1fr; max-width: 1400px; margin: 0 auto; border: 1px solid var(--border); overflow: hidden; background: var(--card); }
+  @media (min-width: 900px) { .look-card { grid-template-columns: 1fr 1fr; } }
+  .look-collage { position: relative; height: 500px; overflow: hidden; background: var(--bg2); display: grid; grid-template-columns: 1.5fr 1fr; }
+  @media (max-width: 640px) { .look-collage { height: 380px; } }
+  .look-collage img { width: 100%; height: 100%; object-fit: cover; }
+  .look-collage .lc-right { border-left: 5px solid var(--bg); }
+  .look-content { padding: 4rem 3rem; display: flex; flex-direction: column; justify-content: center; }
+  @media (max-width: 640px) { .look-content { padding: 2.5rem 1.5rem; } }
+  .look-title { font-family: var(--ff-d); font-size: 2.5rem; font-weight: 300; margin-bottom: 2rem; line-height: 1; color: var(--ink); }
+  .look-title em { color: var(--or); font-style: italic; }
+  .look-items { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2.5rem; }
+  .look-item { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--border); transition: 0.2s; }
+  .look-item:hover { padding-left: 0.5rem; border-color: var(--or); }
+  .look-item span { font-size: 1rem; }
+  .look-item strong { font-family: var(--ff-m); font-size: 0.9rem; color: var(--or); }
+  .look-total { display: flex; justify-content: space-between; font-family: var(--ff-d); font-size: 1.3rem; margin-bottom: 2rem; color: var(--ink); }
+  .btn-buy-look { width: 100%; padding: 1.2rem; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; transition: 0.3s var(--ease-lux); background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+  .btn-buy-look:hover { background: var(--or); color: #000; border-color: var(--or); }
+
+  /* PANIER */
+  @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+  .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .drawer-overlay.open { opacity: 1; pointer-events: auto; }
+  .cart-drawer { position: fixed; top: 0; right: 0; width: 100%; height: 100vh; background: var(--bg); border-left: 1px solid var(--border); transform: translateX(100%); transition: transform 0.5s var(--ease-lux); z-index: 10000; display: flex; flex-direction: column; }
+  @media (min-width: 640px) { .cart-drawer { width: 450px; } }
+  .cart-drawer.open { transform: translateX(0); }
+  .drawer-head { padding: 1.5rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .drawer-head h3 { font-family: var(--ff-d); font-size: 1.4rem; font-weight: 400; color: var(--ink); }
+  .drawer-close { font-size: 1.5rem; color: var(--stone); transition: 0.2s; }
+  .drawer-close:hover { color: var(--or); transform: rotate(90deg); }
+  .cart-drawer-inner { overflow-y: auto; flex: 1; padding: 1.5rem; }
+  .drawer-item { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); animation: slideIn 0.4s var(--ease-lux); }
+  .drawer-item img { width: 80px; height: 100px; object-fit: cover; }
+  .drawer-item-info { flex: 1; }
+  .drawer-item-info h4 { font-size: 0.9rem; color: var(--ink); margin-bottom: 0.5rem; font-weight: 400; }
+  .drawer-item-info p { font-family: var(--ff-m); font-size: 0.8rem; color: var(--or); }
+  .drawer-qty-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .qty-btn { background: var(--card2); border: 1px solid var(--border); color: var(--ink); width: 26px; height: 26px; border-radius: 4px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: 0.2s; flex-shrink: 0; }
+  .qty-btn:hover:not(:disabled) { background: var(--or); color: var(--bg); border-color: var(--or); }
+  .qty-btn:disabled { background: var(--bg2); color: var(--muted); cursor: not-allowed; border-color: var(--border); }
+  .qty-val { font-family: var(--ff-m); font-size: 0.85rem; color: var(--ink); min-width: 20px; text-align: center; }
+  .remove-btn { background: none; border: none; color: var(--red); font-size: 0.65rem; cursor: pointer; margin-left: auto; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px; }
+  .remove-btn:hover { text-decoration: underline; }
+  .drawer-footer { padding: 1.5rem; border-top: 1px solid var(--border); }
+  .drawer-total { display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-family: var(--ff-d); font-size: 1.3rem; color: var(--ink); }
+  .drawer-btn { display: block; width: 100%; padding: 1.2rem; background: var(--or); color: #000; text-align: center; text-transform: uppercase; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.1em; transition: 0.2s; border: 1px solid var(--or); }
+  .drawer-btn:hover { background: transparent; color: var(--or); }
+  .drawer-empty { text-align: center; color: var(--stone); padding: 4rem 1rem; font-style: italic; }
+</style>
+</head>
+<body>
+
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="cart-drawer" id="cart-drawer">
+  <div class="drawer-head"><h3>Panier</h3><button class="drawer-close" id="drawer-close">×</button></div>
+  <div class="cart-drawer-inner" id="drawer-body"><div class="drawer-empty">Votre panier est vide.</div></div>
+  <div class="drawer-footer" id="drawer-footer" style="display: none;">
+    <div class="drawer-total"><span>Total</span><span id="drawer-total-val">0 FCFA</span></div>
+    <a href="panier.html" class="drawer-btn">Commander</a>
+  </div>
+</div>
+
+<nav class="nav" id="main-nav">
+  <a href="index.html" class="nav-logo">Sen·Export <em>Boutique</em></a>
+  <ul class="nav-links"><li><a href="index.html">Accueil</a></li><li><a href="mode.html">Mode</a></li><li><a href="catalogue.html">Catalogue</a></li></ul>
+  <div class="nav-right">
+    <a href="panier.html" class="nav-icon" id="nav-cart-icon" aria-label="Panier"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-badge" id="cart-count"></span></a>
+  </div>
+</nav>
+
+<div class="col-hero">
+  <div class="col-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2000&auto=format&fit=crop')"></div>
+  <div class="col-hero-overlay"></div>
+  <div class="col-hero-content">
+    <span class="col-badge">Pièces Limitées</span>
+    <h1 class="col-title">Les <em>Archives</em></h1>
+  </div>
+</div>
+
+<div id="dynamic-content"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="images.js"></script>
+<script src="app.js"></script>
+<script src="theme.js"></script>
+
+<script>
+(() => {
+  'use strict';
+  function esc(s) { if (s == null) return ''; return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+  function fprix(n) { return Math.round(n||0).toLocaleString('fr-FR') + ' FCFA'; }
+  function imgUrl(u, w = 800) {
+    if (!u) return `https://placehold.co/${w}x${Math.round(w*1.25)}/08090E/D4AF37?text=SenExport`;
+    if (u.startsWith('http')) return u.includes('unsplash.com') ? `${u}${u.includes('?') ? '&' : '?'}w=${w}&auto=format&fit=crop` : u;
+    if (u.startsWith('photo-')) return `https://images.unsplash.com/${u}?w=${w}&auto=format&fit=crop`;
+    return `https://axgpohmhzmdgozndlntj.supabase.co/storage/v1/object/public/photos/${u}`;
+  }
+
+  const dynamicContent = document.getElementById('dynamic-content');
+  const drawer = document.getElementById('cart-drawer');
+  const overlay = document.getElementById('drawer-overlay');
+  const openDrawer = () => { drawer.classList.add('open'); overlay.classList.add('open'); document.body.style.overflow = 'hidden'; };
+  const closeDrawer = () => { drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.style.overflow = ''; };
+  overlay.addEventListener('click', closeDrawer);
+  document.getElementById('drawer-close').addEventListener('click', closeDrawer);
+
+  const mainNav = document.getElementById('main-nav');
+  function updateNav() { mainNav.classList.toggle('scrolled', window.scrollY > 100); }
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  function updateDrawer() {
+    try {
+      const rawItems = SE.Cart.all();
+      const body = document.getElementById('drawer-body');
+      const footer = document.getElementById('drawer-footer');
+      const totalEl = document.getElementById('drawer-total-val');
+      if (!rawItems || rawItems.length === 0) { body.innerHTML = '<div class="drawer-empty">Votre panier est vide.</div>'; footer.style.display = 'none'; }
+      else {
+        let total = 0;
+        body.innerHTML = rawItems.map(i => {
+          const a = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === i.ref) : null;
+          const nom = a ? a.nom : i.ref;
+          const prix = a ? (a.prix_vente_fcfa || 0) : 0;
+          const stock = a ? (a.quantite || 0) : 0;
+          const photo = imgUrl(a && a.photo_url ? a.photo_url : null, 100);
+          total += prix * (i.qte || 1);
+          const isMax = (i.qte || 1) >= stock;
+          return `<div class="drawer-item"><img src="${esc(photo)}" alt="${esc(nom)}"><div class="drawer-item-info"><h4>${esc(nom)}</h4><p>${fprix(prix)} FCFA</p><div class="drawer-qty-controls"><button class="qty-btn" data-action="dec" data-ref="${esc(i.ref)}">−</button><span class="qty-val">${i.qte || 1}</span><button class="qty-btn" data-action="inc" data-ref="${esc(i.ref)}" ${isMax ? 'disabled' : ''}>+</button><button class="remove-btn" data-action="rm" data-ref="${esc(i.ref)}">Retirer</button></div></div></div>`;
+        }).join('');
+        totalEl.textContent = fprix(total);
+        footer.style.display = 'block';
+      }
+    } catch(e) { console.warn('Drawer err', e); }
+  }
+
+  document.getElementById('drawer-body').addEventListener('click', e => {
+    const btn = e.target.closest('[data-action]');
+    if (!btn) return;
+    const ref = btn.dataset.ref;
+    const action = btn.dataset.action;
+    const item = SE.Cart.all().find(i => i.ref === ref);
+    if (action === 'inc' && item) {
+      const article = SE.Articles.cache ? SE.Articles.cache.find(x => x.reference === ref) : null;
+      const stock = article ? (article.quantite || 0) : 0;
+      if (item.qte < stock) SE.Cart.setQte(ref, item.qte + 1);
+    } else if (action === 'dec' && item) {
+      if (item.qte > 1) SE.Cart.setQte(ref, item.qte - 1);
+      else SE.Cart.remove(ref);
+    } else if (action === 'rm' && item) {
+      SE.Cart.remove(ref);
+    }
+    updateUI();
+    updateDrawer();
+  });
+
+  function updateUI() { try { const n = SE?.Cart?.count?.() ?? 0; const b = document.getElementById('cart-count'); b.textContent = n; b.style.display = n>0?'flex':'none'; } catch(e) {} }
+  function chapterMark(num, label) { return `<div class="chapter-mark"><span class="num">${num}</span><span class="line"></span><span class="lbl">${esc(label)}</span></div>`; }
+
+  async function init() {
+    await SE.Articles.load();
+    const allArts = SE.Articles.cache || [];
+
+    try {
+      // 1. Récupérer toutes les collections passées, triées de la plus récente à la plus ancienne
+      const { data: pastCols } = await SE.sb.from('collections').select('*').eq('statut', 'passee').order('date_lancement', { ascending: false });
+      
+      if (!pastCols || pastCols.length === 0) {
+        dynamicContent.innerHTML = `<div style="text-align:center; padding: 6rem 2rem;"><h2 style="font-family:var(--ff-d); font-size:2rem; color:var(--stone);">Aucune archive disponible pour le moment.</h2></div>`;
+        return;
+      }
+
+      let heroArt = null;
+      let lookbookArts = [];
+      let allGridArticles = [];
+
+      // 2. Analyser chaque collection pour trouver les pièces maîtresses et remplir la grille globale
+      for (const col of pastCols) {
+        const { data: liens } = await SE.sb.from('collection_articles').select('article_ref').eq('collection_id', col.id);
+        if (liens && liens.length > 0) {
+          const refs = liens.map(l => l.article_ref);
+          const { data: arts } = await SE.sb.from('articles').select('*').in('reference', refs);
+          
+          if (arts) {
+            const availableArts = arts.filter(a => (a.quantite || 0) > 0);
+            allGridArticles.push(...availableArts);
+
+            // Logique Pièce Maîtresse : la plus récente qui en a une de dispo
+            if (!heroArt && col.hero_piece_ref) {
+              const heroCandidate = availableArts.find(a => a.reference === col.hero_piece_ref);
+              if (heroCandidate) heroArt = heroCandidate;
+            }
+
+            // Logique Lookbook : la plus récente qui a au moins 2 articles dispo
+            if (lookbookArts.length === 0 && availableArts.length >= 2) {
+              lookbookArts = [availableArts[0], availableArts[1]];
+            }
+          }
+        }
+      }
+
+      // Dédupliquer la grille globale (au cas où un article serait dans 2 collections)
+      const uniqueGridArticles = Array.from(new Set(allGridArticles.map(a => a.reference)))
+        .map(ref => allGridArticles.find(a => a.reference === ref))
+        .filter(a => a.reference !== (heroArt ? heroArt.reference : null)); // Retirer la pièce maîtresse de la grille
+
+      let html = '';
+
+      // 3. Pièce Maîtresse
+      if (heroArt) {
+        html += `
+          <div class="hero-piece-section">
+            ${chapterMark('01', 'La pièce maîtresse')}
+            <div class="hero-piece">
+              <div class="hero-piece-img-wrap"><img src="${imgUrl(heroArt.photo_url, 800)}" class="hero-piece-img" alt="${esc(heroArt.nom)}"></div>
+              <div class="hero-piece-content">
+                <span class="hero-piece-badge">Dernière chance</span>
+                <span class="hero-piece-label">Réf. ${esc(heroArt.reference)}</span>
+                <h2 class="hero-piece-name">${esc(heroArt.nom)}</h2>
+                <p class="hero-piece-desc">${esc(heroArt.description || 'Une pièce historique de nos anciennes collections, disponible en toute dernière quantité.')}</p>
+                <div class="hero-piece-footer">
+                  <span class="hero-piece-prix">${fprix(heroArt.prix_vente_fcfa)}</span>
+                  <a href="produit.html?ref=${esc(heroArt.reference)}" class="btn-hero-piece">Découvrir la pièce</a>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      // 4. Grille Déstockage (CORRECTION DE L'APOSTROPHE ICI)
+      if (uniqueGridArticles.length > 0) {
+        html += `${chapterMark('02', 'Le vestiaire d\'archives')}`;
+        html += `<div class="section-head"><h2>Tout <em>déstocker</em></h2><span class="meta">${uniqueGridArticles.length} pièces restantes</span></div>`;
+        html += `<div class="prod-grid">`;
+        uniqueGridArticles.forEach((a, i) => {
+          const rareNote = (a.quantite || 0) <= 3 ? `<span class="p-rare">Dernières pièces</span>` : '';
+          html += `
+            <div class="p-card">
+              <a href="produit.html?ref=${esc(a.reference)}" class="p-card-link" aria-label="${esc(a.nom)}"></a>
+              <img src="${imgUrl(a.photo_url, 400)}" alt="${esc(a.nom)}" loading="lazy">
+              <span class="p-index">N°${String(i+1).padStart(2,'0')}</span>
+              <div class="p-body"><div class="p-info-text"><h3>${esc(a.nom)}</h3><span>Voir l'article${rareNote}</span></div><span class="p-prix">${fprix(a.prix_vente_fcfa)}</span></div>
+            </div>`;
+        });
+        html += `</div>`;
+      }
+
+      // 5. Lookbook
+      if (lookbookArts.length >= 2) {
+        let totalPrix = 0, itemsHTML = '';
+        lookbookArts.forEach(art => { totalPrix += art.prix_vente_fcfa; itemsHTML += `<a href="produit.html?ref=${esc(art.reference)}" class="look-item"><span>${esc(art.nom)}</span><strong>${fprix(art.prix_vente_fcfa)}</strong></a>`; });
+        
+        const collageHTML = `<div class="look-collage">
+          <img class="lc-left" src="${imgUrl(lookbookArts[0].photo_url, 600)}" alt="${esc(lookbookArts[0].nom)}">
+          <img class="lc-right" src="${imgUrl(lookbookArts[1].photo_url, 400)}" alt="${esc(lookbookArts[1].nom)}">
+        </div>`;
+
+        html += `
+          <div class="lookbook-section">
+            <div class="container">${chapterMark('03', 'Comment le porter')}</div>
+            <div class="look-card">
+              ${collageHTML}
+              <div class="look-content">
+                <h3 class="look-title">Le combo <em>final</em></h3>
+                <div class="look-items">${itemsHTML}</div>
+                <div class="look-total"><span>Total Look</span><b>${fprix(totalPrix)}</b></div>
+                <button class="btn-buy-look" data-refs="${lookbookArts.map(a => a.reference).join(',')}">Acheter le look</button>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      dynamicContent.innerHTML = html;
+
+      document.querySelectorAll('.btn-buy-look').forEach(btn => btn.addEventListener('click', () => { btn.dataset.refs.split(',').forEach(r=>SE.Cart.add(r,1)); updateUI(); updateDrawer(); setTimeout(openDrawer,400); }));
+
+      const markObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: 0.3 });
+      document.querySelectorAll('.chapter-mark').forEach(el => markObserver.observe(el));
+
+    } catch (e) {
+      console.error('[Archives] Erreur:', e);
+      dynamicContent.innerHTML = `<div style="text-align:center; padding: 5rem 2rem; color:var(--red);">Erreur de chargement des archives.</div>`;
+    }
+  }
+
+  if (document.readyState === 'complete') init();
+  else window.addEventListener('load', init);
+})();
+</script>
+</body>
+</html>
